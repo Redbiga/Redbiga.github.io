@@ -25,10 +25,9 @@
 <meta property="og:description" content="引言：1.mybatis是一款半自动的ORM框架 2.ORM是对象关系映射 MyBatis的CRUD操作：查询：标签：&lt; select id&#x3D;”” resultType&#x3D;”” &gt; id与接口中的相关方法是同名的，表示该方法对应的mapper中的sql语句为上面的！ resultType是查询返回结果的类型！ 序号参数绑定：public interface UserD">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/image-20240121190543443-17058454788323.png">
-<meta property="og:image" content="d:\%E5%8D%9A%E5%AE%A2\hexo-blog\source_posts\mybits.assets\image-20240121202318469.png">
 <meta property="og:image" content="http://example.com/images/image-20240121205328569.png">
 <meta property="article:published_time" content="2024-01-16T11:26:07.757Z">
-<meta property="article:modified_time" content="2024-01-21T14:00:43.885Z">
+<meta property="article:modified_time" content="2024-01-21T14:06:24.382Z">
 <meta property="article:author" content="山麋一笑">
 <meta property="article:tag" content="mybatis">
 <meta name="twitter:card" content="summary_large_image">
@@ -730,7 +729,6 @@ System.out.println(<span class="hljs-string">&quot;添加信息的id为：&quot;
 <ul>
 <li>注意：在sqlSession.commit()或者sqlSession.close()之后生效。</li>
 <li>二级缓存：没有默认开启，需要手动开启，其存储的范围是Mapper NameSpace。即，其范围是Mapper映射器的某个命名空间</li>
-<li><img src="D:\博客\hexo-blog\source_posts\mybits.assets\image-20240121202318469.png" srcset="/img/loading.gif" lazyload alt="image-20240121202318469"></li>
 </ul>
 <h2 id="开启全局缓存"><a href="#开启全局缓存" class="headerlink" title="开启全局缓存:"></a>开启全局缓存:</h2><p>&lt; settings &gt;是MyBatis中极为重要的调整设置，他们会改变MyBatis的运行行为，其他详细配置可参考官方文档。</p>
 <div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
