@@ -24,15 +24,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="引言：1.mybatis是一款半自动的ORM框架 2.ORM是对象关系映射 MyBatis的CRUD操作：查询：标签：&lt; select id&#x3D;”” resultType&#x3D;”” &gt; id与接口中的相关方法是同名的，表示该方法对应的mapper中的sql语句为上面的！ resultType是查询返回结果的类型！ 序号参数绑定：public interface UserD">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="d:\%E5%8D%9A%E5%AE%A2\hexo-blog\source_posts\mybits.assets\image-20240121190543443.png">
+<meta property="og:image" content="http://example.com/images/image-20240121190543443.png">
 <meta property="og:image" content="d:\%E5%8D%9A%E5%AE%A2\hexo-blog\source_posts\mybits.assets\image-20240121202318469.png">
 <meta property="og:image" content="d:\%E5%8D%9A%E5%AE%A2\hexo-blog\source_posts\mybits.assets\image-20240121205328569.png">
 <meta property="article:published_time" content="2024-01-16T11:26:07.757Z">
-<meta property="article:modified_time" content="2024-01-21T13:24:40.076Z">
+<meta property="article:modified_time" content="2024-01-21T13:43:52.429Z">
 <meta property="article:author" content="山麋一笑">
 <meta property="article:tag" content="mybatis">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="d:\%E5%8D%9A%E5%AE%A2\hexo-blog\source_posts\mybits.assets\image-20240121190543443.png">
+<meta name="twitter:image" content="http://example.com/images/image-20240121190543443.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -467,7 +467,7 @@ System.out.println(<span class="hljs-string">&quot;添加信息的id为：&quot;
 <span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">mapper</span>&gt;</span></span></code></pre></div>
 
 <h1 id="MyBatis自动（反射-get和set）ORM失效："><a href="#MyBatis自动（反射-get和set）ORM失效：" class="headerlink" title="MyBatis自动（反射  get和set）ORM失效："></a><strong>MyBatis自动（反射  get和set）ORM失效：</strong></h1><p>MyBatis只能自动维护库表”列名“与”属性名“相同时的一一对应关系，二者不同时，无法自动ORM。</p>
-<p><img src="D:\博客\hexo-blog\source_posts\mybits.assets\image-20240121190543443.png" srcset="/img/loading.gif" lazyload alt="image-20240121190543443"></p>
+<p><img src="/../images/image-20240121190543443.png" srcset="/img/loading.gif" lazyload alt="image-20240121190543443"></p>
 <h2 id="方案一：列的别名"><a href="#方案一：列的别名" class="headerlink" title="方案一：列的别名:"></a>方案一：列的别名:</h2><p>在SQL中使用 as 为查询字段添加列别名，以匹配属性名。</p>
 <div class="code-wrapper"><pre><code class="hljs pgsql">&lt;mapper namespace=&quot;com.qf.mybatis.part2.orm.ManagerDao&quot;&gt;
     &lt;<span class="hljs-keyword">select</span> id=&quot;selectManagerByIdAndPwd&quot; resultType=&quot;com.qf.mybatis.part2.orm.Manager&quot;&gt;
