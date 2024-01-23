@@ -4,7 +4,7 @@
   
   
   <entry>
-    <title>mybatis总结</title>
+    <title>spirngboot3整合swagger3</title>
     <link href="/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/"/>
     <url>/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/</url>
     
@@ -13,14 +13,12 @@
     
     <categories>
       
-      <category>八股文</category>
+      <category>springboot3</category>
       
     </categories>
     
     
     <tags>
-      
-      <tag>mybatis</tag>
       
       <tag>spring</tag>
       
