@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>mybatis总结</title>
+    <link href="/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/"/>
+    <url>/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/</url>
+    
+    <content type="html"><![CDATA[ <meta name="referrer" content="no-referrer"><p>SpringBoot3.x使用Swagger - 掘金](<a href="https://juejin.cn/post/7299800370489966630#heading-22">https://juejin.cn/post/7299800370489966630#heading-22</a>)</p><h3 id="导入依赖："><a href="#导入依赖：" class="headerlink" title="导入依赖："></a>导入依赖：</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springdoc<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springdoc-openapi-starter-webmvc-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div><h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><ul><li><p>开发环境</p></li><li><p>开发环境通常会开启Swagger文档，方便前端查阅文档</p><div class="code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">springdoc:</span>  api-docs:<span class="hljs-symbol">    enabled:</span> true <span class="hljs-meta"># 开启OpenApi接口</span><span class="hljs-symbol">    path:</span> <span class="hljs-keyword">/user-service/</span>v3/api-docs  <span class="hljs-meta"># 自定义文档接口路径，默认为 <span class="hljs-string">&quot;/v3/api-docs&quot;</span></span>  swagger-ui:<span class="hljs-symbol">    enabled:</span> true <span class="hljs-meta"># 开启swagger界面，依赖OpenApi，需要OpenApi同时开启</span><span class="hljs-symbol">    path:</span> <span class="hljs-keyword">/user-service/</span>swagger-ui/index.html <span class="hljs-meta"># 自定义UI路径，默认为<span class="hljs-string">&quot;/swagger-ui/index.html&quot;</span></span></code></pre></div></li><li><p>生产环境</p></li><li><p>切记生产环境要关闭文档</p><div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">springdoc:</span>  <span class="hljs-attr">api-docs:</span>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># 关闭OpenApi接口</span>  <span class="hljs-attr">swagger-ui:</span>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># 关闭swagger界面</span></code></pre></div></li></ul><h3 id="向spring容器中注入swagger配置类："><a href="#向spring容器中注入swagger配置类：" class="headerlink" title="向spring容器中注入swagger配置类："></a>向spring容器中注入swagger配置类：</h3><div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-meta">@Configuration</span><span class="hljs-keyword">public</span> <span class="hljs-title class_"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;    <span class="hljs-meta">@Bean</span>    <span class="hljs-keyword">public</span> OpenAPI swaggerOpenApi() &#123;        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">OpenAPI</span>()                .info(<span class="hljs-keyword">new</span> <span class="hljs-type">Info</span>().title(<span class="hljs-string">&quot;XXX平台YYY微服务&quot;</span>)                        .description(<span class="hljs-string">&quot;描述平台多牛逼&quot;</span>)                        .version(<span class="hljs-string">&quot;v1.0.0&quot;</span>))                .externalDocs(<span class="hljs-keyword">new</span> <span class="hljs-type">ExternalDocumentation</span>()                        .description(<span class="hljs-string">&quot;设计文档&quot;</span>)                        .url(<span class="hljs-string">&quot;https://juejin.cn/user/254742430749736/posts&quot;</span>));    &#125;&#125;</code></pre></div><p>上面配置后暂时的界面为：<br><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608" alt="image.png"></p><h3 id="常用注解："><a href="#常用注解：" class="headerlink" title="常用注解："></a>常用注解：</h3><table><thead><tr><th>注解</th><th>标注位置</th><th>作用</th></tr></thead><tbody><tr><td>@Tag</td><td>controller 类</td><td>标识 controller 作用</td></tr><tr><td>@Parameter</td><td>参数</td><td>标识参数作用</td></tr><tr><td>@Parameters</td><td>参数</td><td>参数多重说明</td></tr><tr><td>@Schema</td><td>model 层的 JavaBean</td><td>描述模型作用及每个属性</td></tr><tr><td>@Operation</td><td>方法</td><td>描述方法作用</td></tr><tr><td>@ApiResponse</td><td>方法</td><td>描述响应状态码等</td></tr></tbody></table><p>@Schema: Swagger文档的注解，用于说明类&#x2F;字段 </p><ul><li>title: 类&#x2F;字段说明</li><li>example: 示例，Swagger中会将这个字段作为示例</li><li>minLength&#x2F;maxLength: 最小&#x2F;最大长度，字段为String类型时生效(仅用于文档说明，不会抛出异常)</li><li>minimum&#x2F;maximum: 最小&#x2F;最大值，字段为数字时有效(仅用于文档说明，不会抛出异常)</li><li>@Tag: 控制器说明 </li><li>name: 名称</li><li>description: 描述说明</li><li>@PostMapping: 使用post方法，一般用于新增记录</li><li>@Operation: 请求说明 </li><li>summary: 说明，Swagger页面在方法后面，不会被折叠</li><li>descirption: 描述，会被折叠到方法说明中</li></ul><h3 id="导入APIfox"><a href="#导入APIfox" class="headerlink" title="导入APIfox:"></a>导入APIfox:</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912284460-46e461c3-dbac-46c2-bfb0-5298fde545ff.png#averageHue=%23eac493&clientId=u7b97a79a-fc79-4&from=paste&height=727&id=ua527c034&originHeight=909&originWidth=1706&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=129559&status=done&style=none&taskId=ucd65ff91-9088-4d92-9113-81cb506f766&title=&width=1364.8" alt="image.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>八股文</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>mybatis</tag>
+      
+      <tag>spring</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>mybatisPlus</title>
     <link href="/2024/01/23/mybatis-plus/"/>
     <url>/2024/01/23/mybatis-plus/</url>
