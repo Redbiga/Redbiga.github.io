@@ -17,27 +17,34 @@
   <meta name="author" content="山麋一笑">
   <meta name="keywords" content="">
   
-    <meta name="description" content="SpringBoot3.x使用Swagger - 掘金](https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7299800370489966630#heading-22) 导入依赖：&lt;dependency&gt;     &lt;groupId&gt;org.springdoc&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;springdoc-openapi">
+    <meta name="description" content="一：实验内容：任务1：仔细阅读文献“主程序-子程序、面向对象、事件系统和管道-过滤软件体系结构实现KWIC”任务2：实现文献中的所有程序并调试通过。任务3：参考和整合以上参考文献，开发“经典软件体系结构教学软件”，用于向用户展示主程序-子程序、面向对象、事件系统和管道-过滤器等软件体系结构风格的基本原理。软件功能及界面可自由设计，但应包括如下内容：（1） 用户可选择四种方法之一对指定的输入">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spirngboot3整合swagger3">
-<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/index.html">
+<meta property="og:title" content="软件体系结构实验2">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A/index.html">
 <meta property="og:site_name" content="山麋一笑">
-<meta property="og:description" content="SpringBoot3.x使用Swagger - 掘金](https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7299800370489966630#heading-22) 导入依赖：&lt;dependency&gt;     &lt;groupId&gt;org.springdoc&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;springdoc-openapi">
+<meta property="og:description" content="一：实验内容：任务1：仔细阅读文献“主程序-子程序、面向对象、事件系统和管道-过滤软件体系结构实现KWIC”任务2：实现文献中的所有程序并调试通过。任务3：参考和整合以上参考文献，开发“经典软件体系结构教学软件”，用于向用户展示主程序-子程序、面向对象、事件系统和管道-过滤器等软件体系结构风格的基本原理。软件功能及界面可自由设计，但应包括如下内容：（1） 用户可选择四种方法之一对指定的输入">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912284460-46e461c3-dbac-46c2-bfb0-5298fde545ff.png#averageHue=%23eac493&clientId=u7b97a79a-fc79-4&from=paste&height=727&id=ua527c034&originHeight=909&originWidth=1706&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=129559&status=done&style=none&taskId=ucd65ff91-9088-4d92-9113-81cb506f766&title=&width=1364.8">
-<meta property="article:published_time" content="2024-01-23T07:55:01.907Z">
-<meta property="article:modified_time" content="2024-01-23T07:59:06.339Z">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234665556-84cbfcec-e244-4337-b7d3-d017dbb8fa5f.png#averageHue=%23536268&clientId=u877b6732-74b4-4&from=paste&height=429&id=ubb371b37&originHeight=536&originWidth=747&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=197557&status=done&style=none&taskId=uc0ca482f-3a9a-47e8-874f-9c3704d4417&title=&width=597.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234725788-c45e761c-74fb-40b3-a776-58a10a9a960d.png#averageHue=%23f8f7f6&clientId=u877b6732-74b4-4&from=paste&height=460&id=u03d42cbc&originHeight=575&originWidth=895&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66407&status=done&style=none&taskId=uec95920a-a594-417c-81a8-de7371b3142&title=&width=716">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234765228-25385136-a354-4f30-8362-bf9803d163b6.png#averageHue=%23f9f9f9&clientId=u877b6732-74b4-4&from=paste&height=691&id=u7455a5cd&originHeight=864&originWidth=1062&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=137092&status=done&style=none&taskId=u8b241396-23af-4f0e-81d8-d9a2bb84831&title=&width=849.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234879261-3c23de92-5852-4e21-8ab7-99759e33561f.png#averageHue=%23f9f8f6&clientId=u877b6732-74b4-4&from=paste&height=567&id=u35382cfd&originHeight=709&originWidth=834&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57216&status=done&style=none&taskId=ucf1ce82a-1ba7-4e1c-a51f-b64c8759f79&title=&width=667.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234930262-3ee8b732-4f15-4ad9-bd02-66942c85530a.png#averageHue=%23f8f7f7&clientId=u877b6732-74b4-4&from=paste&height=680&id=u796df42e&originHeight=850&originWidth=995&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=123152&status=done&style=none&taskId=ub30051ab-dee9-4c81-9c51-fcf8ba3e6bf&title=&width=796">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234937075-62502cb5-5cb3-40ba-8f95-922195995ade.png#averageHue=%23f8f8f8&clientId=u877b6732-74b4-4&from=paste&height=690&id=u991882cc&originHeight=862&originWidth=986&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=124221&status=done&style=none&taskId=u96a57ed2-bacd-4dbc-ba27-504b792f2c7&title=&width=788.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698235681601-a66b317a-554e-4f0f-a750-7551025d20c3.png#averageHue=%2335445c&clientId=u877b6732-74b4-4&from=paste&height=458&id=ue394ae0a&originHeight=573&originWidth=1656&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=400404&status=done&style=none&taskId=ub7150a54-bd54-45df-8eeb-f161a7a2059&title=&width=1324.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698236724532-84392022-ec93-4264-8026-d0e9b9a0011b.png#averageHue=%23303337&clientId=u877b6732-74b4-4&from=paste&height=613&id=uc3c35123&originHeight=766&originWidth=716&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67616&status=done&style=none&taskId=ud5c01a0c-9053-4345-9514-c3b4be91c29&title=&width=572.8">
+<meta property="article:published_time" content="2024-01-23T08:04:51.831Z">
+<meta property="article:modified_time" content="2024-01-23T08:05:55.877Z">
 <meta property="article:author" content="山麋一笑">
-<meta property="article:tag" content="spring">
+<meta property="article:tag" content="课程作业">
+<meta property="article:tag" content="软件体系结构">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234665556-84cbfcec-e244-4337-b7d3-d017dbb8fa5f.png#averageHue=%23536268&clientId=u877b6732-74b4-4&from=paste&height=429&id=ubb371b37&originHeight=536&originWidth=747&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=197557&status=done&style=none&taskId=uc0ca482f-3a9a-47e8-874f-9c3704d4417&title=&width=597.6">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>spirngboot3整合swagger3 - 山麋一笑</title>
+  <title>软件体系结构实验2 - 山麋一笑</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -235,7 +242,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="spirngboot3整合swagger3"></span>
+            <span id="subtitle" data-typed-text="软件体系结构实验2"></span>
           
         </div>
 
@@ -246,7 +253,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-23 15:55" pubdate>
+        <time datetime="2024-01-23 16:04" pubdate>
           2024年1月23日 下午
         </time>
       </span>
@@ -258,7 +265,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          487 字
+          1.5k 字
         
       </span>
     
@@ -269,7 +276,7 @@
         
         
         
-          5 分钟
+          13 分钟
         
       </span>
     
@@ -315,111 +322,26 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">spirngboot3整合swagger3</h1>
+            <h1 id="seo-header">软件体系结构实验2</h1>
             
             
               <div class="markdown-body">
                 
-                 <meta name="referrer" content="no-referrer">
+                <meta name="referrer" content="no-referrer">
 
 
-<p>SpringBoot3.x使用Swagger - 掘金](<a target="_blank" rel="noopener" href="https://juejin.cn/post/7299800370489966630#heading-22">https://juejin.cn/post/7299800370489966630#heading-22</a>)</p>
-<h3 id="导入依赖："><a href="#导入依赖：" class="headerlink" title="导入依赖："></a>导入依赖：</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springdoc<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springdoc-openapi-starter-webmvc-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-<h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><ul>
-<li><p>开发环境</p>
-</li>
-<li><p>开发环境通常会开启Swagger文档，方便前端查阅文档</p>
-<div class="code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">springdoc:</span>
-  api-docs:
-<span class="hljs-symbol">    enabled:</span> true <span class="hljs-meta"># 开启OpenApi接口</span>
-<span class="hljs-symbol">    path:</span> <span class="hljs-keyword">/user-service/</span>v3/api-docs  <span class="hljs-meta"># 自定义文档接口路径，默认为 <span class="hljs-string">&quot;/v3/api-docs&quot;</span></span>
-  swagger-ui:
-<span class="hljs-symbol">    enabled:</span> true <span class="hljs-meta"># 开启swagger界面，依赖OpenApi，需要OpenApi同时开启</span>
-<span class="hljs-symbol">    path:</span> <span class="hljs-keyword">/user-service/</span>swagger-ui/index.html <span class="hljs-meta"># 自定义UI路径，默认为<span class="hljs-string">&quot;/swagger-ui/index.html&quot;</span></span>
-</code></pre></div>
-</li>
-<li><p>生产环境</p>
-</li>
-<li><p>切记生产环境要关闭文档</p>
-<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">springdoc:</span>
-  <span class="hljs-attr">api-docs:</span>
-    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># 关闭OpenApi接口</span>
-  <span class="hljs-attr">swagger-ui:</span>
-    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># 关闭swagger界面</span></code></pre></div></li>
-</ul>
-<h3 id="向spring容器中注入swagger配置类："><a href="#向spring容器中注入swagger配置类：" class="headerlink" title="向spring容器中注入swagger配置类："></a>向spring容器中注入swagger配置类：</h3><div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-meta">@Configuration</span>
-<span class="hljs-keyword">public</span> <span class="hljs-title class_"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-keyword">public</span> OpenAPI swaggerOpenApi() &#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">OpenAPI</span>()
-                .info(<span class="hljs-keyword">new</span> <span class="hljs-type">Info</span>().title(<span class="hljs-string">&quot;XXX平台YYY微服务&quot;</span>)
-                        .description(<span class="hljs-string">&quot;描述平台多牛逼&quot;</span>)
-                        .version(<span class="hljs-string">&quot;v1.0.0&quot;</span>))
-                .externalDocs(<span class="hljs-keyword">new</span> <span class="hljs-type">ExternalDocumentation</span>()
-                        .description(<span class="hljs-string">&quot;设计文档&quot;</span>)
-                        .url(<span class="hljs-string">&quot;https://juejin.cn/user/254742430749736/posts&quot;</span>));
-    &#125;
-&#125;
-</code></pre></div>
-<p>上面配置后暂时的界面为：<br><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h3 id="常用注解："><a href="#常用注解：" class="headerlink" title="常用注解："></a>常用注解：</h3><table>
-<thead>
-<tr>
-<th>注解</th>
-<th>标注位置</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>@Tag</td>
-<td>controller 类</td>
-<td>标识 controller 作用</td>
-</tr>
-<tr>
-<td>@Parameter</td>
-<td>参数</td>
-<td>标识参数作用</td>
-</tr>
-<tr>
-<td>@Parameters</td>
-<td>参数</td>
-<td>参数多重说明</td>
-</tr>
-<tr>
-<td>@Schema</td>
-<td>model 层的 JavaBean</td>
-<td>描述模型作用及每个属性</td>
-</tr>
-<tr>
-<td>@Operation</td>
-<td>方法</td>
-<td>描述方法作用</td>
-</tr>
-<tr>
-<td>@ApiResponse</td>
-<td>方法</td>
-<td>描述响应状态码等</td>
-</tr>
-</tbody></table>
-<p>@Schema: Swagger文档的注解，用于说明类&#x2F;字段 </p>
-<ul>
-<li>title: 类&#x2F;字段说明</li>
-<li>example: 示例，Swagger中会将这个字段作为示例</li>
-<li>minLength&#x2F;maxLength: 最小&#x2F;最大长度，字段为String类型时生效(仅用于文档说明，不会抛出异常)</li>
-<li>minimum&#x2F;maximum: 最小&#x2F;最大值，字段为数字时有效(仅用于文档说明，不会抛出异常)</li>
-<li>@Tag: 控制器说明 </li>
-<li>name: 名称</li>
-<li>description: 描述说明</li>
-<li>@PostMapping: 使用post方法，一般用于新增记录</li>
-<li>@Operation: 请求说明 </li>
-<li>summary: 说明，Swagger页面在方法后面，不会被折叠</li>
-<li>descirption: 描述，会被折叠到方法说明中</li>
-</ul>
-<h3 id="导入APIfox"><a href="#导入APIfox" class="headerlink" title="导入APIfox:"></a>导入APIfox:</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912284460-46e461c3-dbac-46c2-bfb0-5298fde545ff.png#averageHue=%23eac493&clientId=u7b97a79a-fc79-4&from=paste&height=727&id=ua527c034&originHeight=909&originWidth=1706&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=129559&status=done&style=none&taskId=ucd65ff91-9088-4d92-9113-81cb506f766&title=&width=1364.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+<h1 id="一：实验内容："><a href="#一：实验内容：" class="headerlink" title="一：实验内容："></a>一：实验内容：</h1><p>任务1：仔细阅读文献<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43853097/article/details/110943379?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1-110943379-blog-82871259.t5_download_50w&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1-110943379-blog-82871259.t5_download_50w&utm_relevant_index=1">“主程序-子程序、面向对象、事件系统和管道-过滤软件体系结构实现KWIC”</a><br>任务2：实现文献中的所有程序并调试通过。<br>任务3：参考和整合以上参考文献，开发“经典软件体系结构教学软件”，用于向用户展示主程序-子程序、面向对象、事件系统和管道-过滤器等软件体系结构风格的基本原理。软件功能及界面可自由设计，但应包括如下内容：<br>（1） 用户可选择四种方法之一对指定的输入文件进行处理，结果可显示在界面上；<br>（2） 能够分别显示各种“体系结构风格”的原理图或文字说明、源程序代码结构、关键函数的程序代码等；</p>
+<h1 id="二-软件开发："><a href="#二-软件开发：" class="headerlink" title="二.软件开发："></a>二.软件开发：</h1><h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>1.JDK8，maven，IDEA<br>2.springboot+thymeleaf<br>3.源代码地址：<a target="_blank" rel="noopener" href="https://gitee.com/fanshanshui/architecture-experiment.git">晓晨&#x2F; Sa-experiment2</a></p>
+<h2 id="源代码结构："><a href="#源代码结构：" class="headerlink" title="源代码结构："></a>源代码结构：</h2><p>总体上采用MVC的结构开发<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234665556-84cbfcec-e244-4337-b7d3-d017dbb8fa5f.png#averageHue=%23536268&clientId=u877b6732-74b4-4&from=paste&height=429&id=ubb371b37&originHeight=536&originWidth=747&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=197557&status=done&style=none&taskId=uc0ca482f-3a9a-47e8-874f-9c3704d4417&title=&width=597.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="运行截图："><a href="#运行截图：" class="headerlink" title="运行截图："></a>运行截图：</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234725788-c45e761c-74fb-40b3-a776-58a10a9a960d.png#averageHue=%23f8f7f6&clientId=u877b6732-74b4-4&from=paste&height=460&id=u03d42cbc&originHeight=575&originWidth=895&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66407&status=done&style=none&taskId=uec95920a-a594-417c-81a8-de7371b3142&title=&width=716" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234765228-25385136-a354-4f30-8362-bf9803d163b6.png#averageHue=%23f9f9f9&clientId=u877b6732-74b4-4&from=paste&height=691&id=u7455a5cd&originHeight=864&originWidth=1062&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=137092&status=done&style=none&taskId=u8b241396-23af-4f0e-81d8-d9a2bb84831&title=&width=849.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>查看代码功能：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234879261-3c23de92-5852-4e21-8ab7-99759e33561f.png#averageHue=%23f9f8f6&clientId=u877b6732-74b4-4&from=paste&height=567&id=u35382cfd&originHeight=709&originWidth=834&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57216&status=done&style=none&taskId=ucf1ce82a-1ba7-4e1c-a51f-b64c8759f79&title=&width=667.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>测试其他体系结构：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234930262-3ee8b732-4f15-4ad9-bd02-66942c85530a.png#averageHue=%23f8f7f7&clientId=u877b6732-74b4-4&from=paste&height=680&id=u796df42e&originHeight=850&originWidth=995&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=123152&status=done&style=none&taskId=ub30051ab-dee9-4c81-9c51-fcf8ba3e6bf&title=&width=796" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234937075-62502cb5-5cb3-40ba-8f95-922195995ade.png#averageHue=%23f8f8f8&clientId=u877b6732-74b4-4&from=paste&height=690&id=u991882cc&originHeight=862&originWidth=986&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=124221&status=done&style=none&taskId=u96a57ed2-bacd-4dbc-ba27-504b792f2c7&title=&width=788.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h1 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h1><p>1.IDEA文件相对路径写对了但是却找不到的问题：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698235681601-a66b317a-554e-4f0f-a750-7551025d20c3.png#averageHue=%2335445c&clientId=u877b6732-74b4-4&from=paste&height=458&id=ue394ae0a&originHeight=573&originWidth=1656&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=400404&status=done&style=none&taskId=ub7150a54-bd54-45df-8eeb-f161a7a2059&title=&width=1324.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>原因是：..&#x2F;表示上级目录是Linucx下的表示方法<br>解决方法：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">root</span> <span class="hljs-operator">=</span> System.getProperty(<span class="hljs-string">&quot;user.dir&quot;</span>);<span class="hljs-comment">//获取当前程序运行的目录，</span>
+<span class="hljs-comment">// 它通常是启动 Java 程序的命令行或应用程序所在的目录。</span>
+<span class="hljs-type">FileReader</span> <span class="hljs-variable">fileReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(root+File.separator+<span class="hljs-string">&quot;test.txt&quot;</span>);<span class="hljs-comment">//File.separator</span>
+<span class="hljs-comment">//是产生文件分割符号，Linucx和window的文件分割符是不一样的。</span></code></pre></div>
+<p>2.添加了devtools依赖并不能实现真正意义上的修改代码不用重新加载就可以看到变化，还需要设置IDEA自动编译<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698236724532-84392022-ec93-4264-8026-d0e9b9a0011b.png#averageHue=%23303337&clientId=u877b6732-74b4-4&from=paste&height=613&id=uc3c35123&originHeight=766&originWidth=716&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67616&status=done&style=none&taskId=ud5c01a0c-9053-4345-9514-c3b4be91c29&title=&width=572.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>主程序-子程序风格是一种结构化的软件体系结构，它从功能的角度设计系统，通过逐步分解和细化，形成整个系统的体系结构。主程序是系统的入口和控制中心，它调用各种子程序来完成具体的任务。子程序是一些独立的功能模块，它们可以被主程序或其他子程序重复调用。主程序-子程序风格的特点有：<br>•  简单：它遵循自顶向下、逐步求精的设计原则，易于理解和实现。<br>•  模块化：它将系统划分为若干相对独立的模块，提高了代码的重用性和可维护性。<br>•  局限性：它不能很好地处理数据和行为的耦合问题，也不适合处理并发和分布式的情况。<br>面向对象风格是一种封装的软件体系结构，它从数据的角度设计系统，通过抽象和多态，形成整个系统的体系结构。对象是系统的基本单位，它包含了数据和作用在数据上的操作。对象之间通过接口进行消息传递和协作。面向对象风格的特点有：<br>•  灵活：它可以通过继承和组合来实现代码的复用和扩展，也可以通过多态来实现动态绑定和行为变化。<br>•  隐蔽性：它可以通过封装来隐藏对象的内部细节，只暴露必要的接口给外界，提高了系统的安全性和稳定性。<br>•  复杂性：它需要考虑对象之间的关系和协作，以及对象生命周期和状态管理等问题，增加了系统的设计难度和开发成本。<br> 事件系统风格是一种异步的软件体系结构，它从交互的角度设计系统，通过事件驱动和回调函数，形成整个系统的体系结构。事件是系统中发生的各种情况或变化，它们可以由用户、设备或其他源产生。事件处理器是响应事件并执行相应操作的模块，它们可以注册到事件源或事件分发器上。事件系统风格的特点有：<br>•  响应性：它可以实现非阻塞式的通信和处理，提高了系统的并发性能和用户体验。<br>•  解耦性：它可以将事件源和事件处理器分离开来，降低了系统各部分之间的依赖性。<br>•  不确定性：它需要处理事件之间的时序、优先级、冲突等问题，也需要考虑事件丢失、重复、延迟等问题，增加了系统的复杂性和不可预测性。<br> 管道-过滤器风格是一种流式的软件体系结构，它从数据流的角度设计系统，通过连续处理和数据转换，形成整个系统的体系结构。过滤器是对输入数据流进行某种变换或增量计算，并产生输出数据流的模块。管道是将一个过滤器的输出传递到另一个过滤器输入的连接件。管道-过滤器风格的特点有：<br>•  可重用性：它可以将系统任务分解为若干个过滤器，每个过滤器都是一个独立的实体，可以在不同的系统中重用。<br>•  可组合性：它可以将不同的过滤器通过管道连接起来，形成不同的功能和行为。<br>•  可并行性：它可以将每个过滤器作为一个单独的任务执行，实现系统的并行处理和分布式计算。<br>•  局限性：它要求过滤器之间的数据格式和传输方式相匹配，也要求过滤器之间没有共享数据和状态信息，否则会影响系统的正确性和效率。</p>
 
                 
               </div>
@@ -438,7 +360,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/springboot3/" class="category-chain-item">springboot3</a>
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
   
   
 
@@ -453,7 +375,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/spring/" class="print-no-link">#spring</a>
+        <a href="/tags/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="print-no-link">#课程作业</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="print-no-link">#软件体系结构</a>
       
     </div>
   
@@ -465,8 +389,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>spirngboot3整合swagger3</div>
-      <div>http://www.bojiboqi.fun/2024/01/23/springboot3结合swagger3并导入到APIfox_/</div>
+      <div>软件体系结构实验2</div>
+      <div>http://www.bojiboqi.fun/2024/01/23/软件体系结构实验二：/</div>
     </div>
     <div class="license-meta">
       
@@ -510,9 +434,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A/" title="软件体系结构实验4">
+                      <a href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%84%E4%B8%80%EF%BC%9A/" title="软件体系结构实验1">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">软件体系结构实验4</span>
+                        <span class="hidden-mobile">软件体系结构实验1</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -520,8 +444,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/23/mybatis-plus/" title="mybatisPlus">
-                        <span class="hidden-mobile">mybatisPlus</span>
+                      <a href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A/" title="软件体系结构实验3">
+                        <span class="hidden-mobile">软件体系结构实验3</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

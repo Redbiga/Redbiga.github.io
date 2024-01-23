@@ -4,6 +4,164 @@
   
   
   <entry>
+    <title>IDEA使用技巧</title>
+    <link href="/2024/01/23/IDEA%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9A/"/>
+    <url>/2024/01/23/IDEA%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9A/</url>
+    
+    <content type="html"><![CDATA[ <meta name="referrer" content="no-referrer"><h2 id="1-IDEA视图不小心设置让设置无法显示出来？"><a href="#1-IDEA视图不小心设置让设置无法显示出来？" class="headerlink" title="1.IDEA视图不小心设置让设置无法显示出来？"></a>1.IDEA视图不小心设置让设置无法显示出来？</h2><p>其实双按shift可以打开搜索模式，这里的搜索模式输入View是可以进入View设置的<br>2.<a href="https://blog.csdn.net/xiao_yi_xiao/article/details/119142118">ERROR:JAVA: 错误: 不支持发行版本 5 解决方法_欧晨eli的博客-CSDN博客</a><br><a href="https://blog.csdn.net/df1067/article/details/106567084?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param">IDEA的junit单元测试Scanner输入无效-CSDN博客</a></p><h2 id="3-maven创建spring发生版本不兼容问题："><a href="#3-maven创建spring发生版本不兼容问题：" class="headerlink" title="3.maven创建spring发生版本不兼容问题："></a>3.maven创建spring发生版本不兼容问题：</h2><p><a href="https://blog.csdn.net/angelbeautiful/article/details/131182554">解决：java: 警告: 源发行版 17 需要目标发行版 17-CSDN博客</a><a href="https://blog.csdn.net/qq_49619863/article/details/128047256">Springbot启动报错-类文件具有错误的版本 61.0, 应为 52.0_&#x2F;d:&#x2F;java&#x2F;apache-maven-3.8.6&#x2F;repository&#x2F;org&#x2F;springf-CSDN博客</a></p><h2 id="4-pom-xml问题："><a href="#4-pom-xml问题：" class="headerlink" title="4.pom.xml问题："></a>4.pom.xml问题：</h2><p><a href="https://blog.csdn.net/hkzuz/article/details/132006743?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-4-132006743-blog-114698522.235%5Ev38%5Epc_relevant_default_base&spm=1001.2101.3001.4242.3&utm_relevant_index=7">idea模块的pom.xml被划横线，不识别的解决办法_idea pom 划线_八戒，你又涨价了哎的博客-CSDN博客</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂项</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>IDEA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>CSS改变原生样式:---改变radio,checkbox等选择框的颜色</title>
+    <link href="/2024/01/23/CSS%E6%94%B9%E5%8F%98%E5%8E%9F%E7%94%9F%E6%A0%B7%E5%BC%8F_---%E6%94%B9%E5%8F%98radio,checkbox%E7%AD%89%E9%80%89%E6%8B%A9%E6%A1%86%E7%9A%84%E9%A2%9C%E8%89%B2%EF%BC%9A/"/>
+    <url>/2024/01/23/CSS%E6%94%B9%E5%8F%98%E5%8E%9F%E7%94%9F%E6%A0%B7%E5%BC%8F_---%E6%94%B9%E5%8F%98radio,checkbox%E7%AD%89%E9%80%89%E6%8B%A9%E6%A1%86%E7%9A%84%E9%A2%9C%E8%89%B2%EF%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h2 id="方法1：使用accent-color"><a href="#方法1：使用accent-color" class="headerlink" title="方法1：使用accent-color:"></a>方法1：使用accent-color:</h2><div class="code-wrapper"><pre><code class="hljs javascript">accent-color能修改 input 默认控件的颜色（也就是修改选中后的颜色）。</code></pre></div><div class="code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;radio&quot;</span>&gt;</span>radio    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span>&gt;</span>checkbox<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre></div><div class="code-wrapper"><pre><code class="hljs html">input[type=radio]&#123;       accent-color: red;   &#125; input[type=checkbox]&#123;     accent-color: blue; &#125;</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1697618263372-f1249af9-ea74-44c4-acf3-ddb03e00f143.png#averageHue=%23daae68&clientId=ud398c746-c1b4-4&from=paste&height=42&id=u68fb0b6e&originHeight=52&originWidth=219&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=2154&status=done&style=none&taskId=u97a645d3-6329-4e81-ac17-9a1c7948d41&title=&width=175.2" alt="image.png"></p><h2 id="方法二：通过伪元素来实现"><a href="#方法二：通过伪元素来实现" class="headerlink" title="方法二：通过伪元素来实现"></a>方法二：通过伪元素来实现</h2><div class="code-wrapper"><pre><code class="hljs javascript">&lt;body&gt;       <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myCheckbox&quot;</span>&gt;</span></span><span class="language-xml">       <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;myCheckbox&quot;</span>&gt;</span>checkbox<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span></code></pre></div><div class="code-wrapper"><pre><code class="hljs javascript">&lt;style&gt;   <span class="hljs-comment">/*隐藏默认复选框  */</span>   input[type=checkbox]&#123;    <span class="hljs-attr">display</span>: none;   &#125;   <span class="hljs-comment">/*  创建自定义复选框*/</span>   input[type=checkbox]+<span class="hljs-attr">label</span>::before&#123;    <span class="hljs-attr">content</span>: <span class="hljs-string">&#x27;&#x27;</span>;    <span class="hljs-attr">display</span>: inline-block;    <span class="hljs-attr">width</span>: 16px;    <span class="hljs-attr">height</span>: 16px;    <span class="hljs-attr">border</span>: 1px solid #ccc;    background-<span class="hljs-attr">color</span>: #fff;    margin-<span class="hljs-attr">right</span>: 8px;   &#125;   <span class="hljs-comment">/* 自定义选中后的效果 */</span>   input[type=checkbox]:checked+<span class="hljs-attr">label</span>::before&#123;     background-<span class="hljs-attr">color</span>: red;   &#125;    &lt;/style&gt;</code></pre></div><div class="code-wrapper"><pre><code class="hljs javascript">input后面的lable标签：&lt;label&gt; 标签为 input 元素定义标注（标记）。label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性。如果您在 label 元素内点击文本，就会触发此控件。就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上。&lt;label&gt; 标签的 <span class="hljs-keyword">for</span> 属性应当与相关元素的 id 属性相同。<span class="hljs-attr">label</span>::before是伪元素用法，并不是表示label前面的一个元素，而是在label元素之前添加内容</code></pre></div><div class="code-wrapper"><pre><code class="hljs javascript">ss的伪元素，之所以被称为伪元素，是因为他们不是真正的页面元素，html没有对应的元素，但是其所有用法和表现行为与真正的页面元素一样，可以对其使用诸如页面元素一样的css样式，表面上看上去貌似是页面的某些元素来展现，实际上是css样式展现的行为，因此被称为伪元素。伪元素:before和:after用法：这个两个伪元素在真正页面元素内部之前和之后添加新内容（当然了，可以对伪元素应用定位可以置于任何位置）伪元素:before和:after添加的内容默认是inline元素伪元素不属于文档，所以js无法操作它伪元素属于主元素的一部分，因此点击伪元素触发的是主元素的click事件</code></pre></div>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>css</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>软件体系结构实验1</title>
+    <link href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%84%E4%B8%80%EF%BC%9A/"/>
+    <url>/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%84%E4%B8%80%EF%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h1 id="一、-实验内容"><a href="#一、-实验内容" class="headerlink" title="一、     实验内容"></a>一、     实验内容</h1><p>噪声监测系统通常由声级计（声音传感器）、采集单元和传输单元、PC计算机等部分组成。采集单元从传感器采集声音信息并转换为数字，然后通过传输单元上传到PC端（暂定采用串口通讯方式），PC端通过技术分析后将数据上传至数据库服务器，并在PC端以合适方式展示噪声信息。<br>（1）    采集单元由单片机构成，负责数据采集，并通过串口通讯方式上传给PC端；<br>（2）    PC端软件需要使用RS232 SDK来与采集单元通讯（将来可能更换为其它通讯方式）。<br>（3）    操作员即可以实时查看当前采集到的噪声信息，也可以分析数据库服务器中保存的任意时段噪声数据并打印输出分析报告。<br>任务：<br>（1）    利用“4+1”视图建模方法对以上描述的“噪声监测系统”进行软件体系结构设计。<br>（2）    请说明当PC端与采集单元的通讯方式发生变化，你设计的体系结构如何应对？</p><h1 id="二-实验步骤："><a href="#二-实验步骤：" class="headerlink" title="二.实验步骤："></a>二.实验步骤：</h1><h3 id="UML图形工具："><a href="#UML图形工具：" class="headerlink" title="UML图形工具："></a>UML图形工具：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698159226042-a739b842-f60f-4298-82db-642960693b27.png#averageHue=%23a9b8cf&clientId=u801801c7-a9c6-4&from=paste&height=37&id=u0da0c52a&originHeight=46&originWidth=118&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4001&status=done&style=none&taskId=ue0c9bcfd-3f49-4bf5-8a93-6a3d9ef0124&title=&width=94.4" alt="image.png"></p><h3 id="设计考虑："><a href="#设计考虑：" class="headerlink" title="设计考虑："></a>设计考虑：</h3><ul><li>可维护性：软件应该易于维护和修改。</li><li>可重用性：软件应该易于重用。</li><li>可扩展性：软件应该易于扩展。</li><li>可移植性：软件应该易于移植到不同的平台。</li><li>可靠性：软件应该具有高可靠性，即在面对各种异常情况时，仍能保持正常运行。</li><li>性能：软件应该具有良好的性能，即能够在合理的时间内完成所需的任务。</li><li>安全性：软件应该具有良好的安全性，即能够保护用户数据和系统安全。</li></ul><p>在该系统中当PC端与采集单元的通讯方式发生变化时，只修改传输单元构件就可以了。</p><h3 id="场景视图："><a href="#场景视图：" class="headerlink" title="场景视图："></a>场景视图：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698153699112-7fa93cdc-222a-4d16-874d-5e78cd61d2a3.png#averageHue=%23fbfafa&clientId=u801801c7-a9c6-4&from=paste&height=402&id=ua6eec258&originHeight=502&originWidth=1087&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47190&status=done&style=none&taskId=u7855be2e-7411-42d6-91d1-7220a19b188&title=&width=869.6" alt="image.png"></p><h3 id="逻辑视图："><a href="#逻辑视图：" class="headerlink" title="逻辑视图："></a>逻辑视图：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698152866585-0dfa1d1a-ae1a-4d27-b982-26c93d615da4.png#averageHue=%23fbfbfb&clientId=u801801c7-a9c6-4&from=paste&height=557&id=ue708415f&originHeight=696&originWidth=836&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=60052&status=done&style=none&taskId=u328a519f-dea8-4bcb-95b1-898928bfb89&title=&width=668.8" alt="image.png"></p><h3 id="开发视图："><a href="#开发视图：" class="headerlink" title="开发视图："></a>开发视图：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698155637140-036debb3-55ce-43d1-b09c-5638bc865989.png#averageHue=%23fbfafa&clientId=u801801c7-a9c6-4&from=paste&height=369&id=u566380b8&originHeight=461&originWidth=982&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=30739&status=done&style=none&taskId=u0c7f7c31-b7e0-4240-8cb1-ad5cb429857&title=&width=785.6" alt="image.png"></p><h3 id="过程视图："><a href="#过程视图：" class="headerlink" title="过程视图："></a>过程视图：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698157462151-a983e627-1103-40d7-934b-774a9610190e.png#averageHue=%23fbfbfb&clientId=u801801c7-a9c6-4&from=paste&height=531&id=ub5b52c72&originHeight=664&originWidth=945&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=32263&status=done&style=none&taskId=u5670c9a1-a54e-437c-91f8-88b97f71786&title=&width=756" alt="image.png"></p><h3 id="物理视图："><a href="#物理视图：" class="headerlink" title="物理视图："></a>物理视图：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698158529311-9b819f7c-d9c4-4b22-9876-26fa35905f40.png#averageHue=%23fcfcfc&clientId=u801801c7-a9c6-4&from=paste&height=478&id=ueec8c875&originHeight=597&originWidth=1180&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=25775&status=done&style=none&taskId=ub53983ef-ec4a-4da0-9a8e-86748cce8e0&title=&width=944" alt="image.png"></p><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>逻辑视图和开发视图描述系统的静态结构，而进程视图和物理视图描述系统的动态结构。<br>对于不同的软件系统来说，侧重的角度也有所不同。例如，对于管理信息系统来说，比较侧重于从逻辑视图和开发视图来描述系统，而对于实时控制系统来说，则比较注重于从进程视图和物理视图来描述系统。<br>“4+1”视图模型已经成功使用在几个大型项目中，无论是否在术语4中有一些本地定制和调整。它的确能使不同利益相关者找到他们想了解的软件架构信息。系统工程师使用物理视图，再到过程视图。最终用户、客户、数据专家使用逻辑视图。项目经理、软件配置人员使用开发视图。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>课程作业</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>课程作业</tag>
+      
+      <tag>软件体系结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>软件体系结构实验2</title>
+    <link href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A/"/>
+    <url>/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h1 id="一：实验内容："><a href="#一：实验内容：" class="headerlink" title="一：实验内容："></a>一：实验内容：</h1><p>任务1：仔细阅读文献<a href="https://blog.csdn.net/weixin_43853097/article/details/110943379?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1-110943379-blog-82871259.t5_download_50w&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1-110943379-blog-82871259.t5_download_50w&utm_relevant_index=1">“主程序-子程序、面向对象、事件系统和管道-过滤软件体系结构实现KWIC”</a><br>任务2：实现文献中的所有程序并调试通过。<br>任务3：参考和整合以上参考文献，开发“经典软件体系结构教学软件”，用于向用户展示主程序-子程序、面向对象、事件系统和管道-过滤器等软件体系结构风格的基本原理。软件功能及界面可自由设计，但应包括如下内容：<br>（1） 用户可选择四种方法之一对指定的输入文件进行处理，结果可显示在界面上；<br>（2） 能够分别显示各种“体系结构风格”的原理图或文字说明、源程序代码结构、关键函数的程序代码等；</p><h1 id="二-软件开发："><a href="#二-软件开发：" class="headerlink" title="二.软件开发："></a>二.软件开发：</h1><h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>1.JDK8，maven，IDEA<br>2.springboot+thymeleaf<br>3.源代码地址：<a href="https://gitee.com/fanshanshui/architecture-experiment.git">晓晨&#x2F; Sa-experiment2</a></p><h2 id="源代码结构："><a href="#源代码结构：" class="headerlink" title="源代码结构："></a>源代码结构：</h2><p>总体上采用MVC的结构开发<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234665556-84cbfcec-e244-4337-b7d3-d017dbb8fa5f.png#averageHue=%23536268&clientId=u877b6732-74b4-4&from=paste&height=429&id=ubb371b37&originHeight=536&originWidth=747&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=197557&status=done&style=none&taskId=uc0ca482f-3a9a-47e8-874f-9c3704d4417&title=&width=597.6" alt="image.png"></p><h2 id="运行截图："><a href="#运行截图：" class="headerlink" title="运行截图："></a>运行截图：</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234725788-c45e761c-74fb-40b3-a776-58a10a9a960d.png#averageHue=%23f8f7f6&clientId=u877b6732-74b4-4&from=paste&height=460&id=u03d42cbc&originHeight=575&originWidth=895&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66407&status=done&style=none&taskId=uec95920a-a594-417c-81a8-de7371b3142&title=&width=716" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234765228-25385136-a354-4f30-8362-bf9803d163b6.png#averageHue=%23f9f9f9&clientId=u877b6732-74b4-4&from=paste&height=691&id=u7455a5cd&originHeight=864&originWidth=1062&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=137092&status=done&style=none&taskId=u8b241396-23af-4f0e-81d8-d9a2bb84831&title=&width=849.6" alt="image.png"><br>查看代码功能：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234879261-3c23de92-5852-4e21-8ab7-99759e33561f.png#averageHue=%23f9f8f6&clientId=u877b6732-74b4-4&from=paste&height=567&id=u35382cfd&originHeight=709&originWidth=834&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57216&status=done&style=none&taskId=ucf1ce82a-1ba7-4e1c-a51f-b64c8759f79&title=&width=667.2" alt="image.png"><br>测试其他体系结构：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234930262-3ee8b732-4f15-4ad9-bd02-66942c85530a.png#averageHue=%23f8f7f7&clientId=u877b6732-74b4-4&from=paste&height=680&id=u796df42e&originHeight=850&originWidth=995&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=123152&status=done&style=none&taskId=ub30051ab-dee9-4c81-9c51-fcf8ba3e6bf&title=&width=796" alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698234937075-62502cb5-5cb3-40ba-8f95-922195995ade.png#averageHue=%23f8f8f8&clientId=u877b6732-74b4-4&from=paste&height=690&id=u991882cc&originHeight=862&originWidth=986&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=124221&status=done&style=none&taskId=u96a57ed2-bacd-4dbc-ba27-504b792f2c7&title=&width=788.8" alt="image.png"></p><h1 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h1><p>1.IDEA文件相对路径写对了但是却找不到的问题：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698235681601-a66b317a-554e-4f0f-a750-7551025d20c3.png#averageHue=%2335445c&clientId=u877b6732-74b4-4&from=paste&height=458&id=ue394ae0a&originHeight=573&originWidth=1656&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=400404&status=done&style=none&taskId=ub7150a54-bd54-45df-8eeb-f161a7a2059&title=&width=1324.8" alt="image.png"><br>原因是：..&#x2F;表示上级目录是Linucx下的表示方法<br>解决方法：</p><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">root</span> <span class="hljs-operator">=</span> System.getProperty(<span class="hljs-string">&quot;user.dir&quot;</span>);<span class="hljs-comment">//获取当前程序运行的目录，</span><span class="hljs-comment">// 它通常是启动 Java 程序的命令行或应用程序所在的目录。</span><span class="hljs-type">FileReader</span> <span class="hljs-variable">fileReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>(root+File.separator+<span class="hljs-string">&quot;test.txt&quot;</span>);<span class="hljs-comment">//File.separator</span><span class="hljs-comment">//是产生文件分割符号，Linucx和window的文件分割符是不一样的。</span></code></pre></div><p>2.添加了devtools依赖并不能实现真正意义上的修改代码不用重新加载就可以看到变化，还需要设置IDEA自动编译<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698236724532-84392022-ec93-4264-8026-d0e9b9a0011b.png#averageHue=%23303337&clientId=u877b6732-74b4-4&from=paste&height=613&id=uc3c35123&originHeight=766&originWidth=716&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67616&status=done&style=none&taskId=ud5c01a0c-9053-4345-9514-c3b4be91c29&title=&width=572.8" alt="image.png"></p><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>主程序-子程序风格是一种结构化的软件体系结构，它从功能的角度设计系统，通过逐步分解和细化，形成整个系统的体系结构。主程序是系统的入口和控制中心，它调用各种子程序来完成具体的任务。子程序是一些独立的功能模块，它们可以被主程序或其他子程序重复调用。主程序-子程序风格的特点有：<br>•  简单：它遵循自顶向下、逐步求精的设计原则，易于理解和实现。<br>•  模块化：它将系统划分为若干相对独立的模块，提高了代码的重用性和可维护性。<br>•  局限性：它不能很好地处理数据和行为的耦合问题，也不适合处理并发和分布式的情况。<br>面向对象风格是一种封装的软件体系结构，它从数据的角度设计系统，通过抽象和多态，形成整个系统的体系结构。对象是系统的基本单位，它包含了数据和作用在数据上的操作。对象之间通过接口进行消息传递和协作。面向对象风格的特点有：<br>•  灵活：它可以通过继承和组合来实现代码的复用和扩展，也可以通过多态来实现动态绑定和行为变化。<br>•  隐蔽性：它可以通过封装来隐藏对象的内部细节，只暴露必要的接口给外界，提高了系统的安全性和稳定性。<br>•  复杂性：它需要考虑对象之间的关系和协作，以及对象生命周期和状态管理等问题，增加了系统的设计难度和开发成本。<br> 事件系统风格是一种异步的软件体系结构，它从交互的角度设计系统，通过事件驱动和回调函数，形成整个系统的体系结构。事件是系统中发生的各种情况或变化，它们可以由用户、设备或其他源产生。事件处理器是响应事件并执行相应操作的模块，它们可以注册到事件源或事件分发器上。事件系统风格的特点有：<br>•  响应性：它可以实现非阻塞式的通信和处理，提高了系统的并发性能和用户体验。<br>•  解耦性：它可以将事件源和事件处理器分离开来，降低了系统各部分之间的依赖性。<br>•  不确定性：它需要处理事件之间的时序、优先级、冲突等问题，也需要考虑事件丢失、重复、延迟等问题，增加了系统的复杂性和不可预测性。<br> 管道-过滤器风格是一种流式的软件体系结构，它从数据流的角度设计系统，通过连续处理和数据转换，形成整个系统的体系结构。过滤器是对输入数据流进行某种变换或增量计算，并产生输出数据流的模块。管道是将一个过滤器的输出传递到另一个过滤器输入的连接件。管道-过滤器风格的特点有：<br>•  可重用性：它可以将系统任务分解为若干个过滤器，每个过滤器都是一个独立的实体，可以在不同的系统中重用。<br>•  可组合性：它可以将不同的过滤器通过管道连接起来，形成不同的功能和行为。<br>•  可并行性：它可以将每个过滤器作为一个单独的任务执行，实现系统的并行处理和分布式计算。<br>•  局限性：它要求过滤器之间的数据格式和传输方式相匹配，也要求过滤器之间没有共享数据和状态信息，否则会影响系统的正确性和效率。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>课程作业</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>课程作业</tag>
+      
+      <tag>软件体系结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>软件体系结构实验3</title>
+    <link href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A/"/>
+    <url>/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h2 id="一、-实验内容"><a href="#一、-实验内容" class="headerlink" title="一、 实验内容"></a>一、 实验内容</h2><p>个人通讯录系统的设计目标是能够轻松地管理个人的联系人信息，包括添加、修改和删除操作。联系人信息包括姓名、住址、电话。整个系统的功能图如下图所示：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698393517486-f9c653d0-3e66-4310-b2b0-1db18abb2e74.png#averageHue=%23f1f1f1&clientId=u537b546b-41d6-4&from=paste&height=229&id=u7cf32b4e&originHeight=286&originWidth=469&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20685&status=done&style=none&taskId=u25459ff4-e299-49d1-9bc7-f913de031eb&title=&width=375.2" alt="image.png"><br>任务1：采用二层C&#x2F;S结构实现“个人通讯录系统”；<br>任务2：采用三层C&#x2F;S结构实现“个人通讯录系统”；<br>任务3：采用B&#x2F;S结构实现“个人通讯录系统”。</p><h2 id="二：实验结果："><a href="#二：实验结果：" class="headerlink" title="二：实验结果："></a>二：实验结果：</h2><h3 id="实验源代码："><a href="#实验源代码：" class="headerlink" title="实验源代码："></a>实验源代码：</h3><p><a href="https://github.com/Redbiga/SA3.git">https://github.com/Redbiga/SA3.git</a><br>开发环境是：JDK:1.8，tomcat:9.0.65</p><h3 id="数据库结构："><a href="#数据库结构：" class="headerlink" title="数据库结构："></a>数据库结构：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698395792024-cc50c10e-0515-4055-bbbf-e8adf6bc3693.png#averageHue=%232d2f33&clientId=uef4eb324-706d-4&from=paste&height=194&id=uad8b6b4c&originHeight=243&originWidth=1044&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=86604&status=done&style=none&taskId=u2ce16b00-4d93-40ac-9984-3c5f8b2fc8a&title=&width=835.2" alt="image.png"></p><h3 id="两层CS体系结构："><a href="#两层CS体系结构：" class="headerlink" title="两层CS体系结构："></a>两层CS体系结构：</h3><h4 id="逻辑结构："><a href="#逻辑结构：" class="headerlink" title="逻辑结构："></a>逻辑结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698394568833-1263846d-20c4-494e-9131-17846d10dd43.png#averageHue=%23ebcba0&clientId=ua3da19bb-144d-4&from=paste&height=79&id=u7bd416f0&originHeight=99&originWidth=681&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=16154&status=done&style=none&taskId=ucbba3221-ee1a-4a15-a7f6-6691a4715ec&title=&width=544.8" alt="image.png"></p><h4 id="源程序代码结构："><a href="#源程序代码结构：" class="headerlink" title="源程序代码结构："></a>源程序代码结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698395687317-b8376a9f-5212-4081-b3a1-3b2de8231884.png#averageHue=%2339455c&clientId=uef4eb324-706d-4&from=paste&height=204&id=u12029e66&originHeight=255&originWidth=869&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=135580&status=done&style=none&taskId=u9f1e979b-c5fc-4c06-98c9-6d4dcbb683d&title=&width=695.2" alt="image.png"></p><h4 id="运行界面截图："><a href="#运行界面截图：" class="headerlink" title="运行界面截图："></a>运行界面截图：</h4><p>查询：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698395872221-73d5649f-b1e5-4803-a72d-c12cb6691834.png#averageHue=%23f6f6f6&clientId=uef4eb324-706d-4&from=paste&height=358&id=u23b91da1&originHeight=447&originWidth=1216&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26954&status=done&style=none&taskId=udfa04e85-a36b-4696-865b-ab911626494&title=&width=972.8" alt="image.png"></p><h3 id="三层体系结构："><a href="#三层体系结构：" class="headerlink" title="三层体系结构："></a>三层体系结构：</h3><h4 id="逻辑结构：-1"><a href="#逻辑结构：-1" class="headerlink" title="逻辑结构："></a>逻辑结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698396423699-15d9f800-804b-4fdf-8042-4724c8d7f64b.png#averageHue=%23ead5b1&clientId=uef4eb324-706d-4&from=paste&height=114&id=u0327e6df&originHeight=143&originWidth=822&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=23537&status=done&style=none&taskId=u4f58f4b4-f848-4052-96e2-6fc8323ec91&title=&width=657.6" alt="image.png"></p><h4 id="源程序代码结构：-1"><a href="#源程序代码结构：-1" class="headerlink" title="源程序代码结构："></a>源程序代码结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698396611575-ad53412e-fa9a-4ecc-9723-a3dc400bf9f3.png#averageHue=%233a4865&clientId=uef4eb324-706d-4&from=paste&height=130&id=u1e77be3c&originHeight=162&originWidth=759&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=71431&status=done&style=none&taskId=u6b0a5785-41ba-4b68-ab68-72c278b9a4e&title=&width=607.2" alt="image.png"></p><h4 id="运行界面截图：运行结果同两层体系结构，只不过业务逻辑层放在服务层处理了。"><a href="#运行界面截图：运行结果同两层体系结构，只不过业务逻辑层放在服务层处理了。" class="headerlink" title="运行界面截图：运行结果同两层体系结构，只不过业务逻辑层放在服务层处理了。"></a>运行界面截图：运行结果同两层体系结构，只不过业务逻辑层放在服务层处理了。</h4><h3 id="BS结构："><a href="#BS结构：" class="headerlink" title="BS结构："></a>BS结构：</h3><h4 id="逻辑架构："><a href="#逻辑架构：" class="headerlink" title="逻辑架构："></a>逻辑架构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698396961933-0f10f519-0bb2-460e-b39e-6350a2366c34.png#averageHue=%23f8f8f7&clientId=uef4eb324-706d-4&from=paste&height=315&id=uaf2c5d5b&originHeight=394&originWidth=896&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77311&status=done&style=none&taskId=u2ad79267-6702-4de2-b4ca-07e5b5c48eb&title=&width=716.8" alt="image.png"></p><h4 id="源代码程序结构："><a href="#源代码程序结构：" class="headerlink" title="源代码程序结构："></a>源代码程序结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698397073870-0b79da1a-d207-4e59-ac44-d3b3c43105fb.png#averageHue=%233a3f46&clientId=uef4eb324-706d-4&from=paste&height=326&id=u65b19eae&originHeight=407&originWidth=1046&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=196033&status=done&style=none&taskId=u6c63aab0-a3e6-4d9d-ac4c-eed0ccf38b6&title=&width=836.8" alt="image.png"></p><h3 id="方案比较："><a href="#方案比较：" class="headerlink" title="方案比较："></a>方案比较：</h3><p>三层C&#x2F;S结构相对于二层C&#x2F;S结构更加灵活，可以更好地实现应用功能的独立性，提高系统和软件的可维护性和可扩展性； 二层C&#x2F;S结构相对于三层C&#x2F;S结构来说，缺点在于其数据处理能力较弱；B&#x2F;S架构相对于C&#x2F;S架构来说，具有以下优点：①跨平台性好；②客户端零维护；③易于维护4. B&#x2F;S架构相对于C&#x2F;S架构来说，缺点在于其个性化能力低，响应速度较慢。</p><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>C&#x2F;S结构是一种常见的软件体系结构，它将整个系统分为客户端和服务器端。二层C&#x2F;S结构是指只有一个服务器，且以局域网为中心的结构。三层C&#x2F;S结构是指分为两类服务器（数据库服务器和应用服务器）和用户的结构。三层C&#x2F;S结构相对于二层C&#x2F;S结构更加灵活，可以更好地实现应用功能的独立性，提高系统和软件的可维护性和可扩展性； 三层C&#x2F;S结构的优点包括：①允许合理地划分三层结构的功能，使之在逻辑上保持相对独立性，能提高系统和软件的可维护性和可扩展性；②允许更灵活有效地选用相应的平台和硬件系统，使之在处理负荷能力上与处理特性上分别适应于结构清晰的三层；③应用的各层可以并行开发，可以选择各自最适合的开发语言；④利用功能层有效地隔离开表示层与数据层，未授权的用户难以绕过功能层而利用数据库工具或黑客手段去非法地访问数据层1. 二层C&#x2F;S结构相对于三层C&#x2F;S结构来说，缺点在于其数据处理能力较弱，安全性难以控制。<br>B&#x2F;S架构是指浏览器-服务器架构。B&#x2F;S架构相对于C&#x2F;S架构来说，具有以下优点：①跨平台性好；②客户端零维护；③易于维护4. B&#x2F;S架构相对于C&#x2F;S架构来说，缺点在于其个性化能力低，响应速度较慢。<br>总体而言，二层C&#x2F;S架构、三层C&#x2F;S架构、B&#x2F;S架构各有优缺点。选择何种架构需要根据实际情况进行权衡。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>课程作业</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>课程作业</tag>
+      
+      <tag>软件体系结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>软件体系结构实验4</title>
+    <link href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A/"/>
+    <url>/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"><h2 id="一、-实验内容"><a href="#一、-实验内容" class="headerlink" title="一、 实验内容"></a>一、 实验内容</h2><p>任务1：Web Service服务器端程序开发<br>        开发个人所得税计算程序，并发布为Web服务。<br>Idea参考：<a href="https://blog.csdn.net/C1041067258/article/details/86543099">idea搭建WebService HelloWorld程序_helloworld wsdl-CSDN博客</a><br>任务2：Web Servic客户端程序开发<br>    网站<a href="http://www.webxml.com.cn/">http://www.webxml.com.cn/</a>提供了诸如天气预报、航班时刻表、中英文翻译等许多公共web service功能，请利用这些web service功能开发一小型应用软件（比如：XXX天气预报系统、XXX航班查询系统等），软件名称自定。</p><h2 id="任务1："><a href="#任务1：" class="headerlink" title="任务1："></a>任务1：</h2><h3 id="源代码地址："><a href="#源代码地址：" class="headerlink" title="源代码地址："></a>源代码地址：</h3><p><a href="https://github.com/Redbiga/SA4.git">https://github.com/Redbiga/SA4.git</a></p><h3 id="源代码结构："><a href="#源代码结构：" class="headerlink" title="源代码结构："></a>源代码结构：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698500885228-956579fd-588f-43a3-b330-92ce62b2f88d.png#averageHue=%23414a52&clientId=ue18db17b-c587-4&from=paste&height=370&id=u36f606c9&originHeight=463&originWidth=928&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=266515&status=done&style=none&taskId=u4f3023b8-b940-419b-80d0-9ca87880647&title=&width=742.4" alt="image.png"></p><h3 id="运行截图："><a href="#运行截图：" class="headerlink" title="运行截图："></a>运行截图：</h3><p>web配置启动成功：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501049454-7f1324c6-c0cc-4294-b162-4f8c842d7c58.png#averageHue=%23fefdfd&clientId=ue18db17b-c587-4&from=paste&height=364&id=uadfe4268&originHeight=455&originWidth=669&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21136&status=done&style=none&taskId=u4a08b796-d0da-47b2-8ea5-badb0bcfa93&title=&width=535.2" alt="image.png"><br>成功发布服务截图：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501069837-2a3bec51-36d6-4503-93c5-30f57f401b31.png#averageHue=%23f8f7f6&clientId=ue18db17b-c587-4&from=paste&height=367&id=ue14fbe12&originHeight=459&originWidth=697&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40531&status=done&style=none&taskId=u1165bf43-2945-47e4-a5fa-06bf6ad5d60&title=&width=557.6" alt="image.png"><br>使用服务截图：<br>输入不合法：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501470365-57e3455f-adcf-481d-bba9-f6407354709f.png#averageHue=%23242427&clientId=ue18db17b-c587-4&from=paste&height=262&id=u983455a5&originHeight=327&originWidth=1054&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=171258&status=done&style=none&taskId=ude2ff205-c575-4278-9602-99fe1a71ae1&title=&width=843.2" alt="image.png"><br>输入合法：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698502063675-f92161ab-a9c7-4596-bb67-9572dba2a0bd.png#averageHue=%23242325&clientId=ue18db17b-c587-4&from=paste&height=219&id=uc60d96e8&originHeight=274&originWidth=691&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70952&status=done&style=none&taskId=u46fef8c5-a301-4196-9adc-b82db4789f0&title=&width=552.8" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698502085421-43b9f5f1-fe0e-4377-ae54-4c256412d8ea.png#averageHue=%23252426&clientId=ue18db17b-c587-4&from=paste&height=171&id=u1d5041bc&originHeight=214&originWidth=617&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51011&status=done&style=none&taskId=u4c803333-1cb0-46f4-aa76-1dd966584e1&title=&width=493.6" alt="image.png"></p><h2 id="任务2：Web-Service客户端天气查询客户端"><a href="#任务2：Web-Service客户端天气查询客户端" class="headerlink" title="任务2：Web Service客户端天气查询客户端"></a>任务2：Web Service客户端天气查询客户端</h2><h4 id="源代码地址：-1"><a href="#源代码地址：-1" class="headerlink" title="源代码地址："></a>源代码地址：</h4><p><a href="https://github.com/Redbiga/SA4Weather-inquiry.git">https://github.com/Redbiga/SA4Weather-inquiry.git</a></p><h3 id="功能需求："><a href="#功能需求：" class="headerlink" title="功能需求："></a>功能需求：</h3><p>查询天气</p><h3 id="服务介绍："><a href="#服务介绍：" class="headerlink" title="服务介绍："></a>服务介绍：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503030903-56b2d015-24c3-44a1-9504-b8ad1fd6eb7a.png#averageHue=%23f9f8f6&clientId=ue18db17b-c587-4&from=paste&height=668&id=u01d76181&originHeight=835&originWidth=1029&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=237053&status=done&style=none&taskId=u61b7b747-a335-423c-86e2-5e7a8abbe48&title=&width=823.2" alt="image.png"></p><h4 id="源程序代码结构："><a href="#源程序代码结构：" class="headerlink" title="源程序代码结构："></a>源程序代码结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503175453-56d8e332-533e-4886-be81-f36fc0f9912a.png#averageHue=%2348545b&clientId=ue18db17b-c587-4&from=paste&height=379&id=ubc0ef041&originHeight=474&originWidth=880&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=256041&status=done&style=none&taskId=u1c12743e-2544-4cdc-8bfe-b223599d06c&title=&width=704" alt="image.png"></p><h4 id="运行截图：-1"><a href="#运行截图：-1" class="headerlink" title="运行截图："></a>运行截图：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503376791-b7a26bd4-face-4793-b956-59f6e10a2561.png#averageHue=%23f7f6f5&clientId=ue18db17b-c587-4&from=paste&height=641&id=u83035804&originHeight=801&originWidth=1031&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=112962&status=done&style=none&taskId=u1722f247-b24d-422c-9bc3-23d7f446dca&title=&width=824.8" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503386868-52979d14-6f28-4091-8cb7-08160f2eb280.png#averageHue=%23ebeae9&clientId=ue18db17b-c587-4&from=paste&height=607&id=u022c6f12&originHeight=759&originWidth=927&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=135928&status=done&style=none&taskId=u0496e468-2457-40e3-99c5-1e2d6befbe6&title=&width=741.6" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503407460-b6e433ca-62ad-4cf6-8d18-fa87a997ffeb.png#averageHue=%23f6f5f4&clientId=ue18db17b-c587-4&from=paste&height=595&id=u09973d0d&originHeight=744&originWidth=1017&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=86708&status=done&style=none&taskId=u11116a06-7287-4352-add0-f865de0e500&title=&width=813.6" alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503429291-45190d30-2d80-43de-880c-2e65c3b19041.png#averageHue=%23f8f7f7&clientId=ue18db17b-c587-4&from=paste&height=615&id=u4178433e&originHeight=769&originWidth=994&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=64801&status=done&style=none&taskId=ua18e17d6-2cca-4c2d-87b1-fd4f5bbd10e&title=&width=795.2" alt="image.png"></p><h2 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h2><p>1.<a href="https://segmentfault.com/q/1010000042900375">Maven 错误：模块的 Maven 项目配置不可用</a><br>解决方法：右键单击 pom.xml，然后单击“添加为 Maven 项目”。</p><h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><a href="https://zhuanlan.zhihu.com/p/126507013">Web Service是一种可以接收从Internet或者Intranet上的其它系统中传递过来的请求，轻量级的独立的通讯技术</a><a href="https://zhuanlan.zhihu.com/p/126507013">。它是通过SOAP在Web上提供的软件服务，使用WSDL文件进行说明，并通过UDDI进行注册</a><a href="https://zhuanlan.zhihu.com/p/126507013">。WebService是一种跨编程语言和跨操作系统平台的远程调用技术</a><a href="https://zhuanlan.zhihu.com/p/126507013">1</a><a href="https://zhuanlan.zhihu.com/p/126507013">。WebService三要素是SOAP、WSDL、UDDI</a>。<br><a href="https://zhuanlan.zhihu.com/p/126507013">SOAP是WebService通过HTTP协议发送请求和接收结果时，发送的请求内容和结果内容都采用XML格式封装，并增加了一些特定的HTTP消息头，以说明HTTP消息的内容格式，这些特定的HTTP消息头和XML内容格式就是SOAP协议</a><a href="https://zhuanlan.zhihu.com/p/126507013">。SOAP提供了标准的RPC (远程调用技术)方法来调用Web Service</a>。<br><a href="https://zhuanlan.zhihu.com/p/126507013">WSDL是WebService客户端要调用一个WebService服务，首先要有知道这个服务的地址在哪，以及这个服务里有什么方法可以调用，所以，WebService务器端首先要通过一个WSDL文件来说明自己家里有啥服务可以对外调用，服务是什么（服务中有哪些方法，方法接受的参数是什么，返回值是什么），服务的网络地址用哪个url地址表示，服务通过什么方式来调用。WSDL ( Web Services Description Language)就是这样一个基于XML的语言，用于描述Web Service及其函数、参数和返回值</a>。<br><a href="https://zhuanlan.zhihu.com/p/126507013">UDDI是一个跨产业、跨平台的开放性架构，可以帮助 Web 服务提供商在互联网上发布 Web 服务的信息。UDDI 是一种目录服务，企业可以通过 UDDI 来注册和搜索 Web 服务。简单来说，UDDI 就是一个目录，只不过在这个目录中存放的是一些关于 Web 服务的信息而已</a>。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>课程作业</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>课程作业</tag>
+      
+      <tag>软件体系结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>spirngboot3整合swagger3</title>
     <link href="/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/"/>
     <url>/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/</url>
@@ -45,9 +203,9 @@
     
     <tags>
       
-      <tag>mybatis</tag>
-      
       <tag>spring</tag>
+      
+      <tag>mybatis</tag>
       
     </tags>
     
@@ -97,9 +255,9 @@
     
     <tags>
       
-      <tag>mybatis</tag>
-      
       <tag>spring</tag>
+      
+      <tag>mybatis</tag>
       
     </tags>
     

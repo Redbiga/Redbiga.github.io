@@ -17,27 +17,38 @@
   <meta name="author" content="山麋一笑">
   <meta name="keywords" content="">
   
-    <meta name="description" content="SpringBoot3.x使用Swagger - 掘金](https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7299800370489966630#heading-22) 导入依赖：&lt;dependency&gt;     &lt;groupId&gt;org.springdoc&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;springdoc-openapi">
+    <meta name="description" content="一、 实验内容任务1：Web Service服务器端程序开发        开发个人所得税计算程序，并发布为Web服务。Idea参考：idea搭建WebService HelloWorld程序_helloworld wsdl-CSDN博客任务2：Web Servic客户端程序开发    网站http:&#x2F;&#x2F;www.webxml.com.cn&#x2F;提供了诸如天气预报、航班时刻表、中英文翻译等许多公">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spirngboot3整合swagger3">
-<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/index.html">
+<meta property="og:title" content="软件体系结构实验4">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A/index.html">
 <meta property="og:site_name" content="山麋一笑">
-<meta property="og:description" content="SpringBoot3.x使用Swagger - 掘金](https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7299800370489966630#heading-22) 导入依赖：&lt;dependency&gt;     &lt;groupId&gt;org.springdoc&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;springdoc-openapi">
+<meta property="og:description" content="一、 实验内容任务1：Web Service服务器端程序开发        开发个人所得税计算程序，并发布为Web服务。Idea参考：idea搭建WebService HelloWorld程序_helloworld wsdl-CSDN博客任务2：Web Servic客户端程序开发    网站http:&#x2F;&#x2F;www.webxml.com.cn&#x2F;提供了诸如天气预报、航班时刻表、中英文翻译等许多公">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912284460-46e461c3-dbac-46c2-bfb0-5298fde545ff.png#averageHue=%23eac493&clientId=u7b97a79a-fc79-4&from=paste&height=727&id=ua527c034&originHeight=909&originWidth=1706&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=129559&status=done&style=none&taskId=ucd65ff91-9088-4d92-9113-81cb506f766&title=&width=1364.8">
-<meta property="article:published_time" content="2024-01-23T07:55:01.907Z">
-<meta property="article:modified_time" content="2024-01-23T07:59:06.339Z">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698500885228-956579fd-588f-43a3-b330-92ce62b2f88d.png#averageHue=%23414a52&clientId=ue18db17b-c587-4&from=paste&height=370&id=u36f606c9&originHeight=463&originWidth=928&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=266515&status=done&style=none&taskId=u4f3023b8-b940-419b-80d0-9ca87880647&title=&width=742.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501049454-7f1324c6-c0cc-4294-b162-4f8c842d7c58.png#averageHue=%23fefdfd&clientId=ue18db17b-c587-4&from=paste&height=364&id=uadfe4268&originHeight=455&originWidth=669&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21136&status=done&style=none&taskId=u4a08b796-d0da-47b2-8ea5-badb0bcfa93&title=&width=535.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501069837-2a3bec51-36d6-4503-93c5-30f57f401b31.png#averageHue=%23f8f7f6&clientId=ue18db17b-c587-4&from=paste&height=367&id=ue14fbe12&originHeight=459&originWidth=697&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40531&status=done&style=none&taskId=u1165bf43-2945-47e4-a5fa-06bf6ad5d60&title=&width=557.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501470365-57e3455f-adcf-481d-bba9-f6407354709f.png#averageHue=%23242427&clientId=ue18db17b-c587-4&from=paste&height=262&id=u983455a5&originHeight=327&originWidth=1054&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=171258&status=done&style=none&taskId=ude2ff205-c575-4278-9602-99fe1a71ae1&title=&width=843.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698502063675-f92161ab-a9c7-4596-bb67-9572dba2a0bd.png#averageHue=%23242325&clientId=ue18db17b-c587-4&from=paste&height=219&id=uc60d96e8&originHeight=274&originWidth=691&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70952&status=done&style=none&taskId=u46fef8c5-a301-4196-9adc-b82db4789f0&title=&width=552.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698502085421-43b9f5f1-fe0e-4377-ae54-4c256412d8ea.png#averageHue=%23252426&clientId=ue18db17b-c587-4&from=paste&height=171&id=u1d5041bc&originHeight=214&originWidth=617&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51011&status=done&style=none&taskId=u4c803333-1cb0-46f4-aa76-1dd966584e1&title=&width=493.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503030903-56b2d015-24c3-44a1-9504-b8ad1fd6eb7a.png#averageHue=%23f9f8f6&clientId=ue18db17b-c587-4&from=paste&height=668&id=u01d76181&originHeight=835&originWidth=1029&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=237053&status=done&style=none&taskId=u61b7b747-a335-423c-86e2-5e7a8abbe48&title=&width=823.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503175453-56d8e332-533e-4886-be81-f36fc0f9912a.png#averageHue=%2348545b&clientId=ue18db17b-c587-4&from=paste&height=379&id=ubc0ef041&originHeight=474&originWidth=880&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=256041&status=done&style=none&taskId=u1c12743e-2544-4cdc-8bfe-b223599d06c&title=&width=704">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503376791-b7a26bd4-face-4793-b956-59f6e10a2561.png#averageHue=%23f7f6f5&clientId=ue18db17b-c587-4&from=paste&height=641&id=u83035804&originHeight=801&originWidth=1031&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=112962&status=done&style=none&taskId=u1722f247-b24d-422c-9bc3-23d7f446dca&title=&width=824.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503386868-52979d14-6f28-4091-8cb7-08160f2eb280.png#averageHue=%23ebeae9&clientId=ue18db17b-c587-4&from=paste&height=607&id=u022c6f12&originHeight=759&originWidth=927&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=135928&status=done&style=none&taskId=u0496e468-2457-40e3-99c5-1e2d6befbe6&title=&width=741.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503407460-b6e433ca-62ad-4cf6-8d18-fa87a997ffeb.png#averageHue=%23f6f5f4&clientId=ue18db17b-c587-4&from=paste&height=595&id=u09973d0d&originHeight=744&originWidth=1017&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=86708&status=done&style=none&taskId=u11116a06-7287-4352-add0-f865de0e500&title=&width=813.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503429291-45190d30-2d80-43de-880c-2e65c3b19041.png#averageHue=%23f8f7f7&clientId=ue18db17b-c587-4&from=paste&height=615&id=u4178433e&originHeight=769&originWidth=994&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=64801&status=done&style=none&taskId=ua18e17d6-2cca-4c2d-87b1-fd4f5bbd10e&title=&width=795.2">
+<meta property="article:published_time" content="2024-01-23T08:02:16.575Z">
+<meta property="article:modified_time" content="2024-01-23T08:03:55.033Z">
 <meta property="article:author" content="山麋一笑">
-<meta property="article:tag" content="spring">
+<meta property="article:tag" content="课程作业">
+<meta property="article:tag" content="软件体系结构">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698500885228-956579fd-588f-43a3-b330-92ce62b2f88d.png#averageHue=%23414a52&clientId=ue18db17b-c587-4&from=paste&height=370&id=u36f606c9&originHeight=463&originWidth=928&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=266515&status=done&style=none&taskId=u4f3023b8-b940-419b-80d0-9ca87880647&title=&width=742.4">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>spirngboot3整合swagger3 - 山麋一笑</title>
+  <title>软件体系结构实验4 - 山麋一笑</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -235,7 +246,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="spirngboot3整合swagger3"></span>
+            <span id="subtitle" data-typed-text="软件体系结构实验4"></span>
           
         </div>
 
@@ -246,7 +257,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-23 15:55" pubdate>
+        <time datetime="2024-01-23 16:02" pubdate>
           2024年1月23日 下午
         </time>
       </span>
@@ -258,7 +269,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          487 字
+          724 字
         
       </span>
     
@@ -269,7 +280,7 @@
         
         
         
-          5 分钟
+          7 分钟
         
       </span>
     
@@ -315,111 +326,26 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">spirngboot3整合swagger3</h1>
+            <h1 id="seo-header">软件体系结构实验4</h1>
             
             
               <div class="markdown-body">
                 
-                 <meta name="referrer" content="no-referrer">
+                <meta name="referrer" content="no-referrer">
 
 
-<p>SpringBoot3.x使用Swagger - 掘金](<a target="_blank" rel="noopener" href="https://juejin.cn/post/7299800370489966630#heading-22">https://juejin.cn/post/7299800370489966630#heading-22</a>)</p>
-<h3 id="导入依赖："><a href="#导入依赖：" class="headerlink" title="导入依赖："></a>导入依赖：</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springdoc<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springdoc-openapi-starter-webmvc-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
-<h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><ul>
-<li><p>开发环境</p>
-</li>
-<li><p>开发环境通常会开启Swagger文档，方便前端查阅文档</p>
-<div class="code-wrapper"><pre><code class="hljs dts"><span class="hljs-symbol">springdoc:</span>
-  api-docs:
-<span class="hljs-symbol">    enabled:</span> true <span class="hljs-meta"># 开启OpenApi接口</span>
-<span class="hljs-symbol">    path:</span> <span class="hljs-keyword">/user-service/</span>v3/api-docs  <span class="hljs-meta"># 自定义文档接口路径，默认为 <span class="hljs-string">&quot;/v3/api-docs&quot;</span></span>
-  swagger-ui:
-<span class="hljs-symbol">    enabled:</span> true <span class="hljs-meta"># 开启swagger界面，依赖OpenApi，需要OpenApi同时开启</span>
-<span class="hljs-symbol">    path:</span> <span class="hljs-keyword">/user-service/</span>swagger-ui/index.html <span class="hljs-meta"># 自定义UI路径，默认为<span class="hljs-string">&quot;/swagger-ui/index.html&quot;</span></span>
-</code></pre></div>
-</li>
-<li><p>生产环境</p>
-</li>
-<li><p>切记生产环境要关闭文档</p>
-<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">springdoc:</span>
-  <span class="hljs-attr">api-docs:</span>
-    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># 关闭OpenApi接口</span>
-  <span class="hljs-attr">swagger-ui:</span>
-    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment"># 关闭swagger界面</span></code></pre></div></li>
-</ul>
-<h3 id="向spring容器中注入swagger配置类："><a href="#向spring容器中注入swagger配置类：" class="headerlink" title="向spring容器中注入swagger配置类："></a>向spring容器中注入swagger配置类：</h3><div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-meta">@Configuration</span>
-<span class="hljs-keyword">public</span> <span class="hljs-title class_"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-keyword">public</span> OpenAPI swaggerOpenApi() &#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">OpenAPI</span>()
-                .info(<span class="hljs-keyword">new</span> <span class="hljs-type">Info</span>().title(<span class="hljs-string">&quot;XXX平台YYY微服务&quot;</span>)
-                        .description(<span class="hljs-string">&quot;描述平台多牛逼&quot;</span>)
-                        .version(<span class="hljs-string">&quot;v1.0.0&quot;</span>))
-                .externalDocs(<span class="hljs-keyword">new</span> <span class="hljs-type">ExternalDocumentation</span>()
-                        .description(<span class="hljs-string">&quot;设计文档&quot;</span>)
-                        .url(<span class="hljs-string">&quot;https://juejin.cn/user/254742430749736/posts&quot;</span>));
-    &#125;
-&#125;
-</code></pre></div>
-<p>上面配置后暂时的界面为：<br><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912047289-0a11942a-5e70-46ef-9578-64ee5795c1ce.png#averageHue=%23f9f9f9&clientId=u7b97a79a-fc79-4&from=paste&height=215&id=u80bf11bd&originHeight=269&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=18465&status=done&style=none&taskId=u92aff4d4-0083-4091-a0e5-3df05047719&title=&width=608" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h3 id="常用注解："><a href="#常用注解：" class="headerlink" title="常用注解："></a>常用注解：</h3><table>
-<thead>
-<tr>
-<th>注解</th>
-<th>标注位置</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>@Tag</td>
-<td>controller 类</td>
-<td>标识 controller 作用</td>
-</tr>
-<tr>
-<td>@Parameter</td>
-<td>参数</td>
-<td>标识参数作用</td>
-</tr>
-<tr>
-<td>@Parameters</td>
-<td>参数</td>
-<td>参数多重说明</td>
-</tr>
-<tr>
-<td>@Schema</td>
-<td>model 层的 JavaBean</td>
-<td>描述模型作用及每个属性</td>
-</tr>
-<tr>
-<td>@Operation</td>
-<td>方法</td>
-<td>描述方法作用</td>
-</tr>
-<tr>
-<td>@ApiResponse</td>
-<td>方法</td>
-<td>描述响应状态码等</td>
-</tr>
-</tbody></table>
-<p>@Schema: Swagger文档的注解，用于说明类&#x2F;字段 </p>
-<ul>
-<li>title: 类&#x2F;字段说明</li>
-<li>example: 示例，Swagger中会将这个字段作为示例</li>
-<li>minLength&#x2F;maxLength: 最小&#x2F;最大长度，字段为String类型时生效(仅用于文档说明，不会抛出异常)</li>
-<li>minimum&#x2F;maximum: 最小&#x2F;最大值，字段为数字时有效(仅用于文档说明，不会抛出异常)</li>
-<li>@Tag: 控制器说明 </li>
-<li>name: 名称</li>
-<li>description: 描述说明</li>
-<li>@PostMapping: 使用post方法，一般用于新增记录</li>
-<li>@Operation: 请求说明 </li>
-<li>summary: 说明，Swagger页面在方法后面，不会被折叠</li>
-<li>descirption: 描述，会被折叠到方法说明中</li>
-</ul>
-<h3 id="导入APIfox"><a href="#导入APIfox" class="headerlink" title="导入APIfox:"></a>导入APIfox:</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1705912284460-46e461c3-dbac-46c2-bfb0-5298fde545ff.png#averageHue=%23eac493&clientId=u7b97a79a-fc79-4&from=paste&height=727&id=ua527c034&originHeight=909&originWidth=1706&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=129559&status=done&style=none&taskId=ucd65ff91-9088-4d92-9113-81cb506f766&title=&width=1364.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+<h2 id="一、-实验内容"><a href="#一、-实验内容" class="headerlink" title="一、 实验内容"></a>一、 实验内容</h2><p>任务1：Web Service服务器端程序开发<br>        开发个人所得税计算程序，并发布为Web服务。<br>Idea参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/C1041067258/article/details/86543099">idea搭建WebService HelloWorld程序_helloworld wsdl-CSDN博客</a><br>任务2：Web Servic客户端程序开发<br>    网站<a target="_blank" rel="noopener" href="http://www.webxml.com.cn/">http://www.webxml.com.cn/</a>提供了诸如天气预报、航班时刻表、中英文翻译等许多公共web service功能，请利用这些web service功能开发一小型应用软件（比如：XXX天气预报系统、XXX航班查询系统等），软件名称自定。</p>
+<h2 id="任务1："><a href="#任务1：" class="headerlink" title="任务1："></a>任务1：</h2><h3 id="源代码地址："><a href="#源代码地址：" class="headerlink" title="源代码地址："></a>源代码地址：</h3><p><a target="_blank" rel="noopener" href="https://github.com/Redbiga/SA4.git">https://github.com/Redbiga/SA4.git</a></p>
+<h3 id="源代码结构："><a href="#源代码结构：" class="headerlink" title="源代码结构："></a>源代码结构：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698500885228-956579fd-588f-43a3-b330-92ce62b2f88d.png#averageHue=%23414a52&clientId=ue18db17b-c587-4&from=paste&height=370&id=u36f606c9&originHeight=463&originWidth=928&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=266515&status=done&style=none&taskId=u4f3023b8-b940-419b-80d0-9ca87880647&title=&width=742.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="运行截图："><a href="#运行截图：" class="headerlink" title="运行截图："></a>运行截图：</h3><p>web配置启动成功：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501049454-7f1324c6-c0cc-4294-b162-4f8c842d7c58.png#averageHue=%23fefdfd&clientId=ue18db17b-c587-4&from=paste&height=364&id=uadfe4268&originHeight=455&originWidth=669&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21136&status=done&style=none&taskId=u4a08b796-d0da-47b2-8ea5-badb0bcfa93&title=&width=535.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>成功发布服务截图：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501069837-2a3bec51-36d6-4503-93c5-30f57f401b31.png#averageHue=%23f8f7f6&clientId=ue18db17b-c587-4&from=paste&height=367&id=ue14fbe12&originHeight=459&originWidth=697&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40531&status=done&style=none&taskId=u1165bf43-2945-47e4-a5fa-06bf6ad5d60&title=&width=557.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>使用服务截图：<br>输入不合法：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698501470365-57e3455f-adcf-481d-bba9-f6407354709f.png#averageHue=%23242427&clientId=ue18db17b-c587-4&from=paste&height=262&id=u983455a5&originHeight=327&originWidth=1054&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=171258&status=done&style=none&taskId=ude2ff205-c575-4278-9602-99fe1a71ae1&title=&width=843.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>输入合法：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698502063675-f92161ab-a9c7-4596-bb67-9572dba2a0bd.png#averageHue=%23242325&clientId=ue18db17b-c587-4&from=paste&height=219&id=uc60d96e8&originHeight=274&originWidth=691&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70952&status=done&style=none&taskId=u46fef8c5-a301-4196-9adc-b82db4789f0&title=&width=552.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698502085421-43b9f5f1-fe0e-4377-ae54-4c256412d8ea.png#averageHue=%23252426&clientId=ue18db17b-c587-4&from=paste&height=171&id=u1d5041bc&originHeight=214&originWidth=617&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51011&status=done&style=none&taskId=u4c803333-1cb0-46f4-aa76-1dd966584e1&title=&width=493.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="任务2：Web-Service客户端天气查询客户端"><a href="#任务2：Web-Service客户端天气查询客户端" class="headerlink" title="任务2：Web Service客户端天气查询客户端"></a>任务2：Web Service客户端天气查询客户端</h2><h4 id="源代码地址：-1"><a href="#源代码地址：-1" class="headerlink" title="源代码地址："></a>源代码地址：</h4><p><a target="_blank" rel="noopener" href="https://github.com/Redbiga/SA4Weather-inquiry.git">https://github.com/Redbiga/SA4Weather-inquiry.git</a></p>
+<h3 id="功能需求："><a href="#功能需求：" class="headerlink" title="功能需求："></a>功能需求：</h3><p>查询天气</p>
+<h3 id="服务介绍："><a href="#服务介绍：" class="headerlink" title="服务介绍："></a>服务介绍：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503030903-56b2d015-24c3-44a1-9504-b8ad1fd6eb7a.png#averageHue=%23f9f8f6&clientId=ue18db17b-c587-4&from=paste&height=668&id=u01d76181&originHeight=835&originWidth=1029&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=237053&status=done&style=none&taskId=u61b7b747-a335-423c-86e2-5e7a8abbe48&title=&width=823.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="源程序代码结构："><a href="#源程序代码结构：" class="headerlink" title="源程序代码结构："></a>源程序代码结构：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503175453-56d8e332-533e-4886-be81-f36fc0f9912a.png#averageHue=%2348545b&clientId=ue18db17b-c587-4&from=paste&height=379&id=ubc0ef041&originHeight=474&originWidth=880&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=256041&status=done&style=none&taskId=u1c12743e-2544-4cdc-8bfe-b223599d06c&title=&width=704" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="运行截图：-1"><a href="#运行截图：-1" class="headerlink" title="运行截图："></a>运行截图：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503376791-b7a26bd4-face-4793-b956-59f6e10a2561.png#averageHue=%23f7f6f5&clientId=ue18db17b-c587-4&from=paste&height=641&id=u83035804&originHeight=801&originWidth=1031&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=112962&status=done&style=none&taskId=u1722f247-b24d-422c-9bc3-23d7f446dca&title=&width=824.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503386868-52979d14-6f28-4091-8cb7-08160f2eb280.png#averageHue=%23ebeae9&clientId=ue18db17b-c587-4&from=paste&height=607&id=u022c6f12&originHeight=759&originWidth=927&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=135928&status=done&style=none&taskId=u0496e468-2457-40e3-99c5-1e2d6befbe6&title=&width=741.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503407460-b6e433ca-62ad-4cf6-8d18-fa87a997ffeb.png#averageHue=%23f6f5f4&clientId=ue18db17b-c587-4&from=paste&height=595&id=u09973d0d&originHeight=744&originWidth=1017&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=86708&status=done&style=none&taskId=u11116a06-7287-4352-add0-f865de0e500&title=&width=813.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698503429291-45190d30-2d80-43de-880c-2e65c3b19041.png#averageHue=%23f8f7f7&clientId=ue18db17b-c587-4&from=paste&height=615&id=u4178433e&originHeight=769&originWidth=994&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=64801&status=done&style=none&taskId=ua18e17d6-2cca-4c2d-87b1-fd4f5bbd10e&title=&width=795.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h2><p>1.<a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000042900375">Maven 错误：模块的 Maven 项目配置不可用</a><br>解决方法：右键单击 pom.xml，然后单击“添加为 Maven 项目”。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">Web Service是一种可以接收从Internet或者Intranet上的其它系统中传递过来的请求，轻量级的独立的通讯技术</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">。它是通过SOAP在Web上提供的软件服务，使用WSDL文件进行说明，并通过UDDI进行注册</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">。WebService是一种跨编程语言和跨操作系统平台的远程调用技术</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">1</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">。WebService三要素是SOAP、WSDL、UDDI</a>。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">SOAP是WebService通过HTTP协议发送请求和接收结果时，发送的请求内容和结果内容都采用XML格式封装，并增加了一些特定的HTTP消息头，以说明HTTP消息的内容格式，这些特定的HTTP消息头和XML内容格式就是SOAP协议</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">。SOAP提供了标准的RPC (远程调用技术)方法来调用Web Service</a>。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">WSDL是WebService客户端要调用一个WebService服务，首先要有知道这个服务的地址在哪，以及这个服务里有什么方法可以调用，所以，WebService务器端首先要通过一个WSDL文件来说明自己家里有啥服务可以对外调用，服务是什么（服务中有哪些方法，方法接受的参数是什么，返回值是什么），服务的网络地址用哪个url地址表示，服务通过什么方式来调用。WSDL ( Web Services Description Language)就是这样一个基于XML的语言，用于描述Web Service及其函数、参数和返回值</a>。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/126507013">UDDI是一个跨产业、跨平台的开放性架构，可以帮助 Web 服务提供商在互联网上发布 Web 服务的信息。UDDI 是一种目录服务，企业可以通过 UDDI 来注册和搜索 Web 服务。简单来说，UDDI 就是一个目录，只不过在这个目录中存放的是一些关于 Web 服务的信息而已</a>。</p>
 
                 
               </div>
@@ -438,7 +364,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/springboot3/" class="category-chain-item">springboot3</a>
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
   
   
 
@@ -453,7 +379,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/spring/" class="print-no-link">#spring</a>
+        <a href="/tags/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="print-no-link">#课程作业</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="print-no-link">#软件体系结构</a>
       
     </div>
   
@@ -465,8 +393,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>spirngboot3整合swagger3</div>
-      <div>http://www.bojiboqi.fun/2024/01/23/springboot3结合swagger3并导入到APIfox_/</div>
+      <div>软件体系结构实验4</div>
+      <div>http://www.bojiboqi.fun/2024/01/23/软件体系结构实验四：/</div>
     </div>
     <div class="license-meta">
       
@@ -510,9 +438,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A/" title="软件体系结构实验4">
+                      <a href="/2024/01/23/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A/" title="软件体系结构实验3">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">软件体系结构实验4</span>
+                        <span class="hidden-mobile">软件体系结构实验3</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -520,8 +448,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/23/mybatis-plus/" title="mybatisPlus">
-                        <span class="hidden-mobile">mybatisPlus</span>
+                      <a href="/2024/01/23/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/" title="spirngboot3整合swagger3">
+                        <span class="hidden-mobile">spirngboot3整合swagger3</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
