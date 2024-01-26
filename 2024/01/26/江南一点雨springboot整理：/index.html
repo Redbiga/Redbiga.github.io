@@ -1,0 +1,984 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Springboot:入门：@ComponentScan注解：@ComponentScan(basePackages &#x3D; &quot;org.javaboy&quot;, useDefaultFilters &#x3D; true, excludeFilters &#x3D; &amp;#123;@ComponentScan.Filter(type &#x3D; FilterType.ANNOTATION, classes &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot2江南一点雨博客总结">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E6%B1%9F%E5%8D%97%E4%B8%80%E7%82%B9%E9%9B%A8springboot%E6%95%B4%E7%90%86%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="Springboot:入门：@ComponentScan注解：@ComponentScan(basePackages &#x3D; &quot;org.javaboy&quot;, useDefaultFilters &#x3D; true, excludeFilters &#x3D; &amp;#123;@ComponentScan.Filter(type &#x3D; FilterType.ANNOTATION, classes &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698890087546-b6de719c-e18f-4797-9ead-a98872acf9ed.png#averageHue=%23fcf9f8&clientId=uc63d89a5-684b-4&from=paste&height=439&id=ud49b9475&originHeight=549&originWidth=982&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=68285&status=done&style=none&taskId=ue9f3a3a4-2fca-42ea-8913-177b8ae22d6&title=&width=785.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698891268381-033152f0-2985-471a-9d81-bef534b0e081.png#averageHue=%23fbf9f8&clientId=uc63d89a5-684b-4&from=paste&height=562&id=u20e7ea4b&originHeight=703&originWidth=1186&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=53892&status=done&style=none&taskId=u6a8bec85-9013-4249-a54f-67002fef631&title=&width=948.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904143503-fb8b531c-fac5-4f21-bd37-7709b2815ad7.png#averageHue=%23fcfaf9&clientId=uc63d89a5-684b-4&from=paste&id=uc570651b&originHeight=402&originWidth=285&originalType=url&ratio=1.25&rotation=0&showTitle=false&size=12916&status=done&style=none&taskId=u707a1795-6eeb-402b-b86d-ff31eb75e48&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904456651-70570623-1d03-452d-b10c-51e07f2fdcdd.png#averageHue=%23f7f6f6&clientId=uc63d89a5-684b-4&from=paste&height=195&id=u5acadc95&originHeight=244&originWidth=1079&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48642&status=done&style=none&taskId=ud6a3335b-be02-4fde-982e-2acc317af40&title=&width=863.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904509965-5d092091-2cba-4726-8f33-3e1cb0dc058c.png#averageHue=%23f7f6f5&clientId=uc63d89a5-684b-4&from=paste&height=295&id=uc034b30f&originHeight=369&originWidth=648&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=31205&status=done&style=none&taskId=uca732f19-c64d-497a-af94-bec3c517878&title=&width=518.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904570866-42066c9d-da27-4c3f-a23d-ceff0cea9c78.png#averageHue=%23f6f5f4&clientId=uc63d89a5-684b-4&from=paste&height=251&id=uda6ed2bf&originHeight=314&originWidth=1096&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=36820&status=done&style=none&taskId=u982f2f91-bfe1-487b-b49f-eb43e84434d&title=&width=876.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904672864-5748916a-b284-40ad-83a2-780fddb87c3b.png#averageHue=%23f8f7f7&clientId=uc63d89a5-684b-4&from=paste&height=205&id=u65a5874b&originHeight=256&originWidth=1128&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=24788&status=done&style=none&taskId=uec0a16e1-b425-4fc1-801b-bc37b59bb15&title=&width=902.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698909888570-fe6ca9f5-a789-41d5-b841-e0cfc0a80fff.png#averageHue=%233e4c5b&clientId=uc63d89a5-684b-4&from=paste&height=387&id=u84e7a604&originHeight=484&originWidth=1201&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=277512&status=done&style=none&taskId=u33e0fd3a-ecbc-4873-b82d-b9e0d75d9c1&title=&width=960.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698909158697-f4c6a29d-0f6b-4784-9009-5a2237a7efb6.png#averageHue=%232b2c31&clientId=uc63d89a5-684b-4&from=paste&height=104&id=uf19d6248&originHeight=130&originWidth=574&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42016&status=done&style=none&taskId=ucf1289cd-e685-465d-aa5c-1734cfc66dc&title=&width=459.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698928290546-b45a1883-fd5e-4c04-989e-1c64fa3b57aa.png#averageHue=%232c2e33&clientId=ucec36595-9ede-4&from=paste&height=350&id=u2932cf82&originHeight=437&originWidth=1059&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=219047&status=done&style=none&taskId=u20da7afb-e587-4342-86dc-6fec0214a04&title=&width=847.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698928330942-01750c78-3802-4167-bbdc-0c84b652fd99.png#averageHue=%236083a6&clientId=ucec36595-9ede-4&from=paste&height=42&id=u8e11ba24&originHeight=52&originWidth=336&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=9108&status=done&style=none&taskId=u20581994-2e5a-46b6-a74f-4aa15f8b42d&title=&width=268.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698929265928-829ccb7a-716b-48d4-9df4-6dee12417bc3.png#averageHue=%232b2f37&clientId=ucec36595-9ede-4&from=paste&height=313&id=u3611b62b&originHeight=391&originWidth=964&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=190086&status=done&style=none&taskId=u4b8a4672-d6b4-4075-ad49-271013eca25&title=&width=771.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/svg/1613913/1681723795095-828d2034-1e6c-4d98-8e47-573dd6b5463b.svg#from=url&id=ORNes&originHeight=842&originWidth=1047&originalType=binary&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698983164618-07adea71-2756-4788-b027-561c6b95dbae.png#averageHue=%23fdfdfc&clientId=ucec36595-9ede-4&from=paste&height=613&id=u7a47e668&originHeight=766&originWidth=1153&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=195846&status=done&style=none&taskId=u2079ddce-adf2-4073-b4ed-c8d2cfcc09a&title=&width=922.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699068846815-6ca54bd8-343f-4c8c-9b31-b6a9bd1703c8.png#averageHue=%23b9b9b9&clientId=u8707d90f-a194-4&from=paste&height=134&id=u507bd7a1&originHeight=168&originWidth=1210&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=175723&status=done&style=none&taskId=ud0cb1ccb-c3b0-47cc-af37-4d2d7f740da&title=&width=968">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699027215737-3f76fcf5-a990-41c1-b55a-2a8d0f4a2d89.png#averageHue=%232d3034&clientId=ucec36595-9ede-4&from=paste&height=557&id=uf6b3bb45&originHeight=696&originWidth=1307&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=80941&status=done&style=none&taskId=u6cf348ff-05b0-47a9-a498-5d0f3937027&title=&width=1045.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699027440578-37ca5b8f-1ec7-40b9-84d0-b0021ed1e8ba.png#averageHue=%232e3035&clientId=ucec36595-9ede-4&from=paste&height=250&id=u2ea68ea4&originHeight=312&originWidth=1311&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38886&status=done&style=none&taskId=u40cd6dc6-c2e9-4c32-bbbe-9566398f4ce&title=&width=1048.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699029558493-55ad3d7c-e0ec-47a0-87a5-1fbe6b65e887.png#averageHue=%23c1c1c1&clientId=ucec36595-9ede-4&from=paste&height=246&id=u79c1b3f4&originHeight=307&originWidth=939&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=126216&status=done&style=none&taskId=u92e2689f-b9d8-42d3-84dc-c763c912b08&title=&width=751.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699065995881-ba07577d-1fb2-4e73-b883-e2b075b6ab8c.png#averageHue=%232e3f60&clientId=u8707d90f-a194-4&from=paste&height=50&id=u80220495&originHeight=62&originWidth=1021&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49946&status=done&style=none&taskId=ub3f72b4d-fed8-4cfd-bc01-b115cdcdd27&title=&width=816.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699066123309-ccaad666-22dd-4be9-b683-ec039a5a7265.png#averageHue=%23f9f7f5&clientId=u8707d90f-a194-4&from=paste&height=230&id=ua3cef9b1&originHeight=287&originWidth=1030&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=63131&status=done&style=none&taskId=uc7c22aba-2fff-4de9-9665-b30d3d88c69&title=&width=824">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699066512036-4b29ca6a-e35f-4662-bd38-211e7586d6da.png#averageHue=%23b6b7b6&clientId=u8707d90f-a194-4&from=paste&height=57&id=u303dd822&originHeight=71&originWidth=947&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=96749&status=done&style=none&taskId=uda3fa412-7da8-4637-be35-de238de8bc9&title=&width=757.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699086129180-f794aa5f-d1fa-42bf-8715-bceea0e76fbe.png#averageHue=%23b6b6b6&clientId=u8707d90f-a194-4&from=paste&height=154&id=u96750bc5&originHeight=192&originWidth=1260&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=258261&status=done&style=none&taskId=ub347e9f5-f197-4655-8c6c-f66adc954e4&title=&width=1008">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699162382400-919c2099-2242-4b29-9019-41cc2d6e49e7.png#averageHue=%23b9b9b9&clientId=ucddaab6e-692b-4&from=paste&height=363&id=uf6182c7b&originHeight=454&originWidth=1289&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=481655&status=done&style=none&taskId=uca19d7bf-4492-460f-82e7-f71e309e769&title=&width=1031.2">
+<meta property="article:published_time" content="2024-01-26T10:15:42.087Z">
+<meta property="article:modified_time" content="2024-01-26T10:16:33.937Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="springboot2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698890087546-b6de719c-e18f-4797-9ead-a98872acf9ed.png#averageHue=%23fcf9f8&clientId=uc63d89a5-684b-4&from=paste&height=439&id=ud49b9475&originHeight=549&originWidth=982&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=68285&status=done&style=none&taskId=ue9f3a3a4-2fca-42ea-8913-177b8ae22d6&title=&width=785.6">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>springboot2江南一点雨博客总结 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="springboot2江南一点雨博客总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 18:15" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">springboot2江南一点雨博客总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="Springboot"><a href="#Springboot" class="headerlink" title="Springboot:"></a>Springboot:</h1><h2 id="入门："><a href="#入门：" class="headerlink" title="入门："></a>入门：</h2><h3 id="ComponentScan注解："><a href="#ComponentScan注解：" class="headerlink" title="@ComponentScan注解："></a>@ComponentScan注解：</h3><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ComponentScan(basePackages = &quot;org.javaboy&quot;, useDefaultFilters = true,</span>
+<span class="hljs-meta">excludeFilters = &#123;@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class)&#125;)</span></code></pre></div>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/huangjhai/article/details/104600328">@ComponentScan注解用于定义扫描的路径，从中找出标识了需要装配的类自动装配到Spring的Bean容器中。basePackages属性用于指定扫描路径，可以是单个路径，也可以是扫描的路径数组。如果不指定该属性，则默认扫描该注解所在类的同级目录及其子目录下所有的类。useDefaultFilters属性默认为true，表示开启默认过滤器，即只有标注了@Component、@Repository、@Service、@Controller等注解的类才会被装配到Spring的Bean容器中。如果不想使用默认过滤器，可以将该属性设置为false。如果需要排除某些类，则可以使用excludeFilters属性，该属性接收一个数组参数，数组中每个元素都是一个过滤器。在这里，您使用了一个排除过滤器，即排除所有标注了@Controller注解的类。</a></p>
+<h3 id="DispatcherServlet"><a href="#DispatcherServlet" class="headerlink" title="DispatcherServlet:"></a>DispatcherServlet:</h3><p><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-controllers#Overview">Just a moment…</a><br>springmvc流程图：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698890087546-b6de719c-e18f-4797-9ead-a98872acf9ed.png#averageHue=%23fcf9f8&clientId=uc63d89a5-684b-4&from=paste&height=439&id=ud49b9475&originHeight=549&originWidth=982&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=68285&status=done&style=none&taskId=ue9f3a3a4-2fca-42ea-8913-177b8ae22d6&title=&width=785.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>**_Front Controller _**主要职责包括：</p>
+<ul>
+<li>拦截传入请求</li>
+<li>将请求的有效负载（请求的有效载荷就是请求中的数据部分，也就是请求体部分）转换为数据的内部结构</li>
+<li>将数据发送到_模型_进行进一步处理</li>
+<li>从模型中获取处理后的数据_，_并将该数据推进到_视图_进行渲染</li>
+</ul>
+<p><em>DispatcherServlet</em> 在架构中扮演着 <em>Front Controller</em> 的角色。该图既适用于典型的 MVC 控制器，也适用于 RESTful 控制器，但有一些细微的差异（如下所述）。<br>在传统方法中，<em>MVC</em> 应用程序不是面向服务的;因此，有一个 V_iew 解析器_，它根据从 <em>Controller</em> 接收的数据呈现最终视图。<br><em>RESTful</em> 应用程序被设计为面向服务并返回原始数据（通常为 JSON&#x2F;XML）。由于这些应用程序不执行任何视图渲染，因此没有_视图解析器，并且通常期望控制器_通过 HTTP 响应直接发送数据。</p>
+<h3 id="ServletContext："><a href="#ServletContext：" class="headerlink" title="ServletContext："></a>ServletContext：</h3><p>1.一个web应用只有一个ServletContext。<br>2，在web应用部署成功后，servlet容器为应用创建了ServletContext实例，当服务器关闭时，其才被释放。在web中，<strong>一个用户可以有多个request；一个用户有一个session，而ServletContext，是所有的用户共用一个</strong>。所以，_ServletContext的存在，就是为了存放必须的、重要的、所有用户需要共享的、线程又是安全的一些资源信息，这样不仅节省了空间，还提高了效率_。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698891268381-033152f0-2985-471a-9d81-bef534b0e081.png#averageHue=%23fbf9f8&clientId=uc63d89a5-684b-4&from=paste&height=562&id=u20e7ea4b&originHeight=703&originWidth=1186&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=53892&status=done&style=none&taskId=u6a8bec85-9013-4249-a54f-67002fef631&title=&width=948.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="消息转换器："><a href="#消息转换器：" class="headerlink" title="消息转换器："></a>消息转换器：</h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1666635">https://cloud.tencent.com/developer/article/1666635</a><br><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-httpmessageconverter-rest">Just a moment…</a><br>1.@RestController 注解即可将返回的数据结构转换成 Json 格式;@ResponseBody 注解是将返回的数据结构转换为 Json 格式。<br>2.要自定义JSON转换可以在相关配置类中重写configureMessageConverters方法。</p>
+<h2 id="基础配置："><a href="#基础配置：" class="headerlink" title="基础配置："></a>基础配置：</h2><p><strong>application.properties配置文件的位置和顺序：</strong></p>
+<ol>
+<li>当前项目根目录下的 config 目录下</li>
+<li>当前项目的根目录下</li>
+<li>resources 目录下的 config 目录下</li>
+<li>resources 目录下</li>
+</ol>
+<p>按如上顺序，四个配置文件的优先级依次降低。如下：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904143503-fb8b531c-fac5-4f21-bd37-7709b2815ad7.png#averageHue=%23fcfaf9&clientId=uc63d89a5-684b-4&from=paste&id=uc570651b&originHeight=402&originWidth=285&originalType=url&ratio=1.25&rotation=0&showTitle=false&size=12916&status=done&style=none&taskId=u707a1795-6eeb-402b-b86d-ff31eb75e48&title=" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sanduo112/article/details/129061118">SpringBoot 启动配置文件加载和参数配置修改问题_springboot 动态修改properties-CSDN博客</a></p>
+<h3 id="通过配置文件实现属性注入："><a href="#通过配置文件实现属性注入：" class="headerlink" title="通过配置文件实现属性注入："></a>通过配置文件实现属性注入：</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42937522/article/details/106230679">修改SpringBoot默认的启动图案_springboot项目启动动画-CSDN博客</a></p>
+<h4 id="properties版本："><a href="#properties版本：" class="headerlink" title="properties版本："></a>properties版本：</h4><p>法1：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904456651-70570623-1d03-452d-b10c-51e07f2fdcdd.png#averageHue=%23f7f6f6&clientId=uc63d89a5-684b-4&from=paste&height=195&id=u5acadc95&originHeight=244&originWidth=1079&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48642&status=done&style=none&taskId=ud6a3335b-be02-4fde-982e-2acc317af40&title=&width=863.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>法2：自定义属性配置文件<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904509965-5d092091-2cba-4726-8f33-3e1cb0dc058c.png#averageHue=%23f7f6f5&clientId=uc63d89a5-684b-4&from=paste&height=295&id=uc034b30f&originHeight=369&originWidth=648&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=31205&status=done&style=none&taskId=uca732f19-c64d-497a-af94-bec3c517878&title=&width=518.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>法3：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904570866-42066c9d-da27-4c3f-a23d-ceff0cea9c78.png#averageHue=%23f6f5f4&clientId=uc63d89a5-684b-4&from=paste&height=251&id=uda6ed2bf&originHeight=314&originWidth=1096&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=36820&status=done&style=none&taskId=u982f2f91-bfe1-487b-b49f-eb43e84434d&title=&width=876.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>yaml文件的数组注入：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698904672864-5748916a-b284-40ad-83a2-780fddb87c3b.png#averageHue=%23f8f7f7&clientId=uc63d89a5-684b-4&from=paste&height=205&id=u65a5874b&originHeight=256&originWidth=1128&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=24788&status=done&style=none&taskId=uec0a16e1-b425-4fc1-801b-bc37b59bb15&title=&width=902.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2016/07/yaml.html">YAML 语言教程 - 阮一峰的网络日志</a><br>YAML文件是有序的。这意味着在YAML文件中，键值对的顺序是被保留的，并且在读取配置文件时会按照它们的出现顺序进行处理。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698909888570-fe6ca9f5-a789-41d5-b841-e0cfc0a80fff.png#averageHue=%233e4c5b&clientId=uc63d89a5-684b-4&from=paste&height=387&id=u84e7a604&originHeight=484&originWidth=1201&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=277512&status=done&style=none&taskId=u33e0fd3a-ecbc-4873-b82d-b9e0d75d9c1&title=&width=960.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="配置文件多环境区分："><a href="#配置文件多环境区分：" class="headerlink" title="配置文件多环境区分："></a>配置文件多环境区分：</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Chenjiabing/p/13968781.html">嗯，挺全乎儿的，Spring Boot 多环境配置都在这里了，你喜欢哪种？ - 爱撒谎的男孩 - 博客园</a><br>1.创建不同环境的配置文件：<br>既然每个环境的配置都不相同，索性将不同环境的配置放在不同的配置文件中，因此需要创建三个不同的配置文件，分别是<strong>application-dev.properties</strong>、<strong>application-test.properties</strong>、<strong>application-prod.properties</strong>。<br><strong>「注意」</strong>：配置文件的名称一定要是<strong>application-name.properties</strong>或者<strong>application-name.yml</strong>格式。这个<strong>name</strong>可以自定义，主要用于区分。<br>此时整个项目中就有四个配置文件，加上<strong>application.properties</strong>。<br>2.指定运行的环境<br>虽然你创建了各个环境的配置文件，但是Spring Boot 仍然不知道你要运行哪个环境，有以下两种方式指定：<br>配置文件中指定：<br>在application.properties或者application.yml文件中指定，内容如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java">指定运行环境为测试环境
+spring.profiles.active=test</code></pre></div>
+<p>如果没有指定运行的环境，<strong>Spring Boot</strong> 默认会加载<strong>application.properties</strong>文件，而这个的文件又告诉<strong>Spring Boot</strong> 去找<strong>test</strong>环境的配置文件。<br>运行 jar 的时候指定：<br><strong>Spring Boot</strong> 内置的环境切换能够在运行<strong>Jar</strong>包的时候指定环境，命令如下：</p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">java </span>-<span class="hljs-keyword">jar </span>xxx.<span class="hljs-keyword">jar </span>--spring.profiles.active=test</code></pre></div>
+<p>以上命令指定了运行的环境是<strong>test</strong>。</p>
+<h3 id="springboot关于tomcat的配置："><a href="#springboot关于tomcat的配置：" class="headerlink" title="springboot关于tomcat的配置："></a>springboot关于tomcat的配置：</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jvstarblog/p/12717900.html">SpringBoot - 内置的Tomcat服务器配置详解（附：启用HTTPS服务） - 11014p - 博客园</a></p>
+<div class="code-wrapper"><pre><code class="hljs java">server.port：配置 Web 容器的端口号（默认为 <span class="hljs-number">8080</span>）
+server.error.path：配置当前项目出错时跳转去的页面。
+server.servlet.session.timeout：配置 session 失效时间。30m 表示 <span class="hljs-number">30</span> 分钟，如果不写单位则默认单位是秒。（注意：由于 Tomcat 中配置 session 过期时间是以分钟为单位，如果我们这里设置是秒的话，那么会自动转换为一个不超过所配置秒数的最大分钟数。比如配置了 <span class="hljs-number">119</span> 秒，那么实际 session 过期时间是 <span class="hljs-number">1</span> 分钟）
+server.servlet.context-path：配置项目名称（默认为 /），如果配置了项目名称，那么在访问路径中要加上配置的路径
+server.tomcat.uri-encoding：配置 Tomcat 请求编码
+server.tomcat.max-threads：配置 Tomcat 的最大线程数
+server.tomcat.basedir：配置 Tomcat 运行日志和临时文件的目录。若不配置，则默认使用系统的临时目录。</code></pre></div>
+<p>其中tomcat的配置选项还有https的配置选项。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698909158697-f4c6a29d-0f6b-4784-9009-5a2237a7efb6.png#averageHue=%232b2c31&clientId=uc63d89a5-684b-4&from=paste&height=104&id=uf19d6248&originHeight=130&originWidth=574&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42016&status=done&style=none&taskId=ucf1289cd-e685-465d-aa5c-1734cfc66dc&title=&width=459.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="自定义一个start"><a href="#自定义一个start" class="headerlink" title="自定义一个start:"></a>自定义一个start:</h3><h2 id="整合视图："><a href="#整合视图：" class="headerlink" title="整合视图："></a>整合视图：</h2><h2 id="整合web开发："><a href="#整合web开发：" class="headerlink" title="整合web开发："></a>整合web开发：</h2><h3 id="静态资源配置："><a href="#静态资源配置：" class="headerlink" title="静态资源配置："></a>静态资源配置：</h3><p>&#x2F;** 表示可以匹配任意层级的路径；</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@ComponentScan(basePackages = &quot;org.sang.javassm&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringMVCConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">WebMvcConfigurationSupport</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addResourceHandlers</span><span class="hljs-params">(ResourceHandlerRegistry registry)</span> &#123;
+        registry.addResourceHandler(<span class="hljs-string">&quot;/**&quot;</span>).addResourceLocations(<span class="hljs-string">&quot;/&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+<p>在 Spring Boot 中，默认情况下，一共有5个位置可以放静态资源，五个路径分别是如下5个：</p>
+<ol>
+<li>classpath:&#x2F;META-INF&#x2F;resources&#x2F;</li>
+<li>classpath:&#x2F;resources&#x2F;</li>
+<li>classpath:&#x2F;static&#x2F;</li>
+<li>classpath:&#x2F;public&#x2F;</li>
+<li>&#x2F;</li>
+</ol>
+<p>第5个 &#x2F; 其实就是表示 webapp 目录中的静态资源；如果同一个文件分别出现在五个目录下，那么优先级也是按照上面列出的顺序。</p>
+<h3 id="ControllerAdvice-注解"><a href="#ControllerAdvice-注解" class="headerlink" title="@ControllerAdvice 注解"></a>@ControllerAdvice 注解</h3><p>以实现三个方面的功能：</p>
+<ol>
+<li>全局异常处理</li>
+<li>全局数据绑定</li>
+<li>全局数据预处理<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ControllerAdvice</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyGlobalExceptionHandler</span> &#123;
+    <span class="hljs-comment">//@ExceptionHandler 注解用来指明异常的处理类型</span>
+    <span class="hljs-meta">@ExceptionHandler(Exception.class)</span>
+    <span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title function_">customException</span><span class="hljs-params">(Exception e)</span> &#123;
+        <span class="hljs-type">ModelAndView</span> <span class="hljs-variable">mv</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelAndView</span>();
+        mv.addObject(<span class="hljs-string">&quot;message&quot;</span>, e.getMessage());
+        mv.setViewName(<span class="hljs-string">&quot;myerror&quot;</span>);
+        <span class="hljs-keyword">return</span> mv;
+    &#125;
+&#125;</code></pre></div>
+全局数据绑定功能可以用来做一些初始化的数据操作，我们可以将一些公共的数据定义在添加了 @ControllerAdvice 注解的类中，这样，在每一个 Controller 的接口中，就都能够访问导致这些数据。<br>全局数据预处理：</li>
+</ol>
+<p>Model,ModelMap,ModelAndView的区别：<br><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-mvc-model-model-map-model-view">Model, ModelMap, and ModelAndView in Spring MVC | Baeldung</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/ITBigGod/article/details/79685610">Model、ModelMap和ModelAndView的使用详解-CSDN博客</a>（完整）<br>Model是一个接口,ModelMap类，ModelAndView是容器：</p>
+<div class="code-wrapper"><pre><code class="hljs java">Model is an <span class="hljs-keyword">interface</span> <span class="hljs-title class_">that</span> defines a holder <span class="hljs-keyword">for</span> model attributes and is primarily designed <span class="hljs-keyword">for</span> adding attributes to the model. It can supply attributes used <span class="hljs-keyword">for</span> rendering views. To provide a view with usable data, we simply add <span class="hljs-built_in">this</span> data to its Model object. Additionally, maps with attributes can be merged with Model instances.
+
+ModelMap is a <span class="hljs-keyword">class</span> <span class="hljs-title class_">that</span> is also used to pass values to render a view. The advantage of ModelMap is it gives us the ability to pass a collection of values and treat these values as <span class="hljs-keyword">if</span> they were within a Map.
+
+ModelAndView is a container <span class="hljs-keyword">for</span> both a ModelMap and a view object. It allows a controller to <span class="hljs-keyword">return</span> both as a single value.</code></pre></div>
+<h3 id="ModelAttribute："><a href="#ModelAttribute：" class="headerlink" title="@ModelAttribute："></a>@ModelAttribute：</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxgxgp/article/details/81304570">【Spring】@ModelAttribute三种使用场景_@modelattribute @valid-CSDN博客</a><br><strong>1.用在Controller的方法上：</strong><br>每次执行方法时都会先执行@ModelAttribute注解的方法（此时该注解修饰的方法是用来准备数据的)，并将结果添加到<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=model&spm=1001.2101.3001.7020">model</a>中。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698928290546-b45a1883-fd5e-4c04-989e-1c64fa3b57aa.png#averageHue=%232c2e33&clientId=ucec36595-9ede-4&from=paste&height=350&id=u2932cf82&originHeight=437&originWidth=1059&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=219047&status=done&style=none&taskId=u20da7afb-e587-4342-86dc-6fec0214a04&title=&width=847.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>@ModelAttribute(“top”)中的top是该Model的名字；<br>控制台结果：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698928330942-01750c78-3802-4167-bbdc-0c84b652fd99.png#averageHue=%236083a6&clientId=ucec36595-9ede-4&from=paste&height=42&id=u8e11ba24&originHeight=52&originWidth=336&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=9108&status=done&style=none&taskId=u20581994-2e5a-46b6-a74f-4aa15f8b42d&title=&width=268.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>2**.用在方法的参数上：**可以直接从指定的模型中中取值.标注在方法参数上的@ModelAttribute说明了该方法参数的值将由model中取得。如果model中找不到，那么该参数会先被实例化，然后被添加到model中。在model中存在以后，请求中所有名称匹配的参数都会填充到该参数中。<br>3.<strong>用在ControllerAdvice的方法中：</strong>每个Controller中的方法执行前都会先执行 @ModelAttribute注解标注的方法，并将返回值添加到model<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698929265928-829ccb7a-716b-48d4-9df4-6dee12417bc3.png#averageHue=%232b2f37&clientId=ucec36595-9ede-4&from=paste&height=313&id=u3611b62b&originHeight=391&originWidth=964&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=190086&status=done&style=none&taskId=u4b8a4672-d6b4-4075-ad49-271013eca25&title=&width=771.2" srcset="/img/loading.gif" lazyload alt="image.png"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/115902823">SpringBoot2教程29整合SpringMVC之@InitBinder处理请求参数的绑定(一)</a></p>
+<h3 id="自定义异常处理："><a href="#自定义异常处理：" class="headerlink" title="自定义异常处理："></a>自定义异常处理：</h3><p>springboot错误处理原理：</p>
+<ul>
+<li><ol>
+<li>SpringBoot 会<strong>自适应处理错误</strong>，<strong>响应页面</strong>或<strong>JSON数据</strong></li>
+</ol>
+</li>
+<li>2.** SpringMVC的错误处理机制<strong>依然保留，</strong>MVC处理不了<strong>，才会</strong>交给boot进行处理**</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2023/svg/1613913/1681723795095-828d2034-1e6c-4d98-8e47-573dd6b5463b.svg#from=url&id=ORNes&originHeight=842&originWidth=1047&originalType=binary&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&title=" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h4 id="静态异常页面："><a href="#静态异常页面：" class="headerlink" title="静态异常页面："></a>静态异常页面：</h4><h4 id="动态异常页面："><a href="#动态异常页面：" class="headerlink" title="动态异常页面："></a>动态异常页面：</h4><p><strong>动态页面模板，不需要开发者自己去定义控制器，直接定义异常页面即可 ，Spring Boot 中自带的异常处理器会自动查找到异常页面。</strong><br>如果动态页面和静态页面同时定义了异常处理页面，例如 classpath:&#x2F;static&#x2F;error&#x2F;404.html 和 classpath:&#x2F;templates&#x2F;error&#x2F;404.html 同时存在时，默认使用动态页面。</p>
+<h4 id="自定义异常视图："><a href="#自定义异常视图：" class="headerlink" title="自定义异常视图："></a>自定义异常视图：</h4><p><a target="_blank" rel="noopener" href="https://www.baeldung.com/global-error-handler-in-a-spring-rest-api">Custom Error Message Handling for REST API | Baeldung</a></p>
+<h3 id="解决跨域问题："><a href="#解决跨域问题：" class="headerlink" title="解决跨域问题："></a>解决跨域问题：</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42318691/article/details/121187785">【精选】跨域请求被拒绝时，会进入后端接口执行吗？ 对跨域有个全面的认知_跨域请求被拦截后怎么判断请求到达后端_Yionr的博客-CSDN博客</a>（较长，有点废话）<br>1.所谓同源是指协议、域名以及端口要相同。</p>
+<ul>
+<li>浏览器的跨域请求能发出去，服务端能收到请求并正常返回结果，只是结果被浏览器拦截了。</li>
+<li>所谓跨域是指浏览器当前访问的界面和请求的界面不是同一个源</li>
+<li><strong>如果服务器没有配置CORS，则简单跨域请求可以成功执行，但是返回的内容会被浏览器拦截！</strong></li>
+<li>当我们使用阿里OSS存储访问图片的时候，大都情况下是访问图片的请求是跨域请求；但是阿里云后端解决了跨域问题，所以访问前端可以直接访问图片，而不用处理跨域问题。</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698983164618-07adea71-2756-4788-b027-561c6b95dbae.png#averageHue=%23fdfdfc&clientId=ucec36595-9ede-4&from=paste&height=613&id=u7a47e668&originHeight=766&originWidth=1153&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=195846&status=done&style=none&taskId=u2079ddce-adf2-4073-b4ed-c8d2cfcc09a&title=&width=922.4" srcset="/img/loading.gif" lazyload alt="image.png"></li>
+</ul>
+<p>解决跨域问题：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39390545/article/details/106615075">Springboot处理CORS跨域请求的三种方法_springmvc 中的请求转发 重定向 导致 cors-CSDN博客</a><br>法1：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">1.</span>可以通过<span class="hljs-meta">@CrossOrigin</span>注解配置某一个方法（contrller类）接受某一个域的请求，
+<span class="hljs-meta">@CrossOrigin(value = &quot;http://localhost:8081&quot;)</span>
+ <span class="hljs-meta">@GetMapping(&quot;/hello&quot;)</span>
+ <span class="hljs-keyword">public</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;
+    &#125;表示hello方法将解释来自http:<span class="hljs-comment">//localhost:8081的请求。也就是说该方法可以接受不属于自己域的值</span>
+如果该注解修饰的是一个controller类，那么表示该控制器的所有方法将可以接受不属于自己域的请求。</code></pre></div>
+<p>法2：全局配置：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebMvcConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebMvcConfigurer</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addCorsMappings</span><span class="hljs-params">(CorsRegistry registry)</span> &#123;
+        registry.addMapping(<span class="hljs-string">&quot;/**&quot;</span>).allowedOrigins(<span class="hljs-string">&quot;http://localhost:8081&quot;</span>)
+                .allowedHeaders(<span class="hljs-string">&quot;*&quot;</span>)
+                .allowedMethods(<span class="hljs-string">&quot;*&quot;</span>)
+                .maxAge(<span class="hljs-number">30</span> * <span class="hljs-number">1000</span>);
+    &#125;
+&#125;
+<span class="hljs-comment">//1.registry.addMapping(&quot;/**&quot;)表示将控制器所有的方法都映射到跨源处理当中，也就是说控制器的所有</span>
+<span class="hljs-comment">// 方法都可以处理来自不同域的请求;</span>
+<span class="hljs-comment">// 2.allowedOrigins表示该控制器允许处理的其他域；</span>
+<span class="hljs-comment">// 3.allowedMethods(&quot;*&quot;)是允许处理所有的请求方法，也就是get,put等等</span>
+<span class="hljs-comment">//4. 可以这样思考：一个请求包括请求地址，请求方式，请求头；所以在addCorsMappings方法中要分别</span>
+<span class="hljs-comment">// 对他们进行处理。</span></code></pre></div>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699068846815-6ca54bd8-343f-4c8c-9b31-b6a9bd1703c8.png#averageHue=%23b9b9b9&clientId=u8707d90f-a194-4&from=paste&height=134&id=u507bd7a1&originHeight=168&originWidth=1210&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=175723&status=done&style=none&taskId=ud0cb1ccb-c3b0-47cc-af37-4d2d7f740da&title=&width=968" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<div class="code-wrapper"><pre><code class="hljs java">这里的.maxAge(<span class="hljs-number">30</span> * <span class="hljs-number">1000</span>)方法的含义是设置预检请求的响应可以被客户端缓存的时间，单位是毫秒。
+这样，如果客户端在这个时间内再次发送相同的预检请求，就不需要再次询问服务器，而是直接使用缓存
+的响应。这可以提高性能和效率。
+预检请求是一种特殊的OPTIONS请求，用于在跨域请求之前检查服务器是否允许该请求。预检请求会携带一些
+特定的头信息，如Origin, Access-Control-Request-Method, Access-Control-Request-Headers等，
+以告知服务器客户端的请求信息。服务器会根据这些信息返回一个响应，包含一些CORS相关的头信息
+，如Access-Control-Allow-Origin, Access-Control-Allow-Methods
+, Access-Control-Allow-Headers等，以告知客户端是否允许该请求。
+</code></pre></div>
+<h3 id="自定义系统启动定时任务："><a href="#自定义系统启动定时任务：" class="headerlink" title="自定义系统启动定时任务："></a>自定义系统启动定时任务：</h3><p>1.往spring容器中注入实现CommandLineRunner接口的bean.并重写run方法。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-comment">//oredr代表的启动顺序，数字越小启动越早</span>
+<span class="hljs-meta">@Order(98)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyCommandLineRunner2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CommandLineRunner</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">(String... args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        System.out.println(<span class="hljs-string">&quot;MyCommandLineRunner2&gt;&gt;&gt;&quot;</span>+Arrays.toString(args));
+    &#125;
+&#125;
+</code></pre></div>
+
+<ol>
+<li>首先通过 @Compoent 注解将 MyCommandLineRunner1 注册为Spring容器中的一个 Bean。</li>
+<li>添加 @Order注解，表示这个启动任务的执行优先级，因为在一个项目中，启动任务可能有多个，所以需要有一个排序。@Order 注解中，数字越小，优先级越大，默认情况下，优先级的值为 Integer.MAX_VALUE，表示优先级最低。</li>
+<li>在 run 方法中，写启动任务的核心逻辑，当项目启动时，run方法会被自动执行。</li>
+<li>run 方法的参数，来自于项目的启动参数，即项目入口类中，main方法的参数会被传到这里。</li>
+</ol>
+<p>其中启动项目参数的设置：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699027215737-3f76fcf5-a990-41c1-b55a-2a8d0f4a2d89.png#averageHue=%232d3034&clientId=ucec36595-9ede-4&from=paste&height=557&id=uf6b3bb45&originHeight=696&originWidth=1307&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=80941&status=done&style=none&taskId=u6cf348ff-05b0-47a9-a498-5d0f3937027&title=&width=1045.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>另一种方式，则是将项目打包，在命令行中启动项目，然后启动时在命令行传入参数，如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java">java -jar devtools-<span class="hljs-number">0.0</span><span class="hljs-number">.1</span>-SNAPSHOT.jar 三国演义 西游记</code></pre></div>
+<p>2.实现ApplicationRunner<br>ApplicationRunner 可以接收更多类型的参数（ApplicationRunner 除了可以接收 CommandLineRunner 的参数之外，还可以接收 key&#x2F;value形式的参数）。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@Order(98)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyApplicationRunner1</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ApplicationRunner</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">(ApplicationArguments args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        List&lt;String&gt; nonOptionArgs = args.getNonOptionArgs();
+        System.out.println(<span class="hljs-string">&quot;MyApplicationRunner1&gt;&gt;&gt;&quot;</span>+nonOptionArgs);
+        Set&lt;String&gt; optionNames = args.getOptionNames();
+        <span class="hljs-keyword">for</span> (String key : optionNames) &#123;
+            System.out.println(<span class="hljs-string">&quot;MyApplicationRunner1&gt;&gt;&gt;&quot;</span>+key + <span class="hljs-string">&quot;:&quot;</span> + args.getOptionValues(key));
+        &#125;
+        String[] sourceArgs = args.getSourceArgs();
+        System.out.println(<span class="hljs-string">&quot;MyApplicationRunner1&gt;&gt;&gt;&quot;</span>+Arrays.toString(sourceArgs));
+    &#125;
+&#125;</code></pre></div>
+<p>当项目启动时，这里的 run 方法就会被自动执行，关于 run 方法的参数 ApplicationArguments ，我说如下几点：</p>
+<ol>
+<li>args.getNonOptionArgs();可以用来获取命令行中的无key参数（和CommandLineRunner一样）。</li>
+<li>args.getOptionNames();可以用来获取所有key&#x2F;value形式的参数的key。</li>
+<li>args.getOptionValues(key));可以根据key获取key&#x2F;value 形式的参数的value。</li>
+<li>args.getSourceArgs(); 则表示获取命令行中的所有参数。</li>
+</ol>
+<p>ApplicationRunner 定义完成后，传启动参数也是两种方式，参数类型也有两种，第一种和 CommandLineRunner 一致，第二种则是 –-key&#x3D;value 的形式<br>或者使用 如下启动命令：</p>
+<div class="code-wrapper"><pre><code class="hljs java">java -jar devtools-<span class="hljs-number">0.0</span><span class="hljs-number">.1</span>-SNAPSHOT.jar 三国演义 西游记 --age=<span class="hljs-number">99</span></code></pre></div>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699027440578-37ca5b8f-1ec7-40b9-84d0-b0021ed1e8ba.png#averageHue=%232e3035&clientId=ucec36595-9ede-4&from=paste&height=250&id=u2ea68ea4&originHeight=312&originWidth=1311&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38886&status=done&style=none&taskId=u40cd6dc6-c2e9-4c32-bbbe-9566398f4ce&title=&width=1048.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="整合Swagger2"><a href="#整合Swagger2" class="headerlink" title="整合Swagger2:"></a>整合Swagger2:</h3><h3 id="返回JSON数据："><a href="#返回JSON数据：" class="headerlink" title="返回JSON数据："></a>返回JSON数据：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699029558493-55ad3d7c-e0ec-47a0-87a5-1fbe6b65e887.png#averageHue=%23c1c1c1&clientId=ucec36595-9ede-4&from=paste&height=246&id=u79c1b3f4&originHeight=307&originWidth=939&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=126216&status=done&style=none&taskId=u92e2689f-b9d8-42d3-84dc-c763c912b08&title=&width=751.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>@JsonIgnore<br>@JsonFormat</p>
+<h3 id="文件上传："><a href="#文件上传：" class="headerlink" title="文件上传："></a>文件上传：</h3><h4 id="当个文件上传："><a href="#当个文件上传：" class="headerlink" title="当个文件上传："></a>当个文件上传：</h4><p>上传后实际文件的路径：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699065995881-ba07577d-1fb2-4e73-b883-e2b075b6ab8c.png#averageHue=%232e3f60&clientId=u8707d90f-a194-4&from=paste&height=50&id=u80220495&originHeight=62&originWidth=1021&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49946&status=done&style=none&taskId=ub3f72b4d-fed8-4cfd-bc01-b115cdcdd27&title=&width=816.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699066123309-ccaad666-22dd-4be9-b683-ec039a5a7265.png#averageHue=%23f9f7f5&clientId=u8707d90f-a194-4&from=paste&height=230&id=ua3cef9b1&originHeight=287&originWidth=1030&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=63131&status=done&style=none&taskId=uc7c22aba-2fff-4de9-9665-b30d3d88c69&title=&width=824" srcset="/img/loading.gif" lazyload alt="image.png"><br>上面的文件夹是服务器每次重启后都会新建一个。之前我做过一个项目是将上传头像的功能，上传的头像放在静态资源的路径下，但是每次上传成功后头像要系统重启后才能访问！会产生这种情况的原因是：静态资源在web访问启动后会被打包在target目录的class目录下。更新的头像更新了原静态文件夹的内容，但是这是没有更新class目录下的图片，只能重启重新打包在 class文件下。因为前端访问的静态资源是打包后class路径下的静态资源，而非服务器我们创建用来存放头像的静态资源。我们可以通过把头像放在上面tomcat生成的文件夹，从而实现文件的实时更新。<br>理解tomcat启动创建的文件夹：<br>上面的文件夹是web服务启动时，在temp目录下创建的。<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gavincoder/p/13794913.html">SpringBoot设置tomcat临时文件目录必要性 - 马非白即黑 - 博客园</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/s/tomcat%20temp%E7%9B%AE%E5%BD%95%E4%BD%9C%E7%94%A8">tomcat temp目录作用-掘金</a><br>文件上传form表单中的entype&#x3D;”multipart&#x2F;form-data”的理解：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699066512036-4b29ca6a-e35f-4662-bd38-211e7586d6da.png#averageHue=%23b6b7b6&clientId=u8707d90f-a194-4&from=paste&height=57&id=u303dd822&originHeight=71&originWidth=947&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=96749&status=done&style=none&taskId=uda3fa412-7da8-4637-be35-de238de8bc9&title=&width=757.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>multipart是多部分的意思。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/195726295">entype&#x3D;”multipart&#x2F;form-data”是一种指定表单数据的编码方式，它可以让表单同时发送文本和二进制数据，比如文件、图片等。这种编码方式将表单数据分成多个部分，每个部分都有自己的头信息和内容，这样服务器就可以根据头信息来解析不同类型的数据</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/195726295">1</a>。</p>
+<h3 id="配置类和XML："><a href="#配置类和XML：" class="headerlink" title="配置类和XML："></a>配置类和XML：</h3><h3 id="拦截器："><a href="#拦截器：" class="headerlink" title="拦截器："></a>拦截器：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699086129180-f794aa5f-d1fa-42bf-8715-bceea0e76fbe.png#averageHue=%23b6b6b6&clientId=u8707d90f-a194-4&from=paste&height=154&id=u96750bc5&originHeight=192&originWidth=1260&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=258261&status=done&style=none&taskId=ub347e9f5-f197-4655-8c6c-f66adc954e4&title=&width=1008" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="整合Servlet，Filter-Listener"><a href="#整合Servlet，Filter-Listener" class="headerlink" title="整合Servlet，Filter,Listener:"></a>整合Servlet，Filter,Listener:</h3><h3 id="路径映射："><a href="#路径映射：" class="headerlink" title="路径映射："></a>路径映射：</h3><h3 id="配置AOP："><a href="#配置AOP：" class="headerlink" title="配置AOP："></a>配置AOP：</h3><h2 id="数据持久化："><a href="#数据持久化：" class="headerlink" title="数据持久化："></a>数据持久化：</h2><h3 id="JdbcTemplate："><a href="#JdbcTemplate：" class="headerlink" title="JdbcTemplate："></a>JdbcTemplate：</h3><h3 id="mybatis"><a href="#mybatis" class="headerlink" title="mybatis:"></a>mybatis:</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43944305/article/details/116178864">【精选】使用tk-mapper(通用mapper)自动生成mybatis的mapper&#x2F;实体&#x2F;接口_mybatis tkmapper生成接口-CSDN博客</a></p>
+<h3 id="JPA"><a href="#JPA" class="headerlink" title="JPA:"></a>JPA:</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48321825/article/details/121953316">nativeQuery &#x3D; true是什么意思？_@query(nativequery &#x3D; true_有翅膀的猫的博客-CSDN博客</a><br><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-data-jpa-modifying-annotation">Just a moment…</a></p>
+<h2 id="整合NoSql"><a href="#整合NoSql" class="headerlink" title="整合NoSql:"></a>整合NoSql:</h2><h2 id="REST："><a href="#REST：" class="headerlink" title="REST："></a>REST：</h2><p>1.REST风格服务端不储存session,相关的信息要么要么通过客户端的token保存，要么保存在特点的redis中。</p>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket:"></a>WebSocket:</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6926419575349182477#heading-0">SpringBoot + Vue 实现基于 WebSocket 的聊天室 - 掘金</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1699162382400-919c2099-2242-4b29-9019-41cc2d6e49e7.png#averageHue=%23b9b9b9&clientId=ucddaab6e-692b-4&from=paste&height=363&id=uf6182c7b&originHeight=454&originWidth=1289&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=481655&status=done&style=none&taskId=uca19d7bf-4492-460f-82e7-f71e309e769&title=&width=1031.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>STOMP 是一种简单的可互操作协议，设计用于通过中介服务器在客户端之间传递异步消息。它为这些客户端和服务器之间传递的消息定义了基于文本的有线格式。<a target="_blank" rel="noopener" href="https://stomp.github.io/stomp-specification-1.1.html">STOMP官方文档</a></p>
+<div class="code-wrapper"><pre><code class="hljs java">Spring Boot提供了WebSocket的支持，可以使用<span class="hljs-meta">@ServerEndpoint</span>注解来标注一个类，
+表示该类是一个WebSocket服务器端的处理器。在使用<span class="hljs-meta">@ServerEndpoint</span>注解时，
+我们还需要为该处理器配置一个ServerEndpointExporter实例，以便能够将其发布到服务器中。
+
+ServerEndpointExporter是一个Spring Bean，可以通过在配置类中添加<span class="hljs-meta">@Bean</span>注解来创建它的实例。
+在创建ServerEndpointExporter实例时，我们需要注入ServerEndpointExporter所需的其他Bean
+，例如ServerEndpointConfig和MessageConverter等。</code></pre></div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/springboot2/" class="category-chain-item">springboot2</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/springboot2/" class="print-no-link">#springboot2</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>springboot2江南一点雨博客总结</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/江南一点雨springboot整理：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/mysql%E6%98%AF%E6%80%8E%E4%B9%88%E8%BF%90%E8%A1%8C%E8%B5%B7%E6%9D%A5%E7%9A%84%EF%BC%9A/" title="mysql怎么运行起来总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mysql怎么运行起来总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E6%B1%9F%E5%8D%97%E4%B8%80%E7%82%B9%E9%9B%A8springSecurity_/" title="springSecurity">
+                        <span class="hidden-mobile">springSecurity</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

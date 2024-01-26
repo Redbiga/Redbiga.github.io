@@ -1,0 +1,934 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="云服务器的实例id可以修改吗？实例 ID 是由系统自动生成的，无法修改。但是您可以修改实例的名称、主机名和实例描述等实例属性以提高云资源的管理效率和可读性，同时也可以提高云资源的安全性和自动化运维的支持程度。 什么是分布式存储？分布式存储就像我们的拉货的货车（传统的集中储存），改用一节一节连接起来的火车拉货，当不能满足存储需求的时候，我们只需要添加一节一节的车厢就能满足需求了（易扩展性）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="杂记">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E6%9D%82%E8%AE%B0%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="云服务器的实例id可以修改吗？实例 ID 是由系统自动生成的，无法修改。但是您可以修改实例的名称、主机名和实例描述等实例属性以提高云资源的管理效率和可读性，同时也可以提高云资源的安全性和自动化运维的支持程度。 什么是分布式存储？分布式存储就像我们的拉货的货车（传统的集中储存），改用一节一节连接起来的火车拉货，当不能满足存储需求的时候，我们只需要添加一节一节的车厢就能满足需求了（易扩展性）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693650814661-d2c4920e-7035-4377-acda-109ddbdf28ce.png#averageHue=%238e8c8a&clientId=u4ccb6c37-25e4-4&from=paste&height=546&id=ud487d339&originHeight=682&originWidth=1020&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=134848&status=done&style=none&taskId=ud724d708-9279-4f0e-81eb-ce79cab50a8&title=&width=816">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693670856318-9adb6278-35e9-4092-82c7-88bb3c3cc211.png#averageHue=%233c795f&clientId=u8360c880-6e71-4&from=paste&height=690&id=u019a597e&originHeight=863&originWidth=1329&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=177783&status=done&style=none&taskId=uc3d99e9c-a9d7-44b0-b174-28232a0e0d1&title=&width=1063.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693670901031-7f8b4645-ebb4-49e3-bff9-28be4ba7f223.png#averageHue=%23070606&clientId=u8360c880-6e71-4&from=paste&height=634&id=u436f769d&originHeight=793&originWidth=1261&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=103388&status=done&style=none&taskId=ub568af7d-ceca-4446-8760-4c124457c22&title=&width=1008.8">
+<meta property="article:published_time" content="2024-01-26T10:57:24.240Z">
+<meta property="article:modified_time" content="2024-01-26T10:57:59.928Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="零散知识点">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693650814661-d2c4920e-7035-4377-acda-109ddbdf28ce.png#averageHue=%238e8c8a&clientId=u4ccb6c37-25e4-4&from=paste&height=546&id=ud487d339&originHeight=682&originWidth=1020&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=134848&status=done&style=none&taskId=ud724d708-9279-4f0e-81eb-ce79cab50a8&title=&width=816">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>杂记 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="杂记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 18:57" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">杂记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+<h4 id="云服务器的实例id可以修改吗？"><a href="#云服务器的实例id可以修改吗？" class="headerlink" title="云服务器的实例id可以修改吗？"></a>云服务器的实例id可以修改吗？</h4><p><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/ecs/user-guide/modify-the-properties-of-an-instance">实例 ID 是由系统自动生成的，无法修改。但是您可以修改实例的名称、主机名和实例描述等实例属性以提高云资源的管理效率和可读性，同时也可以提高云资源的安全性和自动化运维的支持程度。</a></p>
+<h4 id="什么是分布式存储？"><a href="#什么是分布式存储？" class="headerlink" title="什么是分布式存储？"></a>什么是分布式存储？</h4><p>分布式存储就像我们的拉货的货车（传统的集中储存），改用一节一节连接起来的火车拉货，当不能满足存储需求的时候，我们只需要添加一节一节的车厢就能满足需求了（易扩展性）。</p>
+<h4 id="什么是流量穿透？"><a href="#什么是流量穿透？" class="headerlink" title="什么是流量穿透？"></a>什么是流量穿透？</h4><p>就是中国移动，电信等国企提供的接入互联网服务时，对中小运营企业收费高，但是对非运营企业收费低。故存在套利空间（中小运营商通过利用非运营企业空余的带宽资源从而节约成本）</p>
+<h4 id="密匙对是什么"><a href="#密匙对是什么" class="headerlink" title="密匙对是什么?"></a>密匙对是什么?</h4><p><strong>一、概念</strong><br>1、<strong>密钥对</strong>：在非对称加密技术中，有两种密钥，分为公钥和私钥。<br>公钥是密钥对所有者持有，<strong>公布给他人的</strong>；私钥也是密钥对所有者持有，<strong>不可公布</strong>。<br>2、<strong>密钥</strong>：指公钥或私钥。<br>3、<strong>公钥</strong>：公钥用来给数据加密，用公钥加密的数据只能使用私钥解密。<br>4、<strong>私钥</strong>：如上，用来解密公钥加密的数据。<br>总结：<strong>公钥和私钥是通过一种算法得到的一个密钥对(即一个公钥和一个私钥)，将其中的一个向外界公开，称为公钥；另一个自己保留，称为私钥。通过这种算法得到的密钥对能保证在世界范围内是唯一的。</strong><br>公钥和私钥是成对的，它们互相解密（密钥指公钥或私钥，密钥对指公钥加私钥）。<br>公钥和私钥都可以加密和解密。<br>私钥数字签名，公钥验证。</p>
+<h4 id="通过宝塔面板出现数据库连接错误的解决方法（注意搜索不到问题的答案的时候要冷静下来思考搜索的输入，不要盲目点点搜索引擎）"><a href="#通过宝塔面板出现数据库连接错误的解决方法（注意搜索不到问题的答案的时候要冷静下来思考搜索的输入，不要盲目点点搜索引擎）" class="headerlink" title="通过宝塔面板出现数据库连接错误的解决方法（注意搜索不到问题的答案的时候要冷静下来思考搜索的输入，不要盲目点点搜索引擎）"></a>通过宝塔面板出现数据库连接错误的解决方法（注意搜索不到问题的答案的时候要冷静下来思考搜索的输入，不要盲目点点搜索引擎）</h4><p><a target="_blank" rel="noopener" href="https://www.bt.cn/bbs/thread-40225-1-1.html">MySQL 报 1045 错误解决方法 - Linux面板 - 宝塔面板论坛</a><br>1.通过宝塔面板查看数据库日志看看是什么原因造成的<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693650814661-d2c4920e-7035-4377-acda-109ddbdf28ce.png#averageHue=%238e8c8a&clientId=u4ccb6c37-25e4-4&from=paste&height=546&id=ud487d339&originHeight=682&originWidth=1020&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=134848&status=done&style=none&taskId=ud724d708-9279-4f0e-81eb-ce79cab50a8&title=&width=816" srcset="/img/loading.gif" lazyload alt="image.png"><br>2.浏览器搜索原因（可以添加宝塔面板字样）</p>
+<h4 id="wordpress登录忘记了密码且无法通过邮箱找回"><a href="#wordpress登录忘记了密码且无法通过邮箱找回" class="headerlink" title="wordpress登录忘记了密码且无法通过邮箱找回"></a>wordpress登录忘记了密码且无法通过邮箱找回</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41990268/article/details/118875760">WordPress忘记密码且邮箱无法发送找回密码链接时的解决办法_wordpress忘记密码无法发送邮件_虎鲸不是鱼的博客-CSDN博客</a><br>方法1：邮箱找回：不过前提是服务器可以发送重置密码的邮件；<br>方法2：修改wordpress储存用户的数据库的密码</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql">mysql -uroot -p这里写刚查看到的root密码;
+<span class="hljs-keyword">show</span> databases;
+ use wordpress;
+<span class="hljs-keyword">show</span> <span class="hljs-keyword">tables</span>;
+<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> wp_users;
+<span class="hljs-keyword">update</span> wp_users <span class="hljs-keyword">set</span> user_pass=md5(&quot;123456&quot;) <span class="hljs-keyword">where</span> user_login=<span class="hljs-string">&#x27;admin&#x27;</span>;
+##<span class="hljs-number">123456</span>是你的Wordpress新密码，<span class="hljs-keyword">admin</span>是管理员账号,wordpress采用的是
+md5加密，而user_pass列的内容是md5加密后的字符串
+</code></pre></div>
+<p>方法3：使用重置文件(也就是自己写的脚本）<br>将下面的代码另存为 reset_pw.php ，_<strong>注意根据里面的注释修改 2-15行的相关信息</strong>_（如果你不知道数据库的信息，可以查看你网站根目录下的 wp-config.php），然后通过FTP将 reset_pw.php 上传到网站根目录，在浏览器中访问这个文件，就会提示修改成功！<strong>使用完以后，记得删除 reset_pw.php ，以免存在安全隐患！！</strong></p>
+<div class="code-wrapper"><pre><code class="hljs php-template"><span class="language-php"><span class="hljs-meta">&lt;?php</span></span>
+<span class="language-php"><span class="hljs-comment">/*你的数据库服务器地址，一般保持默认*/</span></span>
+<span class="language-php"><span class="hljs-variable">$servername</span> = <span class="hljs-string">&quot;localhost:3306&quot;</span>;</span>
+<span class="language-php"><span class="hljs-comment">/*数据库用户名*/</span></span>
+<span class="language-php"><span class="hljs-variable">$phpMyadminUser</span> = <span class="hljs-string">&quot;root&quot;</span>;</span>
+<span class="language-php"><span class="hljs-comment">/*数据库密码*/</span></span>
+<span class="language-php"><span class="hljs-variable">$phpMyadminKey</span> = <span class="hljs-string">&quot;yiduqiang&quot;</span>;</span>
+<span class="language-php"><span class="hljs-comment">/*数据库名称*/</span></span>
+<span class="language-php"><span class="hljs-variable">$phpMyadminName</span> = <span class="hljs-string">&quot;test&quot;</span>;</span>
+<span class="language-php"><span class="hljs-comment">/*wordpress数据表格前缀*/</span></span>
+<span class="language-php"><span class="hljs-variable">$QZ</span> = <span class="hljs-string">&quot;wp_&quot;</span>;</span>
+<span class="language-php"><span class="hljs-comment">/*你要设置的wordpress新密码*/</span></span>
+<span class="language-php"><span class="hljs-variable">$NewKey</span> = <span class="hljs-string">&quot;yiduqiang&quot;</span>;</span>
+<span class="language-php"><span class="hljs-comment">/*你要设置新密码的用户名*/</span></span>
+<span class="language-php"><span class="hljs-variable">$wordpress_User</span> = <span class="hljs-string">&quot;yiduqiang&quot;</span>;</span>
+<span class="language-php"><span class="hljs-meta">?&gt;</span></span><span class="language-xml"></span>
+<span class="language-xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span> <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="hljs-string">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/1999/xhtml&quot;</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;Content-Type&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;text/html; charset=utf-8&quot;</span> /&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>wordpress密码找回工具<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span>
+<span class="language-xml"></span><span class="language-php"><span class="hljs-meta">&lt;?php</span></span>
+<span class="language-php"><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);</span>
+<span class="language-php"><span class="hljs-keyword">if</span>(!<span class="hljs-title function_ invoke__">mysql_connect</span>(<span class="hljs-variable">$servername</span>,<span class="hljs-variable">$phpMyadminUser</span>,<span class="hljs-variable">$phpMyadminKey</span>))</span>
+<span class="language-php">&#123;</span>
+<span class="language-php">    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;对不起，数据库链接出错。</span></span>
+<span class="hljs-string"><span class="language-php">&quot;</span>;</span>
+<span class="language-php">&#125;</span>
+<span class="language-php"><span class="hljs-keyword">else</span></span>
+<span class="language-php">&#123;</span>
+<span class="language-php">    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;数据库链接成功。</span></span>
+<span class="hljs-string"><span class="language-php">&quot;</span>;</span>
+<span class="language-php">    <span class="hljs-title function_ invoke__">mysql_select_db</span>(<span class="hljs-variable">$phpMyadminName</span>,<span class="hljs-title function_ invoke__">mysql_connect</span>(<span class="hljs-variable">$servername</span>,<span class="hljs-variable">$phpMyadminUser</span>,<span class="hljs-variable">$phpMyadminKey</span>));</span>
+<span class="language-php">    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">mysql_query</span>(<span class="hljs-string">&quot;update &quot;</span>.<span class="hljs-variable">$QZ</span>.<span class="hljs-string">&quot;users set user_pass=&#x27;&quot;</span>.<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$NewKey</span>).<span class="hljs-string">&quot;&#x27; where user_login=&#x27;&quot;</span>.<span class="hljs-variable">$wordpress_User</span>.<span class="hljs-string">&quot;&#x27;&quot;</span>))</span>
+<span class="language-php">    &#123;</span>
+<span class="language-php">        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;对不起，修改密码失败。&quot;</span>;</span>
+<span class="language-php">    &#125;</span>
+<span class="language-php">    <span class="hljs-keyword">else</span></span>
+<span class="language-php">    &#123;</span>
+<span class="language-php">        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;修改密码成功。&quot;</span>;</span>
+<span class="language-php">    &#125;</span>
+<span class="language-php">&#125;</span>
+<span class="language-php"><span class="hljs-meta">?&gt;</span></span><span class="language-xml"></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span></code></pre></div>
+
+<h4 id="知识点："><a href="#知识点：" class="headerlink" title="知识点："></a>知识点：</h4><p>1.浏览器输入<a target="_blank" rel="noopener" href="http://ip地址解析通常的是/var/www/html">http://ip地址解析通常的是/var/www/html</a> 或 &#x2F;var&#x2F;www文件下的index<br>2.nginx是反向代理，其中可以设置http服务,它和http服务占据的端口都是80,其中通过wordpress建立网站的时候要安装nginx，不然<a target="_blank" rel="noopener" href="http://ip无法转到wordpress界面/">http://ip无法转到wordpress界面</a><br>3.mysql中的用户和密码放在mysql数据库中的user表中的<br>4.可以通过在mysql的配置文件中添加</p>
+<div class="code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">skip</span><span class="hljs-operator">-</span><span class="hljs-keyword">grant</span><span class="hljs-operator">-</span>tables</code></pre></div>
+<p>实现免密登录<br>5.更改mysql密码的步骤：</p>
+<div class="code-wrapper"><pre><code class="hljs awk">
+<span class="hljs-number">1</span>.停止 MySQL 服务：
+sudo systemctl stop mysqld；
+<span class="hljs-number">2</span>.启动 MySQL 服务，并跳过权限验证：
+sudo mysqld_safe --skip-grant-tables &amp;
+<span class="hljs-number">3</span>.连接到 MySQL 服务器：
+mysql -u root
+<span class="hljs-number">4</span>.在 MySQL 提示符下，切换到 mysql 数据库：
+use mysql;
+<span class="hljs-number">5</span>.更新 root 用户的密码：
+update user set authentication_string=password(<span class="hljs-string">&#x27;新密码&#x27;</span>) where user=<span class="hljs-string">&#x27;root&#x27;</span>;
+<span class="hljs-number">6</span>.刷新权限：
+flush privileges;
+<span class="hljs-number">7</span>.退出 MySQL 提示符：
+<span class="hljs-keyword">exit</span>;
+<span class="hljs-number">8</span>.停止 MySQL 服务：
+sudo systemctl stop mysqld
+<span class="hljs-number">9</span>.启动 MySQL 服务：
+sudo systemctl start mysqld
+</code></pre></div>
+<p>8.centos查看占用端口的进程：</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">sudo</span> lsof -i :<span class="hljs-number">80</span>##查看占用<span class="hljs-number">80</span>端口的进程</code></pre></div>
+<p>通常一个端口只能被一个进程占用，但是有时候会出现多个进程占据一个端口的情况：<br>1.多个进程占据不同的ip，然后占据同样一个端口<br>2.不同用户下的进程占据同一个端口<br>9.grant all privileges on wordpress.* to ‘wpadmin‘@’localhost’ identified(识别) by ‘Edualiyun@123’;</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql">这是一个授予 MySQL 数据库用户权限的 <span class="hljs-keyword">SQL</span> 语句。该语句将授予名为 <span class="hljs-string">&#x27;wpadmin&#x27;</span> 的用户在名为 <span class="hljs-string">&#x27;wordpress&#x27;</span> 的数据库上的所有权限，并使用密码 <span class="hljs-string">&#x27;Edualiyun@123&#x27;</span> 进行身份验证。
+
+解释该语句的各个部分：
+
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">PRIVILEGES</span>: 授予所有权限。
+<span class="hljs-keyword">ON</span> wordpress.*: 应用权限到名为 <span class="hljs-string">&#x27;wordpress&#x27;</span> 的数据库中的所有表。
+<span class="hljs-keyword">TO</span> <span class="hljs-string">&#x27;wpadmin&#x27;</span>@<span class="hljs-string">&#x27;localhost&#x27;</span>: 授予用户 <span class="hljs-string">&#x27;wpadmin&#x27;</span> 权限，并限制该用户只能从本地主机（localhost）连接。
+IDENTIFIED <span class="hljs-keyword">BY</span> <span class="hljs-string">&#x27;Edualiyun@123&#x27;</span>: 设置用户的密码为 <span class="hljs-string">&#x27;Edualiyun@123&#x27;</span>。</code></pre></div>
+<p>10.chown -R apache.apache &#x2F;var&#x2F;www&#x2F;html&#x2F;wordpress</p>
+<div class="code-wrapper"><pre><code class="hljs dts">chown -R apache.apache <span class="hljs-keyword">/var/</span>www<span class="hljs-keyword">/html/</span>wordpress 是一个 Linux 命令，用于更改 <span class="hljs-keyword">/var/</span>www<span class="hljs-keyword">/html/</span>wordpress 目录及其下所有文件和子目录的所有者和所属组。
+
+解释该命令的各个部分：
+<span class="hljs-symbol"></span>
+<span class="hljs-symbol">chown:</span> 表示更改文件或目录的所有者和所属组。
+-R: 表示递归地修改目录及其下的所有文件和子目录。
+apache.apache: 表示将所有者设置为 apache 用户，所属组设置为 apache 组。
+<span class="hljs-keyword">/var/</span>www<span class="hljs-keyword">/html/</span>wordpress: 是要修改所有者和所属组的目标目录路径。</code></pre></div>
+<p>11.更改用户的密码：</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">USER</span> <span class="hljs-string">&#x27;username&#x27;</span>@<span class="hljs-string">&#x27;host&#x27;</span> IDENTIFIED <span class="hljs-keyword">BY</span> <span class="hljs-string">&#x27;new_password&#x27;</span>;
+● usernam<span class="hljs-string">e&#x27;：要更改密码的用户名。</span>
+<span class="hljs-string">● &#x27;</span>host<span class="hljs-string">&#x27;：用户的主机名。如果要更改所有主机上的密码，可以使用 &#x27;</span>%<span class="hljs-string">&#x27; 代替。</span>
+<span class="hljs-string">● &#x27;</span>new_password<span class="hljs-string">&#x27;：要设置的新密码。</span>
+<span class="hljs-string">DENTIFIED BY 是用于指定用户的新密码的子句。当使用 ALTER USER 命令更</span>
+<span class="hljs-string">改用户密码时，您可以使用 IDENTIFIED BY 子句来指定新密码。</span></code></pre></div>
+<h4 id="如何让每次创建maven项目直接使用直接甚至的maven而不是每次去修改？"><a href="#如何让每次创建maven项目直接使用直接甚至的maven而不是每次去修改？" class="headerlink" title="如何让每次创建maven项目直接使用直接甚至的maven而不是每次去修改？"></a>如何让每次创建maven项目直接使用直接甚至的maven而不是每次去修改？</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693670856318-9adb6278-35e9-4092-82c7-88bb3c3cc211.png#averageHue=%233c795f&clientId=u8360c880-6e71-4&from=paste&height=690&id=u019a597e&originHeight=863&originWidth=1329&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=177783&status=done&style=none&taskId=uc3d99e9c-a9d7-44b0-b174-28232a0e0d1&title=&width=1063.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693670901031-7f8b4645-ebb4-49e3-bff9-28be4ba7f223.png#averageHue=%23070606&clientId=u8360c880-6e71-4&from=paste&height=634&id=u436f769d&originHeight=793&originWidth=1261&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=103388&status=done&style=none&taskId=ub568af7d-ceca-4446-8760-4c124457c22&title=&width=1008.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="docker-load-i-abc-tar"><a href="#docker-load-i-abc-tar" class="headerlink" title="docker load -i abc.tar"></a>docker load -i abc.tar</h4><p>docker load 命令用于从一个镜像存储文件（如 .tar 文件）加载镜像到 Docker 引擎。在您提供的命令中：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs css">docker load -<span class="hljs-selector-tag">i</span> abc<span class="hljs-selector-class">.tar</span></code></pre></div>
+<p>这个命令的作用是从名为 abc.tar 的镜像存储文件加载镜像到 Docker 引擎中。<br>-i 参数用于从标准输入（stdin）加载镜像</p>
+<h4 id="docker-tag-guignginx-v1-0-leifengyang-guignginx-v1-0"><a href="#docker-tag-guignginx-v1-0-leifengyang-guignginx-v1-0" class="headerlink" title="docker tag guignginx:v1.0 leifengyang&#x2F;guignginx:v1.0"></a>docker tag guignginx:v1.0 leifengyang&#x2F;guignginx:v1.0</h4><p>docker tag 命令用于为现有的镜像创建一个新的标签。在您提供的命令中：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs crmsh">docker <span class="hljs-keyword">tag</span> <span class="hljs-title">guignginx</span>:v1.<span class="hljs-number">0</span> leifengyang/guignginx:v1.<span class="hljs-number">0</span></code></pre></div>
+<p>这个命令的作用是为已存在的 guignginx:v1.0 镜像创建一个新的标签 leifengyang&#x2F;guignginx:v1.0。<br>通过执行该命令，Docker 将为镜像 guignginx:v1.0 创建一个新的标签 leifengyang&#x2F;guignginx:v1.0。这个操作不会创建新的镜像副本，只是为现有镜像添加了一个新的标签。这样，您可以通过两个不同的标签来引用同一个镜像。</p>
+<h4 id="查看redis的版本"><a href="#查看redis的版本" class="headerlink" title="查看redis的版本"></a>查看redis的版本</h4><div class="code-wrapper"><pre><code class="hljs pgsql">redis-<span class="hljs-keyword">server</span> <span class="hljs-comment">--version</span></code></pre></div>
+<p>redis的命令是redis-server而不是一般的redis</p>
+<h4 id="yum-install-centos-release-scl-scl-utils-build"><a href="#yum-install-centos-release-scl-scl-utils-build" class="headerlink" title="yum install centos-release-scl scl-utils-build"></a>yum install centos-release-scl scl-utils-build</h4><p>yum install -y devtoolset-8-toolchain<br>scl enable devtoolset-8 bash<br>这些命令用于在 CentOS 系统上安装和启用 Devtoolset-8 工具链。Devtoolset 是用于在 CentOS&#x2F;RHEL 系统上使用新版本编译工具的软件集合。<br>以下是对每个命令的解释：</p>
+<ol>
+<li><strong>yum install centos-release-scl scl-utils-build</strong>：<br>这个命令用于安装 CentOS SCL（Software Collections）存储库和 scl-utils-build 工具包。SCL 存储库提供了一组额外的软件包，包括 Devtoolset。</li>
+<li><strong>yum install -y devtoolset-8-toolchain</strong>：<br>这个命令用于安装 Devtoolset-8 工具链。Devtoolset-8 包含了一系列编译工具，如 GCC、G++、调试器等。通过安装这个工具链，你可以在 CentOS 系统上使用更新的编译器和工具。</li>
+<li><strong>scl enable devtoolset-8 bash</strong>：<br>这个命令启用 Devtoolset-8 工具链，使其成为当前会话中的默认编译工具。通过执行这个命令，你将在当前终端会话中使用 Devtoolset-8 提供的编译器和工具。</li>
+</ol>
+<p>请注意，这些命令需要以 root 或具有管理员权限的用户来执行。在执行这些命令之前，确保你的系统已连接到互联网，并且已正确配置了软件包管理器（yum）以从正确的软件源中获取软件包。</p>
+<h4 id="tar-zxvf-redis-6-2-1-tar-gz解读选项"><a href="#tar-zxvf-redis-6-2-1-tar-gz解读选项" class="headerlink" title="tar -zxvf redis-6.2.1.tar.gz解读选项"></a>tar -zxvf redis-6.2.1.tar.gz解读选项</h4><div class="code-wrapper"><pre><code class="hljs diff">tar -zxvf redis-6.2.1.tar.gz 是一个解压缩 tar 压缩文件的命令，其中
+包含了一些选项。下面是对每个选项的解释：
+
+<span class="hljs-deletion">-z：表示使用 gzip 压缩算法解压缩。tar 命令通常用于创建和提取 tar </span>
+归档文件，但是压缩的归档文件通常会使用 gzip 进行压缩。这个选项告诉
+tar 命令在解压缩时使用 gzip 解压缩算法。
+
+<span class="hljs-deletion">-x：表示提取（解压缩）归档文件。这个选项告诉 tar 命令执行解压缩操作，</span>
+将归档文件中的内容提取到文件系统中。
+
+<span class="hljs-deletion">-v：表示详细模式（verbose mode）。这个选项告诉 tar 命令在执行操作时</span>
+显示详细的输出，以便用户可以看到正在进行的操作和提取的文件列表。
+
+<span class="hljs-deletion">-f：表示指定归档文件。这个选项后面需要指定要操作的归档文件的名称。</span>
+在这个命令中，redis-6.2.1.tar.gz 是要解压缩的归档文件的名称。</code></pre></div>
+<h4 id="make-distclean"><a href="#make-distclean" class="headerlink" title="make distclean"></a>make distclean</h4><p>用于清理并还原由 GNU Make 构建过程生成的文件和目录。它通常用于清理构建环境，以便重新开始构建过程或将项目还原到初始状态。</p>
+<h4 id="vi命令打开的文件搜索"><a href="#vi命令打开的文件搜索" class="headerlink" title="vi命令打开的文件搜索"></a>vi命令打开的文件搜索</h4><div class="code-wrapper"><pre><code class="hljs excel">在 Vi 编辑器中，你可以使用 / 命令来搜索打开的文件中的特定内容。以下是搜索的基本步骤：
+
+打开 Vi 编辑器：
+在终端中输入 vi 文件名，其中 文件名 是你要编辑的文件的名称。
+
+进入搜索模式：
+按下 / 键进入搜索模式。此时，你将在 Vi 编辑器的底部看到一个斜线 / 作为提示符。
+
+输入搜索内容：
+在斜线 / 后面输入你要搜索的内容，并按下回车键。Vi 将会定位到第一个匹配到的内容。
+
+查看搜索结果：
+Vi 将会高亮显示匹配到的搜索结果。按下 <span class="hljs-built_in">n</span> 键可以跳转到下一个匹配项，按下 <span class="hljs-built_in">N</span> 键可以跳转到上一个匹配项。
+
+退出搜索模式：
+如果你想退出搜索模式并返回正常编辑模式，按下 Esc 键。</code></pre></div>
+<h4 id="阿里云非root用户无法远程登录："><a href="#阿里云非root用户无法远程登录：" class="headerlink" title="阿里云非root用户无法远程登录："></a>阿里云非root用户无法远程登录：</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42041419/article/details/104774027">阿里云 root ssh远程登录 及 普通非root用户 ssh远程登录 Ubuntu1604_ecs除了root用户_哒哒哒哒哒撞的博客-CSDN博客</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%82%E9%A1%B9/" class="category-chain-item">杂项</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86%E7%82%B9/" class="print-no-link">#零散知识点</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>杂记</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/杂记：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/Springboot_/" title="Springboot学习笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Springboot学习笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E5%B0%9A%E7%A1%85%E8%B0%B7_Redis6%E8%AF%BE%E4%BB%B6/" title="Redis尚硅谷课件">
+                        <span class="hidden-mobile">Redis尚硅谷课件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,864 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.int的取值范围int在32位和64位中的取值范围是-2147483648(2的31幂）~2147483647最小值的补码和原码一样是:1000 0000 0000 0000 0000 0000 0000 0000根据负数的补码求法可以猜测：负数的补码除了符号位，2147483648-后面的二进制代表的数&#x3D; 该负数的绝对值;2147483648是符号位不变，取反加一得出的 2.根据补">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机基础解惑">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E8%A7%A3%E6%83%91%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.int的取值范围int在32位和64位中的取值范围是-2147483648(2的31幂）~2147483647最小值的补码和原码一样是:1000 0000 0000 0000 0000 0000 0000 0000根据负数的补码求法可以猜测：负数的补码除了符号位，2147483648-后面的二进制代表的数&#x3D; 该负数的绝对值;2147483648是符号位不变，取反加一得出的 2.根据补">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-26T09:35:51.178Z">
+<meta property="article:modified_time" content="2024-01-26T09:37:13.835Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>计算机基础解惑 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机基础解惑"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 17:35" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机基础解惑</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="1-int的取值范围"><a href="#1-int的取值范围" class="headerlink" title="1.int的取值范围"></a>1.int的取值范围</h4><p>int在32位和64位中的取值范围是-2147483648(2的31幂）~2147483647<br>最小值的补码和原码一样是:1000 0000 0000 0000 0000 0000 0000 0000<br>根据负数的补码求法可以猜测：负数的补码除了符号位，2147483648-后面的二进制代表的数&#x3D; 该负数的绝对值;2147483648是符号位不变，取反加一得出的</p>
+<h4 id="2-根据补码求原码"><a href="#2-根据补码求原码" class="headerlink" title="2.根据补码求原码"></a>2.根据补码求原码</h4><p><strong>0的补码</strong><br>数0的补码表示是<strong>唯一</strong>的。</p>
+<p>[+0]补&#x3D;[+0]反&#x3D;[+0]原&#x3D;00000000<br>[-0]补&#x3D;11111111+1&#x3D;00000000<br><strong>补码求原码</strong><br>已知一个数的补码，求原码的操作其实就是对该补码再求补码：<br>⑴如果补码的符号位为“0”，表示是一个正数，其原码就是补码。<br>⑵如果补码的符号位为“1”，表示是一个负数，那么求给定的这个补码的补码就是要求的原码。<br>例：已知一个补码为11111001，则原码是10000111（-7）。<br>因为符号位为“1”，表示是一个负数，所以该位不变，仍为“1”。<br>其余七位1111001取反后为0000110；再加1，所以是10000111。</p>
+<h4 id="计算机乘除法运算原理："><a href="#计算机乘除法运算原理：" class="headerlink" title="计算机乘除法运算原理："></a>计算机乘除法运算原理：</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/stigerzergold/p/10328472.html">计算机实现乘法和除法的运算规则 - stigerzergold - 博客园</a></p>
+<h4 id="整数溢出和-2147483648-2147483648-时，得到结果是-true"><a href="#整数溢出和-2147483648-2147483648-时，得到结果是-true" class="headerlink" title="整数溢出和-(-2147483648)&#x3D;&#x3D;(-2147483648) 时，得到结果是 true"></a>整数溢出和-(-2147483648)&#x3D;&#x3D;(-2147483648) 时，得到结果是 true</h4><div class="code-wrapper"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> &#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">String[] args</span>)</span> &#123;
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;Hello world!&quot;</span>);
+        <span class="hljs-built_in">int</span> a = <span class="hljs-number">-2147483648</span>;
+        <span class="hljs-built_in">int</span> b = <span class="hljs-number">2147483647</span>; <span class="hljs-comment">//</span>
+        <span class="hljs-built_in">int</span> c = <span class="hljs-number">-1</span>;
+        <span class="hljs-comment">//int数据溢出后是循环的，最大数溢出的值为最小数+溢出值-1</span>
+        <span class="hljs-comment"><span class="hljs-doctag">///</span>/从二进制角度思考，有符号负数实际上是有符号正数全部取反然后加1</span>
+        System.<span class="hljs-keyword">out</span>.println(a<span class="hljs-number">-1</span>);<span class="hljs-comment">//a:1....00,-1的补码：11....11（也就是1的所有位取反加1），2个补码相加：011...1(2147483647)</span>
+        System.<span class="hljs-keyword">out</span>.println(a<span class="hljs-number">-2</span>);<span class="hljs-comment">//a-1的基础上在减去1</span>
+        System.<span class="hljs-keyword">out</span>.println(b+<span class="hljs-number">1</span>);<span class="hljs-comment">//b:011...1,1:00...1,b+1:1000000(按照符号位解读是补码，还原是-2147483638)</span>
+        System.<span class="hljs-keyword">out</span>.println(b+<span class="hljs-number">2</span>);<span class="hljs-comment">//b+1的基础上+1</span>
+        System.<span class="hljs-keyword">out</span>.println(a/c);<span class="hljs-comment">//a:100...0,c:11...1;a/c a(100..0)中的1和c(111.111)比较,1&gt;c商1,然后求出余数为111..1(31位）</span>
+        <span class="hljs-comment">//a中的下一个0掉下，组成111.10(32位)小于c(-1)商0,依次类推其后结果一直位0</span>
+        System.<span class="hljs-keyword">out</span>.println(a/<span class="hljs-number">-1</span>);<span class="hljs-comment">//也可以这样理解-2147483648/-1=2147483648，结果溢出转化位-2147483648</span>
+        System.<span class="hljs-keyword">out</span>.println(a/<span class="hljs-number">1</span>);
+        System.<span class="hljs-keyword">out</span>.println(-(<span class="hljs-number">-2147483648</span>)==(<span class="hljs-number">-2147483648</span>) );<span class="hljs-comment">//</span>
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-number">-1</span>/<span class="hljs-number">-1</span>);
+        System.<span class="hljs-keyword">out</span>.println(a/<span class="hljs-number">-2</span>);
+        <span class="hljs-comment">/*printf(&quot;%d, %d \n&quot;, a, b);</span>
+<span class="hljs-comment">        结果是什么？</span>
+<span class="hljs-comment">*/</span>
+    &#125;
+&#125;
+<span class="hljs-comment">//</span>
+Hello world!
+<span class="hljs-number">2147483647</span>
+<span class="hljs-number">2147483646</span>
+<span class="hljs-number">-2147483648</span>
+<span class="hljs-number">-2147483647</span>
+<span class="hljs-number">-2147483648</span>
+<span class="hljs-number">-2147483648</span>
+<span class="hljs-number">-2147483648</span>
+<span class="hljs-literal">true</span>
+<span class="hljs-number">1</span>
+<span class="hljs-number">1073741824</span>
+
+Process finished <span class="hljs-keyword">with</span> exit code <span class="hljs-number">0</span>
+<span class="hljs-comment">//</span></code></pre></div>
+<h4 id="浮点数的底层表示方法"><a href="#浮点数的底层表示方法" class="headerlink" title="浮点数的底层表示方法"></a>浮点数的底层表示方法</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wupeiqi/p/13041139.html">6张图搞懂float浮点型底层存储原理 - 武沛齐 - 博客园</a><br> <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45944581/article/details/109896244">汇编语言——ZF、PF、SF、CF、OF寄存器_zf汇编_六神max的博客-CSDN博客</a><br>movsbl<br>movsbl是x86汇编语言中的一条指令，用于将一个带符号字节（8位）从内存中加载到寄存器中，并将其扩展为一个带符号双字（32位）。具体来说，movsbl指令将指定内存地址处的第一个字节加载到目标寄存器中，并将其符号扩展为32位。<br>movsbl指令的语法如下：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs bash">movsbl <span class="hljs-built_in">source</span>, destination</code></pre></div>
+
+<p>其中，source可以是内存地址或寄存器，表示要加载的源操作数；destination是目标寄存器，表示加载后的结果。<br>例如，下面的代码将一个带符号字节从地址为0x100的内存单元加载到eax寄存器中，并将其符号扩展为32位：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs gcode">mo<span class="hljs-attr">vsbl 0</span>x<span class="hljs-number">100</span>, <span class="hljs-meta">%</span>eax</code></pre></div>
+
+<p>如果内存地址0x100处的字节是0x8F，则eax寄存器的值将是0xFFFFFFF0。<br>movsbl指令通常用于将带符号字节转换为带符号双字，以便在计算中进行符号扩展和符号运算。<br>movzwl<br>movzwl是x86汇编语言中的一条指令，用于将一个无符号字（16位）从内存中加载到寄存器中，并将其扩展为一个无符号双字（32位）。具体来说，movzwl指令将指定内存地址处的两个字节（一个字）加载到目标寄存器中，并将其零扩展为32位。<br>movzwl指令的语法如下：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs bash">movzwl <span class="hljs-built_in">source</span>, destination</code></pre></div>
+
+<p>其中，source可以是内存地址或寄存器，表示要加载的源操作数；destination是目标寄存器，表示加载后的结果。<br>例如，下面的代码将一个无符号字从地址为0x100的内存单元加载到eax寄存器中，并将其零扩展为32位：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">movzwl</span> <span class="hljs-number">0</span>x100, %eax</code></pre></div>
+
+<p>如果内存地址0x100处的字是0x8F20，则eax寄存器的值将是0x00008F20。<br>movzwl指令通常用于将无符号字转换为无符号双字，以便在计算中进行零扩展和无符号运算。<br>AT&amp;T<br>AT&amp;T是一种常用的汇编语言语法，也称为AT&amp;T汇编语法，因其最初由AT&amp;T Unix系统使用而得名。与之相对的是Intel汇编语法，也称为“x86汇编语法”。<br>AT&amp;T汇编语法和Intel汇编语法在语法结构、寄存器命名、指令格式和操作数顺序等方面存在差异。在AT&amp;T汇编语法中，操作数的顺序是源操作数在前，目标操作数在后，以逗号分隔。例如，将一个字节从al寄存器移动到bl寄存器，使用的指令是：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs cos">movb <span class="hljs-built_in">%al</span>, <span class="hljs-built_in">%bl</span></code></pre></div>
+
+<p>在Intel汇编语法中，操作数的顺序是目标操作数在前，源操作数在后，也用逗号分隔。因此，使用Intel汇编语法执行相同的操作需要使用不同的语法：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs x86asm"><span class="hljs-keyword">mov</span> <span class="hljs-built_in">bl</span>, <span class="hljs-built_in">al</span></code></pre></div>
+
+<p>AT&amp;T汇编语法还使用一些特殊的前缀和后缀来表示操作数的大小、类型和地址模式等信息。例如，“b”表示一个字节操作数，“w”表示一个字操作数，“l”表示一个双字操作数，而“(%eax)”表示以eax寄存器中的地址为基址的间接寻址。<br>尽管AT&amp;T汇编语法与Intel汇编语法存在差异，但它们都是x86汇编语言的变体，都可以用于编写和调试x86汇编代码。<br>AT&amp;T中的％ax和(%edx)的区别<br>AT&amp;T中的％ax和(%edx)的区别<br>在AT&amp;T汇编语法中，”%ax”和”(%edx)”分别表示寄存器ax和以edx寄存器中的值为基址的间接寻址。具体来说，它们的区别如下：</p>
+<ol>
+<li>“%ax”表示寄存器ax，它是x86架构中的通用寄存器，用于存储16位数据。在AT&amp;T汇编语法中，寄存器名称前面加上”%”符号表示该寄存器的值。</li>
+<li>“(%edx)”表示以edx寄存器中的值为基址的间接寻址。在AT&amp;T汇编语法中，内存地址的表示方法为：偏移量（可选）+ 圆括号 + 基址寄存器。圆括号是必需的，用于区分内存地址和寄存器名称。在这个例子中，”(%edx)”表示以edx寄存器中的值作为基址，没有偏移量，进行间接寻址。</li>
+</ol>
+<p>因此，”%ax”和”(%edx)”表示的是不同的东西。”%ax”是寄存器ax的值，而”(%edx)”是以edx寄存器中的值为基址的间接寻址所得到的内存地址中的值。<br>例如，下面的代码将寄存器ax的值加上内存地址为edx+8处的字，并将结果存储回ax寄存器中：<br>Copy<br>在这个例子中，”(%edx,8)”表示以edx寄存器中的值加上8作为基址，进行间接寻址。然后，程序将该内存地址中的值与寄存器ax中的值相加，并将结果存储回ax寄存器中。</p>
+<div class="code-wrapper"><pre><code class="hljs cos">addw (<span class="hljs-built_in">%edx</span>,<span class="hljs-number">8</span>), <span class="hljs-built_in">%ax</span></code></pre></div>
+
+<p>x86汇编语法<br>x86汇编语法是一种汇编语言语法，用于编写x86架构的汇编代码。x86汇编语法基于指令集架构的不同，可以分为Intel汇编语法和AT&amp;T汇编语法两种。<br>Intel汇编语法在语法结构、寄存器命名、指令格式和操作数顺序等方面与AT&amp;T汇编语法存在差异。在Intel汇编语法中，目标操作数通常在前面，源操作数在后面，使用逗号分隔。例如，将一个字节从al寄存器移动到bl寄存器，使用的指令是：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs x86asm"><span class="hljs-keyword">mov</span> <span class="hljs-built_in">bl</span>, <span class="hljs-built_in">al</span></code></pre></div>
+
+<p>在AT&amp;T汇编语法中，操作数的顺序是源操作数在前，目标操作数在后，以逗号分隔。因此，使用AT&amp;T汇编语法执行相同的操作需要使用不同的语法：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs cos">movb <span class="hljs-built_in">%al</span>, <span class="hljs-built_in">%bl</span></code></pre></div>
+
+<p>x86汇编语法中还包括许多指令、寄存器、内存寻址模式以及标志寄存器等。指令用于执行特定的操作，例如数据传输、算术运算、逻辑运算和控制转移等。常用的寄存器包括通用寄存器、段寄存器和控制寄存器等，用于存储数据、地址和控制信息等。内存寻址模式用于访问内存中的数据，例如直接寻址、寄存器间接寻址和基址加变址寻址等。<br>x86汇编语法是一种强大的工具，用于编写高效、可靠的汇编代码。它可以与高级语言和操作系统API一起使用，用于编写底层的系统软件、驱动程序和嵌入式系统等。<br>pushl<br>pushl是x86汇编语言中的一条指令，用于将一个双字（32位）的值压入堆栈中。具体来说，pushl指令将指定的源操作数压入堆栈中，并将栈指针减4。堆栈是一种后进先出（LIFO）的数据结构，用于存储程序调用的返回地址、局部变量、函数参数和其他数据等。<br>pushl指令的语法如下：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs bash">pushl <span class="hljs-built_in">source</span></code></pre></div>
+
+<p>其中，source可以是寄存器、内存地址或立即数，表示要压入堆栈的源操作数。<br>例如，下面的代码将32位立即数0x12345678压入堆栈中：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">pushl</span> <span class="hljs-variable">$0</span>x12345678</code></pre></div>
+
+<p>如果堆栈指针寄存器（%esp）的值为0x1000，则执行这条指令后，堆栈指针将减4，变为0xFFC，并将0x12345678写入内存地址0xFFC处。<br>pushl指令通常用于将函数参数压入堆栈中，以便在函数中使用。在函数调用过程中，参数通常按照从右到左的顺序依次压入堆栈中。例如，下面的代码将两个参数压入堆栈中，并调用函数foo：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs autoit">pushl $2
+pushl $1
+<span class="hljs-built_in">call</span> foo</code></pre></div>
+
+<p>在这个例子中，首先将值2压入堆栈中，然后将值1压入堆栈中。最后，使用call指令调用函数foo。在函数foo中，可以使用指令”movl (%esp), %eax”将第一个参数（值1）从堆栈中弹出，并将其存储到eax寄存器中；然后再使用指令”addl 4(%esp), %eax”将第二个参数（值2）从堆栈中弹出，并将其加到eax寄存器中。<br>什么是立即数<br>立即数是汇编语言中的一种数据类型，表示一个常数或字面值。它是在汇编代码中直接使用的值，而不是从内存或寄存器中加载的值。立即数通常用于执行算术运算、逻辑运算、数据传输和控制转移等操作，可以用于表示地址、常量、计数器和偏移量等。<br>ip寄存器的值<br>IP寄存器（Instruction Pointer Register）是x86架构中的一个寄存器，用于存储下一条要执行的指令的地址。在实模式下，IP寄存器存储的是16位的地址（偏移量），在保护模式下，IP寄存器存储的是32位的地址（线性地址）。IP寄存器通常与CS寄存器（Code Segment Register）一起使用，以确定下一条指令的地址。<br>在执行指令时，CPU会从当前代码段中读取下一条指令的地址，该地址存储在CS寄存器中。然后，CPU将该地址与IP寄存器中存储的偏移量相加，以确定下一条指令的实际地址。CPU执行该指令后，IP寄存器的值将自动增加，以指向下一条指令的地址。<br>例如，下面的代码使用了jmp指令，将程序的控制权转移到一个标记为”loop”的位置：<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs ada"><span class="hljs-keyword">loop</span>:
+  ; 代码段中的其他指令
+  jmp <span class="hljs-keyword">loop</span></code></pre></div>
+
+<p>在这个例子中，jmp指令将IP寄存器的值设置为标记”loop”的地址，从而使程序转移到该位置。当执行到jmp指令时，CPU会从CS寄存器中读取代码段的起始地址，然后将偏移量设置为标记”loop”的地址。CPU执行jmp指令后，程序控制权转移到标记”loop”处。<br>需要注意的是，IP寄存器通常是由CPU自动管理的，程序无法直接修改其值。只有在特殊情况下，如中断处理程序或操作系统内核中，才需要手动修改IP寄存器的值。<br>pc和Ip寄存器的联系<br>PC（Program Counter，程序计数器）和IP（Instruction Pointer，指令指针）寄存器都是用于存储下一条指令地址的寄存器，它们之间有一定的联系。<br>PC寄存器是存储CPU当前正在执行的指令的地址的寄存器。在许多CPU架构中，PC寄存器也称为指令地址寄存器（IAR）。当CPU执行一条指令时，它会将当前指令的地址存储在PC寄存器中。然后CPU执行该指令，将PC寄存器的值自动加上当前指令的长度，以计算下一条指令的地址。<br>IP寄存器是指令指针寄存器，用于存储下一条要执行的指令的地址。在x86架构中，IP寄存器存储的是下一条指令的偏移量。CPU在执行指令时，从当前代码段中读取下一条指令的地址，将其与IP寄存器中的偏移量相加，以确定下一条指令的实际地址。CPU执行该指令后，IP寄存器的值将自动增加，以指向下一条指令的地址。<br>因此，PC寄存器和IP寄存器都用于存储下一条指令的地址，但它们在不同的CPU架构中有不同的实现方式和命名。在x86架构中，CPU使用CS寄存器来存储当前代码段的起始地址，将IP寄存器中的偏移量与CS寄存器中的值相加，以计算下一条指令的实际地址。在其他CPU架构中，可能会使用不同的寄存器来存储代码段的地址和下一条指令的地</p>
+<ul>
+<li>变形补码</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sun_boy_boy_sun/article/details/87917020">模4补码（也称为变形补码）详解_变形补码怎么计算_sun_boy_boy_sun的博客-CSDN博客</a></p>
+<ul>
+<li>ieee754</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_47713503/article/details/108699001">IEEE754 浮点数：简读+案例&#x3D;秒懂_ieee754浮点数的计算_theRealUnow的博客-CSDN博客</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51760209/article/details/124071247">二进制乘法运算_君知燕云归的博客-CSDN博客</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011240016/article/details/53010061">移码的再总结_11位移码最大是多少_DrCrypto的博客-CSDN博客</a></p>
+<h4 id="endbr32"><a href="#endbr32" class="headerlink" title="endbr32 :"></a>endbr32 :</h4><p> 给技术要求相对跳转的目标地址一定是一条 endbr32 或 endbr64 指令，否则就会异常。该指令并不执行任何操作，只是用于验证目标地址是期望的跳转目标。  </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计算机基础解惑</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/解惑：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B9%A0%E9%A2%98%E5%9F%BA%E7%A1%80%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E6%80%BB%E7%BB%93/" title="计算机基础课后习题总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机基础课后习题总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" title="软件工程课堂学习记录">
+                        <span class="hidden-mobile">软件工程课堂学习记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,958 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="传送指令：相关知识点： 测试程序： 编译运行： 调试：部分反汇编内容：  lea和mov指令的区别：ix,iz，iy是int,usx是unsigned short,uiy,uiz是unsigned int,sx是short, 加减运算指令：相关知识点： 整数乘法指令：相关知识点：可以看出在乘法指令中编译器会采用不同的指令实现。imul和mul指令只有1个操作数的时候，隐含操作数存在eax中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机基础实验四：程序控制结构">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C%E5%9B%9B%EF%BC%9A%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="传送指令：相关知识点： 测试程序： 编译运行： 调试：部分反汇编内容：  lea和mov指令的区别：ix,iz，iy是int,usx是unsigned short,uiy,uiz是unsigned int,sx是short, 加减运算指令：相关知识点： 整数乘法指令：相关知识点：可以看出在乘法指令中编译器会采用不同的指令实现。imul和mul指令只有1个操作数的时候，隐含操作数存在eax中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826276173-aad12eb3-4860-4229-8606-c03ded8836ae.png#averageHue=%23c9d0d7&clientId=u8a9bb9ac-3800-4&from=paste&height=135&id=u54e3c267&originHeight=169&originWidth=517&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91854&status=done&style=none&taskId=u9af0963d-4077-473e-8a19-dab1eeaf944&title=&width=413.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826291952-77fe05d1-f7e4-4ac1-84ee-256ca9e9c575.png#averageHue=%23d9e2e9&clientId=u8a9bb9ac-3800-4&from=paste&height=274&id=u78f5e13b&originHeight=343&originWidth=857&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=262976&status=done&style=none&taskId=u334321c4-0213-43c9-abb2-187da38d562&title=&width=685.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826350626-f01f2f26-3420-4e95-ad3b-e3c48d413e6e.png#averageHue=%23d6dfe7&clientId=u8a9bb9ac-3800-4&from=paste&height=275&id=ufa008afc&originHeight=344&originWidth=869&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=333642&status=done&style=none&taskId=u3258ac85-23fc-4328-8252-e651b97143a&title=&width=695.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826379968-0d65f310-dc6d-4764-89f5-491986655d74.png#averageHue=%23d5dde5&clientId=u8a9bb9ac-3800-4&from=paste&height=310&id=u90b3563d&originHeight=388&originWidth=889&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=385485&status=done&style=none&taskId=ua1456478-84a4-430c-b4ad-e8e3b27ca9f&title=&width=711.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826417261-62ec62ab-a503-45c9-9f78-4d8cbcdf6180.png#averageHue=%23d3dbe4&clientId=u8a9bb9ac-3800-4&from=paste&height=346&id=uef225de2&originHeight=433&originWidth=979&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=454121&status=done&style=none&taskId=u2dddcd76-8e3c-40bd-9c01-127bb97658a&title=&width=783.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826437698-34b29510-97e9-4ade-93d4-06e718fe0d07.png#averageHue=%23d1dbe3&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=ub57d0227&originHeight=54&originWidth=796&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51475&status=done&style=none&taskId=uaed29bce-fb99-42fc-9f5b-021dd0264ef&title=&width=636.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826534194-ae76534f-c565-4296-8d49-e00ba610c80f.png#averageHue=%23d9a6ab&clientId=u8a9bb9ac-3800-4&from=paste&height=24&id=u8b0442d7&originHeight=30&originWidth=368&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=15884&status=done&style=none&taskId=u01d3feca-9043-4a90-a76e-c3d8fb44f8c&title=&width=294.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826540346-c1651286-afe8-41b8-b749-402a06a2beeb.png#averageHue=%23d2d9df&clientId=u8a9bb9ac-3800-4&from=paste&height=90&id=udcfb0f32&originHeight=112&originWidth=524&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91999&status=done&style=none&taskId=u5e2ed4b5-04eb-402d-a371-6d25986c832&title=&width=419.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826600704-2a904e13-059b-4a74-b25d-730f4e0ae5b6.png#averageHue=%23d8a6aa&clientId=u8a9bb9ac-3800-4&from=paste&height=23&id=u09bfab47&originHeight=29&originWidth=368&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17127&status=done&style=none&taskId=u87433f39-93d4-4171-9f28-1bdea83a180&title=&width=294.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826608206-59c89116-5af8-4d5e-9c15-795ac8708aa5.png#averageHue=%23cfd6dc&clientId=u8a9bb9ac-3800-4&from=paste&height=83&id=u23a00faa&originHeight=104&originWidth=521&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77419&status=done&style=none&taskId=ua4dedd40-ac9d-4ca4-971f-a409a3a7e3f&title=&width=416.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826624139-b30654a2-09d6-4872-b945-a53499ae5846.png#averageHue=%23d1d8df&clientId=u8a9bb9ac-3800-4&from=paste&height=87&id=ud0d0c460&originHeight=109&originWidth=518&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70255&status=done&style=none&taskId=uea51ba98-4561-4cea-9944-cebb3f80e97&title=&width=414.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827527181-811b4119-a733-428f-830e-53475bd9ccde.png#averageHue=%23fefefc&clientId=u8a9bb9ac-3800-4&from=paste&height=61&id=u9470d0c6&originHeight=76&originWidth=435&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38535&status=done&style=none&taskId=u0d6001a2-27e9-4cfd-9129-59e5368a704&title=&width=348">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827248759-45f3b7aa-006e-46dc-82df-a1f92b4b05b5.png#averageHue=%23362c5e&clientId=u8a9bb9ac-3800-4&from=paste&height=498&id=u983bf029&originHeight=623&originWidth=733&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=512588&status=done&style=none&taskId=ua80275c1-24fd-43cb-ba7f-d65abb5bcee&title=&width=586.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827863575-99efcf6d-359f-4e97-b967-8836128ca7c1.png#averageHue=%231f3d7f&clientId=u8a9bb9ac-3800-4&from=paste&height=209&id=u0578ea13&originHeight=261&originWidth=880&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=308500&status=done&style=none&taskId=u9ddca03b-a90c-4fbf-be7a-bc68b07afe8&title=&width=704">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827974564-a9011f48-959a-4076-8874-79d2cf84aaf3.png#averageHue=%23fbf9f8&clientId=u8a9bb9ac-3800-4&from=paste&height=519&id=ua3729a2f&originHeight=649&originWidth=909&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=138477&status=done&style=none&taskId=u1aab8d35-469b-4a2e-98f2-52c19856997&title=&width=727.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829093506-fa101fca-b598-4399-a40e-31c228ac5f64.png#averageHue=%23254486&clientId=u8a9bb9ac-3800-4&from=paste&height=331&id=u90be6474&originHeight=414&originWidth=845&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=458992&status=done&style=none&taskId=uf5a5189d-320e-4435-bd27-d74681c1542&title=&width=676">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829138779-62d80bb2-b89a-452e-a84e-4987828f4cd8.png#averageHue=%23dad552&clientId=u8a9bb9ac-3800-4&from=paste&height=164&id=ue47a4af3&originHeight=205&originWidth=863&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=191000&status=done&style=none&taskId=u0226e5c3-2b44-4124-9f2e-928adfc9389&title=&width=690.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829234184-6a786cad-5f08-4eb0-9b3a-823639454153.png#averageHue=%23dbdbda&clientId=u8a9bb9ac-3800-4&from=paste&height=133&id=ue0ee77df&originHeight=166&originWidth=614&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=83786&status=done&style=none&taskId=u22a4c3cc-637e-4b5f-b943-d7ea3f049a0&title=&width=491.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829254180-a979294e-00ce-4531-ac2a-12126b8d3e53.png#averageHue=%23e3e3e2&clientId=u8a9bb9ac-3800-4&from=paste&height=236&id=u34734692&originHeight=295&originWidth=415&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=72445&status=done&style=none&taskId=u787ef7b0-33dc-4b67-8cde-cd515b85ffc&title=&width=332">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829267635-678e3b2e-fc3f-4ee2-8cf8-547c908e9797.png#averageHue=%23e1e3e1&clientId=u8a9bb9ac-3800-4&from=paste&height=284&id=u36731d21&originHeight=355&originWidth=307&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=72709&status=done&style=none&taskId=u4425736f-7068-4fd5-aa62-192b5e9777a&title=&width=245.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829407947-ad20b247-d0eb-4ff1-a820-8c3849897016.png#averageHue=%23e5e5e4&clientId=u8a9bb9ac-3800-4&from=paste&height=160&id=u70e510ec&originHeight=200&originWidth=530&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91418&status=done&style=none&taskId=u86943098-6a99-432d-824f-3589d1ce28a&title=&width=424">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829635832-e057f350-27da-4b88-afab-41ed0e5d5bf9.png#averageHue=%23ceccc8&clientId=u8a9bb9ac-3800-4&from=paste&height=343&id=uf1c96c72&originHeight=429&originWidth=662&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=272923&status=done&style=none&taskId=ua1748053-dc76-47c5-ac6a-2845cdb2c0c&title=&width=529.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830250781-43fc3eaf-df02-4cc3-bac4-b1a0cfca65b0.png#averageHue=%23d6d6d5&clientId=u8a9bb9ac-3800-4&from=paste&height=229&id=u28b5b342&originHeight=286&originWidth=588&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=147955&status=done&style=none&taskId=uef4e1e80-2ff8-45c5-a02b-4aed8b0014c&title=&width=470.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830414669-cb387aa7-ed9b-4b9b-a358-6a23d32735d9.png#averageHue=%23c6c6c5&clientId=u8a9bb9ac-3800-4&from=paste&height=106&id=u0a197988&originHeight=133&originWidth=508&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51500&status=done&style=none&taskId=u3d585fa8-02af-4dc2-983d-4fea5649ae7&title=&width=406.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830452294-7a55bb02-361a-45db-8382-c797e18ae563.png#averageHue=%23d2d9e0&clientId=u8a9bb9ac-3800-4&from=paste&height=271&id=ucea9d949&originHeight=339&originWidth=893&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=357178&status=done&style=none&taskId=u57d26b4e-3d53-484e-b5ea-9ad8c25215c&title=&width=714.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830476547-7564aa4f-abc5-425e-a4d6-b94c08429e17.png#averageHue=%23c8d1d8&clientId=u8a9bb9ac-3800-4&from=paste&height=86&id=u0a08eeef&originHeight=108&originWidth=927&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=136049&status=done&style=none&taskId=u47ee043a-2099-4ae3-9da7-95ccb10b853&title=&width=741.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830596768-5cba51b7-6dd7-4308-ac32-7081766df3b1.png#averageHue=%23a0b3ca&clientId=u8a9bb9ac-3800-4&from=paste&height=174&id=uda0a9206&originHeight=218&originWidth=512&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=92073&status=done&style=none&taskId=udaa9664c-c9e4-4ea9-b1e1-84b7d85ec6d&title=&width=409.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830620124-316527ff-71df-4f07-a6fe-80bb6367e77d.png#averageHue=%23a0b3cb&clientId=u8a9bb9ac-3800-4&from=paste&height=210&id=u546cc873&originHeight=263&originWidth=494&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=148430&status=done&style=none&taskId=u2b537fef-fbca-4558-8c30-59a6159a327&title=&width=395.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830652011-138ccc68-5299-43ce-8b4f-d2b2d41d8833.png#averageHue=%23d3dce4&clientId=u8a9bb9ac-3800-4&from=paste&height=332&id=u9f5a6fed&originHeight=415&originWidth=1015&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=482812&status=done&style=none&taskId=u77450e82-005a-480e-821b-1a3cac97da1&title=&width=812">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830702136-66794b5e-9ac8-40ae-97ea-874519f11daf.png#averageHue=%23d3dae0&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=u985b1338&originHeight=54&originWidth=266&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=22148&status=done&style=none&taskId=u338b86b3-3003-4c53-bfb8-68a80a541ca&title=&width=212.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830845431-d7423158-4a84-46c9-a6e9-66ba7c625e5d.png#averageHue=%2398b0ca&clientId=u8a9bb9ac-3800-4&from=paste&height=82&id=u522ede4c&originHeight=102&originWidth=566&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=80276&status=done&style=none&taskId=u80744678-dcc2-4848-9b91-2706a8270a3&title=&width=452.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830896735-b05849c5-1277-420d-82b1-e5a3db370c34.png#averageHue=%23e1d9c7&clientId=u8a9bb9ac-3800-4&from=paste&height=116&id=uaa83f533&originHeight=145&originWidth=576&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=78656&status=done&style=none&taskId=u8ae5cf4e-7226-4d39-88f9-1c2cf5ae4a2&title=&width=460.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830978727-cb545a0f-9da9-4048-b51d-6827bfc75551.png#averageHue=%23d7d7d7&clientId=u8a9bb9ac-3800-4&from=paste&height=158&id=u13e3146d&originHeight=198&originWidth=503&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77175&status=done&style=none&taskId=u274e9cec-f7ec-48eb-8bc3-fc1b0c2f06d&title=&width=402.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830939218-e69c1205-0b6c-4e9e-b45b-b519c3fe2e38.png#averageHue=%23d9d7d7&clientId=u8a9bb9ac-3800-4&from=paste&height=134&id=u724d821e&originHeight=168&originWidth=532&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=81273&status=done&style=none&taskId=uc388c504-e3c2-428d-b4c9-724c128d7b5&title=&width=425.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831121701-438925fe-0cc7-492f-b4c7-9c9e0efce3a7.png#averageHue=%239eb4cc&clientId=u8a9bb9ac-3800-4&from=paste&height=48&id=u8ae4c507&originHeight=60&originWidth=419&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48883&status=done&style=none&taskId=u00812d2c-2150-4dab-98c8-7189f5f76b4&title=&width=335.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831525388-c601942b-9cf5-42ee-8c9b-45db3fd32b92.png#averageHue=%23cbd3da&clientId=u8a9bb9ac-3800-4&from=paste&height=71&id=u91e34492&originHeight=89&originWidth=734&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=73875&status=done&style=none&taskId=ub5b0c8dd-93b8-40bd-997a-328c03c2d67&title=&width=587.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831530757-03000676-5171-4486-a43d-ee21025642cd.png#averageHue=%23dae2e8&clientId=u8a9bb9ac-3800-4&from=paste&height=106&id=u15eedddf&originHeight=132&originWidth=1028&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=168671&status=done&style=none&taskId=u590255fb-42ab-4396-ae6c-93734c84aed&title=&width=822.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831579988-ed340859-8671-4649-bfb6-5a177e55841d.png#averageHue=%23d1d8de&clientId=u8a9bb9ac-3800-4&from=paste&height=45&id=u85960dd7&originHeight=56&originWidth=1010&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=74885&status=done&style=none&taskId=udb159fd8-e0e5-4b14-ab0b-3e381f50cb4&title=&width=808">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831600764-2659fe5c-4d1e-4758-ac97-4f927bd05e48.png#averageHue=%23dee6ef&clientId=u8a9bb9ac-3800-4&from=paste&height=45&id=u7aacb8e1&originHeight=56&originWidth=971&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91806&status=done&style=none&taskId=u84833bbd-56c2-4e6a-84cf-4b5ab148a4b&title=&width=776.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831690409-ec1b3879-4e53-4bd5-984a-160282d8a50b.png#averageHue=%23cbd3db&clientId=u8a9bb9ac-3800-4&from=paste&height=76&id=ue4a605d6&originHeight=95&originWidth=583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=63940&status=done&style=none&taskId=uffff2508-7d50-40a8-8df0-55bb0f8e42f&title=&width=466.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831696917-1b56eb6f-8044-495b-8cd1-7df097a3fb76.png#averageHue=%23cdd4da&clientId=u8a9bb9ac-3800-4&from=paste&height=85&id=uff9d58c6&originHeight=106&originWidth=1045&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=155961&status=done&style=none&taskId=ub1f1d91a-6a22-4bb7-a334-8a73184af02&title=&width=836">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831748288-fa1a0bc2-3c01-46d9-9a49-9c1796645882.png#averageHue=%23e1e9f1&clientId=u8a9bb9ac-3800-4&from=paste&height=52&id=udc6783b2&originHeight=65&originWidth=560&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51668&status=done&style=none&taskId=uc306dca0-cb1c-41bc-a104-43920bfdf3b&title=&width=448">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831896705-7755ab1c-df9a-448b-a1af-b532f64a5766.png#averageHue=%23a5b6cc&clientId=u8a9bb9ac-3800-4&from=paste&height=98&id=uda8d8273&originHeight=123&originWidth=445&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67150&status=done&style=none&taskId=ub9ed2a6f-b197-490c-b0db-2220d58bb54&title=&width=356">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831915331-7ea4a1ba-6c9b-4ded-a634-7f3c88fe9ccf.png#averageHue=%239fb2ca&clientId=u8a9bb9ac-3800-4&from=paste&height=66&id=u3976babd&originHeight=83&originWidth=442&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=35489&status=done&style=none&taskId=u3651bf76-22dd-4364-929e-20d6e792d27&title=&width=353.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831959104-79060feb-9cd8-4e96-9bc4-9feb9aa90d55.png#averageHue=%23d3dae0&clientId=u8a9bb9ac-3800-4&from=paste&height=267&id=ud01d08b1&originHeight=334&originWidth=812&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=341861&status=done&style=none&taskId=uc108f384-6b01-432c-9edf-03bb8444eea&title=&width=649.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686832001836-a3cfb4be-08d9-4080-86cf-98b71b61821c.png#averageHue=%23d4dce2&clientId=u8a9bb9ac-3800-4&from=paste&height=288&id=ub2308d35&originHeight=360&originWidth=776&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=307073&status=done&style=none&taskId=u45fcaef7-9a36-42a8-be34-695635b31aa&title=&width=620.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686832038114-8fc61cef-ca15-4339-a618-250ddab6f989.png#averageHue=%23e0e7ee&clientId=u8a9bb9ac-3800-4&from=paste&height=146&id=u7c5d7601&originHeight=183&originWidth=894&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=189003&status=done&style=none&taskId=u1268c12b-d35c-4468-8fc6-a884018808d&title=&width=715.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833459024-9060685b-3e93-41f2-b72d-dfca23eaeb3e.png#averageHue=%231c3977&clientId=u8a9bb9ac-3800-4&from=paste&height=102&id=u50f3eda8&originHeight=127&originWidth=538&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=104013&status=done&style=none&taskId=u1baf8574-ab4a-4a42-aa1f-5438b52ddf7&title=&width=430.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833809064-f4646e7a-8d6c-4f5c-bda7-e23dacff6111.png#averageHue=%231f3170&clientId=u8a9bb9ac-3800-4&from=paste&height=36&id=ud0ecc51e&originHeight=45&originWidth=663&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48689&status=done&style=none&taskId=u5dc5e0e5-3a49-4e46-8689-c87eca5a2e0&title=&width=530.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833826322-c85a4891-829d-4ead-a20f-c1d4a4bf9f41.png#averageHue=%23ebc8c8&clientId=u8a9bb9ac-3800-4&from=paste&height=58&id=u28036f61&originHeight=72&originWidth=392&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=35753&status=done&style=none&taskId=uaa3ff4b7-4c5e-493e-94e0-a4d56b52457&title=&width=313.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833839106-44f603fd-b652-498a-b14a-82f9b000fdf0.png#averageHue=%23f8e0df&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=ucd485cc0&originHeight=54&originWidth=411&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=32022&status=done&style=none&taskId=u1ecbc741-1bf6-47c3-a593-01ee8e6a4f0&title=&width=328.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833881225-08c3ecf6-9c9d-4bd6-be5a-5780b4af8db7.png#averageHue=%23f5f3f2&clientId=u8a9bb9ac-3800-4&from=paste&height=27&id=uef6ac566&originHeight=34&originWidth=399&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=22503&status=done&style=none&taskId=ufba37afa-702f-47c2-9b24-dcf86d296f2&title=&width=319.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833774171-d72da01d-132d-425d-a2a3-225873654aba.png#averageHue=%23fbfaf8&clientId=u8a9bb9ac-3800-4&from=paste&height=467&id=u3a091a8d&originHeight=584&originWidth=785&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=97178&status=done&style=none&taskId=u1e28feba-d33c-4a4d-be38-0ad4accf22f&title=&width=628">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833783650-e079073a-05f6-40fd-9fca-45905c659fdd.png#averageHue=%23fbf9f7&clientId=u8a9bb9ac-3800-4&from=paste&height=540&id=u6cec5164&originHeight=675&originWidth=848&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=137452&status=done&style=none&taskId=u76a0ffab-994a-4beb-b03a-e8244b51960&title=&width=678.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834150151-16b2aad8-a484-4f10-9c99-a2c3e1343cb3.png#averageHue=%231d3777&clientId=u8a9bb9ac-3800-4&from=paste&height=99&id=uec575f42&originHeight=124&originWidth=629&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=101094&status=done&style=none&taskId=ube940f45-b606-4b3f-b2e8-cbc1a6b0019&title=&width=503.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834263249-362d4d85-b94a-4067-8fab-e403ce9e2d11.png#averageHue=%23264181&clientId=u8a9bb9ac-3800-4&from=paste&height=449&id=u5533ef00&originHeight=561&originWidth=843&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=640450&status=done&style=none&taskId=ubd7183ac-9235-4880-ae6c-1653bfdec51&title=&width=674.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834328114-42de206c-e80e-4c26-bca6-7b3e172f51ee.png#averageHue=%2371a1dd&clientId=u8a9bb9ac-3800-4&from=paste&height=65&id=ub3331ee2&originHeight=81&originWidth=341&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20540&status=done&style=none&taskId=u9f562f20-cdb5-442a-b85a-5d23be961b0&title=&width=272.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834336496-fba10f33-36fa-44b4-a863-5e38615c8645.png#averageHue=%2372930a&clientId=u8a9bb9ac-3800-4&from=paste&height=54&id=u68f39ffb&originHeight=67&originWidth=316&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17491&status=done&style=none&taskId=ucc062d53-37ce-40fe-88d6-7826cc6af8b&title=&width=252.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834441129-5bed9a66-53e0-4b04-9062-91609228550a.png#averageHue=%23ccbead&clientId=u8a9bb9ac-3800-4&from=paste&height=13&id=uf1ac24f1&originHeight=16&originWidth=551&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=10088&status=done&style=none&taskId=u27e5c481-9239-4700-af21-aa6022aea1d&title=&width=440.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834529713-25dbb788-e6eb-4df1-a908-ab4b9451b087.png#averageHue=%236593cd&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=ud5fdb133&originHeight=54&originWidth=438&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29361&status=done&style=none&taskId=uc00926b3-5e7e-42bf-a433-c051a6f56cb&title=&width=350.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834898082-0e80d748-0bd2-44dd-be82-a08f3c0e6186.png#averageHue=%23f9f7f4&clientId=u8a9bb9ac-3800-4&from=paste&height=54&id=u43a0f763&originHeight=67&originWidth=578&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=11612&status=done&style=none&taskId=uffc43356-d943-4522-8fd2-5082139e32b&title=&width=462.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835293145-7e636992-78f3-4a0f-92ae-bfbdf11e25d1.png#averageHue=%231e498c&clientId=u8a9bb9ac-3800-4&from=paste&height=200&id=u5bb20277&originHeight=250&originWidth=623&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209179&status=done&style=none&taskId=ud2fdf56a-40f0-405e-a62c-48192487cdb&title=&width=498.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835299865-61b03166-38d7-4c51-a164-4b3c26b1c404.png#averageHue=%2372a0da&clientId=u8a9bb9ac-3800-4&from=paste&height=56&id=u541a4b6e&originHeight=70&originWidth=497&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=31950&status=done&style=none&taskId=u2b8bc97d-8a67-4cbe-8d70-f36f2c542c4&title=&width=397.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835324728-92a2fc53-dcbb-408a-9a00-f721cb7c9af7.png#averageHue=%236796d0&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=u7e70226a&originHeight=54&originWidth=492&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=30894&status=done&style=none&taskId=u95a1d511-f053-47b3-870a-4f8031d39c1&title=&width=393.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835658113-75e55c6a-87dc-4373-832f-3ad7d5cf8889.png#averageHue=%23f9f6f4&clientId=u8a9bb9ac-3800-4&from=paste&height=82&id=u3eee58e0&originHeight=102&originWidth=625&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20812&status=done&style=none&taskId=uad35ae84-2a4b-4226-b6df-45f627f65d9&title=&width=500">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835679963-e6537480-821a-4fa6-954d-ed6c05a34e96.png#averageHue=%236d9edb&clientId=u8a9bb9ac-3800-4&from=paste&height=47&id=u5e3c1df0&originHeight=59&originWidth=497&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=27597&status=done&style=none&taskId=u68e0fd87-f4eb-4936-bee5-f9f02b4db71&title=&width=397.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835778262-b0c346fb-3ff9-4472-b95a-54aa68a4e03a.png#averageHue=%23254e91&clientId=u8a9bb9ac-3800-4&from=paste&height=307&id=u5cea467c&originHeight=384&originWidth=630&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=322694&status=done&style=none&taskId=ub0a31d26-af94-4dc2-8064-3d286dc0ab7&title=&width=504">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836107312-d81c00a6-b45f-482e-98f0-d7c4ff0b3297.png#averageHue=%231d3576&clientId=u21d6e0b7-1802-4&from=paste&height=78&id=ud58e25bf&originHeight=98&originWidth=570&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70929&status=done&style=none&taskId=uc627db1a-4282-46dc-8cdd-13f106e4a01&title=&width=456">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835881902-7f7b1633-0e5c-46df-acab-adf00e3c5899.png#averageHue=%236390c8&clientId=u21d6e0b7-1802-4&from=paste&height=66&id=u4c90acca&originHeight=83&originWidth=503&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=59558&status=done&style=none&taskId=u671148c4-714e-4949-b5f6-37586cb5d8f&title=&width=402.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836250307-e93ea7d5-041d-46f2-be94-fab3f4924a22.png#averageHue=%23cecece&clientId=u36a04572-862d-4&from=paste&height=75&id=u8bea86f0&originHeight=94&originWidth=539&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48634&status=done&style=none&taskId=ufcb3a2a7-0e30-4e92-ae2c-59f49bf64b6&title=&width=431.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836547563-5fb5f142-0154-4e28-9422-f8cde13c6e0f.png#averageHue=%23fbf9f7&clientId=u36a04572-862d-4&from=paste&height=30&id=ue3d53e18&originHeight=37&originWidth=440&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3572&status=done&style=none&taskId=u19c9c73a-f3bf-4b2b-a62a-bf3c1395e6c&title=&width=352">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836695968-4d076002-3573-4fc1-84ca-c11b1ce3ec4f.png#averageHue=%231c3879&clientId=u36a04572-862d-4&from=paste&height=112&id=ub256286c&originHeight=140&originWidth=619&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=112129&status=done&style=none&taskId=u09ee2f18-3184-4ab9-b16f-13c0fa4e14c&title=&width=495.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836748251-6805e9c5-8541-4d5a-9e88-0dd8e343d4ce.png#averageHue=%231c3d7d&clientId=u36a04572-862d-4&from=paste&height=134&id=u4ec25cbc&originHeight=167&originWidth=577&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132733&status=done&style=none&taskId=u49cddcf7-c779-4c4b-aeb8-09ca1625929&title=&width=461.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836810615-8badaf10-b3ca-4f36-bbaf-95a8b3ee1e2f.png#averageHue=%23f6f4f2&clientId=u36a04572-862d-4&from=paste&height=35&id=u1830ec1b&originHeight=44&originWidth=572&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21602&status=done&style=none&taskId=uf1c2699b-c7e1-4736-a560-9df94f2acab&title=&width=457.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836827256-a625dca1-b29c-43d5-9274-a720b2d71808.png#averageHue=%23618cc3&clientId=u36a04572-862d-4&from=paste&height=60&id=ua698cbe5&originHeight=75&originWidth=419&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49607&status=done&style=none&taskId=u41bff3c8-26a7-4187-a92a-da15fc13267&title=&width=335.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686837499868-7d62ae5f-60ea-42f3-8f6d-5bafcf4dcc63.png#averageHue=%23d8e0e7&clientId=u36a04572-862d-4&from=paste&height=346&id=u41626404&originHeight=432&originWidth=615&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=300746&status=done&style=none&taskId=uf05cb647-2ad1-4530-99f6-0e3af4ccafc&title=&width=492">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686837510350-06c16436-8166-41eb-a0d8-2db1ee33fe2a.png#averageHue=%23cdd5dc&clientId=u36a04572-862d-4&from=paste&height=448&id=uc313e043&originHeight=560&originWidth=427&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=277611&status=done&style=none&taskId=u9b4974c4-d379-4fab-854d-b6b0d9c47d1&title=&width=341.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686838068118-3eddd728-d548-4384-ae19-9b602ddb8dec.png#averageHue=%23d0d8df&clientId=u36a04572-862d-4&from=paste&height=140&id=u982ea01c&originHeight=175&originWidth=402&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=86826&status=done&style=none&taskId=u78cf6b6a-8dfa-4d9f-b988-a5b5e3a50f6&title=&width=321.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686838013670-ca80b71d-2a55-45f7-8e12-8dd586ccfb1a.png#averageHue=%23c7d4de&clientId=u36a04572-862d-4&from=paste&height=461&id=u1bffe933&originHeight=576&originWidth=1140&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=690449&status=done&style=none&taskId=u5dd93810-c54a-4244-9abd-1d092e8ff10&title=&width=912">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686840985154-c309a319-56f3-4f34-9cf2-15fbebe7cdb2.png#averageHue=%231d3372&clientId=u2fdd0915-c1a2-4&from=paste&height=81&id=uf204671a&originHeight=101&originWidth=667&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=94531&status=done&style=none&taskId=u1c03763d-bfff-4fa6-9da9-4fde58fe388&title=&width=533.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841111043-f57aa07d-2606-4bf9-b883-e2c88cdad4c7.png#averageHue=%23fcfaf9&clientId=u2fdd0915-c1a2-4&from=paste&height=412&id=uef19953c&originHeight=515&originWidth=746&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77203&status=done&style=none&taskId=u5279dd0e-3bac-40b7-a2bb-14b9e771b29&title=&width=596.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841116058-b447e881-d353-444d-a404-5bf2227b8244.png#averageHue=%23f9f8f5&clientId=u2fdd0915-c1a2-4&from=paste&height=171&id=u8752477a&originHeight=214&originWidth=856&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42857&status=done&style=none&taskId=u889dfff2-00a0-4fe5-93c7-f1e014053e9&title=&width=684.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841310466-e64f868c-ac97-42ef-831e-91829ed92e61.png#averageHue=%23fbfaf8&clientId=u2fdd0915-c1a2-4&from=paste&height=26&id=u0c41e3f9&originHeight=32&originWidth=603&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4409&status=done&style=none&taskId=u0447bf35-efdf-4eeb-b940-5cd7d00798c&title=&width=482.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841415297-6cadf712-101b-426f-b71d-536f9827af81.png#averageHue=%23faf8f7&clientId=u2fdd0915-c1a2-4&from=paste&height=20&id=u37f746ad&originHeight=25&originWidth=509&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3793&status=done&style=none&taskId=u336f388c-de8e-4318-a13d-9e491c52eb4&title=&width=407.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841448100-a6deb8d1-8105-4750-8195-8b3577b9cb4c.png#averageHue=%23f9f6f3&clientId=u2fdd0915-c1a2-4&from=paste&height=15&id=ue4eeca10&originHeight=19&originWidth=519&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3712&status=done&style=none&taskId=u8e73efcd-bdeb-44d3-b2eb-beb6d007508&title=&width=415.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841496720-cd41ea4b-2aab-4af8-bcdc-2bdf303556fc.png#averageHue=%23faf9f7&clientId=u2fdd0915-c1a2-4&from=paste&height=23&id=u3927ce72&originHeight=29&originWidth=577&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4528&status=done&style=none&taskId=uc536eac5-b707-40f8-854d-78b5b66af83&title=&width=461.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841569629-fbfbacc3-5d3c-47b5-8e0d-d36a0376945f.png#averageHue=%23faf8f5&clientId=u2fdd0915-c1a2-4&from=paste&height=14&id=u727f56d4&originHeight=18&originWidth=441&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3033&status=done&style=none&taskId=u5be7da58-4f06-4df5-b019-69cf19e58f4&title=&width=352.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841720354-9744305a-7238-4e9f-a22c-41748aadf58e.png#averageHue=%231d3979&clientId=u2fdd0915-c1a2-4&from=paste&height=108&id=uebd16c2a&originHeight=135&originWidth=598&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=104111&status=done&style=none&taskId=u764569c3-15d6-41a5-ac07-93080010cf0&title=&width=478.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686844612906-058ff451-6fe5-4167-b63e-6e0cd0b52142.png#averageHue=%23254789&clientId=u2fdd0915-c1a2-4&from=paste&height=309&id=ufa48e7ef&originHeight=386&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=393718&status=done&style=none&taskId=ue9f59cdc-08a0-4ad6-bb59-af0a3cdfca4&title=&width=608">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1686881443299-fd9041eb-5e8e-4052-93c1-599aee4a6476.jpeg#averageHue=%23bfb8ae&clientId=u2fdd0915-c1a2-4&from=paste&height=382&id=ua0839af3&originHeight=784&originWidth=806&originalType=binary&ratio=1.25&rotation=90&showTitle=false&size=35773&status=done&style=none&taskId=u88ff4f02-1c51-40a1-b799-88e093adbe1&title=&width=393">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686881982802-14de8ef5-8a64-4fe6-9244-0ad73d3f93fb.png#averageHue=%231c3474&clientId=u2fdd0915-c1a2-4&from=paste&height=98&id=u53016250&originHeight=122&originWidth=698&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=105543&status=done&style=none&taskId=u14e3dfd7-8b81-404b-9557-081a5a612e3&title=&width=558.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686882270558-30c056d1-8710-4a6b-b48c-52ef8bfed204.png#averageHue=%231e3678&clientId=u2fdd0915-c1a2-4&from=paste&height=55&id=uf0f024d3&originHeight=69&originWidth=516&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51068&status=done&style=none&taskId=u8d9beeef-cfe7-4720-a3fd-96c19757e35&title=&width=412.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686882803895-d5e5da86-9410-44b2-a8f0-ee62fe1e8fd9.png#averageHue=%231c3271&clientId=u2fdd0915-c1a2-4&from=paste&height=76&id=u75ce1967&originHeight=95&originWidth=710&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=93874&status=done&style=none&taskId=ub6c24b24-1efd-4d91-bc7c-334d8b8528a&title=&width=568">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883050317-5f7de4e2-2a4e-4b4a-acc4-014f6e81b13e.png#averageHue=%231b4082&clientId=u2fdd0915-c1a2-4&from=paste&height=46&id=ue2edcc67&originHeight=58&originWidth=388&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=27154&status=done&style=none&taskId=ua8b9845c-0432-4d1d-a421-6607f6e2f19&title=&width=310.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883218841-5b6114d0-8790-4674-837d-ca9e0ea96d9b.png#averageHue=%231c3675&clientId=u2fdd0915-c1a2-4&from=paste&height=111&id=uc4369364&originHeight=139&originWidth=686&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=125052&status=done&style=none&taskId=u5b2db10d-1d33-4144-8396-7cef3e35326&title=&width=548.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883245619-6f863840-2a0b-4bf6-8638-dca7cf48190a.png#averageHue=%23f8f6f3&clientId=u2fdd0915-c1a2-4&from=paste&height=17&id=u39d25515&originHeight=21&originWidth=525&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4149&status=done&style=none&taskId=ufcc52e88-7804-4e2f-82a6-58a1376c573&title=&width=420">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883428348-46ac94f4-13ab-4880-b022-83d4a5e1350a.png#averageHue=%231c3271&clientId=u2fdd0915-c1a2-4&from=paste&height=98&id=u2090e8ac&originHeight=123&originWidth=752&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132274&status=done&style=none&taskId=u41267527-f48d-4497-877a-49e779c5692&title=&width=601.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883632109-68c617c9-9d04-4d60-9507-5b96bba20668.png#averageHue=%231d397c&clientId=u2fdd0915-c1a2-4&from=paste&height=62&id=u581d2ed9&originHeight=77&originWidth=381&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39688&status=done&style=none&taskId=ubf9db584-47eb-478c-a216-49acc2673d8&title=&width=304.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883714806-3e59c0cb-b4f3-4ddd-9bed-1b98b0c528cd.png#averageHue=%231d387a&clientId=u2fdd0915-c1a2-4&from=paste&height=61&id=uffd40d82&originHeight=76&originWidth=444&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49233&status=done&style=none&taskId=u62bc7e5f-22e1-416a-b1c6-532b02246a1&title=&width=355.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883860450-9a421ca5-7cfe-4cec-842c-9def8f299d28.png#averageHue=%231d3a7a&clientId=u2fdd0915-c1a2-4&from=paste&height=119&id=u80c6108e&originHeight=149&originWidth=605&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=119279&status=done&style=none&taskId=uc2333a64-2012-45ae-9a13-3480976f705&title=&width=484">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686884055820-19c0b6fb-6c8b-462f-a0b0-2d9161ee6403.png#averageHue=%23f9f6f4&clientId=u2fdd0915-c1a2-4&from=paste&height=22&id=u49ed1d53&originHeight=28&originWidth=533&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=5236&status=done&style=none&taskId=u18d75be0-686d-4b70-b7a4-5346b606cf5&title=&width=426.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885418184-64ff1032-b121-4397-bb01-76b0a2f1d619.png#averageHue=%23392855&clientId=u2fdd0915-c1a2-4&from=paste&height=456&id=ub0d0e819&originHeight=570&originWidth=575&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=350120&status=done&style=none&taskId=u22adc310-4fa5-4537-b164-20136449f3c&title=&width=460">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885451893-ac0da8c9-0883-410f-9356-3612da6f05c7.png#averageHue=%231d3473&clientId=u2fdd0915-c1a2-4&from=paste&height=101&id=u21527fff&originHeight=126&originWidth=714&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=125110&status=done&style=none&taskId=u36df87e8-2556-4f68-8e1f-d8d9d9071b2&title=&width=571.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885748224-d19f995e-de14-4359-95be-165b21fd446c.png#averageHue=%23fcfbfa&clientId=u2fdd0915-c1a2-4&from=paste&height=353&id=u17b0516f&originHeight=441&originWidth=829&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=62275&status=done&style=none&taskId=uec753e45-22a4-4b7b-8dcd-e3e6ff7959f&title=&width=663.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885755497-8c55ed1c-0ce0-44b0-b009-8eccd6c2bfc2.png#averageHue=%23fbf9f7&clientId=u2fdd0915-c1a2-4&from=paste&height=278&id=u9b2079d4&originHeight=347&originWidth=788&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66267&status=done&style=none&taskId=ufdbe3572-ec1c-49a5-8ef7-a5f180968a8&title=&width=630.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886011699-8a8b9fd2-0617-448c-a267-7b6fa33e25f6.png#averageHue=%23fbf8f6&clientId=u2fdd0915-c1a2-4&from=paste&height=228&id=u2256bef4&originHeight=285&originWidth=591&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=46841&status=done&style=none&taskId=u5db97c27-322d-4301-bf49-00715a7ecef&title=&width=472.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885827996-300821aa-db17-4cb8-95a7-3c2663fcda94.png#averageHue=%23f5f3f0&clientId=u2fdd0915-c1a2-4&from=paste&height=74&id=u696a5322&originHeight=92&originWidth=650&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20445&status=done&style=none&taskId=uf7812991-81b9-494c-93fc-c88fe89cb1e&title=&width=520">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886032102-b6d343a3-cf1d-4af6-8b66-5f45330f17f7.png#averageHue=%23fbf9f8&clientId=u2fdd0915-c1a2-4&from=paste&height=180&id=uea53f3b2&originHeight=225&originWidth=624&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=33215&status=done&style=none&taskId=u71a1ec6e-3f9c-4106-8615-0bcddeb5419&title=&width=499.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885844696-d59f58ef-2e0e-4700-a4c6-e4a5d9dd50f9.png#averageHue=%23f7f4f0&clientId=u2fdd0915-c1a2-4&from=paste&height=42&id=u662fc6a2&originHeight=53&originWidth=583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13176&status=done&style=none&taskId=u579d8250-a53f-4f65-b5ea-cbd4601529b&title=&width=466.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885985479-eefaea1c-731e-4146-a8e7-225c3f2866c1.png#averageHue=%23549dc2&clientId=u2fdd0915-c1a2-4&from=paste&height=44&id=u3c83da69&originHeight=55&originWidth=454&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51438&status=done&style=none&taskId=ube8a3b57-6440-448c-9352-0ab53b2e14d&title=&width=363.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886043880-fecd5556-84d3-47c6-b56f-5a29b1484cfd.png#averageHue=%23509bc0&clientId=u2fdd0915-c1a2-4&from=paste&height=49&id=uc5420e7e&originHeight=61&originWidth=457&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=53461&status=done&style=none&taskId=u94a3719c-89df-45ce-805d-2d09595549f&title=&width=365.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886101976-d084a994-9b2e-4160-adfb-cd2727da6da6.png#averageHue=%23c8c8c6&clientId=u2fdd0915-c1a2-4&from=paste&height=181&id=u08a756a4&originHeight=226&originWidth=559&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=106057&status=done&style=none&taskId=uf1de069b-e5da-4d45-9224-16eb8b68be1&title=&width=447.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886121627-77f44fe8-ac0b-4098-9973-a03b1afb3e72.png#averageHue=%23bfbfbd&clientId=u2fdd0915-c1a2-4&from=paste&height=221&id=ua35ffe7d&originHeight=276&originWidth=591&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132215&status=done&style=none&taskId=uf6cade34-fe90-4af2-8aca-144fe75acc1&title=&width=472.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886141096-a8634036-fbe4-4ca5-bc22-703934b9ca15.png#averageHue=%23c0c0c0&clientId=u2fdd0915-c1a2-4&from=paste&height=84&id=ud24c3c36&originHeight=105&originWidth=567&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39661&status=done&style=none&taskId=ud48ff2de-cd47-433f-8c15-2e19d88cf41&title=&width=453.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886151420-d85aabc7-b65a-47c9-9bea-b5308c24e9ba.png#averageHue=%23cacbc9&clientId=u2fdd0915-c1a2-4&from=paste&height=115&id=u5960472a&originHeight=144&originWidth=515&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=65545&status=done&style=none&taskId=ua5dfc9f0-928b-4904-bf79-a962e3be3f0&title=&width=412">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686890492381-dc94ac22-754d-4dbb-bc41-e462e06ab92b.png#averageHue=%231f2f6f&clientId=u2fdd0915-c1a2-4&from=paste&height=35&id=u94cc8b93&originHeight=44&originWidth=705&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48752&status=done&style=none&taskId=u6cad27ec-03bb-41ed-9179-a981363363b&title=&width=564">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686890765935-1d4a4146-db6d-4818-8114-ed8958603e1d.png#averageHue=%23203a7b&clientId=u2fdd0915-c1a2-4&from=paste&height=205&id=u402c5ad1&originHeight=256&originWidth=1014&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=361223&status=done&style=none&taskId=uca3b3e91-17c1-4002-9243-c273824b09a&title=&width=811.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686890798134-7282b540-26d9-42be-adc3-216fee0cd5f4.png#averageHue=%23eef1e8&clientId=u2fdd0915-c1a2-4&from=paste&height=37&id=u4d42892f&originHeight=46&originWidth=326&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13281&status=done&style=none&taskId=ucfd9e1f8-5730-4fe6-9f67-95064632c1b&title=&width=260.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891020076-a3b39667-8dca-4fe1-bfdc-73ad5221c0d8.png#averageHue=%23fbf9f7&clientId=u2fdd0915-c1a2-4&from=paste&height=494&id=u16a4851e&originHeight=617&originWidth=759&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=110940&status=done&style=none&taskId=ub945e1a2-2f44-40b7-b065-8250c43e61e&title=&width=607.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891034999-05b876df-74b5-4c41-ade3-501fc1611dc2.png#averageHue=%23fcfaf9&clientId=u2fdd0915-c1a2-4&from=paste&height=334&id=u21a86cbd&originHeight=417&originWidth=783&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=63973&status=done&style=none&taskId=u125ab2b3-e9aa-45de-a482-9280727ce0f&title=&width=626.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891512567-62469488-8078-4277-9ca3-f3380023ad50.png#averageHue=%23f9f7f4&clientId=u2fdd0915-c1a2-4&from=paste&height=84&id=u78094252&originHeight=105&originWidth=644&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20290&status=done&style=none&taskId=u0d0c3e77-7016-4177-b46f-6801949df68&title=&width=515.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891040837-1b99363b-31d2-43eb-bad1-c5259e1b0866.png#averageHue=%23fbfaf8&clientId=u2fdd0915-c1a2-4&from=paste&height=294&id=ua70ad536&originHeight=367&originWidth=619&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48005&status=done&style=none&taskId=u0c57b28b-f62d-4a96-8513-6a87f839d26&title=&width=495.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891046561-919fb184-7d6b-4781-9ac0-a6c623274e71.png#averageHue=%23fbf9f8&clientId=u2fdd0915-c1a2-4&from=paste&height=361&id=uf9103544&originHeight=451&originWidth=757&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77472&status=done&style=none&taskId=u08240c19-72ae-43c0-9682-583706b4678&title=&width=605.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891946662-ab0df1ab-4960-480c-8339-82ebc757c1a4.png#averageHue=%231d3f81&clientId=u2fdd0915-c1a2-4&from=paste&height=162&id=u7b28737b&originHeight=202&originWidth=711&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=188427&status=done&style=none&taskId=uec9f8fd0-5a40-435a-9afb-bebb4233c6e&title=&width=568.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686892139366-216398aa-a229-4791-9eb3-d748a214b7c8.png#averageHue=%232c3e76&clientId=u2fdd0915-c1a2-4&from=paste&height=169&id=ua9a68ec0&originHeight=211&originWidth=624&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=167804&status=done&style=none&taskId=ub62b32cf-ab02-40b7-a539-69c84caf318&title=&width=499.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686892954571-489fe000-f1dc-4007-b95d-4b76ef2d6e5a.png#averageHue=%231c3271&clientId=u2fdd0915-c1a2-4&from=paste&height=98&id=u102f3550&originHeight=123&originWidth=756&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=133809&status=done&style=none&taskId=ub5c335bb-3993-43dc-904f-a687999dcc2&title=&width=604.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895534209-31665677-3a3c-4e76-8322-4a90f9cedcdb.png#averageHue=%232b3b73&clientId=u2fdd0915-c1a2-4&from=paste&height=113&id=ua86a8cde&originHeight=141&originWidth=941&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=172879&status=done&style=none&taskId=u6d3b81df-59ea-46ad-8e57-db526c168a0&title=&width=752.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895521459-ab23c4e3-15ec-4eb4-865a-5cef32905f15.png#averageHue=%231c3b7c&clientId=u2fdd0915-c1a2-4&from=paste&height=123&id=u15500cc5&originHeight=154&originWidth=610&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=121905&status=done&style=none&taskId=uf8a00f21-918b-4540-bed6-a8acddfeeef&title=&width=488">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895659695-57e49382-09cb-488d-ac74-789909133d40.png#averageHue=%231d2f6d&clientId=u2fdd0915-c1a2-4&from=paste&height=94&id=ucaa68e72&originHeight=117&originWidth=986&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=155025&status=done&style=none&taskId=ue428285e-d8a3-4aab-936d-ddf321989ba&title=&width=788.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895686661-81140518-7f09-4bbf-9a46-5200abe59e03.png#averageHue=%231d3d7c&clientId=u2fdd0915-c1a2-4&from=paste&height=83&id=ufd42769d&originHeight=104&originWidth=405&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67363&status=done&style=none&taskId=ufb6ea752-79bb-4714-aa1a-34d2e69a60e&title=&width=324">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895792789-243b225c-c4d1-4b52-96e7-13586308dbc7.png#averageHue=%23a4b7ce&clientId=u2fdd0915-c1a2-4&from=paste&height=67&id=uc893f175&originHeight=84&originWidth=514&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48065&status=done&style=none&taskId=u1e78b271-1615-4f39-85ef-4eb995c2c81&title=&width=411.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686926838859-8aad00fc-82b2-44f9-a9b5-e4726fbf64ef.png#averageHue=%23f7f4f1&clientId=u2fdd0915-c1a2-4&from=paste&height=30&id=ube7ac5f2&originHeight=38&originWidth=602&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=8644&status=done&style=none&taskId=u4e2d135b-0896-4757-b522-4168557993b&title=&width=481.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686927209981-65fcf85c-3c28-4968-b1e6-f848b52c4f8e.png#averageHue=%23402145&clientId=u2fdd0915-c1a2-4&from=paste&height=168&id=u6e970b85&originHeight=210&originWidth=545&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=147010&status=done&style=none&taskId=ua04d188a-e930-46c5-976a-882c6ba024d&title=&width=436">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686927294742-8de2de6b-8aaa-474d-949c-41c9d4029067.png#averageHue=%231c498c&clientId=u2fdd0915-c1a2-4&from=paste&height=82&id=u28612028&originHeight=103&originWidth=347&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57466&status=done&style=none&taskId=u7f050ad9-2b8f-4804-ba05-c6a56abca7f&title=&width=277.6">
+<meta property="article:published_time" content="2024-01-26T09:43:42.332Z">
+<meta property="article:modified_time" content="2024-01-26T09:44:19.049Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826276173-aad12eb3-4860-4229-8606-c03ded8836ae.png#averageHue=%23c9d0d7&clientId=u8a9bb9ac-3800-4&from=paste&height=135&id=u54e3c267&originHeight=169&originWidth=517&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91854&status=done&style=none&taskId=u9af0963d-4077-473e-8a19-dab1eeaf944&title=&width=413.6">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>计算机基础实验四：程序控制结构 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机基础实验四：程序控制结构"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 17:43" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机基础实验四：程序控制结构</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="传送指令："><a href="#传送指令：" class="headerlink" title="传送指令："></a>传送指令：</h2><h4 id="相关知识点："><a href="#相关知识点：" class="headerlink" title="相关知识点："></a>相关知识点：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826276173-aad12eb3-4860-4229-8606-c03ded8836ae.png#averageHue=%23c9d0d7&clientId=u8a9bb9ac-3800-4&from=paste&height=135&id=u54e3c267&originHeight=169&originWidth=517&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91854&status=done&style=none&taskId=u9af0963d-4077-473e-8a19-dab1eeaf944&title=&width=413.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826291952-77fe05d1-f7e4-4ac1-84ee-256ca9e9c575.png#averageHue=%23d9e2e9&clientId=u8a9bb9ac-3800-4&from=paste&height=274&id=u78f5e13b&originHeight=343&originWidth=857&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=262976&status=done&style=none&taskId=u334321c4-0213-43c9-abb2-187da38d562&title=&width=685.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826350626-f01f2f26-3420-4e95-ad3b-e3c48d413e6e.png#averageHue=%23d6dfe7&clientId=u8a9bb9ac-3800-4&from=paste&height=275&id=ufa008afc&originHeight=344&originWidth=869&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=333642&status=done&style=none&taskId=u3258ac85-23fc-4328-8252-e651b97143a&title=&width=695.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826379968-0d65f310-dc6d-4764-89f5-491986655d74.png#averageHue=%23d5dde5&clientId=u8a9bb9ac-3800-4&from=paste&height=310&id=u90b3563d&originHeight=388&originWidth=889&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=385485&status=done&style=none&taskId=ua1456478-84a4-430c-b4ad-e8e3b27ca9f&title=&width=711.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826417261-62ec62ab-a503-45c9-9f78-4d8cbcdf6180.png#averageHue=%23d3dbe4&clientId=u8a9bb9ac-3800-4&from=paste&height=346&id=uef225de2&originHeight=433&originWidth=979&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=454121&status=done&style=none&taskId=u2dddcd76-8e3c-40bd-9c01-127bb97658a&title=&width=783.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826437698-34b29510-97e9-4ade-93d4-06e718fe0d07.png#averageHue=%23d1dbe3&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=ub57d0227&originHeight=54&originWidth=796&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51475&status=done&style=none&taskId=uaed29bce-fb99-42fc-9f5b-021dd0264ef&title=&width=636.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826534194-ae76534f-c565-4296-8d49-e00ba610c80f.png#averageHue=%23d9a6ab&clientId=u8a9bb9ac-3800-4&from=paste&height=24&id=u8b0442d7&originHeight=30&originWidth=368&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=15884&status=done&style=none&taskId=u01d3feca-9043-4a90-a76e-c3d8fb44f8c&title=&width=294.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826540346-c1651286-afe8-41b8-b749-402a06a2beeb.png#averageHue=%23d2d9df&clientId=u8a9bb9ac-3800-4&from=paste&height=90&id=udcfb0f32&originHeight=112&originWidth=524&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91999&status=done&style=none&taskId=u5e2ed4b5-04eb-402d-a371-6d25986c832&title=&width=419.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826600704-2a904e13-059b-4a74-b25d-730f4e0ae5b6.png#averageHue=%23d8a6aa&clientId=u8a9bb9ac-3800-4&from=paste&height=23&id=u09bfab47&originHeight=29&originWidth=368&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17127&status=done&style=none&taskId=u87433f39-93d4-4171-9f28-1bdea83a180&title=&width=294.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826608206-59c89116-5af8-4d5e-9c15-795ac8708aa5.png#averageHue=%23cfd6dc&clientId=u8a9bb9ac-3800-4&from=paste&height=83&id=u23a00faa&originHeight=104&originWidth=521&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77419&status=done&style=none&taskId=ua4dedd40-ac9d-4ca4-971f-a409a3a7e3f&title=&width=416.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686826624139-b30654a2-09d6-4872-b945-a53499ae5846.png#averageHue=%23d1d8df&clientId=u8a9bb9ac-3800-4&from=paste&height=87&id=ud0d0c460&originHeight=109&originWidth=518&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70255&status=done&style=none&taskId=uea51ba98-4561-4cea-9944-cebb3f80e97&title=&width=414.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827527181-811b4119-a733-428f-830e-53475bd9ccde.png#averageHue=%23fefefc&clientId=u8a9bb9ac-3800-4&from=paste&height=61&id=u9470d0c6&originHeight=76&originWidth=435&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38535&status=done&style=none&taskId=u0d6001a2-27e9-4cfd-9129-59e5368a704&title=&width=348" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="测试程序："><a href="#测试程序：" class="headerlink" title="测试程序："></a>测试程序：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827248759-45f3b7aa-006e-46dc-82df-a1f92b4b05b5.png#averageHue=%23362c5e&clientId=u8a9bb9ac-3800-4&from=paste&height=498&id=u983bf029&originHeight=623&originWidth=733&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=512588&status=done&style=none&taskId=ua80275c1-24fd-43cb-ba7f-d65abb5bcee&title=&width=586.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="编译运行："><a href="#编译运行：" class="headerlink" title="编译运行："></a>编译运行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827863575-99efcf6d-359f-4e97-b967-8836128ca7c1.png#averageHue=%231f3d7f&clientId=u8a9bb9ac-3800-4&from=paste&height=209&id=u0578ea13&originHeight=261&originWidth=880&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=308500&status=done&style=none&taskId=u9ddca03b-a90c-4fbf-be7a-bc68b07afe8&title=&width=704" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试："><a href="#调试：" class="headerlink" title="调试："></a>调试：</h4><p>部分反汇编内容：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686827974564-a9011f48-959a-4076-8874-79d2cf84aaf3.png#averageHue=%23fbf9f8&clientId=u8a9bb9ac-3800-4&from=paste&height=519&id=ua3729a2f&originHeight=649&originWidth=909&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=138477&status=done&style=none&taskId=u1aab8d35-469b-4a2e-98f2-52c19856997&title=&width=727.2" srcset="/img/loading.gif" lazyload alt="image.png"><br> <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829093506-fa101fca-b598-4399-a40e-31c228ac5f64.png#averageHue=%23254486&clientId=u8a9bb9ac-3800-4&from=paste&height=331&id=u90be6474&originHeight=414&originWidth=845&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=458992&status=done&style=none&taskId=uf5a5189d-320e-4435-bd27-d74681c1542&title=&width=676" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829138779-62d80bb2-b89a-452e-a84e-4987828f4cd8.png#averageHue=%23dad552&clientId=u8a9bb9ac-3800-4&from=paste&height=164&id=ue47a4af3&originHeight=205&originWidth=863&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=191000&status=done&style=none&taskId=u0226e5c3-2b44-4124-9f2e-928adfc9389&title=&width=690.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="lea和mov指令的区别："><a href="#lea和mov指令的区别：" class="headerlink" title="lea和mov指令的区别："></a>lea和mov指令的区别：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829234184-6a786cad-5f08-4eb0-9b3a-823639454153.png#averageHue=%23dbdbda&clientId=u8a9bb9ac-3800-4&from=paste&height=133&id=ue0ee77df&originHeight=166&originWidth=614&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=83786&status=done&style=none&taskId=u22a4c3cc-637e-4b5f-b943-d7ea3f049a0&title=&width=491.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829254180-a979294e-00ce-4531-ac2a-12126b8d3e53.png#averageHue=%23e3e3e2&clientId=u8a9bb9ac-3800-4&from=paste&height=236&id=u34734692&originHeight=295&originWidth=415&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=72445&status=done&style=none&taskId=u787ef7b0-33dc-4b67-8cde-cd515b85ffc&title=&width=332" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829267635-678e3b2e-fc3f-4ee2-8cf8-547c908e9797.png#averageHue=%23e1e3e1&clientId=u8a9bb9ac-3800-4&from=paste&height=284&id=u36731d21&originHeight=355&originWidth=307&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=72709&status=done&style=none&taskId=u4425736f-7068-4fd5-aa62-192b5e9777a&title=&width=245.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829407947-ad20b247-d0eb-4ff1-a820-8c3849897016.png#averageHue=%23e5e5e4&clientId=u8a9bb9ac-3800-4&from=paste&height=160&id=u70e510ec&originHeight=200&originWidth=530&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91418&status=done&style=none&taskId=u86943098-6a99-432d-824f-3589d1ce28a&title=&width=424" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686829635832-e057f350-27da-4b88-afab-41ed0e5d5bf9.png#averageHue=%23ceccc8&clientId=u8a9bb9ac-3800-4&from=paste&height=343&id=uf1c96c72&originHeight=429&originWidth=662&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=272923&status=done&style=none&taskId=ua1748053-dc76-47c5-ac6a-2845cdb2c0c&title=&width=529.6" srcset="/img/loading.gif" lazyload alt="image.png">ix,iz，iy是int,usx是unsigned short,uiy,uiz是unsigned int,sx是short,</p>
+<h2 id="加减运算指令："><a href="#加减运算指令：" class="headerlink" title="加减运算指令："></a>加减运算指令：</h2><h4 id="相关知识点：-1"><a href="#相关知识点：-1" class="headerlink" title="相关知识点："></a>相关知识点：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830250781-43fc3eaf-df02-4cc3-bac4-b1a0cfca65b0.png#averageHue=%23d6d6d5&clientId=u8a9bb9ac-3800-4&from=paste&height=229&id=u28b5b342&originHeight=286&originWidth=588&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=147955&status=done&style=none&taskId=uef4e1e80-2ff8-45c5-a02b-4aed8b0014c&title=&width=470.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830414669-cb387aa7-ed9b-4b9b-a358-6a23d32735d9.png#averageHue=%23c6c6c5&clientId=u8a9bb9ac-3800-4&from=paste&height=106&id=u0a197988&originHeight=133&originWidth=508&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51500&status=done&style=none&taskId=u3d585fa8-02af-4dc2-983d-4fea5649ae7&title=&width=406.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830452294-7a55bb02-361a-45db-8382-c797e18ae563.png#averageHue=%23d2d9e0&clientId=u8a9bb9ac-3800-4&from=paste&height=271&id=ucea9d949&originHeight=339&originWidth=893&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=357178&status=done&style=none&taskId=u57d26b4e-3d53-484e-b5ea-9ad8c25215c&title=&width=714.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830476547-7564aa4f-abc5-425e-a4d6-b94c08429e17.png#averageHue=%23c8d1d8&clientId=u8a9bb9ac-3800-4&from=paste&height=86&id=u0a08eeef&originHeight=108&originWidth=927&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=136049&status=done&style=none&taskId=u47ee043a-2099-4ae3-9da7-95ccb10b853&title=&width=741.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="整数乘法指令："><a href="#整数乘法指令：" class="headerlink" title="整数乘法指令："></a>整数乘法指令：</h2><h3 id="相关知识点：-2"><a href="#相关知识点：-2" class="headerlink" title="相关知识点："></a>相关知识点：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830596768-5cba51b7-6dd7-4308-ac32-7081766df3b1.png#averageHue=%23a0b3ca&clientId=u8a9bb9ac-3800-4&from=paste&height=174&id=uda0a9206&originHeight=218&originWidth=512&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=92073&status=done&style=none&taskId=udaa9664c-c9e4-4ea9-b1e1-84b7d85ec6d&title=&width=409.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830620124-316527ff-71df-4f07-a6fe-80bb6367e77d.png#averageHue=%23a0b3cb&clientId=u8a9bb9ac-3800-4&from=paste&height=210&id=u546cc873&originHeight=263&originWidth=494&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=148430&status=done&style=none&taskId=u2b537fef-fbca-4558-8c30-59a6159a327&title=&width=395.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830652011-138ccc68-5299-43ce-8b4f-d2b2d41d8833.png#averageHue=%23d3dce4&clientId=u8a9bb9ac-3800-4&from=paste&height=332&id=u9f5a6fed&originHeight=415&originWidth=1015&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=482812&status=done&style=none&taskId=u77450e82-005a-480e-821b-1a3cac97da1&title=&width=812" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830702136-66794b5e-9ac8-40ae-97ea-874519f11daf.png#averageHue=%23d3dae0&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=u985b1338&originHeight=54&originWidth=266&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=22148&status=done&style=none&taskId=u338b86b3-3003-4c53-bfb8-68a80a541ca&title=&width=212.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830845431-d7423158-4a84-46c9-a6e9-66ba7c625e5d.png#averageHue=%2398b0ca&clientId=u8a9bb9ac-3800-4&from=paste&height=82&id=u522ede4c&originHeight=102&originWidth=566&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=80276&status=done&style=none&taskId=u80744678-dcc2-4848-9b91-2706a8270a3&title=&width=452.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830896735-b05849c5-1277-420d-82b1-e5a3db370c34.png#averageHue=%23e1d9c7&clientId=u8a9bb9ac-3800-4&from=paste&height=116&id=uaa83f533&originHeight=145&originWidth=576&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=78656&status=done&style=none&taskId=u8ae5cf4e-7226-4d39-88f9-1c2cf5ae4a2&title=&width=460.8" srcset="/img/loading.gif" lazyload alt="image.png">可以看出在乘法指令中编译器会采用不同的指令实现。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830978727-cb545a0f-9da9-4048-b51d-6827bfc75551.png#averageHue=%23d7d7d7&clientId=u8a9bb9ac-3800-4&from=paste&height=158&id=u13e3146d&originHeight=198&originWidth=503&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77175&status=done&style=none&taskId=u274e9cec-f7ec-48eb-8bc3-fc1b0c2f06d&title=&width=402.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686830939218-e69c1205-0b6c-4e9e-b45b-b519c3fe2e38.png#averageHue=%23d9d7d7&clientId=u8a9bb9ac-3800-4&from=paste&height=134&id=u724d821e&originHeight=168&originWidth=532&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=81273&status=done&style=none&taskId=uc388c504-e3c2-428d-b4c9-724c128d7b5&title=&width=425.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>imul和mul指令只有1个操作数的时候，隐含操作数存在eax中，得到的64为结果：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831121701-438925fe-0cc7-492f-b4c7-9c9e0efce3a7.png#averageHue=%239eb4cc&clientId=u8a9bb9ac-3800-4&from=paste&height=48&id=u8ae4c507&originHeight=60&originWidth=419&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48883&status=done&style=none&taskId=u00812d2c-2150-4dab-98c8-7189f5f76b4&title=&width=335.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831525388-c601942b-9cf5-42ee-8c9b-45db3fd32b92.png#averageHue=%23cbd3da&clientId=u8a9bb9ac-3800-4&from=paste&height=71&id=u91e34492&originHeight=89&originWidth=734&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=73875&status=done&style=none&taskId=ub5b0c8dd-93b8-40bd-997a-328c03c2d67&title=&width=587.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831530757-03000676-5171-4486-a43d-ee21025642cd.png#averageHue=%23dae2e8&clientId=u8a9bb9ac-3800-4&from=paste&height=106&id=u15eedddf&originHeight=132&originWidth=1028&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=168671&status=done&style=none&taskId=u590255fb-42ab-4396-ae6c-93734c84aed&title=&width=822.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831579988-ed340859-8671-4649-bfb6-5a177e55841d.png#averageHue=%23d1d8de&clientId=u8a9bb9ac-3800-4&from=paste&height=45&id=u85960dd7&originHeight=56&originWidth=1010&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=74885&status=done&style=none&taskId=udb159fd8-e0e5-4b14-ab0b-3e381f50cb4&title=&width=808" srcset="/img/loading.gif" lazyload alt="image.png"><br>如果乘积用eax和edx表示时：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831600764-2659fe5c-4d1e-4758-ac97-4f927bd05e48.png#averageHue=%23dee6ef&clientId=u8a9bb9ac-3800-4&from=paste&height=45&id=u7aacb8e1&originHeight=56&originWidth=971&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91806&status=done&style=none&taskId=u84833bbd-56c2-4e6a-84cf-4b5ab148a4b&title=&width=776.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831690409-ec1b3879-4e53-4bd5-984a-160282d8a50b.png#averageHue=%23cbd3db&clientId=u8a9bb9ac-3800-4&from=paste&height=76&id=ue4a605d6&originHeight=95&originWidth=583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=63940&status=done&style=none&taskId=uffff2508-7d50-40a8-8df0-55bb0f8e42f&title=&width=466.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831696917-1b56eb6f-8044-495b-8cd1-7df097a3fb76.png#averageHue=%23cdd4da&clientId=u8a9bb9ac-3800-4&from=paste&height=85&id=uff9d58c6&originHeight=106&originWidth=1045&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=155961&status=done&style=none&taskId=ub1f1d91a-6a22-4bb7-a334-8a73184af02&title=&width=836" srcset="/img/loading.gif" lazyload alt="image.png"><br>如果乘积用eax和edx表示时：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831748288-fa1a0bc2-3c01-46d9-9a49-9c1796645882.png#averageHue=%23e1e9f1&clientId=u8a9bb9ac-3800-4&from=paste&height=52&id=udc6783b2&originHeight=65&originWidth=560&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51668&status=done&style=none&taskId=uc306dca0-cb1c-41bc-a104-43920bfdf3b&title=&width=448" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="控制转移指令："><a href="#控制转移指令：" class="headerlink" title="控制转移指令："></a>控制转移指令：</h2><h4 id="相关知识点：-3"><a href="#相关知识点：-3" class="headerlink" title="相关知识点："></a>相关知识点：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831896705-7755ab1c-df9a-448b-a1af-b532f64a5766.png#averageHue=%23a5b6cc&clientId=u8a9bb9ac-3800-4&from=paste&height=98&id=uda8d8273&originHeight=123&originWidth=445&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67150&status=done&style=none&taskId=ub9ed2a6f-b197-490c-b0db-2220d58bb54&title=&width=356" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831915331-7ea4a1ba-6c9b-4ded-a634-7f3c88fe9ccf.png#averageHue=%239fb2ca&clientId=u8a9bb9ac-3800-4&from=paste&height=66&id=u3976babd&originHeight=83&originWidth=442&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=35489&status=done&style=none&taskId=u3651bf76-22dd-4364-929e-20d6e792d27&title=&width=353.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686831959104-79060feb-9cd8-4e96-9bc4-9feb9aa90d55.png#averageHue=%23d3dae0&clientId=u8a9bb9ac-3800-4&from=paste&height=267&id=ud01d08b1&originHeight=334&originWidth=812&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=341861&status=done&style=none&taskId=uc108f384-6b01-432c-9edf-03bb8444eea&title=&width=649.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686832001836-a3cfb4be-08d9-4080-86cf-98b71b61821c.png#averageHue=%23d4dce2&clientId=u8a9bb9ac-3800-4&from=paste&height=288&id=ub2308d35&originHeight=360&originWidth=776&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=307073&status=done&style=none&taskId=u45fcaef7-9a36-42a8-be34-695635b31aa&title=&width=620.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686832038114-8fc61cef-ca15-4339-a618-250ddab6f989.png#averageHue=%23e0e7ee&clientId=u8a9bb9ac-3800-4&from=paste&height=146&id=u7c5d7601&originHeight=183&originWidth=894&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=189003&status=done&style=none&taskId=u1268c12b-d35c-4468-8fc6-a884018808d&title=&width=715.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="测试程序：-1"><a href="#测试程序：-1" class="headerlink" title="测试程序："></a>测试程序：</h4><p>#include “stdio.h” </p>
+<p>int sum(int a[],int n)</p>
+<p> {int i,sum&#x3D;0; </p>
+<p>for(i&#x3D;0;i&lt;n;i++) </p>
+<p>sum+&#x3D;a[i]; </p>
+<p>return sum; </p>
+<p>}</p>
+<p>void main()</p>
+<p>{</p>
+<p>int a[4]&#x3D;{1,2,3,4},n&#x3D;3,x;</p>
+<p> x&#x3D;sum(a,n);</p>
+<p>printf(“sum&#x3D;%d\n”,x); </p>
+<p>}</p>
+<h4 id="编译运行：-1"><a href="#编译运行：-1" class="headerlink" title="编译运行："></a>编译运行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833459024-9060685b-3e93-41f2-b72d-dfca23eaeb3e.png#averageHue=%231c3977&clientId=u8a9bb9ac-3800-4&from=paste&height=102&id=u50f3eda8&originHeight=127&originWidth=538&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=104013&status=done&style=none&taskId=u1baf8574-ab4a-4a42-aa1f-5438b52ddf7&title=&width=430.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试：-1"><a href="#调试：-1" class="headerlink" title="调试："></a>调试：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833809064-f4646e7a-8d6c-4f5c-bda7-e23dacff6111.png#averageHue=%231f3170&clientId=u8a9bb9ac-3800-4&from=paste&height=36&id=ud0ecc51e&originHeight=45&originWidth=663&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48689&status=done&style=none&taskId=u5dc5e0e5-3a49-4e46-8689-c87eca5a2e0&title=&width=530.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833826322-c85a4891-829d-4ead-a20f-c1d4a4bf9f41.png#averageHue=%23ebc8c8&clientId=u8a9bb9ac-3800-4&from=paste&height=58&id=u28036f61&originHeight=72&originWidth=392&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=35753&status=done&style=none&taskId=uaa3ff4b7-4c5e-493e-94e0-a4d56b52457&title=&width=313.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833839106-44f603fd-b652-498a-b14a-82f9b000fdf0.png#averageHue=%23f8e0df&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=ucd485cc0&originHeight=54&originWidth=411&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=32022&status=done&style=none&taskId=u1ecbc741-1bf6-47c3-a593-01ee8e6a4f0&title=&width=328.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833881225-08c3ecf6-9c9d-4bd6-be5a-5780b4af8db7.png#averageHue=%23f5f3f2&clientId=u8a9bb9ac-3800-4&from=paste&height=27&id=uef6ac566&originHeight=34&originWidth=399&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=22503&status=done&style=none&taskId=ufba37afa-702f-47c2-9b24-dcf86d296f2&title=&width=319.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>部分反汇编内容：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833774171-d72da01d-132d-425d-a2a3-225873654aba.png#averageHue=%23fbfaf8&clientId=u8a9bb9ac-3800-4&from=paste&height=467&id=u3a091a8d&originHeight=584&originWidth=785&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=97178&status=done&style=none&taskId=u1e28feba-d33c-4a4d-be38-0ad4accf22f&title=&width=628" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686833783650-e079073a-05f6-40fd-9fca-45905c659fdd.png#averageHue=%23fbf9f7&clientId=u8a9bb9ac-3800-4&from=paste&height=540&id=u6cec5164&originHeight=675&originWidth=848&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=137452&status=done&style=none&taskId=u76a0ffab-994a-4beb-b03a-e8244b51960&title=&width=678.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834150151-16b2aad8-a484-4f10-9c99-a2c3e1343cb3.png#averageHue=%231d3777&clientId=u8a9bb9ac-3800-4&from=paste&height=99&id=uec575f42&originHeight=124&originWidth=629&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=101094&status=done&style=none&taskId=ube940f45-b606-4b3f-b2e8-cbc1a6b0019&title=&width=503.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834263249-362d4d85-b94a-4067-8fab-e403ce9e2d11.png#averageHue=%23264181&clientId=u8a9bb9ac-3800-4&from=paste&height=449&id=u5533ef00&originHeight=561&originWidth=843&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=640450&status=done&style=none&taskId=ubd7183ac-9235-4880-ae6c-1653bfdec51&title=&width=674.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>分析上面的调试发现call指令实现了以下2个功能：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834328114-42de206c-e80e-4c26-bca6-7b3e172f51ee.png#averageHue=%2371a1dd&clientId=u8a9bb9ac-3800-4&from=paste&height=65&id=ub3331ee2&originHeight=81&originWidth=341&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20540&status=done&style=none&taskId=u9f562f20-cdb5-442a-b85a-5d23be961b0&title=&width=272.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834336496-fba10f33-36fa-44b4-a863-5e38615c8645.png#averageHue=%2372930a&clientId=u8a9bb9ac-3800-4&from=paste&height=54&id=u68f39ffb&originHeight=67&originWidth=316&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17491&status=done&style=none&taskId=ucc062d53-37ce-40fe-88d6-7826cc6af8b&title=&width=252.8" srcset="/img/loading.gif" lazyload alt="image.png">如果是段间转移还会改变cs寄存器的内容。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834441129-5bed9a66-53e0-4b04-9062-91609228550a.png#averageHue=%23ccbead&clientId=u8a9bb9ac-3800-4&from=paste&height=13&id=uf1ac24f1&originHeight=16&originWidth=551&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=10088&status=done&style=none&taskId=u27e5c481-9239-4700-af21-aa6022aea1d&title=&width=440.8" srcset="/img/loading.gif" lazyload alt="image.png">可以看出call指令转移时偏移量是0xffffff72(call指令占2个字节）;<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834529713-25dbb788-e6eb-4df1-a908-ab4b9451b087.png#averageHue=%236593cd&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=ud5fdb133&originHeight=54&originWidth=438&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29361&status=done&style=none&taskId=uc00926b3-5e7e-42bf-a433-c051a6f56cb&title=&width=350.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>相对寻址的目标地址是pc的内容加偏移量。<br>R[eip]&#x3D;0x804923f+5&#x3D;0x8049244<br>目标转移地址：R[eip]+0xffffff72&#x3D;0x80491b6(这个结果刚好是送入eip的目标转移地址，可以根据上面的调试看出）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686834898082-0e80d748-0bd2-44dd-be82-a08f3c0e6186.png#averageHue=%23f9f7f4&clientId=u8a9bb9ac-3800-4&from=paste&height=54&id=u43a0f763&originHeight=67&originWidth=578&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=11612&status=done&style=none&taskId=uffc43356-d943-4522-8fd2-5082139e32b&title=&width=462.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835293145-7e636992-78f3-4a0f-92ae-bfbdf11e25d1.png#averageHue=%231e498c&clientId=u8a9bb9ac-3800-4&from=paste&height=200&id=u5bb20277&originHeight=250&originWidth=623&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209179&status=done&style=none&taskId=ud2fdf56a-40f0-405e-a62c-48192487cdb&title=&width=498.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835299865-61b03166-38d7-4c51-a164-4b3c26b1c404.png#averageHue=%2372a0da&clientId=u8a9bb9ac-3800-4&from=paste&height=56&id=u541a4b6e&originHeight=70&originWidth=497&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=31950&status=done&style=none&taskId=u2b8bc97d-8a67-4cbe-8d70-f36f2c542c4&title=&width=397.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835324728-92a2fc53-dcbb-408a-9a00-f721cb7c9af7.png#averageHue=%236796d0&clientId=u8a9bb9ac-3800-4&from=paste&height=43&id=u7e70226a&originHeight=54&originWidth=492&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=30894&status=done&style=none&taskId=u95a1d511-f053-47b3-870a-4f8031d39c1&title=&width=393.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>R[eip]&#x3D;0x80491ce+2&#x3D;0x80491d0;<br>目标转移地址：R[eip]+0x18&#x3D;0x80491e8;(符合上述调试的eip的值）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835658113-75e55c6a-87dc-4373-832f-3ad7d5cf8889.png#averageHue=%23f9f6f4&clientId=u8a9bb9ac-3800-4&from=paste&height=82&id=u3eee58e0&originHeight=102&originWidth=625&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20812&status=done&style=none&taskId=uad35ae84-2a4b-4226-b6df-45f627f65d9&title=&width=500" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835679963-e6537480-821a-4fa6-954d-ed6c05a34e96.png#averageHue=%236d9edb&clientId=u8a9bb9ac-3800-4&from=paste&height=47&id=u5e3c1df0&originHeight=59&originWidth=497&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=27597&status=done&style=none&taskId=u68e0fd87-f4eb-4936-bee5-f9f02b4db71&title=&width=397.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835778262-b0c346fb-3ff9-4472-b95a-54aa68a4e03a.png#averageHue=%23254e91&clientId=u8a9bb9ac-3800-4&from=paste&height=307&id=u5cea467c&originHeight=384&originWidth=630&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=322694&status=done&style=none&taskId=ub0a31d26-af94-4dc2-8064-3d286dc0ab7&title=&width=504" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836107312-d81c00a6-b45f-482e-98f0-d7c4ff0b3297.png#averageHue=%231d3576&clientId=u21d6e0b7-1802-4&from=paste&height=78&id=ud58e25bf&originHeight=98&originWidth=570&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=70929&status=done&style=none&taskId=uc627db1a-4282-46dc-8cdd-13f106e4a01&title=&width=456" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686835881902-7f7b1633-0e5c-46df-acab-adf00e3c5899.png#averageHue=%236390c8&clientId=u21d6e0b7-1802-4&from=paste&height=66&id=u4c90acca&originHeight=83&originWidth=503&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=59558&status=done&style=none&taskId=u671148c4-714e-4949-b5f6-37586cb5d8f&title=&width=402.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836250307-e93ea7d5-041d-46f2-be94-fab3f4924a22.png#averageHue=%23cecece&clientId=u36a04572-862d-4&from=paste&height=75&id=u8bea86f0&originHeight=94&originWidth=539&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48634&status=done&style=none&taskId=ufcb3a2a7-0e30-4e92-ae2c-59f49bf64b6&title=&width=431.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>eflags&#x3D;0x293,CF(1),zf(6),sf(7),of(11)满足jl转移条件。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836547563-5fb5f142-0154-4e28-9422-f8cde13c6e0f.png#averageHue=%23fbf9f7&clientId=u36a04572-862d-4&from=paste&height=30&id=ue3d53e18&originHeight=37&originWidth=440&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3572&status=done&style=none&taskId=u19c9c73a-f3bf-4b2b-a62a-bf3c1395e6c&title=&width=352" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836695968-4d076002-3573-4fc1-84ca-c11b1ce3ec4f.png#averageHue=%231c3879&clientId=u36a04572-862d-4&from=paste&height=112&id=ub256286c&originHeight=140&originWidth=619&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=112129&status=done&style=none&taskId=u09ee2f18-3184-4ab9-b16f-13c0fa4e14c&title=&width=495.2" srcset="/img/loading.gif" lazyload alt="image.png">这里的si已经调试到断点为ret指令了。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836748251-6805e9c5-8541-4d5a-9e88-0dd8e343d4ce.png#averageHue=%231c3d7d&clientId=u36a04572-862d-4&from=paste&height=134&id=u4ec25cbc&originHeight=167&originWidth=577&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132733&status=done&style=none&taskId=u49cddcf7-c779-4c4b-aeb8-09ca1625929&title=&width=461.6" srcset="/img/loading.gif" lazyload alt="image.png">这里是已经执行了ret指令<br>可以看出这里的eip的值发生的变化值为call指令的下一条指令的地址<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836810615-8badaf10-b3ca-4f36-bbaf-95a8b3ee1e2f.png#averageHue=%23f6f4f2&clientId=u36a04572-862d-4&from=paste&height=35&id=u1830ec1b&originHeight=44&originWidth=572&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21602&status=done&style=none&taskId=uf1c2699b-c7e1-4736-a560-9df94f2acab&title=&width=457.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686836827256-a625dca1-b29c-43d5-9274-a720b2d71808.png#averageHue=%23618cc3&clientId=u36a04572-862d-4&from=paste&height=60&id=ua698cbe5&originHeight=75&originWidth=419&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49607&status=done&style=none&taskId=u41bff3c8-26a7-4187-a92a-da15fc13267&title=&width=335.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="栈和过程调用："><a href="#栈和过程调用：" class="headerlink" title="栈和过程调用："></a>栈和过程调用：</h2><h4 id="相关知识："><a href="#相关知识：" class="headerlink" title="相关知识："></a>相关知识：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686837499868-7d62ae5f-60ea-42f3-8f6d-5bafcf4dcc63.png#averageHue=%23d8e0e7&clientId=u36a04572-862d-4&from=paste&height=346&id=u41626404&originHeight=432&originWidth=615&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=300746&status=done&style=none&taskId=uf05cb647-2ad1-4530-99f6-0e3af4ccafc&title=&width=492" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686837510350-06c16436-8166-41eb-a0d8-2db1ee33fe2a.png#averageHue=%23cdd5dc&clientId=u36a04572-862d-4&from=paste&height=448&id=uc313e043&originHeight=560&originWidth=427&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=277611&status=done&style=none&taskId=u9b4974c4-d379-4fab-854d-b6b0d9c47d1&title=&width=341.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686838068118-3eddd728-d548-4384-ae19-9b602ddb8dec.png#averageHue=%23d0d8df&clientId=u36a04572-862d-4&from=paste&height=140&id=u982ea01c&originHeight=175&originWidth=402&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=86826&status=done&style=none&taskId=u78cf6b6a-8dfa-4d9f-b988-a5b5e3a50f6&title=&width=321.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686838013670-ca80b71d-2a55-45f7-8e12-8dd586ccfb1a.png#averageHue=%23c7d4de&clientId=u36a04572-862d-4&from=paste&height=461&id=u1bffe933&originHeight=576&originWidth=1140&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=690449&status=done&style=none&taskId=u5dd93810-c54a-4244-9abd-1d092e8ff10&title=&width=912" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="测试程序：-2"><a href="#测试程序：-2" class="headerlink" title="测试程序："></a>测试程序：</h4><p>#include &lt;stdio.h&gt;<br>int swap (int <em>x, int</em>y)<br> {<br>int t&#x3D;*x;<br>*x&#x3D;*y;<br>*y&#x3D;t;<br>}<br>void main()<br> {<br>int a&#x3D;15,b&#x3D;22; swap(&amp;a,&amp;b);<br>rintf(“a&#x3D;%d\tb&#x3D;%d\n”,a,b);<br>}</p>
+<h4 id="编译运行：-2"><a href="#编译运行：-2" class="headerlink" title="编译运行："></a>编译运行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686840985154-c309a319-56f3-4f34-9cf2-15fbebe7cdb2.png#averageHue=%231d3372&clientId=u2fdd0915-c1a2-4&from=paste&height=81&id=uf204671a&originHeight=101&originWidth=667&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=94531&status=done&style=none&taskId=u1c03763d-bfff-4fa6-9da9-4fde58fe388&title=&width=533.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试：-2"><a href="#调试：-2" class="headerlink" title="调试："></a>调试：</h4><p>部分反汇编内容：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841111043-f57aa07d-2606-4bf9-b883-e2c88cdad4c7.png#averageHue=%23fcfaf9&clientId=u2fdd0915-c1a2-4&from=paste&height=412&id=uef19953c&originHeight=515&originWidth=746&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77203&status=done&style=none&taskId=u5279dd0e-3bac-40b7-a2bb-14b9e771b29&title=&width=596.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841116058-b447e881-d353-444d-a404-5bf2227b8244.png#averageHue=%23f9f8f5&clientId=u2fdd0915-c1a2-4&from=paste&height=171&id=u8752477a&originHeight=214&originWidth=856&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42857&status=done&style=none&taskId=u889dfff2-00a0-4fe5-93c7-f1e014053e9&title=&width=684.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>解析：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841310466-e64f868c-ac97-42ef-831e-91829ed92e61.png#averageHue=%23fbfaf8&clientId=u2fdd0915-c1a2-4&from=paste&height=26&id=u0c41e3f9&originHeight=32&originWidth=603&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4409&status=done&style=none&taskId=u0447bf35-efdf-4eeb-b940-5cd7d00798c&title=&width=482.4" srcset="/img/loading.gif" lazyload alt="image.png">这里指令是回收swap栈空间，是过程调用的结束工作的标志。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841415297-6cadf712-101b-426f-b71d-536f9827af81.png#averageHue=%23faf8f7&clientId=u2fdd0915-c1a2-4&from=paste&height=20&id=u37f746ad&originHeight=25&originWidth=509&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3793&status=done&style=none&taskId=u336f388c-de8e-4318-a13d-9e491c52eb4&title=&width=407.2" srcset="/img/loading.gif" lazyload alt="image.png">保存调用者的edp值；<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841448100-a6deb8d1-8105-4750-8195-8b3577b9cb4c.png#averageHue=%23f9f6f3&clientId=u2fdd0915-c1a2-4&from=paste&height=15&id=ue4eeca10&originHeight=19&originWidth=519&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3712&status=done&style=none&taskId=u8e73efcd-bdeb-44d3-b2eb-beb6d007508&title=&width=415.2" srcset="/img/loading.gif" lazyload alt="image.png">建立自己的栈空间<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841496720-cd41ea4b-2aab-4af8-bcdc-2bdf303556fc.png#averageHue=%23faf9f7&clientId=u2fdd0915-c1a2-4&from=paste&height=23&id=u3927ce72&originHeight=29&originWidth=577&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4528&status=done&style=none&taskId=uc536eac5-b707-40f8-854d-78b5b66af83&title=&width=461.6" srcset="/img/loading.gif" lazyload alt="image.png">为自己的非静态局部变量分配空间（没有寄存器保存也没有调用其他过程）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841569629-fbfbacc3-5d3c-47b5-8e0d-d36a0376945f.png#averageHue=%23faf8f5&clientId=u2fdd0915-c1a2-4&from=paste&height=14&id=u727f56d4&originHeight=18&originWidth=441&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=3033&status=done&style=none&taskId=u5be7da58-4f06-4df5-b019-69cf19e58f4&title=&width=352.8" srcset="/img/loading.gif" lazyload alt="image.png">用leave指令回收栈空间<br>ret指令返回调用者。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686841720354-9744305a-7238-4e9f-a22c-41748aadf58e.png#averageHue=%231d3979&clientId=u2fdd0915-c1a2-4&from=paste&height=108&id=uebd16c2a&originHeight=135&originWidth=598&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=104111&status=done&style=none&taskId=u764569c3-15d6-41a5-ac07-93080010cf0&title=&width=478.4" srcset="/img/loading.gif" lazyload alt="image.png">调试程序断点为swap(&amp;a,&amp;b)处，这里的eip的值是swap的地址，表示已经使用了call指令<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686844612906-058ff451-6fe5-4167-b63e-6e0cd0b52142.png#averageHue=%23254789&clientId=u2fdd0915-c1a2-4&from=paste&height=309&id=ufa48e7ef&originHeight=386&originWidth=760&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=393718&status=done&style=none&taskId=ue9f59cdc-08a0-4ad6-bb59-af0a3cdfca4&title=&width=608" srcset="/img/loading.gif" lazyload alt="image.png">显示当前的栈帧内容<br>画出栈：<br> <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1686881443299-fd9041eb-5e8e-4052-93c1-599aee4a6476.jpeg#averageHue=%23bfb8ae&clientId=u2fdd0915-c1a2-4&from=paste&height=382&id=ua0839af3&originHeight=784&originWidth=806&originalType=binary&ratio=1.25&rotation=90&showTitle=false&size=35773&status=done&style=none&taskId=u88ff4f02-1c51-40a1-b799-88e093adbe1&title=&width=393" srcset="/img/loading.gif" lazyload alt="qq_pic_merged_1686881431385.jpg">0x14是16进制是4的倍数。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686881982802-14de8ef5-8a64-4fe6-9244-0ad73d3f93fb.png#averageHue=%231c3474&clientId=u2fdd0915-c1a2-4&from=paste&height=98&id=u53016250&originHeight=122&originWidth=698&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=105543&status=done&style=none&taskId=u14e3dfd7-8b81-404b-9557-081a5a612e3&title=&width=558.4" srcset="/img/loading.gif" lazyload alt="image.png">这里的断点是call指令，因为没有执行call指令，所有esp比上面的main栈空间多一个多出的是参数<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686882270558-30c056d1-8710-4a6b-b48c-52ef8bfed204.png#averageHue=%231e3678&clientId=u2fdd0915-c1a2-4&from=paste&height=55&id=uf0f024d3&originHeight=69&originWidth=516&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51068&status=done&style=none&taskId=u8d9beeef-cfe7-4720-a3fd-96c19757e35&title=&width=412.8" srcset="/img/loading.gif" lazyload alt="image.png">这里是运行了call指令,多出的是返回地址<br>显示当前栈帧内容：（包括返回地址了）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686882803895-d5e5da86-9410-44b2-a8f0-ee62fe1e8fd9.png#averageHue=%231c3271&clientId=u2fdd0915-c1a2-4&from=paste&height=76&id=u75ce1967&originHeight=95&originWidth=710&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=93874&status=done&style=none&taskId=ub6c24b24-1efd-4d91-bc7c-334d8b8528a&title=&width=568" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883050317-5f7de4e2-2a4e-4b4a-acc4-014f6e81b13e.png#averageHue=%231b4082&clientId=u2fdd0915-c1a2-4&from=paste&height=46&id=ue2edcc67&originHeight=58&originWidth=388&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=27154&status=done&style=none&taskId=ua8b9845c-0432-4d1d-a421-6607f6e2f19&title=&width=310.4" srcset="/img/loading.gif" lazyload alt="image.png">（调试让断点停留在int t &#x3D; *x;处，此时swap已经分配了栈空间）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883218841-5b6114d0-8790-4674-837d-ca9e0ea96d9b.png#averageHue=%231c3675&clientId=u2fdd0915-c1a2-4&from=paste&height=111&id=uc4369364&originHeight=139&originWidth=686&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=125052&status=done&style=none&taskId=u5b2db10d-1d33-4144-8396-7cef3e35326&title=&width=548.8" srcset="/img/loading.gif" lazyload alt="image.png">（可以看出swap栈空间为0x10符合<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883245619-6f863840-2a0b-4bf6-8638-dca7cf48190a.png#averageHue=%23f8f6f3&clientId=u2fdd0915-c1a2-4&from=paste&height=17&id=u39d25515&originHeight=21&originWidth=525&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=4149&status=done&style=none&taskId=ufcc52e88-7804-4e2f-82a6-58a1376c573&title=&width=420" srcset="/img/loading.gif" lazyload alt="image.png">这条语句，此时的栈顶为0xffffd458是main栈的ebp地址，是在swap栈中）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883428348-46ac94f4-13ab-4880-b022-83d4a5e1350a.png#averageHue=%231c3271&clientId=u2fdd0915-c1a2-4&from=paste&height=98&id=u2090e8ac&originHeight=123&originWidth=752&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132274&status=done&style=none&taskId=u41267527-f48d-4497-877a-49e779c5692&title=&width=601.6" srcset="/img/loading.gif" lazyload alt="image.png">（这里显示的是swap栈和main栈的部分内容可以看出main栈和swap栈是连续的内存空间）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883632109-68c617c9-9d04-4d60-9507-5b96bba20668.png#averageHue=%231d397c&clientId=u2fdd0915-c1a2-4&from=paste&height=62&id=u581d2ed9&originHeight=77&originWidth=381&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39688&status=done&style=none&taskId=ubf9db584-47eb-478c-a216-49acc2673d8&title=&width=304.8" srcset="/img/loading.gif" lazyload alt="image.png">（这里的断点已经执行了leave指令）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883714806-3e59c0cb-b4f3-4ddd-9bed-1b98b0c528cd.png#averageHue=%231d387a&clientId=u2fdd0915-c1a2-4&from=paste&height=61&id=uffd40d82&originHeight=76&originWidth=444&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49233&status=done&style=none&taskId=u62bc7e5f-22e1-416a-b1c6-532b02246a1&title=&width=355.2" srcset="/img/loading.gif" lazyload alt="image.png">这里的esp是main栈的返回栈顶，内容是返回地址，ebp是main栈的ebp，可以看出leave指令是回收swap栈的空间）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686883860450-9a421ca5-7cfe-4cec-842c-9def8f299d28.png#averageHue=%231d3a7a&clientId=u2fdd0915-c1a2-4&from=paste&height=119&id=u80c6108e&originHeight=149&originWidth=605&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=119279&status=done&style=none&taskId=uc2333a64-2012-45ae-9a13-3480976f705&title=&width=484" srcset="/img/loading.gif" lazyload alt="image.png">（这里已经调试到刚刚执行ret指令，可以看出esp的值比原main栈少了一个，可以看出是返回地址pop了，eip的值是返回地址，可以看出ret指令让返回地址pop到eip中了）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686884055820-19c0b6fb-6c8b-462f-a0b0-2d9161ee6403.png#averageHue=%23f9f6f4&clientId=u2fdd0915-c1a2-4&from=paste&height=22&id=u49ed1d53&originHeight=28&originWidth=533&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=5236&status=done&style=none&taskId=u18d75be0-686d-4b70-b7a4-5346b606cf5&title=&width=426.4" srcset="/img/loading.gif" lazyload alt="image.png">（这是main函数中call指令的下一条指令，是一个加法指令，此时main栈中的esp指向的是swap函数的入口参数，这里的加法指令作用是回收了入口参数的存储地址，main的栈空间返回到了swap调用前的状态，当然其中的a,b值已经交换过）</p>
+<h4 id="测试程序2：（修改swap中的参数，变成按值传递）"><a href="#测试程序2：（修改swap中的参数，变成按值传递）" class="headerlink" title="测试程序2：（修改swap中的参数，变成按值传递）"></a>测试程序2：（修改swap中的参数，变成按值传递）</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885418184-64ff1032-b121-4397-bb01-76b0a2f1d619.png#averageHue=%23392855&clientId=u2fdd0915-c1a2-4&from=paste&height=456&id=ub0d0e819&originHeight=570&originWidth=575&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=350120&status=done&style=none&taskId=u22adc310-4fa5-4537-b164-20136449f3c&title=&width=460" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="编译运行：-3"><a href="#编译运行：-3" class="headerlink" title="编译运行："></a>编译运行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885451893-ac0da8c9-0883-410f-9356-3612da6f05c7.png#averageHue=%231d3473&clientId=u2fdd0915-c1a2-4&from=paste&height=101&id=u21527fff&originHeight=126&originWidth=714&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=125110&status=done&style=none&taskId=u36df87e8-2556-4f68-8e1f-d8d9d9071b2&title=&width=571.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试：-3"><a href="#调试：-3" class="headerlink" title="调试："></a>调试：</h4><p>部分反汇编内容：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885748224-d19f995e-de14-4359-95be-165b21fd446c.png#averageHue=%23fcfbfa&clientId=u2fdd0915-c1a2-4&from=paste&height=353&id=u17b0516f&originHeight=441&originWidth=829&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=62275&status=done&style=none&taskId=uec753e45-22a4-4b7b-8dcd-e3e6ff7959f&title=&width=663.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885755497-8c55ed1c-0ce0-44b0-b009-8eccd6c2bfc2.png#averageHue=%23fbf9f7&clientId=u2fdd0915-c1a2-4&from=paste&height=278&id=u9b2079d4&originHeight=347&originWidth=788&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66267&status=done&style=none&taskId=ufdbe3572-ec1c-49a5-8ef7-a5f180968a8&title=&width=630.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>对比按地址传递方式的汇编：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886011699-8a8b9fd2-0617-448c-a267-7b6fa33e25f6.png#averageHue=%23fbf8f6&clientId=u2fdd0915-c1a2-4&from=paste&height=228&id=u2256bef4&originHeight=285&originWidth=591&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=46841&status=done&style=none&taskId=u5db97c27-322d-4301-bf49-00715a7ecef&title=&width=472.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885827996-300821aa-db17-4cb8-95a7-3c2663fcda94.png#averageHue=%23f5f3f0&clientId=u2fdd0915-c1a2-4&from=paste&height=74&id=u696a5322&originHeight=92&originWidth=650&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20445&status=done&style=none&taskId=uf7812991-81b9-494c-93fc-c88fe89cb1e&title=&width=520" srcset="/img/loading.gif" lazyload alt="image.png">（按地址传送）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886032102-b6d343a3-cf1d-4af6-8b66-5f45330f17f7.png#averageHue=%23fbf9f8&clientId=u2fdd0915-c1a2-4&from=paste&height=180&id=uea53f3b2&originHeight=225&originWidth=624&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=33215&status=done&style=none&taskId=u71a1ec6e-3f9c-4106-8615-0bcddeb5419&title=&width=499.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885844696-d59f58ef-2e0e-4700-a4c6-e4a5d9dd50f9.png#averageHue=%23f7f4f0&clientId=u2fdd0915-c1a2-4&from=paste&height=42&id=u662fc6a2&originHeight=53&originWidth=583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13176&status=done&style=none&taskId=u579d8250-a53f-4f65-b5ea-cbd4601529b&title=&width=466.4" srcset="/img/loading.gif" lazyload alt="image.png">（按值传送）<br>对比2中不同的传递可以看出传递参数和过程体的内容的指令有区别。<br>按地址传送<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686885985479-eefaea1c-731e-4146-a8e7-225c3f2866c1.png#averageHue=%23549dc2&clientId=u2fdd0915-c1a2-4&from=paste&height=44&id=u3c83da69&originHeight=55&originWidth=454&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51438&status=done&style=none&taskId=ube8a3b57-6440-448c-9352-0ab53b2e14d&title=&width=363.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>按值传送：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886043880-fecd5556-84d3-47c6-b56f-5a29b1484cfd.png#averageHue=%23509bc0&clientId=u2fdd0915-c1a2-4&from=paste&height=49&id=uc5420e7e&originHeight=61&originWidth=457&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=53461&status=done&style=none&taskId=u94a3719c-89df-45ce-805d-2d09595549f&title=&width=365.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886101976-d084a994-9b2e-4160-adfb-cd2727da6da6.png#averageHue=%23c8c8c6&clientId=u2fdd0915-c1a2-4&from=paste&height=181&id=u08a756a4&originHeight=226&originWidth=559&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=106057&status=done&style=none&taskId=uf1de069b-e5da-4d45-9224-16eb8b68be1&title=&width=447.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886121627-77f44fe8-ac0b-4098-9973-a03b1afb3e72.png#averageHue=%23bfbfbd&clientId=u2fdd0915-c1a2-4&from=paste&height=221&id=ua35ffe7d&originHeight=276&originWidth=591&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132215&status=done&style=none&taskId=uf6cade34-fe90-4af2-8aca-144fe75acc1&title=&width=472.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886141096-a8634036-fbe4-4ca5-bc22-703934b9ca15.png#averageHue=%23c0c0c0&clientId=u2fdd0915-c1a2-4&from=paste&height=84&id=ud24c3c36&originHeight=105&originWidth=567&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39661&status=done&style=none&taskId=ud48ff2de-cd47-433f-8c15-2e19d88cf41&title=&width=453.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686886151420-d85aabc7-b65a-47c9-9bea-b5308c24e9ba.png#averageHue=%23cacbc9&clientId=u2fdd0915-c1a2-4&from=paste&height=115&id=u5960472a&originHeight=144&originWidth=515&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=65545&status=done&style=none&taskId=ua5dfc9f0-928b-4904-bf79-a962e3be3f0&title=&width=412" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="缓冲区溢出："><a href="#缓冲区溢出：" class="headerlink" title="缓冲区溢出："></a>缓冲区溢出：</h2><h4 id="测试程序a："><a href="#测试程序a：" class="headerlink" title="测试程序a："></a>测试程序a：</h4><p>#include “stdio.h”<br>#include “string.h”<br>char code[]&#x3D;<br>“0123456789abcdef’;<br>int main()<br>{<br>char *arg[3];<br>arg[0]&#x3D;”.&#x2F;b”;<br>arg[1]&#x3D;code;<br>arg[2]&#x3D;NULL;<br>execve(arg[0],arg,NULL);<br>return 0;<br>}</p>
+<h4 id="-1"><a href="#-1" class="headerlink" title=""></a></h4><p>测试程序b：这个程序存在缓冲区溢出漏洞<br>#include “stdio.h”</p>
+<p>#include “string.h”</p>
+<p> void outputs(char *str) </p>
+<p>{</p>
+<p>char buffer[16]; &#x2F;&#x2F;系统对bufff的写入str字符串没有进行越界检查，可能会覆盖返回地址</p>
+<p>strcpy(buffer,str); </p>
+<p>printf(“%s\n”,buffer);<br> }</p>
+<p>void hacker(void)</p>
+<p>{</p>
+<p>printf(“being hacked\n”);</p>
+<p>}</p>
+<p> int main(int argc,char *argv[]) </p>
+<p>{</p>
+<p>outputs(argv[1]);</p>
+<p>printf(“yes\n”);</p>
+<p> return 0;</p>
+<p>}</p>
+<h4 id="编译运行程序："><a href="#编译运行程序：" class="headerlink" title="编译运行程序："></a>编译运行程序：</h4><p>系统为了防范缓冲区溢出漏洞，设置了栈地址空间的随机分配。<br>要实现上面的漏洞，要先关闭系统栈的随机分配<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686890492381-dc94ac22-754d-4dbb-bc41-e462e06ab92b.png#averageHue=%231f2f6f&clientId=u2fdd0915-c1a2-4&from=paste&height=35&id=u94cc8b93&originHeight=44&originWidth=705&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48752&status=done&style=none&taskId=u6cad27ec-03bb-41ed-9179-a981363363b&title=&width=564" srcset="/img/loading.gif" lazyload alt="image.png">（这条命令关闭系统栈的随机分配）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686890765935-1d4a4146-db6d-4818-8114-ed8958603e1d.png#averageHue=%23203a7b&clientId=u2fdd0915-c1a2-4&from=paste&height=205&id=u402c5ad1&originHeight=256&originWidth=1014&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=361223&status=done&style=none&taskId=uca3b3e91-17c1-4002-9243-c273824b09a&title=&width=811.2" srcset="/img/loading.gif" lazyload alt="image.png">（-fno-stack-protector -z execstack 多加的选项是目的是<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686890798134-7282b540-26d9-42be-adc3-216fee0cd5f4.png#averageHue=%23eef1e8&clientId=u2fdd0915-c1a2-4&from=paste&height=37&id=u4d42892f&originHeight=46&originWidth=326&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13281&status=done&style=none&taskId=ucfd9e1f8-5730-4fe6-9f67-95064632c1b&title=&width=260.8" srcset="/img/loading.gif" lazyload alt="image.png">）</p>
+<h4 id="调试程序实现缓冲区溢出攻击："><a href="#调试程序实现缓冲区溢出攻击：" class="headerlink" title="调试程序实现缓冲区溢出攻击："></a>调试程序实现缓冲区溢出攻击：</h4><p>a的部分反汇编内容：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891020076-a3b39667-8dca-4fe1-bfdc-73ad5221c0d8.png#averageHue=%23fbf9f7&clientId=u2fdd0915-c1a2-4&from=paste&height=494&id=u16a4851e&originHeight=617&originWidth=759&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=110940&status=done&style=none&taskId=ub945e1a2-2f44-40b7-b065-8250c43e61e&title=&width=607.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>b的部分反汇编内容：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891034999-05b876df-74b5-4c41-ade3-501fc1611dc2.png#averageHue=%23fcfaf9&clientId=u2fdd0915-c1a2-4&from=paste&height=334&id=u21a86cbd&originHeight=417&originWidth=783&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=63973&status=done&style=none&taskId=u125ab2b3-e9aa-45de-a482-9280727ce0f&title=&width=626.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891512567-62469488-8078-4277-9ca3-f3380023ad50.png#averageHue=%23f9f7f4&clientId=u2fdd0915-c1a2-4&from=paste&height=84&id=u78094252&originHeight=105&originWidth=644&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=20290&status=done&style=none&taskId=u0d0c3e77-7016-4177-b46f-6801949df68&title=&width=515.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891040837-1b99363b-31d2-43eb-bad1-c5259e1b0866.png#averageHue=%23fbfaf8&clientId=u2fdd0915-c1a2-4&from=paste&height=294&id=ua70ad536&originHeight=367&originWidth=619&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48005&status=done&style=none&taskId=u0c57b28b-f62d-4a96-8513-6a87f839d26&title=&width=495.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891046561-919fb184-7d6b-4781-9ac0-a6c623274e71.png#averageHue=%23fbf9f8&clientId=u2fdd0915-c1a2-4&from=paste&height=361&id=uf9103544&originHeight=451&originWidth=757&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=77472&status=done&style=none&taskId=u08240c19-72ae-43c0-9682-583706b4678&title=&width=605.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686891946662-ab0df1ab-4960-480c-8339-82ebc757c1a4.png#averageHue=%231d3f81&clientId=u2fdd0915-c1a2-4&from=paste&height=162&id=u7b28737b&originHeight=202&originWidth=711&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=188427&status=done&style=none&taskId=uec9f8fd0-5a40-435a-9afb-bebb4233c6e&title=&width=568.8" srcset="/img/loading.gif" lazyload alt="image.png">(设置断点为main（包括a的main和b的main,调试到b的main处，显示的eip是outputs(argv[1]的第一条指令的地址，这里的esp，ebp是b中main过程的栈帧空间,程序下一条要执行的语句是outputs说明main函数的栈空间分配指令已经执行完成了，但是这里的main栈没有outputs过程的参数和返回地址，还有一些必要的寄存器保存的值）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686892139366-216398aa-a229-4791-9eb3-d748a214b7c8.png#averageHue=%232c3e76&clientId=u2fdd0915-c1a2-4&from=paste&height=169&id=ua9a68ec0&originHeight=211&originWidth=624&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=167804&status=done&style=none&taskId=ub62b32cf-ab02-40b7-a539-69c84caf318&title=&width=499.2" srcset="/img/loading.gif" lazyload alt="image.png">（程序停留在printf函数处，字符串复制函数执行完成。此时显示的栈空间是outputs过程的栈空间(不带参数和返回地址），）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686892954571-489fe000-f1dc-4007-b95d-4b76ef2d6e5a.png#averageHue=%231c3271&clientId=u2fdd0915-c1a2-4&from=paste&height=98&id=u102f3550&originHeight=123&originWidth=756&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=133809&status=done&style=none&taskId=ub5c335bb-3993-43dc-904f-a687999dcc2&title=&width=604.8" srcset="/img/loading.gif" lazyload alt="image.png">（显示的是mian和outputs的栈帧结构	这里的15的由来：(output的esp的值-main的ebp的值+4)&#x2F;4,因为main函数调用output中保存的寄存器和参数等信息不确定）</p>
+<h4 id="修改a中的code指令实现hacker："><a href="#修改a中的code指令实现hacker：" class="headerlink" title="修改a中的code指令实现hacker："></a>修改a中的code指令实现hacker：</h4><p>char code[]&#x3D;<br>“0123456789abcdef’&#x2F;&#x2F;buffer不越界的字节内容<br>“abcdabcd”&#x2F;&#x2F;buffer与ebp旧值之间需填充的内容<br>“\x48\xde\xff\xff”&#x2F;&#x2F;b的main的ebp值<br>“\xe4\x91\x04\x08”;&#x2F;&#x2F;hacker的首地址 </p>
+<h4 id="重写编译a1程序："><a href="#重写编译a1程序：" class="headerlink" title="重写编译a1程序："></a>重写编译a1程序：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895534209-31665677-3a3c-4e76-8322-4a90f9cedcdb.png#averageHue=%232b3b73&clientId=u2fdd0915-c1a2-4&from=paste&height=113&id=ua86a8cde&originHeight=141&originWidth=941&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=172879&status=done&style=none&taskId=u6d3b81df-59ea-46ad-8e57-db526c168a0&title=&width=752.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895521459-ab23c4e3-15ec-4eb4-865a-5cef32905f15.png#averageHue=%231c3b7c&clientId=u2fdd0915-c1a2-4&from=paste&height=123&id=u15500cc5&originHeight=154&originWidth=610&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=121905&status=done&style=none&taskId=uf8a00f21-918b-4540-bed6-a8acddfeeef&title=&width=488" srcset="/img/loading.gif" lazyload alt="image.png">（设置断点为b的main中，查看修改后的a调用b后main的ebp,修改后的ebp的值和原先的值未必一样）</p>
+<h4 id="更新b的main的edp值程序编译a并执行"><a href="#更新b的main的edp值程序编译a并执行" class="headerlink" title="更新b的main的edp值程序编译a并执行:"></a>更新b的main的edp值程序编译a并执行:</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895659695-57e49382-09cb-488d-ac74-789909133d40.png#averageHue=%231d2f6d&clientId=u2fdd0915-c1a2-4&from=paste&height=94&id=ucaa68e72&originHeight=117&originWidth=986&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=155025&status=done&style=none&taskId=ue428285e-d8a3-4aab-936d-ddf321989ba&title=&width=788.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895686661-81140518-7f09-4bbf-9a46-5200abe59e03.png#averageHue=%231d3d7c&clientId=u2fdd0915-c1a2-4&from=paste&height=83&id=ufd42769d&originHeight=104&originWidth=405&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=67363&status=done&style=none&taskId=ufb6ea752-79bb-4714-aa1a-34d2e69a60e&title=&width=324" srcset="/img/loading.gif" lazyload alt="image.png"><br>没有输出yes的原因：<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686895792789-243b225c-c4d1-4b52-96e7-13586308dbc7.png#averageHue=%23a4b7ce&clientId=u2fdd0915-c1a2-4&from=paste&height=67&id=uc893f175&originHeight=84&originWidth=514&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48065&status=done&style=none&taskId=u1e78b271-1615-4f39-85ef-4eb995c2c81&title=&width=411.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="修改优化更加隐蔽的攻击："><a href="#修改优化更加隐蔽的攻击：" class="headerlink" title="修改优化更加隐蔽的攻击："></a>修改优化更加隐蔽的攻击：</h4><p>原理：上面会报段错误和无法打印yes的原因是hanker过程的ret指令的返回地址是错误的。当执行hanker过程的ret指令的时候，是把此时的栈顶元素当中返回地址送到esp中，而上面的程序在执行到ret指令时此时的main栈帧的栈低元素当中了返回地址，但是这个返回地址是错误的，或者说是非法的（此时可能是把非静态变量或者是保存的寄存器的值当作了返回地址）。只有在复制bufff数组的时候把原本main栈帧中的返回地址+4的内存中写入正确的返回地址，也即是outputs的返回地址：0x8049229<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686926838859-8aad00fc-82b2-44f9-a9b5-e4726fbf64ef.png#averageHue=%23f7f4f1&clientId=u2fdd0915-c1a2-4&from=paste&height=30&id=ube7ac5f2&originHeight=38&originWidth=602&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=8644&status=done&style=none&taskId=u4e2d135b-0896-4757-b522-4168557993b&title=&width=481.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="修改程序执行："><a href="#修改程序执行：" class="headerlink" title="修改程序执行："></a>修改程序执行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686927209981-65fcf85c-3c28-4968-b1e6-f848b52c4f8e.png#averageHue=%23402145&clientId=u2fdd0915-c1a2-4&from=paste&height=168&id=u6e970b85&originHeight=210&originWidth=545&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=147010&status=done&style=none&taskId=ua04d188a-e930-46c5-976a-882c6ba024d&title=&width=436" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="执行结果："><a href="#执行结果：" class="headerlink" title="执行结果："></a>执行结果：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686927294742-8de2de6b-8aaa-474d-949c-41c9d4029067.png#averageHue=%231c498c&clientId=u2fdd0915-c1a2-4&from=paste&height=82&id=u28612028&originHeight=103&originWidth=347&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57466&status=done&style=none&taskId=u7f050ad9-2b8f-4804-ba05-c6a56abca7f&title=&width=277.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计算机基础实验四：程序控制结构</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/计算机基础实验四：程序控制结构：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%9E%E9%AA%8C%E4%BA%94%EF%BC%9A%E7%A8%8B%E5%BA%8F%E9%93%BE%E6%8E%A5%E5%92%8CELF%EF%BC%9A/" title="计算机基础实验五：程序链接和ELF">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机基础实验五：程序链接和ELF</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A%E7%BB%93%E6%9E%84%E5%8C%96%E6%95%B0%E6%8D%AE%E5%82%A8%E5%AD%98/" title="计算机基础实验三：结构化数据存储">
+                        <span class="hidden-mobile">计算机基础实验三：结构化数据存储</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

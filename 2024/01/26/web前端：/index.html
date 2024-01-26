@@ -1,0 +1,1007 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.VScode的使用：如何快速生成HTML模板输入！然后tab就可以快速生成html模板了 绘制三角形：总结：1.display:flex(弹性盒子布局)详解_display: flex_羡阳公子的博客-CSDN博客2.CSS：N种使用CSS 绘制三角形的方法_三角形css_打瞌睡的兔兔小姐的博客-CSDN博客【前端怪谈】两个行内块元素之间的间距问题_行内块元素间距问题_hhhhhhhs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web前端">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/web%E5%89%8D%E7%AB%AF%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.VScode的使用：如何快速生成HTML模板输入！然后tab就可以快速生成html模板了 绘制三角形：总结：1.display:flex(弹性盒子布局)详解_display: flex_羡阳公子的博客-CSDN博客2.CSS：N种使用CSS 绘制三角形的方法_三角形css_打瞌睡的兔兔小姐的博客-CSDN博客【前端怪谈】两个行内块元素之间的间距问题_行内块元素间距问题_hhhhhhhs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695973720293-633d2c10-4755-4ea9-b58e-4a3a872fd229.png#averageHue=%23fcf9f6&clientId=u09562b73-ac0f-4&from=paste&height=268&id=u231ef2a4&originHeight=335&originWidth=506&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13386&status=done&style=none&taskId=ua14eb321-7cef-4b76-9cd2-d8935def6ae&title=&width=404.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989142535-5930cc04-db98-4143-80f3-e74d6b566892.png#averageHue=%23edece6&clientId=u09562b73-ac0f-4&from=paste&height=381&id=u3ede46a3&originHeight=476&originWidth=1091&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=295486&status=done&style=none&taskId=ued3eb689-8ac2-45a3-b9ef-19cf61840b3&title=&width=872.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989985378-4fde44d2-ee10-42e9-8367-6af06fe74cfd.png#averageHue=%23f6f5f4&clientId=u09562b73-ac0f-4&from=paste&height=171&id=u37b1cdc3&originHeight=214&originWidth=470&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=11705&status=done&style=none&taskId=ubc4bfcc2-ac48-4a6b-853a-61e19481582&title=&width=376">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989991357-02c5c0d3-447d-493c-b92b-3b99576ce4fc.png#averageHue=%23f4f3f3&clientId=u09562b73-ac0f-4&from=paste&height=211&id=ub857d9f9&originHeight=264&originWidth=323&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=7547&status=done&style=none&taskId=ud2261c90-d4e4-45c6-b997-3d9b84e41ef&title=&width=258.4">
+<meta property="article:published_time" content="2024-01-26T10:46:33.202Z">
+<meta property="article:modified_time" content="2024-01-26T10:53:35.104Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695973720293-633d2c10-4755-4ea9-b58e-4a3a872fd229.png#averageHue=%23fcf9f6&clientId=u09562b73-ac0f-4&from=paste&height=268&id=u231ef2a4&originHeight=335&originWidth=506&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13386&status=done&style=none&taskId=ua14eb321-7cef-4b76-9cd2-d8935def6ae&title=&width=404.8">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>web前端 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="web前端"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 18:46" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">web前端</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+<h1 id="1-VScode的使用："><a href="#1-VScode的使用：" class="headerlink" title="1.VScode的使用："></a>1.VScode的使用：</h1><h2 id="如何快速生成HTML模板"><a href="#如何快速生成HTML模板" class="headerlink" title="如何快速生成HTML模板"></a>如何快速生成HTML模板</h2><p>输入！然后tab就可以快速生成html模板了</p>
+<h1 id="绘制三角形："><a href="#绘制三角形：" class="headerlink" title="绘制三角形："></a>绘制三角形：</h1><h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>1.<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44537625/article/details/100040169">display:flex(弹性盒子布局)详解_display: flex_羡阳公子的博客-CSDN博客</a><br>2.<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44015669/article/details/115663156">CSS：N种使用CSS 绘制三角形的方法_三角形css_打瞌睡的兔兔小姐的博客-CSDN博客</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/hhhhhhhssss/article/details/119177898">【前端怪谈】两个行内块元素之间的间距问题_行内块元素间距问题_hhhhhhhssss的博客-CSDN博客</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/160929003">css之div盒子居中常用方法大全</a></p>
+<h1 id="2-如何在输入框前设置图片："><a href="#2-如何在输入框前设置图片：" class="headerlink" title="2.如何在输入框前设置图片："></a>2.如何在输入框前设置图片：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/heromps/article/details/112576867">input里面添加图片_input输入框添加图片_heromps的博客-CSDN博客</a></p>
+<h2 id="输入框文本缩进的方法："><a href="#输入框文本缩进的方法：" class="headerlink" title="输入框文本缩进的方法："></a>输入框文本缩进的方法：</h2><p><strong>CSS中的text-indent属性可以实现：</strong>text-indent 属性规定文本块中首行文本的缩进。可以给改属性赋值px,百分比等，默认是0；<br>注释：允许使用负值。如果使用负值，那么首行会被缩进到左边。<br><a target="_blank" rel="noopener" href="https://worktile.com/kb/p/24580">html的缩进属性介绍 • Worktile社区</a><br>3.Live Server是一款在vscode上面修改编码刷新界面就可以反馈在浏览器的插件</p>
+<h1 id="第3次实验总结："><a href="#第3次实验总结：" class="headerlink" title="第3次实验总结："></a>第3次实验总结：</h1><h4 id="1-如何在无序列表的列表项下边生成下划线"><a href="#1-如何在无序列表的列表项下边生成下划线" class="headerlink" title="1.如何在无序列表的列表项下边生成下划线"></a>1.如何在无序列表的列表项下边生成下划线</h4><p>只需要设置无序列表项的下边框就可以了</p>
+<div class="code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-tag">ul</span> <span class="hljs-selector-tag">li</span> &#123;
+<span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid black; <span class="hljs-comment">/* 设置下划线的宽度、样式和颜色 */</span>
+&#125;</code></pre></div>
+<h4 id="2-js中动态生成的元素也受css的影响"><a href="#2-js中动态生成的元素也受css的影响" class="headerlink" title="2.js中动态生成的元素也受css的影响"></a>2.js中动态生成的元素也受css的影响</h4><h4 id="3-行内块元素，块元素，行元素的区别："><a href="#3-行内块元素，块元素，行元素的区别：" class="headerlink" title="3.行内块元素，块元素，行元素的区别："></a>3.行内块元素，块元素，行元素的区别：</h4><div class="code-wrapper"><pre><code class="hljs css">每个块级元素都是独自占一行；
+高度，行高，外边距（<span class="hljs-attribute">margin</span>）以及内边距（<span class="hljs-attribute">padding</span>）都可以控制；
+元素的宽度如果不设置的话，默认为父元素的宽度（父元素宽度<span class="hljs-number">100%</span>；
+多个块状元素标签写在一起，默认排列方式为从上至下
+一般作为容器使用</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs stata">&lt;address&gt;  <span class="hljs-comment">// 定义地址 </span>
+&lt;caption&gt;  <span class="hljs-comment">// 定义表格标题 </span>
+&lt;dd&gt;      <span class="hljs-comment">// 定义列表中定义条目 </span>
+&lt;div&gt;     <span class="hljs-comment">// 定义文档中的分区或节 </span>
+&lt;dl&gt;    <span class="hljs-comment">// 定义列表 </span>
+&lt;dt&gt;     <span class="hljs-comment">// 定义列表中的项目 </span>
+&lt;fieldset&gt;  <span class="hljs-comment">// 定义一个框架集 </span>
+&lt;<span class="hljs-keyword">form</span>&gt;  <span class="hljs-comment">// 创建 HTML 表单 </span>
+&lt;h1&gt;    <span class="hljs-comment">// 定义最大的标题</span>
+&lt;h2&gt;    <span class="hljs-comment">// 定义副标题</span>
+&lt;h3&gt;     <span class="hljs-comment">// 定义标题</span>
+&lt;h4&gt;     <span class="hljs-comment">// 定义标题</span>
+&lt;h5&gt;     <span class="hljs-comment">// 定义标题</span>
+&lt;h6&gt;     <span class="hljs-comment">// 定义最小的标题</span>
+&lt;hr&gt;     <span class="hljs-comment">// 创建一条水平线</span>
+&lt;legend&gt;    <span class="hljs-comment">// 元素为 fieldset 元素定义标题</span>
+&lt;<span class="hljs-keyword">li</span>&gt;     <span class="hljs-comment">// 标签定义列表项目</span>
+&lt;noframes&gt;    <span class="hljs-comment">// 为那些不支持框架的浏览器显示文本，于 frameset 元素内部</span>
+&lt;noscript&gt;    <span class="hljs-comment">// 定义在脚本未被执行时的替代内容</span>
+&lt;ol&gt;     <span class="hljs-comment">// 定义有序列表</span>
+&lt;ul&gt;    <span class="hljs-comment">// 定义无序列表</span>
+&lt;p&gt;     <span class="hljs-comment">// 标签定义段落</span>
+&lt;pre&gt;     <span class="hljs-comment">// 定义预格式化的文本</span>
+&lt;<span class="hljs-keyword">table</span>&gt;     <span class="hljs-comment">// 标签定义 HTML 表格</span>
+&lt;tbody&gt;     <span class="hljs-comment">// 标签表格主体（正文）</span>
+&lt;td&gt;    <span class="hljs-comment">// 表格中的标准单元格</span>
+&lt;tfoot&gt;     <span class="hljs-comment">// 定义表格的页脚（脚注或表注）</span>
+&lt;th&gt;    <span class="hljs-comment">// 定义表头单元格</span>
+&lt;thead&gt;    <span class="hljs-comment">// 标签定义表格的表头</span>
+&lt;tr&gt;     <span class="hljs-comment">// 定义表格中的行</span></code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs css">行内元素不可以设置宽（<span class="hljs-attribute">width</span>）和高（<span class="hljs-attribute">height</span>）,或者说设置了高宽无效
+不会独占一行，相邻的行内元素会排列在同一行里，直到一行排不下才会自动换行，其宽度随元素的内容而
+变化；
+高宽无效，对外边距（<span class="hljs-attribute">margin</span>）和内边距（<span class="hljs-attribute">padding</span>）仅设置左右方向有效 上下无效；
+设置行高有效，等同于给父级元素设置行高；
+元素的宽度就是它包含的文字或图片的宽度，不可改变；
+行内元素中不能放块级元素，<span class="hljs-selector-tag">a</span> 链接里面不能再放链接；
+</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs oxygene">&lt;a&gt;     <span class="hljs-comment">// 标签可定义锚 </span>
+&lt;abbr&gt;     <span class="hljs-comment">// 表示一个缩写形式 </span>
+&lt;acronym&gt;     <span class="hljs-comment">// 定义只取首字母缩写 </span>
+&lt;b&gt;     <span class="hljs-comment">// 字体加粗 </span>
+&lt;bdo&gt;     <span class="hljs-comment">// 可覆盖默认的文本方向 </span>
+&lt;big&gt;     <span class="hljs-comment">// 大号字体加粗 </span>
+&lt;br&gt;     <span class="hljs-comment">// 换行 </span>
+&lt;cite&gt;     <span class="hljs-comment">// 引用进行定义 </span>
+&lt;code&gt;    <span class="hljs-comment">// 定义计算机代码文本</span>
+&lt;dfn&gt;     <span class="hljs-comment">// 定义一个定义项目</span>
+&lt;em&gt;     <span class="hljs-comment">// 定义为强调的内容</span>
+&lt;i&gt;     <span class="hljs-comment">// 斜体文本效果</span>
+&lt;kbd&gt;     <span class="hljs-comment">// 定义键盘文本</span>
+&lt;label&gt;     <span class="hljs-comment">// 标签为 input 元素定义标注（标记）</span>
+&lt;q&gt;     <span class="hljs-comment">// 定义短的引用</span>
+&lt;samp&gt;     <span class="hljs-comment">// 定义样本文本</span>
+&lt;<span class="hljs-keyword">select</span>&gt; <span class="hljs-comment">// 创建单选或多选菜单</span>
+&lt;small&gt;     <span class="hljs-comment">// 呈现小号字体效果</span>
+&lt;span&gt;     <span class="hljs-comment">// 组合文档中的行内元素</span>
+&lt;<span class="hljs-keyword">strong</span>&gt; <span class="hljs-comment">// 加粗</span>
+&lt;sub&gt;     <span class="hljs-comment">// 定义下标文本</span>
+&lt;sup&gt;     <span class="hljs-comment">// 定义上标文本</span>
+&lt;textarea&gt;     <span class="hljs-comment">// 多行的文本输入控件</span>
+&lt;tt&gt;     <span class="hljs-comment">// 打字机或者等宽的文本效果</span>
+&lt;<span class="hljs-keyword">var</span>&gt;    <span class="hljs-comment">// 定义变量</span>
+</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs qml">高度、行高、外边距以及内边距都可以控制；
+默认宽度就是它本身内容的宽度，不独占一行，但是之间会有空白缝隙，设置它上一级的 <span class="hljs-built_in">font</span>-<span class="hljs-built_in">size</span> 为 <span class="hljs-number">0</span>，
+才会消除间隙；</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-section">&lt;button&gt;</span> 
+<span class="hljs-section">&lt;input&gt;</span>   
+<span class="hljs-section">&lt;textarea&gt;</span> 
+<span class="hljs-section">&lt;select&gt;</span> 
+<span class="hljs-section">&lt;img&gt;</span>
+</code></pre></div>
+<h4 id="4-ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法："><a href="#4-ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法：" class="headerlink" title="4.ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法："></a>4.ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695973720293-633d2c10-4755-4ea9-b58e-4a3a872fd229.png#averageHue=%23fcf9f6&clientId=u09562b73-ac0f-4&from=paste&height=268&id=u231ef2a4&originHeight=335&originWidth=506&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13386&status=done&style=none&taskId=ua14eb321-7cef-4b76-9cd2-d8935def6ae&title=&width=404.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<div class="code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-tag">ul</span>&#123;
+<span class="hljs-attribute">margin-left</span>:-<span class="hljs-number">50px</span>;
+&#125;
+//利用<span class="hljs-attribute">margin</span>负数左移原理对齐，但是不建议。</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs css">//其实这里的<span class="hljs-selector-tag">li</span>可以看出是<span class="hljs-selector-tag">ul</span>元素中的内容，浏览器默认设置了它与<span class="hljs-selector-tag">li</span>之间的左<span class="hljs-attribute">padding</span>;只有我们手动
+把<span class="hljs-attribute">padding</span>设置为<span class="hljs-number">0</span>就可以解决你。
+<span class="hljs-selector-tag">ul</span>&#123;
+<span class="hljs-attribute">padding</span>:<span class="hljs-number">0px</span>;&#125;</code></pre></div>
+<h4 id="5-去除行内块元素之间的空格："><a href="#5-去除行内块元素之间的空格：" class="headerlink" title="5.去除行内块元素之间的空格："></a>5.去除行内块元素之间的空格：</h4><p>浏览器处理空格的规则：文字的前部和后部的空格都会忽略，内部的连续空格只会算作一个。浏览器会自动把换行符号转成普通的空格键。<br>white-space ：是css针对浏览器对应空格处理的方法。<br>产生原因：html文档中标签与标签之间有换行符和空格，而这些会被解析为文本节点，其中换行符被解析为1个空格，多个连续的空格会被解析为1个空格。这些空格的文本节点在行之间会占据一定的空间的，因此在行内元素和行内块元素之间会有空格，这空格的参数是因为这些标签之间的换行符和空格产生的。<br>消除方法：<br>例子：</p>
+<div class="code-wrapper"><pre><code class="hljs angelscript">&lt;div <span class="hljs-keyword">class</span>=&quot;<span class="hljs-symbol">wrapper</span>&quot;&gt;
+    &lt;<span class="hljs-symbol">div</span> <span class="hljs-symbol">class</span>=&quot;<span class="hljs-symbol">child1</span>&quot;&gt;<span class="hljs-symbol">child1</span>&lt;/<span class="hljs-symbol">div</span>&gt;
+    &lt;<span class="hljs-symbol">div</span> <span class="hljs-symbol">class</span>=&quot;<span class="hljs-symbol">child2</span>&quot;&gt;<span class="hljs-symbol">child2</span>&lt;/<span class="hljs-symbol">div</span>&gt;
+&lt;/<span class="hljs-symbol">div</span>&gt;</code></pre></div>
+<p>方法1：把这些标签紧密书写，让其中没有换行符号和空格</p>
+<div class="code-wrapper"><pre><code class="hljs angelscript">&lt;div <span class="hljs-keyword">class</span>=&quot;<span class="hljs-symbol">wrapper</span>&quot;&gt;
+    &lt;<span class="hljs-symbol">div</span> <span class="hljs-symbol">class</span>=&quot;<span class="hljs-symbol">child1</span>&quot;&gt;<span class="hljs-symbol">child1</span>&lt;/<span class="hljs-symbol">div</span>&gt;&lt;<span class="hljs-symbol">div</span> <span class="hljs-symbol">class</span>=&quot;<span class="hljs-symbol">child2</span>&quot;&gt;<span class="hljs-symbol">child2</span>&lt;/<span class="hljs-symbol">div</span>&gt;
+&lt;/<span class="hljs-symbol">div</span>&gt;</code></pre></div>
+<p>方法2：使用margin为负值移动特定的元素（不建议）</p>
+<div class="code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-class">.child2</span> &#123;
+    <span class="hljs-attribute">margin-left</span>: -<span class="hljs-number">5px</span>;
+&#125;</code></pre></div>
+<p>方法3：空格也是文本的一种可以在其父节点设置font-size: 0,这样就会让子元素中的文字不会显示，同理想要在标签当中的文本也不会显示，这个时候我们在额外设置子标签中的文本大小就可以了</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql">.<span class="hljs-keyword">wrapper</span> &#123;
+    font-size: <span class="hljs-number">0</span>;
+&#125;
+.child1, .child2 &#123;
+    font-size: <span class="hljs-number">14</span>px;
+&#125;</code></pre></div>
+<p>方法4：既然是有标签之间的换行符和空格产生的，我们可以在这之间添加一个不会显示在浏览器上的内容占据换行符和空格就好了。没错这种内容就是注释。</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;Resolve Resolve5&quot;</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>左侧行内元素<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-comment">&lt;!-- 消除行内元素换行导致的空白</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">--&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>右侧行内元素<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+<p>方法5：使用负的文字间距（letter-spacing）。通过将行内元素和行内块元素之间的文字间距设为负值，同样可以达到移除空白间距的效果。<br>方法6：使用float</p>
+<h4 id="CSS中的float属性："><a href="#CSS中的float属性：" class="headerlink" title="CSS中的float属性："></a>CSS中的float属性：</h4><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903616155746312">CSS 深入理解之 float 浮动 - 掘金</a><br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016153055">滑动验证页面</a><br>1.浮动的概念：就是一个元素脱离了标准流，然后在原本的位置浮起来了（第一个浮起来的元素在本行，后面的可能会紧跟前面浮动元素的行）。其后的块级元素会移动占据浮动元素原来的位置，其中块级元素里面的内容不会占据浮动元素原来的位置，而是环绕它<br>2.特性：包裹性：包裹指的是一个浮动元素，如果子元素宽度足够小，则浮动元素的宽度就是该子元素的宽度。<br>自适应指的是如果浮动元素的父元素有设置宽度，并且浮动元素的子元素宽度超出了父元素，则浮动元素的宽度最终表现为父元素的宽度；<br>破坏性：浮动元素会让父元素发生高度塌陷。也就是父元素的高度为0（父元素没有边框的情况，有边框的话高度在边框的1~2倍之间）<br>块状化：一旦元素float的属性不为none，则其display计算值就是block或者table。这里的块状化意思是可以像block元素一样设置宽和高，并不是真正的块元素。<br>没有任何的margin重叠：也就是说上下左右两个浮动元素之间的大小是其各自元素设置的margin之和。</p>
+<h4 id="清除浮动："><a href="#清除浮动：" class="headerlink" title="清除浮动："></a>清除浮动：</h4><p>1.清除元素只是清除元素自身的浮动效果，没有浮动的元素也可以清除浮动。清除浮动是让<strong>元素盒子的边不能和前面的浮动元素相邻。</strong><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989142535-5930cc04-db98-4143-80f3-e74d6b566892.png#averageHue=%23edece6&clientId=u09562b73-ac0f-4&from=paste&height=381&id=u3ede46a3&originHeight=476&originWidth=1091&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=295486&status=done&style=none&taskId=ued3eb689-8ac2-45a3-b9ef-19cf61840b3&title=&width=872.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>上面的clear:left表示该元素的左边不能有浮动元素存在。clear:right表示该元素右边不能有浮动元素，clear:both表示该元素的左右都不能有浮动元素。<br>2.使用伪类元素清除：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989985378-4fde44d2-ee10-42e9-8367-6af06fe74cfd.png#averageHue=%23f6f5f4&clientId=u09562b73-ac0f-4&from=paste&height=171&id=u37b1cdc3&originHeight=214&originWidth=470&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=11705&status=done&style=none&taskId=ubc4bfcc2-ac48-4a6b-853a-61e19481582&title=&width=376" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989991357-02c5c0d3-447d-493c-b92b-3b99576ce4fc.png#averageHue=%23f4f3f3&clientId=u09562b73-ac0f-4&from=paste&height=211&id=ub857d9f9&originHeight=264&originWidth=323&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=7547&status=done&style=none&taskId=ud2261c90-d4e4-45c6-b997-3d9b84e41ef&title=&width=258.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>这里的.clearfix:after::after 是 CSS 中的一种特殊选择器，它可以在选中的元素的末尾插入一个虚拟的子元素。这个虚拟的子元素可以用于添加样式、内容或进行其他操作。</p>
+<h4 id="导航栏的书写："><a href="#导航栏的书写：" class="headerlink" title="导航栏的书写："></a>导航栏的书写：</h4><p>给每一个导航栏设置一个index属性，然后获取所有相应的div元素，利用排他算法，想把其他设置为空，然后在设置特定的结果。</p>
+<div class="code-wrapper"><pre><code class="hljs css">&lt;!DOCTYPE <span class="hljs-selector-tag">html</span>&gt;
+&lt;<span class="hljs-selector-tag">html</span> lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-<span class="hljs-number">8</span>&quot;&gt;
+&lt;meta http-equiv=&quot;X-UA-Compatible&quot; <span class="hljs-attribute">content</span>=&quot;IE=edge&quot;&gt;
+&lt;meta name=&quot;viewport&quot; <span class="hljs-attribute">content</span>=&quot;<span class="hljs-attribute">width</span>=device-<span class="hljs-attribute">width</span>, initial-scale=<span class="hljs-number">1.0</span>&quot;&gt;
+&lt;title&gt;Document&lt;/title&gt;
+&lt;style&gt;
+* &#123;
+<span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+<span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+<span class="hljs-attribute">box-sizing</span>: border-box;
+&#125;
+<span class="hljs-selector-class">.table</span> &#123;
+<span class="hljs-attribute">width</span>: <span class="hljs-number">600px</span>;
+<span class="hljs-attribute">height</span>: <span class="hljs-number">600px</span>;
+<span class="hljs-attribute">margin</span>: <span class="hljs-number">100px</span> auto;
+&#125;
+<span class="hljs-selector-class">.table_title</span> &#123;
+<span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+<span class="hljs-attribute">height</span>: <span class="hljs-number">30px</span>;
+<span class="hljs-attribute">background-color</span>: <span class="hljs-number">#000</span>;
+&#125;
+<span class="hljs-selector-class">.table_title</span> <span class="hljs-selector-tag">ul</span> &#123;
+<span class="hljs-attribute">display</span>: flex;
+<span class="hljs-attribute">text-align</span>: center;
+<span class="hljs-attribute">color</span>:<span class="hljs-number">#fff</span>;
+&#125;
+<span class="hljs-selector-class">.table_title</span> <span class="hljs-selector-tag">ul</span> <span class="hljs-selector-tag">li</span> &#123;
+<span class="hljs-attribute">list-style</span>: none;
+<span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;
+<span class="hljs-attribute">height</span>: <span class="hljs-number">30px</span>;
+<span class="hljs-attribute">line-height</span>: <span class="hljs-number">30px</span>;
+&#125;
+<span class="hljs-selector-class">.p1</span> <span class="hljs-selector-tag">ul</span>&#123;
+    <span class="hljs-attribute">padding-left</span>: <span class="hljs-number">0</span>;
+    <span class="hljs-attribute">list-style</span>: none;
+&#125;
+<span class="hljs-selector-class">.p1</span> <span class="hljs-selector-tag">li</span>&#123;
+    <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> dashed gray;
+    <span class="hljs-attribute">height</span>: <span class="hljs-number">30px</span>;
+    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">30px</span>;
+&#125;
+<span class="hljs-selector-class">.hong</span> &#123;
+<span class="hljs-attribute">background-color</span>: <span class="hljs-number">#aaa</span>;
+&#125;
+
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;<span class="hljs-selector-tag">body</span>&gt;
+&lt;<span class="hljs-selector-tag">div</span> class=&quot;<span class="hljs-selector-tag">table</span>&quot;&gt;
+    &lt;<span class="hljs-selector-tag">div</span> class=&quot;table_title&quot;&gt;
+        &lt;<span class="hljs-selector-tag">ul</span>&gt;
+            &lt;<span class="hljs-selector-tag">li</span> class=&quot;hong&quot; &gt;热门排行&lt;/<span class="hljs-selector-tag">li</span>&gt;
+            &lt;<span class="hljs-selector-tag">li</span> &gt;美图速递&lt;/<span class="hljs-selector-tag">li</span>&gt;
+            &lt;<span class="hljs-selector-tag">li</span>&gt;前沿科技&lt;/<span class="hljs-selector-tag">li</span>&gt;
+        &lt;/<span class="hljs-selector-tag">ul</span>&gt;
+    &lt;/<span class="hljs-selector-tag">div</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> class=&quot;table_content&quot;&gt;
+        &lt;<span class="hljs-selector-tag">div</span> style=&quot;<span class="hljs-attribute">display</span>:block;&quot; class=&quot;p1&quot;&gt;
+            &lt;<span class="hljs-selector-tag">ul</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;习近平出席推进“一带一路”建设工作<span class="hljs-number">5</span>周年座谈会&lt;/<span class="hljs-selector-tag">li</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;中共时隔接近三年再修党纪条例子&amp;nbsp;这些高压线不能碰&lt;/<span class="hljs-selector-tag">li</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;全国高中<span class="hljs-number">2019</span>年秋季起分步实施新课程使用新教材&lt;/<span class="hljs-selector-tag">li</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;个税法修正草案将二申&amp;nbsp;起征点会否超<span class="hljs-number">5000</span>元?&lt;/<span class="hljs-selector-tag">li</span>&gt;    
+            &lt;/<span class="hljs-selector-tag">ul</span>&gt;
+        &lt;/<span class="hljs-selector-tag">div</span>&gt;
+        &lt;<span class="hljs-selector-tag">div</span> class=&quot;p1&quot; hidden&gt;
+            &lt;<span class="hljs-selector-tag">ul</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;鹅教官,羊陪练......这所中学养的动物成了“网红”&lt;/<span class="hljs-selector-tag">li</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;最伤身体的<span class="hljs-number">10</span>个生活习惯,一定要避开&lt;/<span class="hljs-selector-tag">li</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;<span class="hljs-number">12</span>岁孩子带着父亲去西藏&amp;nbsp;吃住行自己拿主义&lt;/<span class="hljs-selector-tag">li</span>&gt;
+                &lt;<span class="hljs-selector-tag">li</span>&gt;<span class="hljs-number">16</span>岁男孩暑假干了俩月工地,练出满是肌肉,只为赚学费&lt;/<span class="hljs-selector-tag">li</span>&gt;    
+            &lt;/<span class="hljs-selector-tag">ul</span>&gt;
+        &lt;/<span class="hljs-selector-tag">div</span>&gt;
+&lt;/<span class="hljs-selector-tag">div</span>&gt;
+&lt;script&gt;
+        <span class="hljs-selector-tag">var</span> lis = document<span class="hljs-selector-class">.querySelector</span>(&#x27;<span class="hljs-selector-class">.table_title</span>&#x27;)<span class="hljs-selector-class">.querySelectorAll</span>(&#x27;<span class="hljs-selector-tag">li</span>&#x27;);
+        <span class="hljs-selector-tag">var</span> divs = document<span class="hljs-selector-class">.querySelector</span>(&#x27;<span class="hljs-selector-class">.table_content</span>&#x27;)<span class="hljs-selector-class">.querySelectorAll</span>(&#x27;<span class="hljs-selector-tag">div</span>&#x27;);
+        for(<span class="hljs-selector-tag">var</span> <span class="hljs-selector-tag">i</span> = <span class="hljs-number">0</span>; <span class="hljs-selector-tag">i</span> &lt; lis<span class="hljs-selector-class">.length</span>; <span class="hljs-selector-tag">i</span>++) &#123;
+        lis<span class="hljs-selector-attr">[i]</span><span class="hljs-selector-class">.setAttribute</span>(&#x27;index&#x27;,<span class="hljs-selector-tag">i</span>);
+        lis<span class="hljs-selector-attr">[i]</span><span class="hljs-selector-class">.onmouseover</span> = function() &#123;
+        for(<span class="hljs-selector-tag">var</span> <span class="hljs-selector-tag">i</span> = <span class="hljs-number">0</span>; <span class="hljs-selector-tag">i</span> &lt; lis<span class="hljs-selector-class">.length</span>; <span class="hljs-selector-tag">i</span>++) &#123;
+        lis<span class="hljs-selector-attr">[i]</span><span class="hljs-selector-class">.className</span> = &#x27;&#x27;;
+        &#125;
+        <span class="hljs-selector-tag">var</span> index = this<span class="hljs-selector-class">.getAttribute</span>(&#x27;index&#x27;);
+        this<span class="hljs-selector-class">.className</span> = &#x27;hong&#x27;;
+        for(<span class="hljs-selector-tag">var</span> <span class="hljs-selector-tag">i</span> = <span class="hljs-number">0</span>;<span class="hljs-selector-tag">i</span> &lt; divs<span class="hljs-selector-class">.length</span>; <span class="hljs-selector-tag">i</span>++)&#123;
+        divs<span class="hljs-selector-attr">[i]</span><span class="hljs-selector-class">.style</span><span class="hljs-selector-class">.display</span> = &#x27;<span class="hljs-attribute">none</span>&#x27;;
+        &#125;
+        divs<span class="hljs-selector-attr">[index]</span><span class="hljs-selector-class">.style</span><span class="hljs-selector-class">.display</span> = &#x27;block&#x27;;
+        &#125;
+
+        &#125;
+&lt;/script&gt;
+&lt;/<span class="hljs-selector-tag">body</span>&gt;
+&lt;/<span class="hljs-selector-tag">html</span>&gt;</code></pre></div>
+<p>localstory:<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7149380173027573767">前端本地存储之LocalStorage - 掘金</a><br><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=localStorage&spm=1001.2101.3001.7020">localStorage</a>存取数组和对象不像存取字符串那样，<strong>需要序列化和反序列化</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java">rolePower=[<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;c&quot;</span>]
+存：localStorage.setItem(<span class="hljs-string">&#x27;rolePower&#x27;</span>,JSON.stringify(rolePower))
+取：JSON.parse(localStorage.getItem(<span class="hljs-string">&quot;rolePower&quot;</span>))
+
+<span class="hljs-keyword">var</span> userNews=&#123;id: <span class="hljs-string">&quot;aa&quot;</span>, userId: <span class="hljs-string">&quot;1234&quot;</span>, loginName: <span class="hljs-string">&quot;test&quot;</span>, name: <span class="hljs-string">&quot;测试&quot;</span>, orgId: <span class="hljs-string">&quot;1001&quot;</span>&#125;
+存：localStorage.setItem(<span class="hljs-string">&#x27;user&#x27;</span>,JSON.stringify(userNews))
+取：JSON.parse(localStorage.getItem(<span class="hljs-string">&quot;user&quot;</span>))
+</code></pre></div>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>web前端</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/web前端：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85%EF%BC%9F/" title="服务器那些事">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">服务器那些事</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/SpringSecurity/" title="Curl用法">
+                        <span class="hidden-mobile">Curl用法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

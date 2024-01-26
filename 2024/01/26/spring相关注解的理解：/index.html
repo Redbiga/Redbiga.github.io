@@ -1,0 +1,1179 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="@Bean注解详解：1.常见问题思考：问题1：为啥下面我们明明使用了@Bean  注解但是在spring容器中却找不到该catDemo啊？ public class config &amp;#123;     @Bean     public  Cat catDemo()&amp;#123;         return new Cat(&quot;小猫！&quot;);     &amp;#125; &amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring常见注解">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="@Bean注解详解：1.常见问题思考：问题1：为啥下面我们明明使用了@Bean  注解但是在spring容器中却找不到该catDemo啊？ public class config &amp;#123;     @Bean     public  Cat catDemo()&amp;#123;         return new Cat(&quot;小猫！&quot;);     &amp;#125; &amp;#12">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706236949138-31227e0f-85e0-4ad7-adf3-aa268aa0bd25.png#averageHue=%2338412f&clientId=u6dce0a89-1589-4&from=paste&height=542&id=ue181bef1&originHeight=678&originWidth=1513&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=280744&status=done&style=none&taskId=uac5270f1-4578-4320-ac05-3f57b81380c&title=&width=1210.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706236967445-7bac6f8f-73fa-482e-bc87-16c1d9e60933.png#averageHue=%2327282b&clientId=u6dce0a89-1589-4&from=paste&height=82&id=u738d1ee4&originHeight=102&originWidth=743&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29588&status=done&style=none&taskId=uea926173-eff2-4e85-92a1-923cabd8a43&title=&width=594.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706237214771-919eec07-d755-4b67-ae79-23178c870d1e.png#averageHue=%23f9f7f6&clientId=u6dce0a89-1589-4&from=paste&id=u6f855391&originHeight=515&originWidth=1904&originalType=url&ratio=1.25&rotation=0&showTitle=false&size=103279&status=done&style=none&taskId=uf3323c8a-7efb-418d-b74d-a40b172bb25&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706237309967-823a14e5-2d45-4a84-93f5-9a477217ea5b.png#averageHue=%23f7f7f6&clientId=u6dce0a89-1589-4&from=paste&id=u3b5511cc&originHeight=394&originWidth=1919&originalType=url&ratio=1.25&rotation=0&showTitle=false&size=70817&status=done&style=none&taskId=u95fbcefc-dc8c-4b6e-940c-20bcc2b9ca5&title=">
+<meta property="article:published_time" content="2024-01-26T08:11:11.239Z">
+<meta property="article:modified_time" content="2024-01-26T08:14:12.988Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706236949138-31227e0f-85e0-4ad7-adf3-aa268aa0bd25.png#averageHue=%2338412f&clientId=u6dce0a89-1589-4&from=paste&height=542&id=ue181bef1&originHeight=678&originWidth=1513&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=280744&status=done&style=none&taskId=uac5270f1-4578-4320-ac05-3f57b81380c&title=&width=1210.4">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>spring常见注解 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="spring常见注解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 16:11" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">spring常见注解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+<h1 id="Bean注解详解："><a href="#Bean注解详解：" class="headerlink" title="@Bean注解详解："></a>@Bean注解详解：</h1><h2 id="1-常见问题思考："><a href="#1-常见问题思考：" class="headerlink" title="1.常见问题思考："></a>1.常见问题思考：</h2><p>问题1：为啥下面我们明明使用了@Bean  注解但是在spring容器中却找不到该catDemo啊？</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-title class_"><span class="hljs-keyword">class</span> <span class="hljs-title">config</span> </span>&#123;
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-keyword">public</span>  Cat catDemo()&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">Cat</span>(<span class="hljs-string">&quot;小猫！&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+<p>原因：单独一个@Bean修饰的  只是一个bean的定义，并没有注册到spring容器中！spring中要使用@Bean修饰  的bean需要将该bean注册到spring容器中！可以使用@Componet 注解  或者该注解修饰的注解将该类注册到容器中的同时连带注册@Bean 修饰的bean  .<br>解决方法：</p>
+<div class="code-wrapper"><pre><code class="hljs typescript"><span class="hljs-number">1.</span>在类上加入<span class="hljs-meta">@Componet</span>注解或者是<span class="hljs-meta">@Componet</span>注解修饰的注解，把该类注入到spring容器，然后由spring
+容器扫描处理<span class="hljs-meta">@Bean</span>注解修饰的方法！
+<span class="hljs-comment">//@Configuration</span>
+<span class="hljs-comment">//    @Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">config</span> &#123;
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-keyword">public</span>  <span class="hljs-title class_">Cat</span> <span class="hljs-title function_">catDemo</span>(<span class="hljs-params"></span>)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cat</span>(<span class="hljs-string">&quot;小猫！&quot;</span>);
+    &#125;
+&#125;
+<span class="hljs-comment">//其实上面的@Configuration注解其也是被@Componet注解修饰了的</span></code></pre></div>
+<h2 id="理解："><a href="#理解：" class="headerlink" title="理解："></a>理解：</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/goodjava2007/article/details/126961787">SpringBoot - @Bean注解详解_springboot @bean注解-CSDN博客</a><br>1.@Bean注解就是把我们将要实例化的对象转化成一个Bean，放在Spring容器中，等我们使用时，就会和@Autowired、@Resource配合到使用拿到该实例。注册BEAN的方法有@ComponentScan、@Bean、@Import、@Component、@Repository、@ Controller、@Service 、 @Configration等等。<br>2.@Bean 注解：作用在方法上，声明当前方法的返回值是一个Bean对象；单独只有这个注解修饰的方法，只是实现了对bean的一种定义，其类没有注册到spring容器中，那么该方法返回的bean也没有注册到spring容器中！<br>3.注解@Bean被声明在方法上，该方法都需要有一个返回类型，这个方法的返回类型就是注册到IOC容器中的类型，接口和类都是可以作为返回类型，介于面向接口原则，提倡返回类型为接口。该注解主要用在@Configuration注解的类的方法上，也可以用在@Component注解的类的方法上，添加的bean的id为方法名。<br>4.使用要点<br>（1）@Bean 注解：作用在方法上，方法都需要有一个返回类型；<br>（2）@Bean 注解：用于表示当前方法返回一个 Spring 容器管理的 Bean；<br>（3）@Bean 的默认的名字和方法名一致(一般Bean都是首字母小写，因为方法名的首字母一般都是小写的)；<br>（4）@Bean 注解：一般和 @Component 或者 @Configuration 一起使用；<br>（5）@Bean 注解：默认作用域为单例作用域，可通过 @Scope(“prototype”) 设置为原型作用域；<br>（6）@Bean 注解：可以接受一个 String 数组来设置多个别名；<br>（7）@Configration 注解类中可以声明多个 @Bean 的方法，并且声明的 Bean 与 Bean 之间是可以有依赖关系的；<br>5.组合使用<br>@Bean 注解常常与 @Scope、@Lazy，@DependsOn 和 @link Primary 注解一起使用：<br>（1）@Profile 注解：为不同环境下不同的配置提供了支持，如开发和生产环境的数配置是不同的；<br>（2）@Scope 注解：将 Bean 的作用域从单例改变为指定的作用域；<br>（3）@Lazy 注解：只有在默认单例作用域的情况下才有实际效果；<br>（4）@DependsOn 注解：表示在当前 Bean 创建之前需要先创建特定的其他 Bean的场景时，添加该注解。</p>
+<h2 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyHello</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;初始化...&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;销毁...&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">get</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;获取信息...&quot;</span>;
+    &#125;
+&#125;
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">config</span> &#123;
+<span class="hljs-comment">// 下面的bean注解声明了改bean的初始化方法和销毁方法！</span>
+    <span class="hljs-meta">@Bean(initMethod = &quot;init&quot;, destroyMethod = &quot;destroy&quot;)</span>
+    <span class="hljs-keyword">public</span> MyHello <span class="hljs-title function_">hi</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyHello</span>();
+    &#125;
+&#125;
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@AllArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloController</span> &#123;
+<span class="hljs-comment">// 下面使用的是构造器注入bean依赖方法！当类中只有一个构造器方法时，可以省略@Autowied注解</span>
+    <span class="hljs-keyword">private</span> MyHello hello;
+
+    <span class="hljs-meta">@GetMapping(&quot;/test&quot;)</span>
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;
+        hello.get();
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;OK&quot;</span>;
+    &#125;
+&#125;</code></pre></div>
+<h1 id="Configuration："><a href="#Configuration：" class="headerlink" title="@Configuration："></a>@Configuration：</h1><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7133149726592991263">【Spring注解必知必会】深度解析@Configuration注解 - 掘金</a><br>注解源码：<br>一般修饰在类上！</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span>
+<span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span>
+<span class="hljs-meta">@Documented</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Configuration &#123;
+
+	
+	<span class="hljs-meta">@AliasFor(annotation = Component.class)</span>
+	String <span class="hljs-title function_">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;
+
+	
+	<span class="hljs-type">boolean</span> <span class="hljs-title function_">proxyBeanMethods</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-literal">true</span>;
+
+&#125;
+</code></pre></div>
+<p><strong>属性说明：</strong></p>
+<ul>
+<li>value: 自定义当前组件或者说bean的名称，实际就是@Component的value属性。</li>
+<li>proxyBeanMethods： 判断是否bean的方法应该被代理，默认是true，后面原理解析中重点分析。</li>
+</ul>
+<p><strong>元注解说明：</strong></p>
+<ul>
+<li>该注解只能使用在类，接口、枚举、其他注解上</li>
+<li>该注解的生命周期是运行时JVM</li>
+<li>@Component元注解，相当于拥有了@Component注解的能力，可以被ComponentScan扫描到，变成spring中的Bean。</li>
+</ul>
+<h3 id="proxyBeanMethods-属性："><a href="#proxyBeanMethods-属性：" class="headerlink" title="proxyBeanMethods()属性："></a>proxyBeanMethods()属性：</h3><p>1.proxyBeanMethods属性默认为true，当其值为false时，将不会进行代理处理，并且每次调用@Bean注解标注的方法时都会创建一个新的Bean实例。</p>
+<h1 id="Component注解："><a href="#Component注解：" class="headerlink" title="@Component注解："></a>@Component注解：</h1><p>说明：<br>用来标记的类是一个“组件”或者说是一个Bean，Spring会自动扫描标记；注解的类作为一个Spring Bean对象。；该注解只能使用在类，接口，枚举，和其他注解上！<br>注解源码：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.TYPE&#125;)</span>
+<span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span>
+<span class="hljs-meta">@Documented</span>
+<span class="hljs-meta">@Indexed</span>
+<span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Component &#123;
+    String <span class="hljs-title function_">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;
+&#125;</code></pre></div>
+<p>属性说明：<br>value:自定义当前组件或者说bean的名称！如果不配置，默认为组件的首字母小写的类名！</p>
+<h1 id="Scope："><a href="#Scope：" class="headerlink" title="@Scope："></a>@Scope：</h1><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7128685478164824095">【Spring注解必知必会】全面了解@Scope - 掘金</a><br>源码：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.TYPE, ElementType.METHOD&#125;)</span>
+<span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span>
+<span class="hljs-meta">@Documented</span>
+<span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Scope &#123;
+
+	
+	<span class="hljs-meta">@AliasFor(&quot;scopeName&quot;)</span>
+	String <span class="hljs-title function_">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;
+
+
+	<span class="hljs-meta">@AliasFor(&quot;value&quot;)</span>
+	String <span class="hljs-title function_">scopeName</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;
+
+	
+	ScopedProxyMode <span class="hljs-title function_">proxyMode</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ScopedProxyMode.DEFAULT;
+
+&#125;
+</code></pre></div>
+<p>注解有3个属性，value和scopeName一样，用来表示注解的作用于范围。proxyMode用来为spring bean设置代理。<br><strong>作用域（value或者scopeName）属性范围</strong></p>
+<ul>
+<li>singleton: 默认值，单例模式，在整个Spring IoC容器中，使用singleton定义的Bean将只有一个实例。</li>
+<li>prototype: 原型模式，每次通过容器的getBean方法获取prototype定义的Bean时，都将产生一个新的Bean实例。</li>
+<li>request: 对于每次HTTP请求，使用request定义的Bean都将产生一个新实例，即每次HTTP请求将会产生不同的Bean实例。只有在Web应用中使用Spring时，该作用域才有效。</li>
+<li>session: 对于每次HTTP Session，使用session定义的Bean都将产生一个新实例。同样只有在Web应用中使用Spring时，该作用域才有效。</li>
+</ul>
+<p>默认的作用域范围为singleton。<br><strong>proxyMethod属性：</strong></p>
+<ul>
+<li>DEFAULT：proxyMode的默认值，一般情况下等同于NO，即不需要动态代理。</li>
+<li>NO：不需要动态代理，即返回的是Bean的实例对象。</li>
+<li>INTERFACES：代理的对象是一个接口，即@Scope的作用对象是接口，这种情况是基于jdk实现的动态代理。</li>
+<li>TARGET_CLASS：代理的对象是一个类，即@Scope的作用对象是一个类，上面例子中的ClassB就可以用这种代理，是以生成目标类扩展的方式创建代理，基于CGLib实现动态代理。</li>
+</ul>
+<p>后面通过实例来讲解下我们为什么要有这个属性。</p>
+<h2 id="使用注解："><a href="#使用注解：" class="headerlink" title="使用注解："></a>使用注解：</h2><p>前面讲了该注解作用在类上或者方法上，但是其实它前提必须是一个Bean,所以存在下面两种情况：<br><strong>作用在类上</strong><br>搭配@Component、@Service注解</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;
+
+    <span class="hljs-keyword">private</span> String name;
+
+    <span class="hljs-keyword">private</span> Integer age;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">()</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;实例化学生对象~~~&quot;</span>);
+    &#125;
+&#125;
+</code></pre></div>
+<p><strong>作用在方法上</strong><br>搭配@Bean注解使用</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ScopeConfig</span> &#123;
+    
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-meta">@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span>
+    <span class="hljs-keyword">public</span> Student <span class="hljs-title function_">getStudent</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();
+    &#125;
+&#125;
+</code></pre></div>
+<p>通常我们不配置Scope情况下的Bean的作用域都是单例模式singleton，不进行任何代理。</p>
+<h2 id="实例演示："><a href="#实例演示：" class="headerlink" title="实例演示："></a>实例演示：</h2><p>我们前面讲解了通过Bean如何控制我们Bean的作用域范围，那我们通过例子演示验证下。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PrototypeBean</span> &#123;
+
+    PrototypeBean() &#123;
+        System.out.println(<span class="hljs-string">&quot;实例化 PrototypeBean&quot;</span>);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;初始化 PrototypeBean&quot;</span>);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;销毁 PrototypeBean&quot;</span>);
+    &#125;
+&#125;
+</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean(initMethod = &quot;init&quot;, destroyMethod = &quot;destroy&quot;)</span>
+<span class="hljs-meta">@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span>
+<span class="hljs-keyword">public</span> PrototypeBean <span class="hljs-title function_">prototypeBean</span><span class="hljs-params">()</span> &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrototypeBean</span>();
+&#125;
+</code></pre></div>
+<p><strong>验证代码：</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-type">PrototypeBean</span> <span class="hljs-variable">prototypeBean1</span> <span class="hljs-operator">=</span> context.getBean(PrototypeBean.class);
+System.out.println(prototypeBean1);
+<span class="hljs-type">PrototypeBean</span> <span class="hljs-variable">prototypeBean2</span> <span class="hljs-operator">=</span> context.getBean(PrototypeBean.class);
+System.out.println(prototypeBean2);
+System.out.println(prototypeBean1 == prototypeBean2);
+context.close();
+</code></pre></div>
+<p><strong>执行结果：</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java">实例化 PrototypeBean
+初始化 PrototypeBean
+com.alvinlkk.scope.PrototypeBean@26a94fa5
+实例化 PrototypeBean
+初始化 PrototypeBean
+com.alvinlkk.scope.PrototypeBean@464a4442
+<span class="hljs-literal">false</span>
+</code></pre></div>
+<p><strong>小结：</strong></p>
+<ol>
+<li>prototype多例模式，每次在调用getBean() 获取实例时，都会重新实例化，初始化。</li>
+<li>prototype多例模式，它的Bean实例对象则不受IOC容器的管理，最终由GC来销毁。</li>
+<li>ingleton单实例模式下，多次getBean()取到的对象是一样的。</li>
+<li>针对单实例bean的话，容器启动的时候，bean的对象就创建了，而且容器销毁的时候，也会调用Bean的销毁方法。</li>
+</ol>
+<h1 id="ConfigurationProperties："><a href="#ConfigurationProperties：" class="headerlink" title="@ConfigurationProperties："></a>@ConfigurationProperties：</h1><p><strong>@ConfigurationProperties注解的作用是什么？</strong><br>将标注了@ConfigurationProperties注解的Spring容器中的Bean与配置文件中的属性进行一一绑定，用于更加快速、方便的读取配置文件的内容。<br>也就是：先将属性对象注册到Spring容器中，再进行属性的绑定。（正是因为该特性，即使在方法走set了某些属性，其也会被配置文件中的属性覆盖）<br><strong>@ConfigurationProperties注解可以搭配使用的注解有哪些？</strong><br>只要能够将属性对象注册到Spring容器中的注解都可以搭配使用。<br>@RestController、@Service、@Repository、@Component、@Configuration、@Bean都可以和@ConfigurationProperties注解搭配使用。<br><strong>@ConfigurationProperties注解如何使用？：</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">1.</span>需要将配置对象类注入到Spring容器中，一般使用<span class="hljs-meta">@Component(组件类)</span>进行注入，当然<span class="hljs-meta">@RestController</span>、<span class="hljs-meta">@Service</span>、<span class="hljs-meta">@Repository</span>都属于<span class="hljs-meta">@Component</span>，因为他们有更准确的意义，所以一般使用<span class="hljs-meta">@Component</span>；或者不使用组件类，而是在启动类上使用<span class="hljs-meta">@EnableConfigurationProperties(DroolsProperties.class)</span>，将配置对象类注入到Spring容器中；或者在定义Bean的时候将配置信息和配置对象的属性进行一一绑定。
+<span class="hljs-number">2.</span>需要指定前缀，用于表示该前缀下面的配置信息需要和配置对象的属性进行一一绑定；
+<span class="hljs-number">3.</span>只能加载全局配置文件(application.yml/.properties，application-XXX.yml/.properties)；
+<span class="hljs-number">4.</span>支持 数据校验，如：不能为空，长度，正则等校验；
+<span class="hljs-number">5.</span>支持复杂的数据类型，如：list、map；</code></pre></div>
+<p>①. 使用@Component + @ConfigurationProperties(prefix &#x3D; “spring.drools”)，这两个注解都标注在配置对象上。</p>
+<div class="code-wrapper"><pre><code class="hljs java">DroolsProperties.java如下：
+
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@ConfigurationProperties(prefix = &quot;spring.drools&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DroolsProperties</span> &#123;&#125;
+</code></pre></div>
+<p>②. @EnableConfigurationProperties(DroolsProperties.class) + @ConfigurationProperties(prefix &#x3D; “spring.drools”) ，注意：配置对象上的注解只有@ConfigurationProperties，@EnableConfigurationProperties标注在启动类上。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@ConfigurationProperties(prefix = &quot;spring.drools&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DroolsProperties</span> &#123;
+	...
+&#125;</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java">MySpringApplication.java如下：
+
+<span class="hljs-meta">@EnableCustomSwagger2</span>
+<span class="hljs-meta">@SpringBootApplication(exclude = &#123;DataSourceAutoConfiguration.class&#125;)</span>
+<span class="hljs-meta">@EnableConfigurationProperties(DroolsProperties.class)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MySpringApplication</span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        SpringApplication.run(MySpringApplication.class, args);
+    &#125;
+&#125;
+</code></pre></div>
+<p>③. @Bean + @ConfigurationProperties(prefix &#x3D; “spring.drools”)，配置类上没有注解，在定义Bean时将将配置信息和配置对象的属性进行一一绑定。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DroolsProperties</span> &#123;
+	...
+&#125;</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@EnableCustomSwagger2</span>
+<span class="hljs-meta">@SpringBootApplication(exclude = &#123;DataSourceAutoConfiguration.class&#125;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MySpringApplication</span>&#123;
+	<span class="hljs-meta">@Bean</span>
+    <span class="hljs-meta">@ConfigurationProperties(prefix = &quot;person&quot;)</span>
+    <span class="hljs-keyword">public</span> DroolsProperties <span class="hljs-title function_">droolsProperties</span> <span class="hljs-params">()</span>&#123;
+        <span class="hljs-type">DroolsProperties</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DroolsProperties</span>();
+        <span class="hljs-keyword">return</span> p;
+    &#125;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        SpringApplication.run(MySpringApplication.class, args);
+    &#125;
+&#125;</code></pre></div>
+
+<h1 id="EnableConfigurationProperties："><a href="#EnableConfigurationProperties：" class="headerlink" title="@EnableConfigurationProperties："></a>@EnableConfigurationProperties：</h1><p>@EnableConfigurationProperties注解的作用是什么？<br>将标注了@ConfigurationProperties注解的类注入到Spring容器中。该注解是用来开启对@ConfigurationProperties注解的支持。也就是@EnableConfigurationProperties注解告诉Spring容器能支持@ConfigurationProperties注解。</p>
+<h4 id="EnableConfigurationProperties注解如何使用？"><a href="#EnableConfigurationProperties注解如何使用？" class="headerlink" title="@EnableConfigurationProperties注解如何使用？"></a>@EnableConfigurationProperties注解如何使用？</h4><p>一般情况下会定义两个文件，一个用于绑定application.xml中的配置信息，一个用于定义配置类。一般情况下@EnableConfigurationProperties搭配@Configuration和@SpringBootApplication使用！<br>①. 定义一个属性类用于绑定配置信息：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@ConfigurationProperties(prefix = &quot;spring.drools&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DroolsProperties</span> &#123;
+    <span class="hljs-comment">// 规则文件和决策表的路径(多个目录使用逗号分割)</span>
+    <span class="hljs-keyword">private</span> String path;
+    <span class="hljs-comment">// 更新缓存的轮询周期 - 单位：秒(默认30秒)</span>
+    <span class="hljs-keyword">private</span> Long update;
+    <span class="hljs-comment">// 模式: stream 或 cloud(默认stream模式)</span>
+    <span class="hljs-keyword">private</span> String mode;
+    <span class="hljs-comment">// 是否开启监听器：true = 开, false = 关闭(默认开启)</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> listener;
+    <span class="hljs-comment">// 是否自动更新：true = 开, false = 关闭(默认开启)</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> autoUpdate;
+    <span class="hljs-comment">// 是否开启DRL的语法检查: true = 开, false = 关闭(默认开启)</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> verify;
+    <span class="hljs-comment">// 是否开启REDIS的缓存: true = 开, false = 关闭(默认开启)</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> useRedis;
+&#125;
+</code></pre></div>
+<p>②. 定义一个配置类用于开启文件属性的绑定功能：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 配置类</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-comment">// 开启属性文件绑定功能</span>
+<span class="hljs-meta">@EnableConfigurationProperties(DroolsProperties.class)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DroolsConfig</span> &#123;
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-meta">@ConditionalOnMissingBean(name = &quot;kieTemplate&quot;)</span>
+    <span class="hljs-keyword">public</span> KieTemplate <span class="hljs-title function_">kieTemplate</span><span class="hljs-params">(DroolsProperties droolsProperties)</span> &#123;
+        <span class="hljs-type">KieTemplate</span> <span class="hljs-variable">kieTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KieTemplate</span>();
+        kieTemplate.setPath(droolsProperties.getPath());
+        kieTemplate.setMode(droolsProperties.getMode());
+        <span class="hljs-keyword">if</span> (droolsProperties.isAutoUpdate()) &#123;
+            <span class="hljs-comment">// 启用自动更新</span>
+            kieTemplate.setUpdate(droolsProperties.getUpdate());
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-comment">// 关闭自动更新</span>
+            kieTemplate.setUpdate(<span class="hljs-number">999999L</span>);
+        &#125;
+        kieTemplate.setListener(droolsProperties.isListener());
+        kieTemplate.setVerify(droolsProperties.isVerify());
+        kieTemplate.setUseRedis(droolsProperties.isUseRedis());
+        <span class="hljs-keyword">return</span> kieTemplate;
+    &#125;
+&#125;
+</code></pre></div>
+<h1 id="Import-注解："><a href="#Import-注解：" class="headerlink" title="@Import  注解："></a>@Import  注解：</h1><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904035212853255">spring注解之@Import注解的三种使用方式 - 掘金</a></p>
+<h2 id="Import注解须知："><a href="#Import注解须知：" class="headerlink" title="@Import注解须知："></a>@Import注解须知：</h2><p>1、@Import只能用在类上 ，@Import通过快速导入的方式实现把实例加入spring的IOC容器中<br> 2、加入IOC容器的方式有很多种，@Import注解就相对很牛皮了，@Import注解可以用于导入第三方包 ，当然@Bean注解也可以，但是@Import注解快速导入的方式更加便捷<br>3、@Import注解有三种用法<br>该注解主要是将第三方包注入IOC容器中！@Import  注入的容器明明都有相关注解了为什么还需要额外的@Import  的注解了？<br>那是因为spring启动类能扫描到的注范围有限！使用该注解可以让spring启动类扫描到第三方包里面的相关注解！</p>
+<h2 id="简单示例分析："><a href="#简单示例分析：" class="headerlink" title="简单示例分析："></a>简单示例分析：</h2><p><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706236949138-31227e0f-85e0-4ad7-adf3-aa268aa0bd25.png#averageHue=%2338412f&clientId=u6dce0a89-1589-4&from=paste&height=542&id=ue181bef1&originHeight=678&originWidth=1513&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=280744&status=done&style=none&taskId=uac5270f1-4578-4320-ac05-3f57b81380c&title=&width=1210.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706236967445-7bac6f8f-73fa-482e-bc87-16c1d9e60933.png#averageHue=%2327282b&clientId=u6dce0a89-1589-4&from=paste&height=82&id=u738d1ee4&originHeight=102&originWidth=743&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29588&status=done&style=none&taskId=uea926173-eff2-4e85-92a1-923cabd8a43&title=&width=594.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="Import的三种用法"><a href="#Import的三种用法" class="headerlink" title="@Import的三种用法:"></a>@Import的三种用法:</h2><p>1、直接填class数组方式 2、ImportSelector方式【重点】 3、ImportBeanDefinitionRegistrar方式</p>
+<h4 id="第一种用法：直接填class数组"><a href="#第一种用法：直接填class数组" class="headerlink" title="第一种用法：直接填class数组:"></a>第一种用法：直接填class数组:</h4><p><strong>直接填对应的class数组，class数组可以有0到多个。</strong></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Import(&#123; 类名.class , 类名.class... &#125;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestDemo</span> &#123;
+
+&#125;
+</code></pre></div>
+<p>对应的import的bean都将加入到spring容器中，这些在容器中bean名称是该类的<strong>全类名</strong></p>
+<h4 id="第二种用法：ImportSelector方式"><a href="#第二种用法：ImportSelector方式" class="headerlink" title="第二种用法：ImportSelector方式"></a>第二种用法：ImportSelector方式</h4><p>这种方式的前提就是一个类要实现ImportSelector接口，假如我要用这种方法，目标对象是Myclass这个类，分析具体如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Myclass</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ImportSelector</span> &#123;
+<span class="hljs-comment">//既然是接口肯定要实现这个接口的方法</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] selectImports(AnnotationMetadata annotationMetadata) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[<span class="hljs-number">0</span>];
+    &#125;
+&#125;
+</code></pre></div>
+<p>分析实现接口的selectImports方法中的：</p>
+<ul>
+<li>1、返回值： 就是我们实际上要导入到容器中的组件全类名【<strong>重点</strong> 】</li>
+<li>2、参数： AnnotationMetadata表示当前被@Import注解给标注的所有注解信息【不是重点】</li>
+</ul>
+<p>需要注意的是selectImports方法可以返回空数组但是不能返回null，否则会报空指针异常！</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Myclass</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ImportSelector</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] selectImports(AnnotationMetadata annotationMetadata) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;com.yc.Test.TestDemo3&quot;</span>&#125;;
+    &#125;
+&#125;
+</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Import(&#123;TestDemo2.class,Myclass.class&#125;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestDemo</span> &#123;
+        <span class="hljs-meta">@Bean</span>
+        <span class="hljs-keyword">public</span> AccountDao2 <span class="hljs-title function_">accountDao2</span><span class="hljs-params">()</span>&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccountDao2</span>();
+        &#125;
+
+&#125;
+</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 打印容器中的组件测试</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AnnotationTestDemo</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        AnnotationConfigApplicationContext applicationContext=<span class="hljs-keyword">new</span> <span class="hljs-title class_">AnnotationConfigApplicationContext</span>(TestDemo.class);  <span class="hljs-comment">//这里的参数代表要做操作的类</span>
+
+        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+        <span class="hljs-keyword">for</span> (String name : beanDefinitionNames)&#123;
+            System.out.println(name);
+        &#125;
+
+    &#125;
+&#125;
+</code></pre></div>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706237214771-919eec07-d755-4b67-ae79-23178c870d1e.png#averageHue=%23f9f7f6&clientId=u6dce0a89-1589-4&from=paste&id=u6f855391&originHeight=515&originWidth=1904&originalType=url&ratio=1.25&rotation=0&showTitle=false&size=103279&status=done&style=none&taskId=uf3323c8a-7efb-418d-b74d-a40b172bb25&title=" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="第三种用法：ImportBeanDefinitionRegistrar方式"><a href="#第三种用法：ImportBeanDefinitionRegistrar方式" class="headerlink" title="第三种用法：ImportBeanDefinitionRegistrar方式:"></a>第三种用法：ImportBeanDefinitionRegistrar方式:</h4><p>这种用法比较自定义化注册:</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Myclass2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ImportBeanDefinitionRegistrar</span> &#123;
+<span class="hljs-comment">//该实现方法默认为空</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">registerBeanDefinitions</span><span class="hljs-params">(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry)</span> &#123;
+      
+    &#125;
+&#125;
+</code></pre></div>
+<p>参数分析：</p>
+<ul>
+<li>第一个参数：annotationMetadata 和之前的ImportSelector参数一样都是表示当前被@Import注解给标注的所有注解信息</li>
+<li>第二个参数表示用于注册定义一个bean<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Myclass2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ImportBeanDefinitionRegistrar</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">registerBeanDefinitions</span><span class="hljs-params">(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry)</span> &#123;
+        <span class="hljs-comment">//指定bean定义信息（包括bean的类型、作用域...）</span>
+        <span class="hljs-type">RootBeanDefinition</span> <span class="hljs-variable">rootBeanDefinition</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RootBeanDefinition</span>(TestDemo4.class);
+        <span class="hljs-comment">//注册一个bean指定bean名字（id）</span>
+        beanDefinitionRegistry.registerBeanDefinition(<span class="hljs-string">&quot;TestDemo4444&quot;</span>,rootBeanDefinition);
+    &#125;
+&#125;
+</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Import(&#123;TestDemo2.class,Myclass.class,Myclass2.class&#125;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestDemo</span> &#123;
+
+        <span class="hljs-meta">@Bean</span>
+        <span class="hljs-keyword">public</span> AccountDao2 <span class="hljs-title function_">accountDao222</span><span class="hljs-params">()</span>&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccountDao2</span>();
+        &#125;
+
+&#125;
+</code></pre></div>
+<img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706237309967-823a14e5-2d45-4a84-93f5-9a477217ea5b.png#averageHue=%23f7f7f6&clientId=u6dce0a89-1589-4&from=paste&id=u3b5511cc&originHeight=394&originWidth=1919&originalType=url&ratio=1.25&rotation=0&showTitle=false&size=70817&status=done&style=none&taskId=u95fbcefc-dc8c-4b6e-940c-20bcc2b9ca5&title=" srcset="/img/loading.gif" lazyload alt="image.png"></li>
+</ul>
+<h1 id="ConditionalOnMissingBean："><a href="#ConditionalOnMissingBean：" class="headerlink" title="@ConditionalOnMissingBean："></a>@ConditionalOnMissingBean：</h1><p>对比说明：<br>@ConditionalOnBean有则注入；@ConditionalOnMissBean没有则注入；@Conditional条件满足则注入。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ConditionalOnMissingBean</span>注解只作用在<span class="hljs-meta">@Bean</span>定义的方法上
+建议仅仅在自动配置类中使用此注解，虽然放在其他类中也不会报错
+该注解仅能匹配已经被当前应用上下文管控的Bean定义
+若候选Bean是被其他配置类创建的，需要使用<span class="hljs-meta">@AutoConfigureBefore</span> 或<span class="hljs-meta">@AutoConfigureOrder</span>
+进行配置类先后注入顺序的控制，确保这个条件在其后运行
+Condition相关的处理是在包扫描的时候执行的，因此Bean的添加顺序和包扫描的顺序有关，
+而包扫描的顺序依赖包名和类名的字符排序，同时和maven的pom文件中包引入的顺序也有关系，
+先引入的包先被扫描到，所以在实际的项目中，我们可以修改类路径或者调整包引入顺序来调整Bean
+的添加顺序</code></pre></div>
+<h1 id="Autowired："><a href="#Autowired：" class="headerlink" title="@Autowired："></a>@Autowired：</h1><p>@Autowired是一种注解，可以对构造器、方法、参数、字段和注解进行标注，源码如下：</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE&#125;)</span>
+<span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span>
+<span class="hljs-meta">@Documented</span>
+<span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Autowired &#123;
+	<span class="hljs-comment">// @Autowired 只有一个required元素，默认是true</span>
+	<span class="hljs-comment">// require=ture 时，表示解析被标记的属性/方法，在容器中一定有对应的bean存在，否则报错。</span>
+	<span class="hljs-comment">// require=false时，表示解析被标记的属性/方法，在容器中没有找到对应的bean依然不会报错。</span>
+    <span class="hljs-type">boolean</span> <span class="hljs-title function_">required</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-literal">true</span>;
+&#125;
+</code></pre></div>
+<p>(1). @Autowired一般用在Controller层中用来装配Service对象，当同一个Service接口对象有多个实现时，需要使用@Qualifier来制定具体的装载依赖，否则会报错，除非用@Autowired标注的属性&#x2F;方法的类型是Map或者List：No qualifying bean of type ‘com.hadoopx.file.service.ISysFileService’ available: expected single matching bean but found 2: LocalSysFileServiceImpl,FastDfsSysFileServiceImpl，当然这个问题也可以使用@Primary来解决。<br>NoUniqueBeanDefinitionException，说明有多个满足条件的bean进行自动装配，程序无法正确做出判断使用哪一个，通过将@Qualifier注解与我们想要使用的特定Spring bean的名称一起进行装配，Spring框架就能从多个相同类型并满足装配要求的bean中找到我们想要的<br>(2). @Autowired根据类型进行自动装配，如果需要按名称进行装配，则需要配合@Qualifier使用。<br>(3). @Autowired在装配依赖对象时，默认要求依赖对象必须存在，如果允许为NULL，需要设置required属性为false。<br>(4). 被@Autowired标注的属性&#x2F;方法所在的类，需要是Spring容器中的bean。<br>(5). 被@Autowired标注的属性&#x2F;方法的类型是Map且Key为String类型，Spring则会把所有符合该类型的bean装载到Map中，key是bean名称，value则为该bean的实例。在简单工程模式中，可以使用该特性替换传统的将服务实现存入Map的方式。<br>(6). 被@Autowired标注的属性&#x2F;方法的类型是List，Spring则会把所有符合该类型的bean装载到List集合中。<br>(7). @Autowired与@Resource都可以用来装配bean，都可以写在字段上。@Autowired默认按类型装配，@Resource（这个注解属于J2EE的），默认安照名称进行装配，名称可以通过name属性进行指定。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/springboot2/" class="category-chain-item">springboot2</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/spring/" class="print-no-link">#spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>spring常见注解</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/spring相关注解的理解：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/springboot2%E6%9D%82%E9%A1%B9%EF%BC%9A/" title="spring杂项">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">spring杂项</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/25/SpringBoot%E9%9B%86%E6%88%90%E8%BF%9E%E6%8E%A5%E6%B1%A0%EF%BC%9A/" title="springboot集成连接池">
+                        <span class="hidden-mobile">springboot集成连接池</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

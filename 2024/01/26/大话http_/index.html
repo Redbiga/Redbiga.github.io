@@ -1,0 +1,921 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.了解http协议：http:超文本传输协议，允许将超文本标记语言从web服务器传送到客户端浏览器，是属于应用层的面向对象协议。 TCP3次握手：DNS域名解析：当我们在浏览器键入一个网址的时候，浏览器会在本地hosts文件找有没有，该域名和网址的映射，没有就在DNS服务器寻找，也没有就在上级的DNS服务器，直达根服务器hosts文件:host查询到的ip和域名的映射关系高于dns">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大话HTTP">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E5%A4%A7%E8%AF%9Dhttp_/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.了解http协议：http:超文本传输协议，允许将超文本标记语言从web服务器传送到客户端浏览器，是属于应用层的面向对象协议。 TCP3次握手：DNS域名解析：当我们在浏览器键入一个网址的时候，浏览器会在本地hosts文件找有没有，该域名和网址的映射，没有就在DNS服务器寻找，也没有就在上级的DNS服务器，直达根服务器hosts文件:host查询到的ip和域名的映射关系高于dns">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677750686459-c74a6d54-94d1-4fab-a5be-ff1ab7e65b46.png#averageHue=%23dcd9d6&clientId=u7887007a-fbef-4&from=paste&height=344&id=u2c1ad97e&originHeight=430&originWidth=928&originalType=binary&ratio=1&rotation=0&showTitle=false&size=254955&status=done&style=none&taskId=u17c24382-4261-4789-88d4-7ac5a23fbb1&title=&width=742.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751297927-bbe2fc0f-724e-4e7b-9341-bf1140aacde6.png#averageHue=%23e9e9e7&clientId=u7887007a-fbef-4&from=paste&height=254&id=uc1bac5ec&originHeight=317&originWidth=711&originalType=binary&ratio=1&rotation=0&showTitle=false&size=110483&status=done&style=none&taskId=uf65ab8bb-b999-49fb-8fcf-5893733dce2&title=&width=568.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751442440-3e9b9731-669f-4c0e-b7de-97175c5e171a.png#averageHue=%23edecea&clientId=u7887007a-fbef-4&from=paste&height=394&id=u0d98c253&originHeight=493&originWidth=814&originalType=binary&ratio=1&rotation=0&showTitle=false&size=183195&status=done&style=none&taskId=u6bc33f8b-cd70-4e96-9fba-e865d9b1b89&title=&width=651.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751461298-383464f0-16cd-42ae-969f-b6a5d5622c5b.png#averageHue=%23dededb&clientId=u7887007a-fbef-4&from=paste&height=278&id=uc8d3bd80&originHeight=348&originWidth=796&originalType=binary&ratio=1&rotation=0&showTitle=false&size=130843&status=done&style=none&taskId=uf1bce824-c460-4f96-a904-61f50083c02&title=&width=636.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751475332-3a14fe5d-9146-4c15-9165-fc68738a18ee.png#averageHue=%23e6e6e4&clientId=u7887007a-fbef-4&from=paste&height=316&id=u680ab071&originHeight=395&originWidth=738&originalType=binary&ratio=1&rotation=0&showTitle=false&size=159997&status=done&style=none&taskId=ub1bb7900-b75a-4bc9-b2b3-c692a70fce4&title=&width=590.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753061304-a328b174-095c-43bc-9070-e29d5ee8f210.png#averageHue=%23f1f1f1&clientId=u7887007a-fbef-4&from=paste&height=266&id=ufc34ae2c&originHeight=332&originWidth=882&originalType=binary&ratio=1&rotation=0&showTitle=false&size=91299&status=done&style=none&taskId=ufccf7dcb-1566-40a8-93e5-a894975fc1b&title=&width=705.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753140834-de9c6939-a6c4-48dc-b89d-22d5275108ca.png#averageHue=%23efefef&clientId=u7887007a-fbef-4&from=paste&height=152&id=u75f241ca&originHeight=190&originWidth=830&originalType=binary&ratio=1&rotation=0&showTitle=false&size=54358&status=done&style=none&taskId=ua50ba59a-11c3-4450-a20f-35077d48965&title=&width=664">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753182984-f255c974-6761-421b-a716-fb8ada5109b2.png#averageHue=%23f5f4f4&clientId=u7887007a-fbef-4&from=paste&height=144&id=ue1e47074&originHeight=180&originWidth=840&originalType=binary&ratio=1&rotation=0&showTitle=false&size=47156&status=done&style=none&taskId=u067df328-4eb9-440f-9342-21298d2edf4&title=&width=672">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753282897-e0559545-9ed9-4020-8809-90c106b0d201.png#averageHue=%23ededed&clientId=u7887007a-fbef-4&from=paste&height=290&id=u38be556f&originHeight=363&originWidth=877&originalType=binary&ratio=1&rotation=0&showTitle=false&size=132433&status=done&style=none&taskId=u1892726f-1479-4694-94e0-0e871761859&title=&width=701.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677754360040-37c9f38a-1ab8-4c60-89fa-ab6a7bd148d6.png#averageHue=%23f7f6f6&clientId=u7887007a-fbef-4&from=paste&height=299&id=u95859447&originHeight=374&originWidth=824&originalType=binary&ratio=1&rotation=0&showTitle=false&size=91491&status=done&style=none&taskId=u3cb8b1b3-2d46-44c7-a2c5-9380c1c352e&title=&width=659.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677754428239-e5ecbe48-620f-43c9-8994-0ebf0f068b20.png#averageHue=%23f5f5f5&clientId=u7887007a-fbef-4&from=paste&height=412&id=ua0feed1a&originHeight=515&originWidth=897&originalType=binary&ratio=1&rotation=0&showTitle=false&size=190115&status=done&style=none&taskId=uff0ad16f-5284-4ed8-b112-95025284bfa&title=&width=717.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764213599-787cb398-1e5e-4523-b61e-f4626dd57a20.png#averageHue=%23f6f6f6&clientId=u7887007a-fbef-4&from=paste&height=258&id=u24051475&originHeight=323&originWidth=858&originalType=binary&ratio=1&rotation=0&showTitle=false&size=66569&status=done&style=none&taskId=u55bebc9b-2972-448e-a013-b7ef8f5eb18&title=&width=686.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764466345-b5dd5a0d-69aa-42c2-bd8c-bf936a6fd768.png#averageHue=%23bfc1bf&clientId=u7887007a-fbef-4&from=paste&height=343&id=u884bd248&originHeight=429&originWidth=817&originalType=binary&ratio=1&rotation=0&showTitle=false&size=314238&status=done&style=none&taskId=u3d8eef72-ddf4-4904-943d-c098225660c&title=&width=653.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764575420-3b4cb7e4-0c39-4870-b653-0d0998987e01.png#averageHue=%23e5e7e9&clientId=u7887007a-fbef-4&from=paste&height=232&id=u7592fba7&originHeight=290&originWidth=859&originalType=binary&ratio=1&rotation=0&showTitle=false&size=109851&status=done&style=none&taskId=u71cc218e-0dbd-4ece-9f39-01391e1fc1c&title=&width=687.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764697905-95e793e0-9684-4d38-9036-89f9a92b4b60.png#averageHue=%23fcfcfa&clientId=u7887007a-fbef-4&from=paste&height=265&id=u6b9a3364&originHeight=331&originWidth=746&originalType=binary&ratio=1&rotation=0&showTitle=false&size=143544&status=done&style=none&taskId=u25e538aa-b021-4302-8c44-37d87e75e23&title=&width=596.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764887922-d0d0c1fe-fd16-4a31-a7f8-23500327f4c7.png#averageHue=%23e2e4e2&clientId=u7887007a-fbef-4&from=paste&height=294&id=udee882bd&originHeight=368&originWidth=799&originalType=binary&ratio=1&rotation=0&showTitle=false&size=137747&status=done&style=none&taskId=ud34683c9-4596-40de-81e6-1ad8afcdfc5&title=&width=639.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677765766541-463f2a75-2100-4fde-9df9-fef8fe6192a3.png#averageHue=%23fffffd&clientId=u7887007a-fbef-4&from=paste&height=270&id=ue1cb4860&originHeight=338&originWidth=774&originalType=binary&ratio=1&rotation=0&showTitle=false&size=81057&status=done&style=none&taskId=u64375e59-53ad-4763-8392-c91d6d7cbf6&title=&width=619.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677766633861-a7a070ec-ba72-4e9e-9755-33d360ed314c.png#averageHue=%23efefef&clientId=u7887007a-fbef-4&from=paste&height=282&id=u8aee65f0&originHeight=352&originWidth=817&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108631&status=done&style=none&taskId=u3e4abd7e-4eec-4c38-81e8-9ec22de9e74&title=&width=653.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768390595-e36d7d71-db48-4bfe-b931-49e12ad7ad25.png#averageHue=%23faf9f9&clientId=u7887007a-fbef-4&from=paste&height=326&id=ua56fbf09&originHeight=407&originWidth=657&originalType=binary&ratio=1&rotation=0&showTitle=false&size=74341&status=done&style=none&taskId=u7b7a270e-6502-44b5-84f2-a08571258c0&title=&width=525.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768490148-59334cb7-1fce-4fc8-9c38-a1578d3cce60.png#averageHue=%23f6f6f5&clientId=u7887007a-fbef-4&from=paste&height=218&id=u442fbede&originHeight=272&originWidth=972&originalType=binary&ratio=1&rotation=0&showTitle=false&size=140027&status=done&style=none&taskId=u95b79575-9824-4931-b65f-a13d892f12b&title=&width=777.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768548919-f8bbb08a-d319-41a9-9d91-edaf3ca46cf2.png#averageHue=%23f2f1f1&clientId=u7887007a-fbef-4&from=paste&height=298&id=u85d49e1c&originHeight=372&originWidth=921&originalType=binary&ratio=1&rotation=0&showTitle=false&size=110290&status=done&style=none&taskId=u202cec5b-c7ca-4619-9134-01e608c26ca&title=&width=736.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768568178-7f37220c-1306-4bd9-ab7b-7848486cd96c.png#averageHue=%23f5f3f3&clientId=u7887007a-fbef-4&from=paste&height=338&id=u5e17fe6d&originHeight=423&originWidth=979&originalType=binary&ratio=1&rotation=0&showTitle=false&size=94012&status=done&style=none&taskId=u91099fea-ca01-43a2-9166-4ea73e26a44&title=&width=783.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768642573-4ba70cff-6014-4886-b9f6-b1722718ff9a.png#averageHue=%23f7f4f3&clientId=u7887007a-fbef-4&from=paste&height=255&id=ubc89c6ff&originHeight=319&originWidth=953&originalType=binary&ratio=1&rotation=0&showTitle=false&size=81138&status=done&style=none&taskId=ucd94f1aa-cf15-4f0e-aae0-000df67db1b&title=&width=762.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768857410-8a0ecb6a-1b29-4bd4-bd58-1242d762a6b0.png#averageHue=%23f7f4f4&clientId=u7887007a-fbef-4&from=paste&height=253&id=u660905ce&originHeight=316&originWidth=761&originalType=binary&ratio=1&rotation=0&showTitle=false&size=67413&status=done&style=none&taskId=u19f16db6-6e1c-41b2-b81e-1d83b03505c&title=&width=608.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677818600523-1fa1ab32-9bc8-42b7-babd-91305ed12fd9.png#averageHue=%23c56b55&clientId=ua7347f47-9661-4&from=paste&height=314&id=uc3510ad9&originHeight=392&originWidth=660&originalType=binary&ratio=1&rotation=0&showTitle=false&size=83533&status=done&style=none&taskId=u394a59c1-0323-453d-8d39-8d4bdb61690&title=&width=528">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677819647684-bf6f2006-1121-4af0-b70a-8a259340bf5c.png#averageHue=%23eeeeee&clientId=ua7347f47-9661-4&from=paste&height=212&id=uefe00083&originHeight=265&originWidth=878&originalType=binary&ratio=1&rotation=0&showTitle=false&size=95674&status=done&style=none&taskId=uc77532a4-fab3-49cb-a206-5bea7056202&title=&width=702.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677819820193-71dc3dd0-62b1-4a4c-a9a4-fb1c3f036598.png#averageHue=%23ececec&clientId=ua7347f47-9661-4&from=paste&height=217&id=u8fcdebac&originHeight=271&originWidth=877&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108723&status=done&style=none&taskId=ub35e9faa-17dc-4c85-a568-bced276238b&title=&width=701.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677821772382-37a5a5b4-7268-4c27-b112-1e45f3d685d2.png#averageHue=%23f0f0f0&clientId=ua7347f47-9661-4&from=paste&height=237&id=u411dbd80&originHeight=296&originWidth=305&originalType=binary&ratio=1&rotation=0&showTitle=false&size=28500&status=done&style=none&taskId=udfd94152-1801-43e3-bae3-6eb0877d832&title=&width=244">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677821811010-449d44d6-1d3e-41b2-9509-d88745acaa54.png#averageHue=%23f8f7f6&clientId=ua7347f47-9661-4&from=paste&height=360&id=ue4d2f3f3&originHeight=450&originWidth=754&originalType=binary&ratio=1&rotation=0&showTitle=false&size=71468&status=done&style=none&taskId=ue850e651-9090-438c-91b1-d464fff9d55&title=&width=603.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677821844183-43c03732-cfdd-43bb-943d-769dfda8f2c8.png#averageHue=%23dbd5d0&clientId=ua7347f47-9661-4&from=paste&height=254&id=u8b851a15&originHeight=318&originWidth=680&originalType=binary&ratio=1&rotation=0&showTitle=false&size=79393&status=done&style=none&taskId=udec5302f-dff2-490a-a218-4529b6845c2&title=&width=544">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677822863812-1b22c583-b4d5-47e5-8c4a-badab568c1d5.png#averageHue=%23f1f1f1&clientId=ua7347f47-9661-4&from=paste&height=188&id=ub2c638c2&originHeight=235&originWidth=873&originalType=binary&ratio=1&rotation=0&showTitle=false&size=58085&status=done&style=none&taskId=ueabc2f26-3028-42ef-841d-bb263593ed5&title=&width=698.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677895427900-26210ad9-aae6-4394-bccc-75536168735a.png#averageHue=%23fcf9f8&clientId=u531a6c9d-5dd2-4&from=paste&height=274&id=uf1d8f538&originHeight=343&originWidth=926&originalType=binary&ratio=1&rotation=0&showTitle=false&size=149537&status=done&style=none&taskId=u2bd42d31-ce00-4cd4-a022-2a89cd45adb&title=&width=740.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677895943704-4bde1d1c-28bc-4a6b-b281-06eed830afeb.png#averageHue=%23eaeaea&clientId=u531a6c9d-5dd2-4&from=paste&height=150&id=ua03d6fe3&originHeight=188&originWidth=790&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59925&status=done&style=none&taskId=u1af74c94-3632-401e-93dc-f4bcb6401e8&title=&width=632">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677895995205-624db8f2-dd0f-4b0c-b03a-1400a591f899.png#averageHue=%23fbfbfb&clientId=u531a6c9d-5dd2-4&from=paste&height=258&id=u96e0f39b&originHeight=322&originWidth=665&originalType=binary&ratio=1&rotation=0&showTitle=false&size=47808&status=done&style=none&taskId=u11268705-aafe-45a0-87ac-c6da022ceed&title=&width=532">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677896039451-5f7a7799-7afd-4169-9f18-46c53aafd438.png#averageHue=%23ededed&clientId=u531a6c9d-5dd2-4&from=paste&height=278&id=u5c97fc68&originHeight=347&originWidth=818&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108521&status=done&style=none&taskId=u94ec7ce2-fa8c-49cc-af7e-9659d85b955&title=&width=654.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677896357893-ea3366e7-e42a-4101-b42c-bbca69a9d206.png#averageHue=%23f4f4f4&clientId=u531a6c9d-5dd2-4&from=paste&height=276&id=u3d45bc44&originHeight=345&originWidth=635&originalType=binary&ratio=1&rotation=0&showTitle=false&size=49244&status=done&style=none&taskId=ub8c908ec-55e0-4f83-aa9c-e117e500e04&title=&width=508">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905626617-995ba3bd-41e5-4aff-91c0-28b48b4821f0.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=286&id=u1cacd69a&originHeight=357&originWidth=850&originalType=binary&ratio=1&rotation=0&showTitle=false&size=98135&status=done&style=none&taskId=uf488712f-6a42-4f8e-a27a-4353a6dffc5&title=&width=680">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905693377-74f3b005-8b4c-490e-b9d6-8ca893ec4e1e.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=161&id=u22493cd8&originHeight=201&originWidth=868&originalType=binary&ratio=1&rotation=0&showTitle=false&size=48314&status=done&style=none&taskId=u60f0dc09-9e2f-4894-a6b8-cb534e534ff&title=&width=694.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905752777-fd2e742f-dbd8-4ce3-9b46-dd4081d85354.png#averageHue=%23f3f3f3&clientId=u531a6c9d-5dd2-4&from=paste&height=280&id=udbca4ce7&originHeight=350&originWidth=826&originalType=binary&ratio=1&rotation=0&showTitle=false&size=76528&status=done&style=none&taskId=uaa3cb008-4e97-4096-9b7a-d2efc0f5c5f&title=&width=660.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905907721-e3da1b86-973d-495a-9b3d-eeced75b16b8.png#averageHue=%23f3f3f3&clientId=u531a6c9d-5dd2-4&from=paste&height=270&id=u9ca63906&originHeight=337&originWidth=868&originalType=binary&ratio=1&rotation=0&showTitle=false&size=75742&status=done&style=none&taskId=udea7b5a1-5064-4af8-a0b6-6cc26aea7cd&title=&width=694.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906150975-4d1bd0bb-ffc7-4571-b0cb-2cb37925a21b.png#averageHue=%23f3f2f1&clientId=u531a6c9d-5dd2-4&from=paste&height=298&id=ua1426d18&originHeight=373&originWidth=882&originalType=binary&ratio=1&rotation=0&showTitle=false&size=180177&status=done&style=none&taskId=u7f95b083-fcde-4b36-bd42-c5e3e70af49&title=&width=705.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906306259-df00a04a-a65e-496a-a1ba-d638f5f40ed1.png#averageHue=%23eeecec&clientId=u531a6c9d-5dd2-4&from=paste&height=330&id=u935207f0&originHeight=412&originWidth=923&originalType=binary&ratio=1&rotation=0&showTitle=false&size=236644&status=done&style=none&taskId=u990702c8-4685-456e-8374-18614ab7555&title=&width=738.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906424050-a0f20371-93de-42e2-ae9e-2e34bbd97457.png#averageHue=%23eeecec&clientId=u531a6c9d-5dd2-4&from=paste&height=314&id=u2e940020&originHeight=393&originWidth=896&originalType=binary&ratio=1&rotation=0&showTitle=false&size=212607&status=done&style=none&taskId=u3b286bd1-6939-42b4-9635-44d5a3f8504&title=&width=716.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906823643-91888130-1938-49eb-9397-711e4e8e7872.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=185&id=u5b5a66f4&originHeight=231&originWidth=897&originalType=binary&ratio=1&rotation=0&showTitle=false&size=72794&status=done&style=none&taskId=u3110c9ec-ecc2-4587-8951-a80f25e96be&title=&width=717.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906893832-ff4c6c35-c0fe-45a0-af54-b3e00a4b2702.png#averageHue=%23eaeaea&clientId=u531a6c9d-5dd2-4&from=paste&height=190&id=u3ee6d914&originHeight=238&originWidth=871&originalType=binary&ratio=1&rotation=0&showTitle=false&size=91878&status=done&style=none&taskId=u30e7c7dd-7aab-481f-a409-b6a0632dd9e&title=&width=696.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907003895-4cff8e49-9f1a-41b8-97c3-ce07f9824b3f.png#averageHue=%23f8f4f4&clientId=u531a6c9d-5dd2-4&from=paste&height=354&id=u931ce397&originHeight=443&originWidth=962&originalType=binary&ratio=1&rotation=0&showTitle=false&size=188454&status=done&style=none&taskId=u52cff456-903c-4c4d-8d5e-01243fd540e&title=&width=769.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907020104-24dcbc2b-9c4c-47e3-9a5e-41a73405b06e.png#averageHue=%23f7f4f4&clientId=u531a6c9d-5dd2-4&from=paste&height=300&id=uace6c0fb&originHeight=375&originWidth=951&originalType=binary&ratio=1&rotation=0&showTitle=false&size=193588&status=done&style=none&taskId=ua1ac08e1-ae96-4d3f-a4ea-0c7f0e386d8&title=&width=760.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907116199-e0c69d69-6e39-4f6c-ab41-0a8de8d159cc.png#averageHue=%23ded9d8&clientId=u531a6c9d-5dd2-4&from=paste&height=333&id=u0aac7339&originHeight=416&originWidth=957&originalType=binary&ratio=1&rotation=0&showTitle=false&size=157829&status=done&style=none&taskId=u07b31b2d-3cb4-4311-adad-daf8509fff2&title=&width=765.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907711593-a620330a-1f7f-4f81-b127-d9a43e91719e.png#averageHue=%23e6e6e6&clientId=u531a6c9d-5dd2-4&from=paste&height=123&id=u92168ec9&originHeight=154&originWidth=860&originalType=binary&ratio=1&rotation=0&showTitle=false&size=65081&status=done&style=none&taskId=ub7d5b3e2-5e82-4d7f-b77e-3fa9b942e97&title=&width=688">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907769066-47c7894c-0416-4431-afd7-9527deba9b30.png#averageHue=%23f3f1f1&clientId=u531a6c9d-5dd2-4&from=paste&height=381&id=u32814523&originHeight=476&originWidth=932&originalType=binary&ratio=1&rotation=0&showTitle=false&size=139582&status=done&style=none&taskId=uc8d64e65-d1c7-4e66-997c-9434b3a7a99&title=&width=745.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907866188-33adc6b7-345d-4ca9-8628-f120cf88d4ae.png#averageHue=%23f4efef&clientId=u531a6c9d-5dd2-4&from=paste&height=370&id=u4ff8fafa&originHeight=462&originWidth=848&originalType=binary&ratio=1&rotation=0&showTitle=false&size=147849&status=done&style=none&taskId=u79028afa-77f6-462d-b6c0-0f41a1e8c5d&title=&width=678.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907892291-771789b6-9ea3-4098-96b8-caf6cd18c73d.png#averageHue=%23f8f8f8&clientId=u531a6c9d-5dd2-4&from=paste&height=262&id=uca4d7964&originHeight=327&originWidth=531&originalType=binary&ratio=1&rotation=0&showTitle=false&size=29536&status=done&style=none&taskId=u738fb861-a81e-4530-896d-9a73d5f1b63&title=&width=424.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907904100-5eff3925-58c6-4bf2-91f1-0823323a033a.png#averageHue=%23faf5f4&clientId=u531a6c9d-5dd2-4&from=paste&height=282&id=u391c1a13&originHeight=353&originWidth=855&originalType=binary&ratio=1&rotation=0&showTitle=false&size=82409&status=done&style=none&taskId=u96cd708f-6822-4a2e-b113-bb32d9fd760&title=&width=684">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908143083-1c55e684-2a91-432d-b78d-69f0f805e64b.png#averageHue=%23e6e6e6&clientId=u531a6c9d-5dd2-4&from=paste&height=92&id=udea5cda2&originHeight=115&originWidth=815&originalType=binary&ratio=1&rotation=0&showTitle=false&size=44350&status=done&style=none&taskId=uf2836aa9-36f3-4d19-b0f2-923eb0084c7&title=&width=652">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908182044-69914006-376c-4ef2-8d92-df124924378c.png#averageHue=%23f6f6f6&clientId=u531a6c9d-5dd2-4&from=paste&height=219&id=u21fdbd57&originHeight=274&originWidth=863&originalType=binary&ratio=1&rotation=0&showTitle=false&size=47659&status=done&style=none&taskId=uf19f3b55-2921-4496-ba53-d29b1073032&title=&width=690.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908223676-464c7388-b97a-43f6-b048-1869b04145e3.png#averageHue=%23f7f7f7&clientId=u531a6c9d-5dd2-4&from=paste&height=324&id=u5b6a42ea&originHeight=405&originWidth=683&originalType=binary&ratio=1&rotation=0&showTitle=false&size=52171&status=done&style=none&taskId=u1c1e9dea-525c-42b3-93cb-d40ae07ab66&title=&width=546.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908285130-661c5d57-8693-4d48-9877-6fd75e8c6a1e.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=275&id=u09e5b27d&originHeight=344&originWidth=865&originalType=binary&ratio=1&rotation=0&showTitle=false&size=82165&status=done&style=none&taskId=u900ea7df-b1bf-4691-bbeb-3b42b066bc4&title=&width=692">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908302076-c658d227-da8d-4a2e-8699-ec1a1641cd4b.png#averageHue=%23f3f3f3&clientId=u531a6c9d-5dd2-4&from=paste&height=242&id=u4458cb3c&originHeight=303&originWidth=745&originalType=binary&ratio=1&rotation=0&showTitle=false&size=58244&status=done&style=none&taskId=u0bc83369-5453-487a-a170-01b2bc43f1b&title=&width=596">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908369785-6b9480f0-5325-442c-a6b2-1a20f8ef6f2b.png#averageHue=%23e8e8e8&clientId=u531a6c9d-5dd2-4&from=paste&height=291&id=u552def40&originHeight=364&originWidth=860&originalType=binary&ratio=1&rotation=0&showTitle=false&size=149742&status=done&style=none&taskId=uddde50d8-f686-406b-abf7-80c1dc21d70&title=&width=688">
+<meta property="article:published_time" content="2024-01-26T08:20:06.154Z">
+<meta property="article:modified_time" content="2024-01-26T08:21:17.617Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677750686459-c74a6d54-94d1-4fab-a5be-ff1ab7e65b46.png#averageHue=%23dcd9d6&clientId=u7887007a-fbef-4&from=paste&height=344&id=u2c1ad97e&originHeight=430&originWidth=928&originalType=binary&ratio=1&rotation=0&showTitle=false&size=254955&status=done&style=none&taskId=u17c24382-4261-4789-88d4-7ac5a23fbb1&title=&width=742.4">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>大话HTTP - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="大话HTTP"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 16:20" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">大话HTTP</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+
+
+<h2 id="1-了解http协议："><a href="#1-了解http协议：" class="headerlink" title="1.了解http协议："></a>1.了解http协议：</h2><p>http:超文本传输协议，允许将超文本标记语言从web服务器传送到客户端浏览器，是属于应用层的面向对象协议。</p>
+<h4 id="TCP3次握手："><a href="#TCP3次握手：" class="headerlink" title="TCP3次握手："></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34827674/article/details/105331617">TCP3次握手</a>：</h4><h4 id="DNS域名解析："><a href="#DNS域名解析：" class="headerlink" title="DNS域名解析："></a>DNS域名解析：</h4><p>当我们在浏览器键入一个网址的时候，浏览器会在本地hosts文件找有没有，该域名和网址的映射，没有就在DNS服务器寻找，也没有就在上级的DNS服务器，直达根服务器<br><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/Hosts%E6%96%87%E4%BB%B6">hosts文件</a>:host查询到的ip和域名的映射关系高于dns；</p>
+<h2 id="http协议结构和通信原理："><a href="#http协议结构和通信原理：" class="headerlink" title="http协议结构和通信原理："></a>http协议结构和通信原理：</h2><h4 id="http协议特点：深入理解HTTP协议"><a href="#http协议特点：深入理解HTTP协议" class="headerlink" title="http协议特点：深入理解HTTP协议"></a>http协议特点：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45173862">深入理解HTTP协议</a></h4><p>1.简单快速：<br>客户向服务器发送请求时，只需要传输路径和方法；请求方法有get,head,post，每种方法规定了客户与服务器联系的类型不同；http协议简单，服务器程序规模小，通信速度快。<br>2.灵活：http允许传递任意类型的数据对象，正在传输的类型用,<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type">Content-Type</a>标志<br>3.无连接：无连接的含义是限制每次连接只处理一个请求，服务器处理完客户的请求并收到应答后就断开连接，节省传输时间<br>4.无状态：是指对于事务的处理能力没有记忆能力，如果后面的内容需要前面的内容，则必须重新传送</p>
+<h4 id="http报文结构：HTTP报文（面试会问开发时常用的报文头格式）-每天都要学进去一些-博客园"><a href="#http报文结构：HTTP报文（面试会问开发时常用的报文头格式）-每天都要学进去一些-博客园" class="headerlink" title="http报文结构：HTTP报文（面试会问开发时常用的报文头格式） - 每天都要学进去一些 - 博客园"></a>http报文结构：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenguangliang/p/6708592.html">HTTP报文（面试会问开发时常用的报文头格式） - 每天都要学进去一些 - 博客园</a></h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677750686459-c74a6d54-94d1-4fab-a5be-ff1ab7e65b46.png#averageHue=%23dcd9d6&clientId=u7887007a-fbef-4&from=paste&height=344&id=u2c1ad97e&originHeight=430&originWidth=928&originalType=binary&ratio=1&rotation=0&showTitle=false&size=254955&status=done&style=none&taskId=u17c24382-4261-4789-88d4-7ac5a23fbb1&title=&width=742.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="http报文头：HTTP报文头部字段大全-Go-技术论坛"><a href="#http报文头：HTTP报文头部字段大全-Go-技术论坛" class="headerlink" title="http报文头：HTTP报文头部字段大全 | Go 技术论坛"></a>http报文头：<a target="_blank" rel="noopener" href="https://learnku.com/articles/75429">HTTP报文头部字段大全 | Go 技术论坛</a></h4><p>可分为4类，通用（请求响应报文都适用），请求，响应，实体。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751297927-bbe2fc0f-724e-4e7b-9341-bf1140aacde6.png#averageHue=%23e9e9e7&clientId=u7887007a-fbef-4&from=paste&height=254&id=uc1bac5ec&originHeight=317&originWidth=711&originalType=binary&ratio=1&rotation=0&showTitle=false&size=110483&status=done&style=none&taskId=uf65ab8bb-b999-49fb-8fcf-5893733dce2&title=&width=568.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751442440-3e9b9731-669f-4c0e-b7de-97175c5e171a.png#averageHue=%23edecea&clientId=u7887007a-fbef-4&from=paste&height=394&id=u0d98c253&originHeight=493&originWidth=814&originalType=binary&ratio=1&rotation=0&showTitle=false&size=183195&status=done&style=none&taskId=u6bc33f8b-cd70-4e96-9fba-e865d9b1b89&title=&width=651.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751461298-383464f0-16cd-42ae-969f-b6a5d5622c5b.png#averageHue=%23dededb&clientId=u7887007a-fbef-4&from=paste&height=278&id=uc8d3bd80&originHeight=348&originWidth=796&originalType=binary&ratio=1&rotation=0&showTitle=false&size=130843&status=done&style=none&taskId=uf1bce824-c460-4f96-a904-61f50083c02&title=&width=636.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677751475332-3a14fe5d-9146-4c15-9165-fc68738a18ee.png#averageHue=%23e6e6e4&clientId=u7887007a-fbef-4&from=paste&height=316&id=u680ab071&originHeight=395&originWidth=738&originalType=binary&ratio=1&rotation=0&showTitle=false&size=159997&status=done&style=none&taskId=ub1bb7900-b75a-4bc9-b2b3-c692a70fce4&title=&width=590.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>accept:浏览器可以接收的媒体类型；<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept">Accept - HTTP | MDN</a><br>Accept:text&#x2F;html 代表浏览器可以接收服务器回发的html文档，如果服务器无法返回html文档就返回一个406错误。<br>Accept:*&#x2F;*代表浏览器可以处理任意数据的媒体类型；<br>如果想要给显示的媒体类型增加优先级，则使用q,q的范围是0~1，1最大，没有默认为1.0，当服务器提供多种内容的时候，返回最高的媒体类型最高的媒体类型。<br>Accept-Language:浏览器声明自己接收的语言。<br>Accept-Language:zh-cn,zh;q&#x3D;0.7,en-us,en;q&#x3D;0.3 客户端在服务器有中文版的资源下，会优先返回中文版的响应，没有就返回英文版的。<br>Connection:keep-alive 当一个网页打开完全后，客户端和服务端之间用于传输HTTP数据的TCP连接不会断开，如果客户端再次访问这个服务器的网页，就会继续使用一条已经建立的连接。<br>Connection:close 一个Request完成后，客户端和服务端之间用于传输HTTP数据的TCP连接会关闭，当客户端再次发送Request，需要重新建立TCP连接<br>  Host:<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753061304-a328b174-095c-43bc-9070-e29d5ee8f210.png#averageHue=%23f1f1f1&clientId=u7887007a-fbef-4&from=paste&height=266&id=ufc34ae2c&originHeight=332&originWidth=882&originalType=binary&ratio=1&rotation=0&showTitle=false&size=91299&status=done&style=none&taskId=ufccf7dcb-1566-40a8-93e5-a894975fc1b&title=&width=705.6" srcset="/img/loading.gif" lazyload alt="image.png"> Referer:<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753140834-de9c6939-a6c4-48dc-b89d-22d5275108ca.png#averageHue=%23efefef&clientId=u7887007a-fbef-4&from=paste&height=152&id=u75f241ca&originHeight=190&originWidth=830&originalType=binary&ratio=1&rotation=0&showTitle=false&size=54358&status=done&style=none&taskId=ua50ba59a-11c3-4450-a20f-35077d48965&title=&width=664" srcset="/img/loading.gif" lazyload alt="image.png">User-Agent:<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753182984-f255c974-6761-421b-a716-fb8ada5109b2.png#averageHue=%23f5f4f4&clientId=u7887007a-fbef-4&from=paste&height=144&id=ue1e47074&originHeight=180&originWidth=840&originalType=binary&ratio=1&rotation=0&showTitle=false&size=47156&status=done&style=none&taskId=u067df328-4eb9-440f-9342-21298d2edf4&title=&width=672" srcset="/img/loading.gif" lazyload alt="image.png"><br>Content-Type:<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677753282897-e0559545-9ed9-4020-8809-90c106b0d201.png#averageHue=%23ededed&clientId=u7887007a-fbef-4&from=paste&height=290&id=u38be556f&originHeight=363&originWidth=877&originalType=binary&ratio=1&rotation=0&showTitle=false&size=132433&status=done&style=none&taskId=u1892726f-1479-4694-94e0-0e871761859&title=&width=701.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>http响应报文：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1953222">Http请求报文格式和响应报文格式 - 腾讯云开发者社区-腾讯云</a></p>
+<h4 id="http请求方法："><a href="#http请求方法：" class="headerlink" title="http请求方法："></a>http请求方法：</h4><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">HTTP request methods - HTTP | MDN</a><br>get提交的请求作为url的一部分，这就表示它提交的请求不能过大（浏览器的url有长度限制）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677754360040-37c9f38a-1ab8-4c60-89fa-ab6a7bd148d6.png#averageHue=%23f7f6f6&clientId=u7887007a-fbef-4&from=paste&height=299&id=u95859447&originHeight=374&originWidth=824&originalType=binary&ratio=1&rotation=0&showTitle=false&size=91491&status=done&style=none&taskId=u3cb8b1b3-2d46-44c7-a2c5-9380c1c352e&title=&width=659.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>上面链接后面的？是参数，用来给web服务器进行某些处理的<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL">What is a URL? - Learn web development | MDN</a><br>url区分大小写吗？<br><a target="_blank" rel="noopener" href="https://webmasters.stackexchange.com/questions/5157/is-it-ok-to-have-a-case-insensitive-uri">根据网络搜索结果，URL的大小写敏感性取决于URL的不同部分和服务器的操作系统。一般来说，域名和协议（如https:&#x2F;&#x2F;）是不区分大小写的，但路径（如&#x2F;en-US&#x2F;docs&#x2F;Learn）和参数（如?key1&#x3D;value1）可能是区分大小写的</a><a target="_blank" rel="noopener" href="https://webmasters.stackexchange.com/questions/5157/is-it-ok-to-have-a-case-insensitive-uri">1</a><a target="_blank" rel="noopener" href="https://techpenny.com/are-domains-urls-case-sensitive/">2</a><a target="_blank" rel="noopener" href="https://abramillar.com/2017/01/25/are-urls-case-sensitive/">3</a><a target="_blank" rel="noopener" href="https://techpenny.com/are-domains-urls-case-sensitive/">。如果您使用Linux或Unix系统的服务器，那么您的URL路径可能是区分大小写的</a><a target="_blank" rel="noopener" href="https://techpenny.com/are-domains-urls-case-sensitive/">2</a><a target="_blank" rel="noopener" href="https://webmasters.stackexchange.com/questions/5157/is-it-ok-to-have-a-case-insensitive-uri">。如果您使用Windows系统的服务器，那么您的URL路径可能是不区分大小写的</a><a target="_blank" rel="noopener" href="https://webmasters.stackexchange.com/questions/5157/is-it-ok-to-have-a-case-insensitive-uri">1</a>。<br><a target="_blank" rel="noopener" href="https://abramillar.com/2017/01/25/are-urls-case-sensitive/">为了避免重复内容或链接错误的问题，建议您在创建和分享URL时使用统一的大小写规则，并且尽量避免使用大写字母</a><a target="_blank" rel="noopener" href="https://abramillar.com/2017/01/25/are-urls-case-sensitive/">3</a><a target="_blank" rel="noopener" href="https://webmasters.stackexchange.com/questions/90339/why-are-urls-case-sensitive">4</a><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/15641694/are-uris-case-insensitive">。如果您想让您的网站自动将不同大小写的URL重定向到一个标准版本，您可以使用.htaccess文件或其他方法来实现</a><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/15641694/are-uris-case-insensitive">5</a>。<br>希望这些信息对您有所帮助。<br>post:<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677754428239-e5ecbe48-620f-43c9-8994-0ebf0f068b20.png#averageHue=%23f5f5f5&clientId=u7887007a-fbef-4&from=paste&height=412&id=ua0feed1a&originHeight=515&originWidth=897&originalType=binary&ratio=1&rotation=0&showTitle=false&size=190115&status=done&style=none&taskId=uff0ad16f-5284-4ed8-b112-95025284bfa&title=&width=717.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>get请求数据放在url里面（没安全性），大小有限制，post请求数据放在 请求头里面，大小无限制。<br>put:<br>从客户端向服务器传送的数据指定文档的内容，和post最大的区别是：put是幂等（<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/178da1e2903c">一个HTTP方法是幂等的，指的是同样的请求被执行一次与连续执行多次的效果是一样的，服务器的状态也是一样的</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=http%E4%BB%80%E4%B9%88%E6%98%AF%E5%B9%82%E7%AD%89">1</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/178da1e2903c">2</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Idempotent">3</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Idempotent">。换句话说就是，幂等方法不应该具有副作用（统计用途除外）</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Idempotent">3</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Idempotent">。在正确实现的条件下，GET，HEAD，PUT和DELETE等方法都是幂等的，而POST方法不是</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Idempotent">3</a>）的，而post是不幂等的，我们更多时候用put传送资源<br>head&#x2F;delete:<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/HEAD">HTTP HEAD方法请求资源的头部信息，并且这些头部与HTTP GET方法请求时返回的一致</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=head%E6%96%B9%E6%B3%95">1</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/HEAD">2</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/HEAD">。HEAD方法不会返回实体主体，只用于获取资源的元信息，比如修改日期，内容类型等</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods/HEAD">2</a><a target="_blank" rel="noopener" href="https://www.runoob.com/http/http-methods.html">3</a><a target="_blank" rel="noopener" href="https://www.runoob.com/http/http-methods.html">。HEAD方法是幂等的，也就是说多次请求同一个资源不会改变服务器的状态</a><a target="_blank" rel="noopener" href="https://www.runoob.com/http/http-methods.html">3</a>。<br>delete:请求服务器删除指定的资源<br>options:用来查询针对请求url指定资源支持的方法<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764213599-787cb398-1e5e-4523-b61e-f4626dd57a20.png#averageHue=%23f6f6f6&clientId=u7887007a-fbef-4&from=paste&height=258&id=u24051475&originHeight=323&originWidth=858&originalType=binary&ratio=1&rotation=0&showTitle=false&size=66569&status=done&style=none&taskId=u55bebc9b-2972-448e-a013-b7ef8f5eb18&title=&width=686.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="状态码："><a href="#状态码：" class="headerlink" title="状态码："></a>状态码：</h4><p>是用来表示网页服务器超文本传输协议响应状态的3为数字代码，<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764466345-b5dd5a0d-69aa-42c2-bd8c-bf936a6fd768.png#averageHue=%23bfc1bf&clientId=u7887007a-fbef-4&from=paste&height=343&id=u884bd248&originHeight=429&originWidth=817&originalType=binary&ratio=1&rotation=0&showTitle=false&size=314238&status=done&style=none&taskId=u3d8eef72-ddf4-4904-943d-c098225660c&title=&width=653.6" srcset="/img/loading.gif" lazyload alt="image.png"><br> <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764575420-3b4cb7e4-0c39-4870-b653-0d0998987e01.png#averageHue=%23e5e7e9&clientId=u7887007a-fbef-4&from=paste&height=232&id=u7592fba7&originHeight=290&originWidth=859&originalType=binary&ratio=1&rotation=0&showTitle=false&size=109851&status=done&style=none&taskId=u71cc218e-0dbd-4ece-9f39-01391e1fc1c&title=&width=687.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764697905-95e793e0-9684-4d38-9036-89f9a92b4b60.png#averageHue=%23fcfcfa&clientId=u7887007a-fbef-4&from=paste&height=265&id=u6b9a3364&originHeight=331&originWidth=746&originalType=binary&ratio=1&rotation=0&showTitle=false&size=143544&status=done&style=none&taskId=u25e538aa-b021-4302-8c44-37d87e75e23&title=&width=596.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://seo.juziseo.com/doc/http_code/206">HTTP状态码206表示该服务器已经成功处理了部分GET请求</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=http%E7%8A%B6%E6%80%81%E7%A0%81206">1</a><a target="_blank" rel="noopener" href="https://seo.juziseo.com/doc/http_code/206">2</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http206.html">3</a><a target="_blank" rel="noopener" href="https://seo.juziseo.com/doc/http_code/206">。这种响应通常用于实现断点续传或者将一个大文档分解为多个下载段同时下载</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=http%E7%8A%B6%E6%80%81%E7%A0%81206">1</a><a target="_blank" rel="noopener" href="https://seo.juziseo.com/doc/http_code/206">2</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenpingzhao/p/5797506.html">。响应中会包含一个Content-Range头部，指明返回的数据范围和资源的总大小</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677764887922-d0d0c1fe-fd16-4a31-a7f8-23500327f4c7.png#averageHue=%23e2e4e2&clientId=u7887007a-fbef-4&from=paste&height=294&id=udee882bd&originHeight=368&originWidth=799&originalType=binary&ratio=1&rotation=0&showTitle=false&size=137747&status=done&style=none&taskId=ud34683c9-4596-40de-81e6-1ad8afcdfc5&title=&width=639.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">HTTP状态码301表示永久重定向，即请求的资源已经被永久地移动到了另一个URL，客户端应该使用新的URL来访问资源</a><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">1</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http301.html">2</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e82fbca7f682">3</a><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">。这种响应通常用于网站域名变更或者页面合并等情况</a><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">1</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e82fbca7f682">3</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http301.html">。使用301重定向可以使得搜索引擎在抓取新内容的同时将旧的网址替换为重定向后的网址</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http301.html">2</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e82fbca7f682">3</a>。<br><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">HTTP状态码302表示临时重定向，即请求的资源暂时地移动到了另一个URL，客户端应该继续使用原有的URL来访问资源</a><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">1</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http301.html">2</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e82fbca7f682">3</a><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">。这种响应通常用于临时性的跳转或者负载均衡等情况</a><a target="_blank" rel="noopener" href="https://www.nss.com.tw/301-redirect/">1</a><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1393280/http-redirect-301-permanent-vs-302-temporary">4</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http301.html">。使用302重定向可以使得搜索引擎会抓取新的内容却保留旧的网址</a><a target="_blank" rel="noopener" href="https://www.php.cn/http/http-http301.html">2</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e82fbca7f682">3</a>。<a target="_blank" rel="noopener" href="https://blog.csdn.net/ai2000ai/article/details/80242193">http状态码301和302详解及区别_302状态码_幽雨雨幽的博客-CSDN博客</a><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677765766541-463f2a75-2100-4fde-9df9-fef8fe6192a3.png#averageHue=%23fffffd&clientId=u7887007a-fbef-4&from=paste&height=270&id=ue1cb4860&originHeight=338&originWidth=774&originalType=binary&ratio=1&rotation=0&showTitle=false&size=81057&status=done&style=none&taskId=u64375e59-53ad-4763-8392-c91d6d7cbf6&title=&width=619.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="Cookie和Session："><a href="#Cookie和Session：" class="headerlink" title="Cookie和Session："></a>Cookie和Session：</h4><p> <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677766633861-a7a070ec-ba72-4e9e-9755-33d360ed314c.png#averageHue=%23efefef&clientId=u7887007a-fbef-4&from=paste&height=282&id=u8aee65f0&originHeight=352&originWidth=817&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108631&status=done&style=none&taskId=u3e4abd7e-4eec-4c38-81e8-9ec22de9e74&title=&width=653.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>查看cookie的方法：f12打开开发者模式，在Console 输入javascript:alert(document.cookie)然后回车。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768390595-e36d7d71-db48-4bfe-b931-49e12ad7ad25.png#averageHue=%23faf9f9&clientId=u7887007a-fbef-4&from=paste&height=326&id=ua56fbf09&originHeight=407&originWidth=657&originalType=binary&ratio=1&rotation=0&showTitle=false&size=74341&status=done&style=none&taskId=u7b7a270e-6502-44b5-84f2-a08571258c0&title=&width=525.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768490148-59334cb7-1fce-4fc8-9c38-a1578d3cce60.png#averageHue=%23f6f6f5&clientId=u7887007a-fbef-4&from=paste&height=218&id=u442fbede&originHeight=272&originWidth=972&originalType=binary&ratio=1&rotation=0&showTitle=false&size=140027&status=done&style=none&taskId=u95b79575-9824-4931-b65f-a13d892f12b&title=&width=777.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768548919-f8bbb08a-d319-41a9-9d91-edaf3ca46cf2.png#averageHue=%23f2f1f1&clientId=u7887007a-fbef-4&from=paste&height=298&id=u85d49e1c&originHeight=372&originWidth=921&originalType=binary&ratio=1&rotation=0&showTitle=false&size=110290&status=done&style=none&taskId=u202cec5b-c7ca-4619-9134-01e608c26ca&title=&width=736.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768568178-7f37220c-1306-4bd9-ab7b-7848486cd96c.png#averageHue=%23f5f3f3&clientId=u7887007a-fbef-4&from=paste&height=338&id=u5e17fe6d&originHeight=423&originWidth=979&originalType=binary&ratio=1&rotation=0&showTitle=false&size=94012&status=done&style=none&taskId=u91099fea-ca01-43a2-9166-4ea73e26a44&title=&width=783.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768642573-4ba70cff-6014-4886-b9f6-b1722718ff9a.png#averageHue=%23f7f4f3&clientId=u7887007a-fbef-4&from=paste&height=255&id=ubc89c6ff&originHeight=319&originWidth=953&originalType=binary&ratio=1&rotation=0&showTitle=false&size=81138&status=done&style=none&taskId=ucd94f1aa-cf15-4f0e-aae0-000df67db1b&title=&width=762.4" srcset="/img/loading.gif" lazyload alt="image.png">  <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677768857410-8a0ecb6a-1b29-4bd4-bd58-1242d762a6b0.png#averageHue=%23f7f4f4&clientId=u7887007a-fbef-4&from=paste&height=253&id=u660905ce&originHeight=316&originWidth=761&originalType=binary&ratio=1&rotation=0&showTitle=false&size=67413&status=done&style=none&taskId=u19f16db6-6e1c-41b2-b81e-1d83b03505c&title=&width=608.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="HTTP协议结构和通讯原理："><a href="#HTTP协议结构和通讯原理：" class="headerlink" title="HTTP协议结构和通讯原理："></a>HTTP协议结构和通讯原理：</h2><h4 id="字符集和编码："><a href="#字符集和编码：" class="headerlink" title="字符集和编码："></a>字符集和编码：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677818600523-1fa1ab32-9bc8-42b7-babd-91305ed12fd9.png#averageHue=%23c56b55&clientId=ua7347f47-9661-4&from=paste&height=314&id=uc3510ad9&originHeight=392&originWidth=660&originalType=binary&ratio=1&rotation=0&showTitle=false&size=83533&status=done&style=none&taskId=u394a59c1-0323-453d-8d39-8d4bdb61690&title=&width=528" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="字符表，字符集，编码方式："><a href="#字符表，字符集，编码方式：" class="headerlink" title="字符表，字符集，编码方式："></a>字符表，字符集，编码方式：</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_65931372/article/details/123636069">根据搜索结果</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_65931372/article/details/123636069">1</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44198965/article/details/93125017">2</a><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21887246">3</a>，字符集，字符表可以简单地理解为：</p>
+<ul>
+<li>字符集是一些自然语言中的字符组成的集合，例如ASCII字符集包括了英文字母、数字、标点符号等。</li>
+<li>字符表是字符集中的每个字符对应的一个唯一编号，例如ASCII字符表中A对应65，B对应66等。</li>
+<li>编码方式是将字符表中的编号转换为二进制或其他形式的数据，以便在计算机中存储和传输。例如ASCII编码方式是将每个编号用一个字节（8位）来表示，UTF-8编码方式是将每个编号用不同长度的字节序列来表示。</li>
+</ul>
+<p>简单地说，字符集是定义了哪些字符存在，字符表是给每个字符分配了一个编号，编码方式是给每个编号分配了一个数据表示。</p>
+<h5 id="编码方式："><a href="#编码方式：" class="headerlink" title="编码方式："></a>编码方式：</h5><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/165989439">编码方式的编码规范是指在使用某种字符集时，如何将字符转换为二进制数据的规则。不同的编码方式可能对应不同的字符集，也可能对应同一种字符集。例如，ASCII、ISO-8859-1、GB2312、GBK等都是既表示了字符集又表示了对应的编码方式，但Unicode字符集是特例，它对应的编码方式有UTF-8、UTF-16、UTF-32等</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%E7%9A%84%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83">1</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/165989439">2</a>。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/165989439">遵循编码方式的编码规范可以帮助程序员保证数据的正确传输和存储，避免出现乱码或数据丢失的问题。</a><br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ISO/IEC_8859-1">ISO-8859-1是一种字符编码方式，它对应的字符集是ISO&#x2F;IEC 8859的第一部，也称为“拉丁字母第1部”。它包含了191个拉丁字母，可以用于表示美洲、西欧、大洋洲和非洲的多种语言。它也是一些流行的8位字符集和Unicode字符集的前两个区块的基础</a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ISO/IEC_8859-1">1</a><a target="_blank" rel="noopener" href="https://qastack.jp/programming/7048745/what-is-the-difference-between-utf-8-and-iso-8859-1">2</a>。<br><a target="_blank" rel="noopener" href="https://qastack.jp/programming/7048745/what-is-the-difference-between-utf-8-and-iso-8859-1">ISO-8859-1在1999年被更新为ISO-8859-15，它增加了一些法语和芬兰语所需的字符和欧元符号€，这些在ISO-8859-1中缺失。为了腾出空间，它删除了一些不常用的字符，如¤、¦、¨、´、¸、¼、½和¾等</a><a target="_blank" rel="noopener" href="https://qastack.jp/programming/7048745/what-is-the-difference-between-utf-8-and-iso-8859-1">2</a></p>
+<h4 id="URL的编码和解码："><a href="#URL的编码和解码：" class="headerlink" title="URL的编码和解码："></a>URL的编码和解码：</h4><h5 id="编码："><a href="#编码：" class="headerlink" title="编码："></a>编码：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677819647684-bf6f2006-1121-4af0-b70a-8a259340bf5c.png#averageHue=%23eeeeee&clientId=ua7347f47-9661-4&from=paste&height=212&id=uefe00083&originHeight=265&originWidth=878&originalType=binary&ratio=1&rotation=0&showTitle=false&size=95674&status=done&style=none&taskId=uc77532a4-fab3-49cb-a206-5bea7056202&title=&width=702.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="URL编码是一种将URL中的字符转换为可通过因特网传输的格式的方法。URL只能使用ASCII字符集通过因特网进行发送，但URL通常包含ASCII集之外的字符，例如中文、空格、符号等。因此，必须将这些字符替换为以-开头后跟十六进制数字的编码12。"><a href="#URL编码是一种将URL中的字符转换为可通过因特网传输的格式的方法。URL只能使用ASCII字符集通过因特网进行发送，但URL通常包含ASCII集之外的字符，例如中文、空格、符号等。因此，必须将这些字符替换为以-开头后跟十六进制数字的编码12。" class="headerlink" title="URL编码是一种将URL中的字符转换为可通过因特网传输的格式的方法。URL只能使用ASCII字符集通过因特网进行发送，但URL通常包含ASCII集之外的字符，例如中文、空格、符号等。因此，必须将这些字符替换为以%开头后跟十六进制数字的编码12。"></a><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/tags/html_ref_urlencode.asp">URL编码是一种将URL中的字符转换为可通过因特网传输的格式的方法。URL只能使用ASCII字符集通过因特网进行发送，但URL通常包含ASCII集之外的字符，例如中文、空格、符号等。因此，必须将这些字符替换为以%开头后跟十六进制数字的编码</a><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/tags/html_ref_urlencode.asp">1</a><a target="_blank" rel="noopener" href="http://www.esjson.com/urlEncode.html">2</a>。</h5><p>例如，URL <a target="_blank" rel="noopener" href="https://www.bing.com/search?q=%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F">https://www.bing.com/search?q=编码方式</a> 的编码方式是 https%3A%2F%2F<a href="http://www.bing.com%2Fsearch%3Fq%3D%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F">www.bing.com%2Fsearch%3Fq%3D%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F</a> 。可以看到，冒号、斜杠、等号和中文都被转换为了编码<a target="_blank" rel="noopener" href="https://bing.com/search?q=URL%E7%BC%96%E7%A0%81">3</a></p>
+<h5 id="编码规范："><a href="#编码规范：" class="headerlink" title="%编码规范："></a>%编码规范：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677819820193-71dc3dd0-62b1-4a4c-a9a4-fb1c3f036598.png#averageHue=%23ececec&clientId=ua7347f47-9661-4&from=paste&height=217&id=u8fcdebac&originHeight=271&originWidth=877&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108723&status=done&style=none&taskId=ub35e9faa-17dc-4c85-a568-bced276238b&title=&width=701.6" srcset="/img/loading.gif" lazyload alt="image.png"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/138433466">%编码规范是一种将URL中的特殊字符转换为以%开头后跟十六进制数字的编码的方法。这样可以避免URL中的字符被误解或损坏，同时也可以支持多种语言和字符集</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/138433466">1</a>。<br>%编码规范遵循以下原则：</p>
+<ul>
+<li>保留字符：有些字符在URL中有特殊含义，例如冒号、斜杠、问号等。这些字符不应该被编码，除非它们作为数据出现在URL中。保留字符的编码方式是将它们的ASCII值转换为十六进制，并在前面加上%。</li>
+<li>非保留字符：有些字符在URL中没有特殊含义，例如字母、数字、下划线等。这些字符不需要被编码，但如果要编码，也可以使用和保留字符相同的方法。</li>
+<li>不安全字符：有些字符在URL中可能会引起歧义或错误，例如空格、引号、加号等。这些字符必须被编码，使用和保留字符相同的方法。</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/372986600">国际化字符：有些语言使用非ASCII的字符集，例如中文、日文等。这些字符不能直接出现在URL中，必须先转换为UTF-8格式，并按照每个字节进行%编码</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/372986600">2</a></li>
+</ul>
+<h4 id="http身份认证："><a href="#http身份认证：" class="headerlink" title="http身份认证："></a>http身份认证：</h4><p>HTTP身份认证是一种HTTP协议提供的身份验证机制，用于保护服务器上的资源，只允许合法的客户端访问。HTTP身份认证有四种类型：</p>
+<ul>
+<li>基本认证（Basic Authentication）：客户端向服务器发送用户名和密码，经过Base64编码后放在Authorization头中。这种方式简单易用，但不安全，因为用户名和密码容易被截获或破解。</li>
+<li>摘要认证（Digest Authentication）：客户端向服务器发送用户名和一个加密后的摘要（digest），包含了请求方法、URL、随机数等信息。这种方式比基本认证更安全，因为不需要传输明文密码，但仍然存在一些缺陷，如重放攻击等。</li>
+<li>NTLM认证（NT LAN Manager Authentication）：客户端和服务器之间进行三次握手，交换随机数、散列值等信息，以验证彼此的身份。这种方式是微软开发的一种专有协议，主要用于Windows系统中，具有较高的安全性和效率。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication">OAuth认证（Open Authorization）：客户端通过第三方授权服务（如Google、Facebook等）获取一个令牌（token），然后将令牌发送给服务器，以表明自己拥有访问资源的权限。这种方式是目前最流行的一种认证方式，可以实现跨平台、跨域的授权访问</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication">1</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/weweeeeeeee/article/details/95339186">2</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenrong/articles/5818498.html">3</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64584734">4</a>。</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677821772382-37a5a5b4-7268-4c27-b112-1e45f3d685d2.png#averageHue=%23f0f0f0&clientId=ua7347f47-9661-4&from=paste&height=237&id=u411dbd80&originHeight=296&originWidth=305&originalType=binary&ratio=1&rotation=0&showTitle=false&size=28500&status=done&style=none&taskId=udfd94152-1801-43e3-bae3-6eb0877d832&title=&width=244" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677821811010-449d44d6-1d3e-41b2-9509-d88745acaa54.png#averageHue=%23f8f7f6&clientId=ua7347f47-9661-4&from=paste&height=360&id=ue4d2f3f3&originHeight=450&originWidth=754&originalType=binary&ratio=1&rotation=0&showTitle=false&size=71468&status=done&style=none&taskId=ue850e651-9090-438c-91b1-d464fff9d55&title=&width=603.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677821844183-43c03732-cfdd-43bb-943d-769dfda8f2c8.png#averageHue=%23dbd5d0&clientId=ua7347f47-9661-4&from=paste&height=254&id=u8b851a15&originHeight=318&originWidth=680&originalType=binary&ratio=1&rotation=0&showTitle=false&size=79393&status=done&style=none&taskId=udec5302f-dff2-490a-a218-4529b6845c2&title=&width=544" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="Basic认证："><a href="#Basic认证：" class="headerlink" title="Basic认证："></a>Basic认证：</h5><p>Basic认证是一种较为简单的HTTP认证方式，客户端通过明文（Base64编码格式）传输用户名和密码到服务端进行认证，通常需要配合HTTPS来保证信息传输的安全<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxiaotank/p/11009796.html">1</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xy-ouyang/p/12600055.html">2</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxiaotank/p/11009796.html">3</a>。Basic认证的过程如下：</p>
+<ul>
+<li>客户端发送HTTP请求给服务器，请求受保护的资源。</li>
+<li>服务器返回401状态码，要求客户端提供用户名和密码进行认证，并在WWW-Authenticate头中指定认证类型为Basic。</li>
+<li>客户端将用户名和密码用冒号连接，然后用Base64编码，放在Authorization头中，再次发送请求给服务器。</li>
+<li>服务器验证Authorization头中的用户名和密码是否正确，如果正确则返回200状态码和请求的资源，否则返回401状态码并拒绝访问<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xy-ouyang/p/12600055.html">2</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/Dontla/article/details/124339406">4</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903586405564430">5</a>。</li>
+</ul>
+<h5 id="DIGEST认证："><a href="#DIGEST认证：" class="headerlink" title="DIGEST认证："></a>DIGEST认证：</h5><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xy-ouyang/p/12609387.html">http digest认证是一种HTTP协议的认证方式，它是为了修复基本认证的缺陷而设计的，不会通过明文发送密码，而是通过密码摘要进行认证</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xy-ouyang/p/12609387.html">1</a><a target="_blank" rel="noopener" href="https://www.codenong.com/cs109691608/">2</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxiaotank/p/11078571.html">3</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xy-ouyang/p/12609387.html">。它的认证过程大致如下</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xy-ouyang/p/12609387.html">1</a><a target="_blank" rel="noopener" href="https://www.codenong.com/cs109691608/">2</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013238950/article/details/51392992">4</a>：</p>
+<ul>
+<li>客户端发送请求到服务器</li>
+<li>服务器返回401状态码，并在WWW-Authenticate头中包含一个随机数nonce，一个域realm和一个算法列表</li>
+<li>客户端根据算法列表和nonce计算出密码摘要，并在Authorization头中发送给服务器</li>
+<li>服务器根据相同的算法和nonce验证密码摘要是否正确，如果正确则返回200状态码和请求的资源</li>
+</ul>
+<p>httpdigest认证相比基本认证更安全，但仍然有一些局限性，例如不能保护其他内容，容易受到重放攻击等。</p>
+<h5 id="SSL客户端认证："><a href="#SSL客户端认证：" class="headerlink" title="SSL客户端认证："></a>SSL客户端认证：</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/soarheaven/article/details/78784848">SSL客户端认证是一种SSL协议的认证方式，它是在服务器认证的基础上，增加了客户端的身份验证，实现了双向认证</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/soarheaven/article/details/78784848">1</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143590936">2</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/330393659">3</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/soarheaven/article/details/78784848">。它的认证过程大致如下</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/soarheaven/article/details/78784848">1</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143590936">2</a>:</p>
+<ul>
+<li>客户端发送请求到服务器</li>
+<li>服务器返回自己的服务器证书给客户端，并要求客户端提供客户端证书</li>
+<li>客户端验证服务器证书是否有效，如果有效则选择一个密码算法和随机数，并用服务器公钥加密发送给服务器</li>
+<li>客户端从本地或浏览器中选择一个合适的客户端证书，并用私钥签名发送给服务器</li>
+<li>服务器验证客户端证书是否有效，如果有效则用私钥解密得到密码算法和随机数，并用这些信息生成对称密钥</li>
+<li>服务器和客户端使用对称密钥进行加密通信</li>
+</ul>
+<p>SSL客户端认证相比单向认证更安全，但也更复杂，需要为每个客户端颁发和管理数字证书</p>
+<h5 id="基于表单的验证方法："><a href="#基于表单的验证方法：" class="headerlink" title="基于表单的验证方法："></a>基于表单的验证方法：</h5><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mengdd/p/3151098.html">基于表单的验证方法是一种常见的Web应用程序的身份验证方式，它是通过用户在表单中输入用户名和密码等信息，然后提交给服务器进行验证，如果验证通过则允许用户访问受保护的资源</a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mengdd/p/3151098.html">1</a><a target="_blank" rel="noopener" href="https://www.runoob.com/js/js-validation.html">2</a><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2219902">3</a>。它的验证过程大致如下<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mengdd/p/3151098.html">1</a>:</p>
+<ul>
+<li>用户访问需要身份验证的页面</li>
+<li>服务器返回一个包含表单的页面，要求用户输入用户名和密码等信息</li>
+<li>用户在表单中填写信息，并点击提交按钮</li>
+<li>服务器接收到表单数据，并与数据库或其他存储方式进行比对，如果匹配则返回成功页面，否则返回失败页面</li>
+</ul>
+<p>基于表单的验证方法相比其他方法更灵活和易用，但也需要注意一些安全问题，例如防止跨站脚本攻击、跨站请求伪造攻击、暴力破解攻击等。</p>
+<h4 id="长连接和短链接："><a href="#长连接和短链接：" class="headerlink" title="长连接和短链接："></a>长连接和短链接：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677822863812-1b22c583-b4d5-47e5-8c4a-badab568c1d5.png#averageHue=%23f1f1f1&clientId=ua7347f47-9661-4&from=paste&height=188&id=ub2c638c2&originHeight=235&originWidth=873&originalType=binary&ratio=1&rotation=0&showTitle=false&size=58085&status=done&style=none&taskId=ueabc2f26-3028-42ef-841d-bb263593ed5&title=&width=698.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="长连接："><a href="#长连接：" class="headerlink" title="长连接："></a>长连接：</h5><h5 id="HTTP长连接是一种HTTP协议的连接方式，它是指在一次TCP连接中可以完成多个HTTP请求和响应，而不需要每次都重新建立和断开连接123。它的优点是可以减少网络延迟和资源消耗，提高效率和性能123。它的缺点是可能会占用过多的服务器资源，导致其他客户端无法访问3。"><a href="#HTTP长连接是一种HTTP协议的连接方式，它是指在一次TCP连接中可以完成多个HTTP请求和响应，而不需要每次都重新建立和断开连接123。它的优点是可以减少网络延迟和资源消耗，提高效率和性能123。它的缺点是可能会占用过多的服务器资源，导致其他客户端无法访问3。" class="headerlink" title="HTTP长连接是一种HTTP协议的连接方式，它是指在一次TCP连接中可以完成多个HTTP请求和响应，而不需要每次都重新建立和断开连接123。它的优点是可以减少网络延迟和资源消耗，提高效率和性能123。它的缺点是可能会占用过多的服务器资源，导致其他客户端无法访问3。"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45139114">HTTP长连接是一种HTTP协议的连接方式，它是指在一次TCP连接中可以完成多个HTTP请求和响应，而不需要每次都重新建立和断开连接</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45139114">1</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">2</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56881801d02c">3</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45139114">。它的优点是可以减少网络延迟和资源消耗，提高效率和性能</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45139114">1</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">2</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56881801d02c">3</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56881801d02c">。它的缺点是可能会占用过多的服务器资源，导致其他客户端无法访问</a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56881801d02c">3</a>。</h5><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">在HTTP&#x2F;1.1版本中，默认的连接都是长连接，我们可以通过Connection: keep-alive字段进行指定</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=HTTP%E9%95%BF%E8%BF%9E%E6%8E%A5">4</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">2</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6923887573861564423">5</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">。如果要关闭长连接，可以通过Connection: close字段进行指定</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">2</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">。长连接不会永久保持，它有一个保持时间，可以在不同的服务器软件中设定这个时间</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015821798">2</a>.</p>
+<h4 id="HTTP中介代理："><a href="#HTTP中介代理：" class="headerlink" title="HTTP中介代理："></a>HTTP中介代理：</h4><h5 id="代理是什么："><a href="#代理是什么：" class="headerlink" title="代理是什么："></a>代理是什么：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677895427900-26210ad9-aae6-4394-bccc-75536168735a.png#averageHue=%23fcf9f8&clientId=u531a6c9d-5dd2-4&from=paste&height=274&id=uf1d8f538&originHeight=343&originWidth=926&originalType=binary&ratio=1&rotation=0&showTitle=false&size=149537&status=done&style=none&taskId=u2bd42d31-ce00-4cd4-a022-2a89cd45adb&title=&width=740.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6995454464119275551">HTTP中介代理是一种在客户端和服务器之间传递HTTP请求和响应的中间人</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6995454464119275551">1</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6963266939447836709">2</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6998351770871152653">3</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6998351770871152653">。HTTP代理可以用于实现缓存、过滤、负载均衡等功能</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6998351770871152653">3</a>。</p>
+<h5 id="代理的作用：抓包，FQ-匿名访问，过滤器："><a href="#代理的作用：抓包，FQ-匿名访问，过滤器：" class="headerlink" title="代理的作用：抓包，FQ,匿名访问，过滤器："></a>代理的作用：抓包，FQ,匿名访问，过滤器：</h5><p>HTTP代理的作用有以下几点<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_66268916/article/details/123006916">1</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/mengdie666/article/details/104996122">2</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40757930/article/details/124177622">3</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/web/http/overview">4</a><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/388303662">5</a>：</p>
+<ul>
+<li>突破自身IP访问限制，访问一些平时无法访问的网站或资源。</li>
+<li>缓存常用的网页，提高访问速度和效率。</li>
+<li>过滤不安全或不合适的网页内容，保护用户隐私和安全。</li>
+<li>负载均衡，分担服务器压力，提高响应能力。</li>
+<li>隐藏用户真实IP地址，保护用户身份和信息。</li>
+</ul>
+<h4 id="HTTP网关："><a href="#HTTP网关：" class="headerlink" title="HTTP网关："></a>HTTP网关：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677895943704-4bde1d1c-28bc-4a6b-b281-06eed830afeb.png#averageHue=%23eaeaea&clientId=u531a6c9d-5dd2-4&from=paste&height=150&id=ua03d6fe3&originHeight=188&originWidth=790&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59925&status=done&style=none&taskId=u1af74c94-3632-401e-93dc-f4bcb6401e8&title=&width=632" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>网关连接的是使用多个不同协议。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677895995205-624db8f2-dd0f-4b0c-b03a-1400a591f899.png#averageHue=%23fbfbfb&clientId=u531a6c9d-5dd2-4&from=paste&height=258&id=u96e0f39b&originHeight=322&originWidth=665&originalType=binary&ratio=1&rotation=0&showTitle=false&size=47808&status=done&style=none&taskId=u11268705-aafe-45a0-87ac-c6da022ceed&title=&width=532" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677896039451-5f7a7799-7afd-4169-9f18-46c53aafd438.png#averageHue=%23ededed&clientId=u531a6c9d-5dd2-4&from=paste&height=278&id=u5c97fc68&originHeight=347&originWidth=818&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108521&status=done&style=none&taskId=u94ec7ce2-fa8c-49cc-af7e-9659d85b955&title=&width=654.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6995454464119275551">HTTP网关是一种HTTP中介，它可以将HTTP请求转换为其他协议，并将响应转换回HTTP</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6995454464119275551">1</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/B_boy_hong10/article/details/80489177">。HTTP网关可以用于连接不同的网络或系统，例如Web服务器和数据库服务器</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/B_boy_hong10/article/details/80489177">2</a>。<br>常见的网关：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677896357893-ea3366e7-e42a-4101-b42c-bbca69a9d206.png#averageHue=%23f4f4f4&clientId=u531a6c9d-5dd2-4&from=paste&height=276&id=u3d45bc44&originHeight=345&originWidth=635&originalType=binary&ratio=1&rotation=0&showTitle=false&size=49244&status=done&style=none&taskId=ub8c908ec-55e0-4f83-aa9c-e117e500e04&title=&width=508" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="HTTP缓存："><a href="#HTTP缓存：" class="headerlink" title="HTTP缓存："></a>HTTP缓存：</h4><p> <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021716418">HTTP缓存是一种保存资源副本并在下次请求时直接使用该副本的技术。当Web缓存发现请求的资源已经被存储，它会拦截请求，返回该资源的拷贝，而不会去源服务器重新下载。这样做可以优化浏览器性能，避免重复请求</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021716418">1</a><a target="_blank" rel="noopener" href="https://juejin.cn/post/6995819662558625799">2</a>。<br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021716418">HTTP缓存主要是通过请求和响应报文头中的对应Header信息来控制缓存策略</a><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021716418">1</a></p>
+<h5 id="缓存头部字段："><a href="#缓存头部字段：" class="headerlink" title="缓存头部字段："></a>缓存头部字段：</h5><p>Cache-Control:<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905626617-995ba3bd-41e5-4aff-91c0-28b48b4821f0.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=286&id=u1cacd69a&originHeight=357&originWidth=850&originalType=binary&ratio=1&rotation=0&showTitle=false&size=98135&status=done&style=none&taskId=uf488712f-6a42-4f8e-a27a-4353a6dffc5&title=&width=680" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="Expires"><a href="#Expires" class="headerlink" title="Expires:"></a>Expires:</h5><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Expires">Expires是一个HTTP响应头，它包含日期&#x2F;时间，即在此时候之后，响应过期。无效的日期，比如0，代表着过去的日期，即该资源已经过期。如果在Cache-Control响应头设置了max-age或者s-max-age指令，那么Expires头会被忽略</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905693377-74f3b005-8b4c-490e-b9d6-8ca893ec4e1e.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=161&id=u22493cd8&originHeight=201&originWidth=868&originalType=binary&ratio=1&rotation=0&showTitle=false&size=48314&status=done&style=none&taskId=u60f0dc09-9e2f-4894-a6b8-cb534e534ff&title=&width=694.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified:"></a>Last-Modified:</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905752777-fd2e742f-dbd8-4ce3-9b46-dd4081d85354.png#averageHue=%23f3f3f3&clientId=u531a6c9d-5dd2-4&from=paste&height=280&id=udbca4ce7&originHeight=350&originWidth=826&originalType=binary&ratio=1&rotation=0&showTitle=false&size=76528&status=done&style=none&taskId=uaa3cb008-4e97-4096-9b7a-d2efc0f5c5f&title=&width=660.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677905907721-e3da1b86-973d-495a-9b3d-eeced75b16b8.png#averageHue=%23f3f3f3&clientId=u531a6c9d-5dd2-4&from=paste&height=270&id=u9ca63906&originHeight=337&originWidth=868&originalType=binary&ratio=1&rotation=0&showTitle=false&size=75742&status=done&style=none&taskId=udea7b5a1-5064-4af8-a0b6-6cc26aea7cd&title=&width=694.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/ETag">ETag（或称为实体标签）是HTTP响应头中的一个字段，它是资源特定版本的标识符。当内容未更改时，Web服务器不需要重新发送整个响应，因此缓存更加高效，可以节省通信带宽</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers/ETag">1</a>。</p>
+<h5 id="缓存工作方式："><a href="#缓存工作方式：" class="headerlink" title="缓存工作方式："></a>缓存工作方式：</h5><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9dd577a5eae9">HTTP缓存根据工作方式分为强缓存和协商缓存。浏览器首先会判断强缓存是否命中，命中失败才会尝试进行协商缓存</a><a target="_blank" rel="noopener" href="https://bing.com/search?q=HTTP%E7%BC%93%E5%AD%98%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F">1</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906150975-4d1bd0bb-ffc7-4571-b0cb-2cb37925a21b.png#averageHue=%23f3f2f1&clientId=u531a6c9d-5dd2-4&from=paste&height=298&id=ua1426d18&originHeight=373&originWidth=882&originalType=binary&ratio=1&rotation=0&showTitle=false&size=180177&status=done&style=none&taskId=u7f95b083-fcde-4b36-bd42-c5e3e70af49&title=&width=705.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906306259-df00a04a-a65e-496a-a1ba-d638f5f40ed1.png#averageHue=%23eeecec&clientId=u531a6c9d-5dd2-4&from=paste&height=330&id=u935207f0&originHeight=412&originWidth=923&originalType=binary&ratio=1&rotation=0&showTitle=false&size=236644&status=done&style=none&taskId=u990702c8-4685-456e-8374-18614ab7555&title=&width=738.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906424050-a0f20371-93de-42e2-ae9e-2e34bbd97457.png#averageHue=%23eeecec&clientId=u531a6c9d-5dd2-4&from=paste&height=314&id=u2e940020&originHeight=393&originWidth=896&originalType=binary&ratio=1&rotation=0&showTitle=false&size=212607&status=done&style=none&taskId=u3b286bd1-6939-42b4-9635-44d5a3f8504&title=&width=716.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="缓存改进："><a href="#缓存改进：" class="headerlink" title="缓存改进："></a>缓存改进：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906823643-91888130-1938-49eb-9397-711e4e8e7872.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=185&id=u5b5a66f4&originHeight=231&originWidth=897&originalType=binary&ratio=1&rotation=0&showTitle=false&size=72794&status=done&style=none&taskId=u3110c9ec-ecc2-4587-8951-a80f25e96be&title=&width=717.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677906893832-ff4c6c35-c0fe-45a0-af54-b3e00a4b2702.png#averageHue=%23eaeaea&clientId=u531a6c9d-5dd2-4&from=paste&height=190&id=u3ee6d914&originHeight=238&originWidth=871&originalType=binary&ratio=1&rotation=0&showTitle=false&size=91878&status=done&style=none&taskId=u30e7c7dd-7aab-481f-a409-b6a0632dd9e&title=&width=696.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907003895-4cff8e49-9f1a-41b8-97c3-ce07f9824b3f.png#averageHue=%23f8f4f4&clientId=u531a6c9d-5dd2-4&from=paste&height=354&id=u931ce397&originHeight=443&originWidth=962&originalType=binary&ratio=1&rotation=0&showTitle=false&size=188454&status=done&style=none&taskId=u52cff456-903c-4c4d-8d5e-01243fd540e&title=&width=769.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907020104-24dcbc2b-9c4c-47e3-9a5e-41a73405b06e.png#averageHue=%23f7f4f4&clientId=u531a6c9d-5dd2-4&from=paste&height=300&id=uace6c0fb&originHeight=375&originWidth=951&originalType=binary&ratio=1&rotation=0&showTitle=false&size=193588&status=done&style=none&taskId=ua1ac08e1-ae96-4d3f-a4ea-0c7f0e386d8&title=&width=760.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h5 id="浏览器操作对缓存的影响："><a href="#浏览器操作对缓存的影响：" class="headerlink" title="浏览器操作对缓存的影响："></a>浏览器操作对缓存的影响：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907116199-e0c69d69-6e39-4f6c-ab41-0a8de8d159cc.png#averageHue=%23ded9d8&clientId=u531a6c9d-5dd2-4&from=paste&height=333&id=u0aac7339&originHeight=416&originWidth=957&originalType=binary&ratio=1&rotation=0&showTitle=false&size=157829&status=done&style=none&taskId=u07b31b2d-3cb4-4311-adad-daf8509fff2&title=&width=765.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="内容协商机制："><a href="#内容协商机制：" class="headerlink" title="内容协商机制："></a>内容协商机制：</h4><p>HTTP内容协商机制是指通过为相同URI指向的资源提供不同的展现形式，可以使用户代理选择与用户需求相适应的最佳匹配（例如：文档使用的自然语言、图片的格式或者内容编码形式）<a target="_blank" rel="noopener" href="https://bing.com/search?q=HTTP%E5%86%85%E5%AE%B9%E5%8D%8F%E5%95%86%E6%9C%BA%E5%88%B6">1</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Content_negotiation">。这种机制用于为同一URI提供资源不同的表示形式，以帮助用户代理指定最适合用户的表示形式</a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Content_negotiation">2</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907711593-a620330a-1f7f-4f81-b127-d9a43e91719e.png#averageHue=%23e6e6e6&clientId=u531a6c9d-5dd2-4&from=paste&height=123&id=u92168ec9&originHeight=154&originWidth=860&originalType=binary&ratio=1&rotation=0&showTitle=false&size=65081&status=done&style=none&taskId=ub7d5b3e2-5e82-4d7f-b77e-3fa9b942e97&title=&width=688" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907769066-47c7894c-0416-4431-afd7-9527deba9b30.png#averageHue=%23f3f1f1&clientId=u531a6c9d-5dd2-4&from=paste&height=381&id=u32814523&originHeight=476&originWidth=932&originalType=binary&ratio=1&rotation=0&showTitle=false&size=139582&status=done&style=none&taskId=uc8d64e65-d1c7-4e66-997c-9434b3a7a99&title=&width=745.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907866188-33adc6b7-345d-4ca9-8628-f120cf88d4ae.png#averageHue=%23f4efef&clientId=u531a6c9d-5dd2-4&from=paste&height=370&id=u4ff8fafa&originHeight=462&originWidth=848&originalType=binary&ratio=1&rotation=0&showTitle=false&size=147849&status=done&style=none&taskId=u79028afa-77f6-462d-b6c0-0f41a1e8c5d&title=&width=678.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907892291-771789b6-9ea3-4098-96b8-caf6cd18c73d.png#averageHue=%23f8f8f8&clientId=u531a6c9d-5dd2-4&from=paste&height=262&id=uca4d7964&originHeight=327&originWidth=531&originalType=binary&ratio=1&rotation=0&showTitle=false&size=29536&status=done&style=none&taskId=u738fb861-a81e-4530-896d-9a73d5f1b63&title=&width=424.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677907904100-5eff3925-58c6-4bf2-91f1-0823323a033a.png#averageHue=%23faf5f4&clientId=u531a6c9d-5dd2-4&from=paste&height=282&id=u391c1a13&originHeight=353&originWidth=855&originalType=binary&ratio=1&rotation=0&showTitle=false&size=82409&status=done&style=none&taskId=u96cd708f-6822-4a2e-b113-bb32d9fd760&title=&width=684" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="HTTP断点续传和多线程下载："><a href="#HTTP断点续传和多线程下载：" class="headerlink" title="HTTP断点续传和多线程下载："></a>HTTP断点续传和多线程下载：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908143083-1c55e684-2a91-432d-b78d-69f0f805e64b.png#averageHue=%23e6e6e6&clientId=u531a6c9d-5dd2-4&from=paste&height=92&id=udea5cda2&originHeight=115&originWidth=815&originalType=binary&ratio=1&rotation=0&showTitle=false&size=44350&status=done&style=none&taskId=uf2836aa9-36f3-4d19-b0f2-923eb0084c7&title=&width=652" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908182044-69914006-376c-4ef2-8d92-df124924378c.png#averageHue=%23f6f6f6&clientId=u531a6c9d-5dd2-4&from=paste&height=219&id=u21fdbd57&originHeight=274&originWidth=863&originalType=binary&ratio=1&rotation=0&showTitle=false&size=47659&status=done&style=none&taskId=uf19f3b55-2921-4496-ba53-d29b1073032&title=&width=690.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908223676-464c7388-b97a-43f6-b048-1869b04145e3.png#averageHue=%23f7f7f7&clientId=u531a6c9d-5dd2-4&from=paste&height=324&id=u5b6a42ea&originHeight=405&originWidth=683&originalType=binary&ratio=1&rotation=0&showTitle=false&size=52171&status=done&style=none&taskId=u1c1e9dea-525c-42b3-93cb-d40ae07ab66&title=&width=546.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908285130-661c5d57-8693-4d48-9877-6fd75e8c6a1e.png#averageHue=%23f2f2f2&clientId=u531a6c9d-5dd2-4&from=paste&height=275&id=u09e5b27d&originHeight=344&originWidth=865&originalType=binary&ratio=1&rotation=0&showTitle=false&size=82165&status=done&style=none&taskId=u900ea7df-b1bf-4691-bbeb-3b42b066bc4&title=&width=692" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908302076-c658d227-da8d-4a2e-8699-ec1a1641cd4b.png#averageHue=%23f3f3f3&clientId=u531a6c9d-5dd2-4&from=paste&height=242&id=u4458cb3c&originHeight=303&originWidth=745&originalType=binary&ratio=1&rotation=0&showTitle=false&size=58244&status=done&style=none&taskId=u0bc83369-5453-487a-a170-01b2bc43f1b&title=&width=596" srcset="/img/loading.gif" lazyload alt="image.png"> <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1677908369785-6b9480f0-5325-442c-a6b2-1a20f8ef6f2b.png#averageHue=%23e8e8e8&clientId=u531a6c9d-5dd2-4&from=paste&height=291&id=u552def40&originHeight=364&originWidth=860&originalType=binary&ratio=1&rotation=0&showTitle=false&size=149742&status=done&style=none&taskId=uddde50d8-f686-406b-abf7-80c1dc21d70&title=&width=688" srcset="/img/loading.gif" lazyload alt="image.png"><br>多线程下载：<br>HTTP多线程下载是一种使用多个线程同时从服务器下载文件的技术。这种方法可以提高下载速度，因为它允许客户端同时从服务器请求多个数据块。<br><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/download-tools-multi-thre/beklnljhbalhpnbkllnbladeopnhnnfc">有几种方法可以实现HTTP多线程下载。一种方法是使用支持多线程下载的浏览器扩展程序，如Chrome的Download Tools</a><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/download-tools-multi-thre/beklnljhbalhpnbkllnbladeopnhnnfc">1</a><a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/multithreaded-download-manager/">或Firefox的Multithreaded Download Manager</a><a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/multithreaded-download-manager/">2</a><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/download-tools-multi-thre/beklnljhbalhpnbkllnbladeopnhnnfc">。另一种方法是使用支持多线程下载的命令行工具，如aria2</a><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/download-tools-multi-thre/beklnljhbalhpnbkllnbladeopnhnnfc">1</a></p>
+<h4 id="实验使用HTTP协议的构建："><a href="#实验使用HTTP协议的构建：" class="headerlink" title="实验使用HTTP协议的构建："></a>实验使用HTTP协议的构建：</h4>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+        <a href="/tags/http/" class="print-no-link">#http</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>大话HTTP</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/大话http_/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/javaWeb%EF%BC%9A/" title="javaWeb">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">javaWeb</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/springboot2%E6%9D%82%E9%A1%B9%EF%BC%9A/" title="spring杂项">
+                        <span class="hidden-mobile">spring杂项</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

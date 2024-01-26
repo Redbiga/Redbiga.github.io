@@ -1,0 +1,767 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="找不到mybatis文件：java.io.IOException: Could not find resource mybatis.config.xmlbug:原因：mybatis中的映射不正确外加生成sqlssesion的文件引用不正确修改后：这里的mybatis-config.xm;和com在同一个目录下的，EmpMapper.xml使用相对路径表示为：com&#x2F;exampl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知识点">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%9A%EF%BC%88BUG%EF%BC%89/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="找不到mybatis文件：java.io.IOException: Could not find resource mybatis.config.xmlbug:原因：mybatis中的映射不正确外加生成sqlssesion的文件引用不正确修改后：这里的mybatis-config.xm;和com在同一个目录下的，EmpMapper.xml使用相对路径表示为：com&#x2F;exampl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688470269608-4fd3e82c-3631-4e0b-8beb-476c4d5ecdac.png#averageHue=%23080302&clientId=u485c1c2b-dc00-4&from=paste&height=144&id=u3d173d10&originHeight=180&originWidth=824&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=28618&status=done&style=none&taskId=uaf61014d-875b-4936-b7c1-15aa27842ac&title=&width=659.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688469950619-71023303-ad70-4420-b551-9f37823c8a45.png#averageHue=%231f5043&clientId=u485c1c2b-dc00-4&from=paste&height=214&id=uaf338d14&originHeight=268&originWidth=1191&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57097&status=done&style=none&taskId=u9ac5034a-e989-49c8-a528-373d7d2ca32&title=&width=952.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688470214376-cfb36d91-a17c-4da4-98e9-fbd48850bf9e.png#averageHue=%23141624&clientId=u485c1c2b-dc00-4&from=paste&height=160&id=u03f0c4f0&originHeight=200&originWidth=939&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47710&status=done&style=none&taskId=u723765e0-d52d-4b36-97d7-098d7693021&title=&width=751.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688525778810-d3623e70-93ba-442d-ac3d-927546917921.png#averageHue=%23141618&clientId=uac13984f-90f3-4&from=paste&height=282&id=u8819c1e9&originHeight=352&originWidth=515&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47152&status=done&style=none&taskId=u3db9185b-8b9b-4a40-ac2b-c41dd916243&title=&width=412">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688525869991-7e4727b9-4297-412c-9bd3-fc66dcce6ae8.png#averageHue=%23628d64&clientId=uac13984f-90f3-4&from=paste&height=711&id=u9d096788&originHeight=889&originWidth=704&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=103409&status=done&style=none&taskId=u33a200ee-a893-457e-b8cd-4c945c924fd&title=&width=563.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688547837996-e5cb89c8-82d1-4a26-9861-9ee5261fa7ec.png#averageHue=%23131317&clientId=ua2de3bac-fb89-4&from=paste&height=119&id=u5b2faab4&originHeight=149&originWidth=1170&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=36135&status=done&style=none&taskId=ud3fe35d5-0254-47d1-adb9-919a77e9882&title=&width=936">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688547915036-3729279c-19a4-4b3a-9bf8-787bdd66c6fe.png#averageHue=%23102128&clientId=ua2de3bac-fb89-4&from=paste&height=218&id=ubd390c4e&originHeight=273&originWidth=1088&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51474&status=done&style=none&taskId=ue9a6a315-d7c6-442a-9ab7-52019860091&title=&width=870.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688988544489-1206a90e-2389-4eba-ac69-e911b209fc40.png#averageHue=%23090808&clientId=ud1bacd7a-acda-4&from=paste&height=364&id=u68d27fb0&originHeight=455&originWidth=1192&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=46683&status=done&style=none&taskId=uee17bef8-9089-45af-9356-97ccc8ea041&title=&width=953.6">
+<meta property="article:published_time" content="2024-01-26T11:04:58.916Z">
+<meta property="article:modified_time" content="2024-01-26T11:05:38.910Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="bug">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688470269608-4fd3e82c-3631-4e0b-8beb-476c4d5ecdac.png#averageHue=%23080302&clientId=u485c1c2b-dc00-4&from=paste&height=144&id=u3d173d10&originHeight=180&originWidth=824&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=28618&status=done&style=none&taskId=uaf61014d-875b-4936-b7c1-15aa27842ac&title=&width=659.2">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>知识点 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="知识点"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 19:04" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          565 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">知识点</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+<h4 id="找不到mybatis文件：java-io-IOException-Could-not-find-resource-mybatis-config-xml"><a href="#找不到mybatis文件：java-io-IOException-Could-not-find-resource-mybatis-config-xml" class="headerlink" title="找不到mybatis文件：java.io.IOException: Could not find resource mybatis.config.xml"></a>找不到mybatis文件：java.io.IOException: Could not find resource mybatis.config.xml</h4><p>bug:<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688470269608-4fd3e82c-3631-4e0b-8beb-476c4d5ecdac.png#averageHue=%23080302&clientId=u485c1c2b-dc00-4&from=paste&height=144&id=u3d173d10&originHeight=180&originWidth=824&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=28618&status=done&style=none&taskId=uaf61014d-875b-4936-b7c1-15aa27842ac&title=&width=659.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>原因：mybatis中的<mapper>映射不正确外加生成sqlssesion的文件引用不正确<br>修改后：这里的mybatis-config.xm;和com在同一个目录下的，EmpMapper.xml使用相对路径表示为：com&#x2F;example&#x2F;demo&#x2F;mapper&#x2F;EmpMapper<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688469950619-71023303-ad70-4420-b551-9f37823c8a45.png#averageHue=%231f5043&clientId=u485c1c2b-dc00-4&from=paste&height=214&id=uaf338d14&originHeight=268&originWidth=1191&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=57097&status=done&style=none&taskId=u9ac5034a-e989-49c8-a528-373d7d2ca32&title=&width=952.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>修改文件引用：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688470214376-cfb36d91-a17c-4da4-98e9-fbd48850bf9e.png#averageHue=%23141624&clientId=u485c1c2b-dc00-4&from=paste&height=160&id=u03f0c4f0&originHeight=200&originWidth=939&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47710&status=done&style=none&taskId=u723765e0-d52d-4b36-97d7-098d7693021&title=&width=751.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="复制代码出现NBSP乱码解决："><a href="#复制代码出现NBSP乱码解决：" class="headerlink" title="复制代码出现NBSP乱码解决："></a>复制代码出现NBSP乱码解决：</h4><p>现象：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688525778810-d3623e70-93ba-442d-ac3d-927546917921.png#averageHue=%23141618&clientId=uac13984f-90f3-4&from=paste&height=282&id=u8819c1e9&originHeight=352&originWidth=515&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47152&status=done&style=none&taskId=u3db9185b-8b9b-4a40-ac2b-c41dd916243&title=&width=412" srcset="/img/loading.gif" lazyload alt="image.png"><br>分析：NBSP（Non-Breaking SPace）是一个不换行的空格字符，它的 Unicode 编码是 U+00A0。有时候，当我们从其他地方复制文本到 IDEA 中，可能会出现 NBSP 字符<br>解决方法：<br>按下ctrl+shift+r打开全局替换：在全局替换中找到有问题的地方，可能直接输入\u00A0查找无法查找，这个时候可以找到有问题的内容（也就是刚刚复制过来的），选择NBSP复制后（复制后粘贴在第一个搜索框中，这个时候显示的是空格）在第二个搜索框中输入空格。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688525869991-7e4727b9-4297-412c-9bd3-fc66dcce6ae8.png#averageHue=%23628d64&clientId=uac13984f-90f3-4&from=paste&height=711&id=u9d096788&originHeight=889&originWidth=704&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=103409&status=done&style=none&taskId=u33a200ee-a893-457e-b8cd-4c945c924fd&title=&width=563.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="org-springframework-beans-factory-xml-XmlBeanDefinitionStoreException-Line-6-in-XML-document-from-class-path-resource-spring-datasource-xml-is-invalid-nested-exception-is-org-xml-sax-SAXParseException-lineNumber-6-columnNumber-62-cvc-complex-type-2-4-c-通配符的匹配很全面-但无法找到元素-‘context-property-placeholder’-的声明。"><a href="#org-springframework-beans-factory-xml-XmlBeanDefinitionStoreException-Line-6-in-XML-document-from-class-path-resource-spring-datasource-xml-is-invalid-nested-exception-is-org-xml-sax-SAXParseException-lineNumber-6-columnNumber-62-cvc-complex-type-2-4-c-通配符的匹配很全面-但无法找到元素-‘context-property-placeholder’-的声明。" class="headerlink" title="org.springframework.beans.factory.xml.XmlBeanDefinitionStoreException: Line 6 in XML document from class path resource [spring-datasource.xml] is invalid; nested exception is org.xml.sax.SAXParseException; lineNumber: 6; columnNumber: 62; cvc-complex-type.2.4.c: 通配符的匹配很全面, 但无法找到元素 ‘context:property-placeholder’ 的声明。"></a>org.springframework.beans.factory.xml.XmlBeanDefinitionStoreException: Line 6 in XML document from class path resource [spring-datasource.xml] is invalid; nested exception is org.xml.sax.SAXParseException; lineNumber: 6; columnNumber: 62; cvc-complex-type.2.4.c: 通配符的匹配很全面, 但无法找到元素 ‘context:property-placeholder’ 的声明。</h4><p>原因：Spring配置文件中的xsi:schemaLocation不全，上面是差context标签的<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688547837996-e5cb89c8-82d1-4a26-9861-9ee5261fa7ec.png#averageHue=%23131317&clientId=ua2de3bac-fb89-4&from=paste&height=119&id=u5b2faab4&originHeight=149&originWidth=1170&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=36135&status=done&style=none&taskId=ud3fe35d5-0254-47d1-adb9-919a77e9882&title=&width=936" srcset="/img/loading.gif" lazyload alt="image.png"><br>解决方法：添加<a target="_blank" rel="noopener" href="http://www.springframework.org/schema/context">http://www.springframework.org/schema/context</a><br><a target="_blank" rel="noopener" href="http://www.springframework.org/schema/context/spring-context.xsd">http://www.springframework.org/schema/context/spring-context.xsd</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688547915036-3729279c-19a4-4b3a-9bf8-787bdd66c6fe.png#averageHue=%23102128&clientId=ua2de3bac-fb89-4&from=paste&height=218&id=ubd390c4e&originHeight=273&originWidth=1088&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51474&status=done&style=none&taskId=ue9a6a315-d7c6-442a-9ab7-52019860091&title=&width=870.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="编译失败-内部java编译器错误：打开设置对照下面图片"><a href="#编译失败-内部java编译器错误：打开设置对照下面图片" class="headerlink" title="编译失败:内部java编译器错误：打开设置对照下面图片"></a>编译失败:内部java编译器错误：打开设置对照下面图片</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688988544489-1206a90e-2389-4eba-ac69-e911b209fc40.png#averageHue=%23090808&clientId=ud1bacd7a-acda-4&from=paste&height=364&id=u68d27fb0&originHeight=455&originWidth=1192&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=46683&status=done&style=none&taskId=uee17bef8-9089-45af-9356-97ccc8ea041&title=&width=953.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="ctrl点击类可以进入类内部"><a href="#ctrl点击类可以进入类内部" class="headerlink" title="ctrl点击类可以进入类内部"></a>ctrl点击类可以进入类内部</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/BingTaiLi/article/details/109735778">解决Maven ‘parent.relativePath‘ of POM_BingTaiLi的博客-CSDN博客</a><br><parent>标签中加上<relativePath />是用来指定父级pom文件的相对路径为空的，也就是说，不会在本地文件系统中查找父级pom文件，而是直接从本地仓库或远程仓库中查找。这样可以避免一些不必要的错误或警告，</p>
+<h4 id="class-lombok-javac-apt-LombokProcessor-in-unnamed-module-0x7be1ce6a-cannot-access-class-com-sun-tools-javac-processing-JavacProcessingEnvironment-in-module-jdk-compiler-because-module-jdk-compiler-does-not-export-com-sun-tools-javac-processing-to-unnamed-module-0x7be1ce6a"><a href="#class-lombok-javac-apt-LombokProcessor-in-unnamed-module-0x7be1ce6a-cannot-access-class-com-sun-tools-javac-processing-JavacProcessingEnvironment-in-module-jdk-compiler-because-module-jdk-compiler-does-not-export-com-sun-tools-javac-processing-to-unnamed-module-0x7be1ce6a" class="headerlink" title="class lombok.javac.apt.LombokProcessor (in unnamed module @0x7be1ce6a) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler) because module jdk.compiler does not export com.sun.tools.javac.processing to unnamed module @0x7be1ce6a"></a>class lombok.javac.apt.LombokProcessor (in unnamed module @0x7be1ce6a) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler) because module jdk.compiler does not export com.sun.tools.javac.processing to unnamed module @0x7be1ce6a</h4><p>原因分析：lombok的版本太低了</p>
+<div class="code-wrapper"><pre><code class="hljs html">      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.18.20<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+<h4 id="IDEA鼠标光标变成了白色粗条，无法正常换行"><a href="#IDEA鼠标光标变成了白色粗条，无法正常换行" class="headerlink" title="IDEA鼠标光标变成了白色粗条，无法正常换行"></a>IDEA鼠标光标变成了白色粗条，无法正常换行</h4><p>原因分析：按住了insert进入覆盖模式了。再次按insert就可以变成原本的模式。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/bug/" class="print-no-link">#bug</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>知识点</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/知识点：（BUG）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/SSM%E3%80%81/" title="SSM学习总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SSM学习总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E5%89%8D%E7%AB%AF%E8%99%AB%E5%B7%A2%EF%BC%9A/" title="前端bug">
+                        <span class="hidden-mobile">前端bug</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

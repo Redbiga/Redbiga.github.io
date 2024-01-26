@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第一章：1.冯诺依曼研究的计算机不是第一台存储结构的计算机。2。1.浮点数的阶码用移码表示是因为移码在比较大小的时候可以改变符号位带来的影响。1.变形补码如果2个符号位相同则没有溢出，不同就溢出了。0&#x2F;0的结果为非数。浮点数float型的数据类型的有效位数最高为7位。字长是数据通路的宽度（寄存器的宽度，ALU运算的宽度，传输路径上的宽度），IA-32架构字长是32位。对于A选项，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机基础课后期末复习">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="第一章：1.冯诺依曼研究的计算机不是第一台存储结构的计算机。2。1.浮点数的阶码用移码表示是因为移码在比较大小的时候可以改变符号位带来的影响。1.变形补码如果2个符号位相同则没有溢出，不同就溢出了。0&#x2F;0的结果为非数。浮点数float型的数据类型的有效位数最高为7位。字长是数据通路的宽度（寄存器的宽度，ALU运算的宽度，传输路径上的宽度），IA-32架构字长是32位。对于A选项，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687074892884-661239a4-90e7-4bc5-848b-af0a00634894.png#averageHue=%23f3f3f3&clientId=u7a700a2e-d781-4&from=paste&height=169&id=u29502497&originHeight=211&originWidth=641&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=12072&status=done&style=none&taskId=ue3e21772-7861-4217-b942-97cec331463&title=&width=512.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687075672801-d1fb4af4-4fe2-43be-99fa-10a509ea73e5.png#averageHue=%23f5dad0&clientId=u7a700a2e-d781-4&from=paste&height=198&id=uec2c0ed3&originHeight=247&originWidth=1134&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=152121&status=done&style=none&taskId=u790c7516-e2c1-4e4b-aa18-cd199d291a3&title=&width=907.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687076054310-4fb49b11-55db-4dea-ac4f-d09fe8e7f6b6.png#averageHue=%23f8ece8&clientId=u7a700a2e-d781-4&from=paste&height=428&id=u03fb9077&originHeight=535&originWidth=1326&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=343670&status=done&style=none&taskId=u0e20936d-b84b-4241-adc7-ad7d5203f6e&title=&width=1060.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687079581752-9dff08b2-1ac6-4215-ab94-8934d57bea63.png#averageHue=%23faf5f4&clientId=u7a700a2e-d781-4&from=paste&height=246&id=u68ac9d12&originHeight=308&originWidth=583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=28810&status=done&style=none&taskId=u24f86a24-e45b-42fb-874f-76ddf7e5903&title=&width=466.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687084965957-1f6f0d41-56ad-42ec-9daa-2f28bba2c40f.png#averageHue=%23d5d5d5&clientId=ud1688b1c-f083-4&from=paste&height=60&id=ucf7b6d65&originHeight=75&originWidth=982&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=35798&status=done&style=none&taskId=u872aa925-825e-46f0-8039-8b64f21db7f&title=&width=785.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687085905199-f7015f9b-d86a-4c41-894c-9e54b5aaef81.png#averageHue=%23f6f5f3&clientId=ud1688b1c-f083-4&from=paste&height=282&id=u903d3657&originHeight=352&originWidth=773&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=45445&status=done&style=none&taskId=u10970eca-8b67-43b0-8360-660f9327c74&title=&width=618.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687090831737-aac5d7b4-1405-4e8e-a10e-092c93350f68.png#averageHue=%23f9f8f7&clientId=ud1688b1c-f083-4&from=paste&height=379&id=ud83a47b3&originHeight=474&originWidth=1110&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=65104&status=done&style=none&taskId=u014d3b58-acc3-4f55-9860-2166a72077f&title=&width=888">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687090914398-c2f2e37d-125f-478c-944c-c1cafe94bcbd.png#averageHue=%23faf9f8&clientId=ud1688b1c-f083-4&from=paste&height=283&id=ueb567853&originHeight=354&originWidth=1085&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42150&status=done&style=none&taskId=u76597a50-f032-4a53-9976-3ef67a03ed5&title=&width=868">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687093510841-aed589bc-61e7-42ba-bfbf-061556ab67df.png#averageHue=%23f7d7a3&clientId=ud1688b1c-f083-4&from=paste&height=155&id=u8d734d1f&originHeight=194&originWidth=594&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=79642&status=done&style=none&taskId=u11f9d2f6-ae3a-4f74-96bc-b8140160777&title=&width=475.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687094666759-99ee8c53-8d95-486f-bcc2-35fa6bf49805.png#averageHue=%23f8dcb0&clientId=ud1688b1c-f083-4&from=paste&height=131&id=uad12239a&originHeight=164&originWidth=894&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=143626&status=done&style=none&taskId=ub2cdd32a-efe6-4b2f-844b-8f64832ca44&title=&width=715.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687094732935-8a0a5b8d-39f4-479f-82c5-22ec42ca734c.png#averageHue=%23cfcecb&clientId=ud1688b1c-f083-4&from=paste&height=62&id=u798fbfe7&originHeight=78&originWidth=949&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56232&status=done&style=none&taskId=ua24b490d-9264-4d5f-ad98-9cea0250f25&title=&width=759.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687102280483-b2de2c1d-88a7-4e21-ad65-011abf9c36a1.png#averageHue=%23f9f8f7&clientId=uc67fcce9-c2c2-4&from=paste&height=455&id=u5f4e9dd2&originHeight=569&originWidth=1108&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=81464&status=done&style=none&taskId=u0be441a1-e72b-4268-8ae0-c3a4b8cfa92&title=&width=886.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687102424723-5aab7545-b083-491f-9f15-9f21f2e7fb92.png#averageHue=%23fafaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=377&id=u7ec98900&originHeight=471&originWidth=1054&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=41626&status=done&style=none&taskId=u19444912-60d5-483a-b7a8-78fe638e41f&title=&width=843.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687102703442-1bb6cb00-59a6-4eed-bf85-68afa7221ebe.png#averageHue=%23fbf7f6&clientId=uc67fcce9-c2c2-4&from=paste&height=656&id=u0cd6254f&originHeight=820&originWidth=1064&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=95515&status=done&style=none&taskId=uf5f308dd-fc16-439e-88b4-58b59aa029d&title=&width=851.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687136125858-5bcda0df-6619-413c-a4b6-2461cd24f4de.png#averageHue=%23f8f7f6&clientId=uc67fcce9-c2c2-4&from=paste&height=237&id=u2889776e&originHeight=296&originWidth=787&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=27779&status=done&style=none&taskId=u33ded9a3-d8ce-4f53-893a-bdd321d55c0&title=&width=629.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137049082-b374bd94-9c29-42cc-ab49-413cd389ffe9.png#averageHue=%23fbfaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=325&id=uf5a786d5&originHeight=406&originWidth=920&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=52635&status=done&style=none&taskId=u1bb98632-83ed-499c-b4ee-cbee1495a9a&title=&width=736">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137139094-d6b39db8-6d72-404e-a25c-e2589aaaf766.png#averageHue=%23fbfbfa&clientId=uc67fcce9-c2c2-4&from=paste&height=319&id=ua5b02a04&originHeight=399&originWidth=839&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26721&status=done&style=none&taskId=u4dc38799-d7d3-495a-93ca-2b7fed3c705&title=&width=671.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137168047-74ba7503-2a45-4801-b731-f633bfb914d1.png#averageHue=%23fbfaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=323&id=uc6fc5904&originHeight=404&originWidth=825&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49914&status=done&style=none&taskId=ub770d9e1-4884-444a-8d43-d2a2e03fff0&title=&width=660">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137214095-63f1839f-e11e-4d98-9fd8-f9026effaadb.png#averageHue=%23faf9f8&clientId=uc67fcce9-c2c2-4&from=paste&height=310&id=u78859393&originHeight=388&originWidth=850&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48714&status=done&style=none&taskId=u84a5f577-e9f1-4852-a9ca-e6bb1402c0c&title=&width=680">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687151012238-6991f46b-e509-4ace-81a7-88c9ec18591b.png#averageHue=%23fdfaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=342&id=u0259658b&originHeight=428&originWidth=1190&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=36209&status=done&style=none&taskId=u29a96197-7269-4927-bba5-4895586f701&title=&width=952">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687151033074-c5ea92dd-b74d-497c-b97a-aa83dc8226c7.png#averageHue=%23faf9f9&clientId=uc67fcce9-c2c2-4&from=paste&height=381&id=u85e86c6f&originHeight=476&originWidth=1098&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=50347&status=done&style=none&taskId=u26cf64c4-b096-4e2f-9683-9b3cd271692&title=&width=878.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687151075994-772ff53c-c8b2-475f-be30-c2675b0a6b4d.png#averageHue=%23faf9f8&clientId=uc67fcce9-c2c2-4&from=paste&height=353&id=u97348b65&originHeight=441&originWidth=1081&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=54865&status=done&style=none&taskId=u486d58e9-532b-49a4-b647-9a371e760bc&title=&width=864.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687156162258-a99a2085-5a5b-45fb-a227-507b18acce66.png#averageHue=%23fbfafa&clientId=ue180da2c-b857-4&from=paste&height=361&id=u55668b0c&originHeight=451&originWidth=1075&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39982&status=done&style=none&taskId=u328ff7d3-9491-46c8-9b30-6546bfb72ae&title=&width=860">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687156182794-a97cc52b-69f3-4521-b03e-20f8d9b190b6.png#averageHue=%23fbfaf9&clientId=ue180da2c-b857-4&from=paste&height=354&id=uafb997b2&originHeight=443&originWidth=1083&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=43606&status=done&style=none&taskId=uc1b3ebc2-9675-451e-8e03-8a097c7875e&title=&width=866.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687159267242-94e41de6-9d00-448f-b733-34b51e9d5a94.png#averageHue=%23fdf9f9&clientId=ue180da2c-b857-4&from=paste&height=354&id=u1ff9efef&originHeight=443&originWidth=1059&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40585&status=done&style=none&taskId=u3625dce8-8662-4348-966b-a9ed678245d&title=&width=847.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687168489104-82da4674-e4b1-44aa-a2cc-bef1d654ec28.png#averageHue=%23fcf7f6&clientId=ufa541de4-9c4f-4&from=paste&height=301&id=u46e05049&originHeight=376&originWidth=1035&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38802&status=done&style=none&taskId=u9e810193-76d2-4da2-a071-eeacfcc6e64&title=&width=828">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687168534461-7a8050b7-4953-43a7-8c4b-d6c8eab454e8.png#averageHue=%23f9f9f8&clientId=ufa541de4-9c4f-4&from=paste&height=314&id=u9a67ab8e&originHeight=392&originWidth=1022&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42163&status=done&style=none&taskId=uef27aff5-3b24-4bc0-861f-0005e38be17&title=&width=817.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687183700317-ea29635d-0826-44da-909f-acdbf2f916f2.png#averageHue=%23fcfbfb&clientId=uc7f32047-918b-4&from=paste&height=633&id=u23375bcd&originHeight=791&originWidth=833&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49214&status=done&style=none&taskId=uf2b4d17d-c98c-45c0-9c59-890fed64d40&title=&width=666.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687183811809-15300667-de81-44e7-b7fc-d729273262db.png#averageHue=%23fdfdfd&clientId=uc7f32047-918b-4&from=paste&height=675&id=ua924dccf&originHeight=844&originWidth=1179&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48633&status=done&style=none&taskId=u0a312d08-214e-4659-a199-0b34bbc3f6e&title=&width=943.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687183875756-3747f935-476b-41e9-9ed6-c907ac6a61b6.png#averageHue=%23f3f2f0&clientId=uc7f32047-918b-4&from=paste&height=124&id=u76cfee2a&originHeight=155&originWidth=1022&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26522&status=done&style=none&taskId=ubae7a322-ba04-41da-94cc-1e1d2469615&title=&width=817.6">
+<meta property="article:published_time" content="2024-01-26T09:40:25.733Z">
+<meta property="article:modified_time" content="2024-01-26T09:41:14.225Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687074892884-661239a4-90e7-4bc5-848b-af0a00634894.png#averageHue=%23f3f3f3&clientId=u7a700a2e-d781-4&from=paste&height=169&id=u29502497&originHeight=211&originWidth=641&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=12072&status=done&style=none&taskId=ue3e21772-7861-4217-b942-97cec331463&title=&width=512.8">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>计算机基础课后期末复习 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机基础课后期末复习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 17:40" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          533 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机基础课后期末复习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="第一章："><a href="#第一章：" class="headerlink" title="第一章："></a>第一章：</h2><p>1.冯诺依曼研究的计算机不是第一台存储结构的计算机。<br>2。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687074892884-661239a4-90e7-4bc5-848b-af0a00634894.png#averageHue=%23f3f3f3&clientId=u7a700a2e-d781-4&from=paste&height=169&id=u29502497&originHeight=211&originWidth=641&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=12072&status=done&style=none&taskId=ue3e21772-7861-4217-b942-97cec331463&title=&width=512.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687075672801-d1fb4af4-4fe2-43be-99fa-10a509ea73e5.png#averageHue=%23f5dad0&clientId=u7a700a2e-d781-4&from=paste&height=198&id=uec2c0ed3&originHeight=247&originWidth=1134&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=152121&status=done&style=none&taskId=u790c7516-e2c1-4e4b-aa18-cd199d291a3&title=&width=907.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687076054310-4fb49b11-55db-4dea-ac4f-d09fe8e7f6b6.png#averageHue=%23f8ece8&clientId=u7a700a2e-d781-4&from=paste&height=428&id=u03fb9077&originHeight=535&originWidth=1326&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=343670&status=done&style=none&taskId=u0e20936d-b84b-4241-adc7-ad7d5203f6e&title=&width=1060.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>1.浮点数的阶码用移码表示是因为移码在比较大小的时候可以改变符号位带来的影响。<br>1.<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687079581752-9dff08b2-1ac6-4215-ab94-8934d57bea63.png#averageHue=%23faf5f4&clientId=u7a700a2e-d781-4&from=paste&height=246&id=u68ac9d12&originHeight=308&originWidth=583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=28810&status=done&style=none&taskId=u24f86a24-e45b-42fb-874f-76ddf7e5903&title=&width=466.4" srcset="/img/loading.gif" lazyload alt="image.png">变形补码如果2个符号位相同则没有溢出，不同就溢出了。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687084965957-1f6f0d41-56ad-42ec-9daa-2f28bba2c40f.png#averageHue=%23d5d5d5&clientId=ud1688b1c-f083-4&from=paste&height=60&id=ucf7b6d65&originHeight=75&originWidth=982&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=35798&status=done&style=none&taskId=u872aa925-825e-46f0-8039-8b64f21db7f&title=&width=785.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>0&#x2F;0的结果为非数。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687085905199-f7015f9b-d86a-4c41-894c-9e54b5aaef81.png#averageHue=%23f6f5f3&clientId=ud1688b1c-f083-4&from=paste&height=282&id=u903d3657&originHeight=352&originWidth=773&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=45445&status=done&style=none&taskId=u10970eca-8b67-43b0-8360-660f9327c74&title=&width=618.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>浮点数float型的数据类型的有效位数最高为7位。<br>字长是数据通路的宽度（寄存器的宽度，ALU运算的宽度，传输路径上的宽度），IA-32架构字长是32位。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687090831737-aac5d7b4-1405-4e8e-a10e-092c93350f68.png#averageHue=%23f9f8f7&clientId=ud1688b1c-f083-4&from=paste&height=379&id=ud83a47b3&originHeight=474&originWidth=1110&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=65104&status=done&style=none&taskId=u014d3b58-acc3-4f55-9860-2166a72077f&title=&width=888" srcset="/img/loading.gif" lazyload alt="image.png"><br>对于A选项，是先将f的真值用32位的int表示，其真值位1234.5其小数部分会被截断损失。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687090914398-c2f2e37d-125f-478c-944c-c1cafe94bcbd.png#averageHue=%23faf9f8&clientId=ud1688b1c-f083-4&from=paste&height=283&id=ueb567853&originHeight=354&originWidth=1085&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42150&status=done&style=none&taskId=u76597a50-f032-4a53-9976-3ef67a03ed5&title=&width=868" srcset="/img/loading.gif" lazyload alt="image.png"><br>（不同的指令其长度不一样）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687093510841-aed589bc-61e7-42ba-bfbf-061556ab67df.png#averageHue=%23f7d7a3&clientId=ud1688b1c-f083-4&from=paste&height=155&id=u8d734d1f&originHeight=194&originWidth=594&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=79642&status=done&style=none&taskId=u11f9d2f6-ae3a-4f74-96bc-b8140160777&title=&width=475.2" srcset="/img/loading.gif" lazyload alt="image.png">（若是带符号整数其乘积的结果大于最大的int范围就会反转为负数，得到的高n为全为0或者1则没有溢出，否则溢出）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687094666759-99ee8c53-8d95-486f-bcc2-35fa6bf49805.png#averageHue=%23f8dcb0&clientId=ud1688b1c-f083-4&from=paste&height=131&id=uad12239a&originHeight=164&originWidth=894&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=143626&status=done&style=none&taskId=ub2cdd32a-efe6-4b2f-844b-8f64832ca44&title=&width=715.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687094732935-8a0a5b8d-39f4-479f-82c5-22ec42ca734c.png#averageHue=%23cfcecb&clientId=ud1688b1c-f083-4&from=paste&height=62&id=u798fbfe7&originHeight=78&originWidth=949&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56232&status=done&style=none&taskId=ua24b490d-9264-4d5f-ad98-9cea0250f25&title=&width=759.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687102280483-b2de2c1d-88a7-4e21-ad65-011abf9c36a1.png#averageHue=%23f9f8f7&clientId=uc67fcce9-c2c2-4&from=paste&height=455&id=u5f4e9dd2&originHeight=569&originWidth=1108&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=81464&status=done&style=none&taskId=u0be441a1-e72b-4268-8ae0-c3a4b8cfa92&title=&width=886.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687102424723-5aab7545-b083-491f-9f15-9f21f2e7fb92.png#averageHue=%23fafaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=377&id=u7ec98900&originHeight=471&originWidth=1054&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=41626&status=done&style=none&taskId=u19444912-60d5-483a-b7a8-78fe638e41f&title=&width=843.2" srcset="/img/loading.gif" lazyload alt="image.png">（为什么是25为因为在进行尾数相加的时候会保留符号位，附加位，粘位，当移动25位的时候尾数的符号位+附加位+粘位可能是：010，011都是小于100的情况，都是要舍入的，如果是24位或者是23位都会可能发生进位的情况。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687102703442-1bb6cb00-59a6-4eed-bf85-68afa7221ebe.png#averageHue=%23fbf7f6&clientId=uc67fcce9-c2c2-4&from=paste&height=656&id=u0cd6254f&originHeight=820&originWidth=1064&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=95515&status=done&style=none&taskId=uf5f308dd-fc16-439e-88b4-58b59aa029d&title=&width=851.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687136125858-5bcda0df-6619-413c-a4b6-2461cd24f4de.png#averageHue=%23f8f7f6&clientId=uc67fcce9-c2c2-4&from=paste&height=237&id=u2889776e&originHeight=296&originWidth=787&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=27779&status=done&style=none&taskId=u33ded9a3-d8ce-4f53-893a-bdd321d55c0&title=&width=629.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137049082-b374bd94-9c29-42cc-ab49-413cd389ffe9.png#averageHue=%23fbfaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=325&id=uf5a786d5&originHeight=406&originWidth=920&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=52635&status=done&style=none&taskId=u1bb98632-83ed-499c-b4ee-cbee1495a9a&title=&width=736" srcset="/img/loading.gif" lazyload alt="image.png">汇编指令是机器指令的助记符号，需要转变位机器指令才能执行。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137139094-d6b39db8-6d72-404e-a25c-e2589aaaf766.png#averageHue=%23fbfbfa&clientId=uc67fcce9-c2c2-4&from=paste&height=319&id=ua5b02a04&originHeight=399&originWidth=839&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26721&status=done&style=none&taskId=u4dc38799-d7d3-495a-93ca-2b7fed3c705&title=&width=671.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137168047-74ba7503-2a45-4801-b731-f633bfb914d1.png#averageHue=%23fbfaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=323&id=uc6fc5904&originHeight=404&originWidth=825&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49914&status=done&style=none&taskId=ub770d9e1-4884-444a-8d43-d2a2e03fff0&title=&width=660" srcset="/img/loading.gif" lazyload alt="image.png">指令中的寄存器可能是ax<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687137214095-63f1839f-e11e-4d98-9fd8-f9026effaadb.png#averageHue=%23faf9f8&clientId=uc67fcce9-c2c2-4&from=paste&height=310&id=u78859393&originHeight=388&originWidth=850&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48714&status=done&style=none&taskId=u84a5f577-e9f1-4852-a9ca-e6bb1402c0c&title=&width=680" srcset="/img/loading.gif" lazyload alt="image.png">只有EAX,EBX,ECX,ED可以这样，其余通用寄存器保留当中8位寄存器使用。<br>布斯乘法：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/skl4869/article/details/120829532">布斯（booth）乘法详解和例子_booth乘法_某六十九岁合法萝莉的博客-CSDN博客</a><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687151012238-6991f46b-e509-4ace-81a7-88c9ec18591b.png#averageHue=%23fdfaf9&clientId=uc67fcce9-c2c2-4&from=paste&height=342&id=u0259658b&originHeight=428&originWidth=1190&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=36209&status=done&style=none&taskId=u29a96197-7269-4927-bba5-4895586f701&title=&width=952" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687151033074-c5ea92dd-b74d-497c-b97a-aa83dc8226c7.png#averageHue=%23faf9f9&clientId=uc67fcce9-c2c2-4&from=paste&height=381&id=u85e86c6f&originHeight=476&originWidth=1098&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=50347&status=done&style=none&taskId=u26cf64c4-b096-4e2f-9683-9b3cd271692&title=&width=878.4" srcset="/img/loading.gif" lazyload alt="image.png">（有减法运算时求CF一定将其减数转化为补码在运算）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687151075994-772ff53c-c8b2-475f-be30-c2675b0a6b4d.png#averageHue=%23faf9f8&clientId=uc67fcce9-c2c2-4&from=paste&height=353&id=u97348b65&originHeight=441&originWidth=1081&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=54865&status=done&style=none&taskId=u486d58e9-532b-49a4-b647-9a371e760bc&title=&width=864.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687156162258-a99a2085-5a5b-45fb-a227-507b18acce66.png#averageHue=%23fbfafa&clientId=ue180da2c-b857-4&from=paste&height=361&id=u55668b0c&originHeight=451&originWidth=1075&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39982&status=done&style=none&taskId=u328ff7d3-9491-46c8-9b30-6546bfb72ae&title=&width=860" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687156182794-a97cc52b-69f3-4521-b03e-20f8d9b190b6.png#averageHue=%23fbfaf9&clientId=ue180da2c-b857-4&from=paste&height=354&id=uafb997b2&originHeight=443&originWidth=1083&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=43606&status=done&style=none&taskId=uc1b3ebc2-9675-451e-8e03-8a097c7875e&title=&width=866.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>（这里要注意A选项，为了体系else关键字，汇编语句中一定包含无条件跳转指令）<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687159267242-94e41de6-9d00-448f-b733-34b51e9d5a94.png#averageHue=%23fdf9f9&clientId=ue180da2c-b857-4&from=paste&height=354&id=u1ff9efef&originHeight=443&originWidth=1059&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40585&status=done&style=none&taskId=u3625dce8-8662-4348-966b-a9ed678245d&title=&width=847.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>（这里要求送的是首地址）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687168489104-82da4674-e4b1-44aa-a2cc-bef1d654ec28.png#averageHue=%23fcf7f6&clientId=ufa541de4-9c4f-4&from=paste&height=301&id=u46e05049&originHeight=376&originWidth=1035&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38802&status=done&style=none&taskId=u9e810193-76d2-4da2-a071-eeacfcc6e64&title=&width=828" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687168534461-7a8050b7-4953-43a7-8c4b-d6c8eab454e8.png#averageHue=%23f9f9f8&clientId=ufa541de4-9c4f-4&from=paste&height=314&id=u9a67ab8e&originHeight=392&originWidth=1022&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42163&status=done&style=none&taskId=uef27aff5-3b24-4bc0-861f-0005e38be17&title=&width=817.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>（还需要指明是动态链接还是静态链接）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687183700317-ea29635d-0826-44da-909f-acdbf2f916f2.png#averageHue=%23fcfbfb&clientId=uc7f32047-918b-4&from=paste&height=633&id=u23375bcd&originHeight=791&originWidth=833&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=49214&status=done&style=none&taskId=uf2b4d17d-c98c-45c0-9c59-890fed64d40&title=&width=666.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>（ m1中的main()函数和m2中定义的静态变量main是不一样的符号）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687183811809-15300667-de81-44e7-b7fc-d729273262db.png#averageHue=%23fdfdfd&clientId=uc7f32047-918b-4&from=paste&height=675&id=ua924dccf&originHeight=844&originWidth=1179&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=48633&status=done&style=none&taskId=u0a312d08-214e-4659-a199-0b34bbc3f6e&title=&width=943.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1687183875756-3747f935-476b-41e9-9ed6-c907ac6a61b6.png#averageHue=%23f3f2f0&clientId=uc7f32047-918b-4&from=paste&height=124&id=u76cfee2a&originHeight=155&originWidth=1022&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26522&status=done&style=none&taskId=ubae7a322-ba04-41da-94cc-1e1d2469615&title=&width=817.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计算机基础课后期末复习</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/期末复习：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97/" title="计算机基础实验2：算术运算">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机基础实验2：算术运算</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B9%A0%E9%A2%98%E5%9F%BA%E7%A1%80%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E6%80%BB%E7%BB%93/" title="计算机基础课后习题总结">
+                        <span class="hidden-mobile">计算机基础课后习题总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

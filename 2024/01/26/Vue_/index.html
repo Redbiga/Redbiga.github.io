@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.vuecli创建项目：创建一个项目 | Vue CLI先安装Vue CLI: npm install -g @vue&#x2F;cli 方法1：在要创建的项目所在的文件夹中使用：vue create 项目名，然后在选择要创建的Vue版本。方法2：在要创建项目的所在位置使用: vue ui打开图形化界面来创建项目2.Vue组件命令的时候，一定要使用大驼峰命名发，否则vueCli导入组件的时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/Vue_/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.vuecli创建项目：创建一个项目 | Vue CLI先安装Vue CLI: npm install -g @vue&#x2F;cli 方法1：在要创建的项目所在的文件夹中使用：vue create 项目名，然后在选择要创建的Vue版本。方法2：在要创建项目的所在位置使用: vue ui打开图形化界面来创建项目2.Vue组件命令的时候，一定要使用大驼峰命名发，否则vueCli导入组件的时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1698826781345-f33295d9-eb1c-4c57-bf25-a24336fbf099.jpeg">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1698624062058-a6666eeb-6f1b-4edb-bfd5-d71fafa6fd7f.jpeg">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698626345412-e776382b-4d4e-43e4-9b59-255a383fd7c8.png#averageHue=%23e6f3ef&clientId=u95097dde-b906-4&from=paste&height=406&id=u08b5f34f&originHeight=507&originWidth=1173&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66653&status=done&style=none&taskId=u1cece604-df11-4e22-b9bc-96faef5930a&title=&width=938.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698626400257-f2d3adad-e74f-4951-80e2-55d2c762797a.png#averageHue=%2325201f&clientId=u95097dde-b906-4&from=paste&height=368&id=u1025f78c&originHeight=460&originWidth=1205&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=204825&status=done&style=none&taskId=ubed31dde-a2bc-49d7-a8e7-5ca88e6589d&title=&width=964">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698627545540-57bebd25-271c-46f9-965a-23c8618d8fe5.png#averageHue=%2388841b&clientId=u95097dde-b906-4&from=paste&height=509&id=u5239efe5&originHeight=636&originWidth=1491&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=380249&status=done&style=none&taskId=uede67725-b835-485b-bf05-4df2fe583a3&title=&width=1192.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698631510086-67d49f7b-b8cc-443f-b57f-5a76a2cede7c.png#averageHue=%23212121&clientId=u95097dde-b906-4&from=paste&height=166&id=uf3fd8966&originHeight=207&originWidth=1185&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39141&status=done&style=none&taskId=u5c86521e-ae81-4c6d-8b14-f711a9dc2a7&title=&width=948">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698636317024-ed96fe9a-a0e1-4fed-a41f-9d3bc47c8f13.png#averageHue=%23f7f3f2&clientId=u95097dde-b906-4&from=paste&height=530&id=u3eab1ac4&originHeight=662&originWidth=1069&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=149416&status=done&style=none&taskId=ub9fc78d3-3b61-4635-974c-25487e8f786&title=&width=855.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698635901968-0cd2aa5a-e07a-4c1e-b375-bd44716e3694.png#averageHue=%237db093&clientId=u95097dde-b906-4&from=paste&height=417&id=u32c84a3f&originHeight=521&originWidth=1056&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51141&status=done&style=none&taskId=u1770605b-da88-4f7b-bc78-b73dbe41271&title=&width=844.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698637980586-383af282-f155-4287-bcc5-aef301ea9041.png#averageHue=%23202020&clientId=u95097dde-b906-4&from=paste&height=174&id=u72bd7179&originHeight=217&originWidth=677&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40698&status=done&style=none&taskId=uf83fb5e0-7535-4e96-8f7c-599f7e57a2a&title=&width=541.6">
+<meta property="article:published_time" content="2024-01-26T11:02:03.445Z">
+<meta property="article:modified_time" content="2024-01-26T11:02:51.212Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1698826781345-f33295d9-eb1c-4c57-bf25-a24336fbf099.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Vue学习笔记 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vue学习笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 19:02" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Vue学习笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1698826781345-f33295d9-eb1c-4c57-bf25-a24336fbf099.jpeg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="1-vuecli创建项目："><a href="#1-vuecli创建项目：" class="headerlink" title="1.vuecli创建项目："></a>1.vuecli创建项目：</h2><p><a target="_blank" rel="noopener" href="https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create">创建一个项目 | Vue CLI</a><br>先安装Vue CLI:</p>
+<div class="code-wrapper"><pre><code class="hljs coffeescript"><span class="hljs-built_in">npm</span> install -g @vue/cli</code></pre></div>
+<p>方法1：在要创建的项目所在的文件夹中使用：vue create 项目名，然后在选择要创建的Vue版本。<br>方法2：在要创建项目的所在位置使用: vue ui打开图形化界面来创建项目<br>2.Vue组件命令的时候，一定要使用大驼峰命名发，否则vueCli导入组<br>件的时候不成功。导入组件可以用。导入组件成功后使用导入的组件可以把大驼峰转化为小驼峰加下划线使用。<br>3.main.js进行的组件注册是全局注册。<br><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1698624062058-a6666eeb-6f1b-4edb-bfd5-d71fafa6fd7f.jpeg" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li><strong>全局样式</strong>: 默认组件中的样式会作用到全局，任何一个组件中都会受到此样式的影响 </li>
+<li><strong>局部样式</strong>: 可以给组件加上<strong>scoped</strong> 属性,可以<strong>让样式只作用于当前组件</strong></li>
+</ol>
+<h3 id="3-scoped原理"><a href="#3-scoped原理" class="headerlink" title="3.scoped原理"></a>3.scoped原理</h3><ol>
+<li>当前组件内标签都被添加<strong>data-v-hash值</strong> 的属性</li>
+<li>css选择器都被添加 [<strong>data-v-hash值</strong>] 的属性选择器</li>
+</ol>
+<h3 id="data为什么要写成函数"><a href="#data为什么要写成函数" class="headerlink" title="data为什么要写成函数"></a>data为什么要写成函数</h3><p>一个组件的 <strong>data</strong> 选项必须<strong>是一个函数</strong>。目的是为了：保证每个组件实例，维护<strong>独立</strong>的一份<strong>数据</strong>对象。<br>每次创建新的组件实例，都会新<strong>执行一次data 函数</strong>，得到一个新对象。</p>
+<h3 id="父子通信流程"><a href="#父子通信流程" class="headerlink" title="父子通信流程"></a>父子通信流程</h3><ol>
+<li>父组件通过 <strong>props</strong> 将数据传递给子组件</li>
+<li>子组件利用 <strong>$emit</strong> 通知父组件修改更新</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698626345412-e776382b-4d4e-43e4-9b59-255a383fd7c8.png#averageHue=%23e6f3ef&clientId=u95097dde-b906-4&from=paste&height=406&id=u08b5f34f&originHeight=507&originWidth=1173&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=66653&status=done&style=none&taskId=u1cece604-df11-4e22-b9bc-96faef5930a&title=&width=938.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="父向子通信："><a href="#父向子通信：" class="headerlink" title="父向子通信："></a>父向子通信：</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698626400257-f2d3adad-e74f-4951-80e2-55d2c762797a.png#averageHue=%2325201f&clientId=u95097dde-b906-4&from=paste&height=368&id=u1025f78c&originHeight=460&originWidth=1205&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=204825&status=done&style=none&taskId=ubed31dde-a2bc-49d7-a8e7-5ca88e6589d&title=&width=964" srcset="/img/loading.gif" lazyload alt="image.png"><br>父向子传值步骤</p>
+<ol>
+<li>给子组件以添加属性的方式传值</li>
+<li>子组件内部通过props接收</li>
+<li>模板中直接使用 props接收的值<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-number">1.</span>props是properties的缩写
+<span class="hljs-number">2.</span>可以理解为javaScript中给每个组件声明了一个属性，通过:属性名的方法，将属性和data绑定起来，父组件
+通过给属性赋值，从而达到给子组件传递信息的目的
+<span class="hljs-number">2.</span>组件的props可以为任意数量和任意类型
+<span class="hljs-number">3.</span>其属性赋值是通过外部父组件来赋值的，当父组件没有给某些属性赋值的时候为默认值</code></pre></div></li>
+</ol>
+<h2 id="props校验完整写法"><a href="#props校验完整写法" class="headerlink" title="props校验完整写法"></a>props校验完整写法</h2><div class="code-wrapper"><pre><code class="hljs java">props: &#123;
+  校验的属性名: &#123;
+    type: 类型,  <span class="hljs-comment">// Number String Boolean ...</span>
+    required: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否必填</span>
+    <span class="hljs-keyword">default</span>: 默认值, <span class="hljs-comment">// 默认值</span>
+    validator (value) &#123;
+      <span class="hljs-comment">// 自定义校验逻辑</span>
+      <span class="hljs-keyword">return</span> 是否通过校验
+    &#125;
+  &#125;
+&#125;,</code></pre></div>
+<p>1.default和required一般不同时写（因为当时必填项时，肯定是有值的）<br>2.default后面如果是简单类型的值，可以直接写默认。如果是复杂类型的值，则需要以函数的形式return一个默认值</p>
+<h2 id="props-data的区别："><a href="#props-data的区别：" class="headerlink" title="props&amp;data的区别："></a>props&amp;data的区别：</h2><ul>
+<li>data 的数据是<strong>自己</strong>的  →   随便改</li>
+<li>prop 的数据是<strong>外部</strong>的  →   不能直接改，要遵循 <strong>单向数据流</strong></li>
+</ul>
+<p>子组件向父组件传递信息：主要是通过事件冒泡来实现的<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698627545540-57bebd25-271c-46f9-965a-23c8618d8fe5.png#averageHue=%2388841b&clientId=u95097dde-b906-4&from=paste&height=509&id=u5239efe5&originHeight=636&originWidth=1491&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=380249&status=done&style=none&taskId=uede67725-b835-485b-bf05-4df2fe583a3&title=&width=1192.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>子向父传值步骤</p>
+<ol>
+<li>$emit触发事件，给父组件发送消息通知</li>
+<li>父组件监听$emit触发的事件</li>
+<li>提供处理函数，在函数的性参中获取传过来的参数</li>
+<li><a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/components/props.html#prop-validation">Props | Vue.js</a></li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698631510086-67d49f7b-b8cc-443f-b57f-5a76a2cede7c.png#averageHue=%23212121&clientId=u95097dde-b906-4&from=paste&height=166&id=uf3fd8966&originHeight=207&originWidth=1185&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=39141&status=done&style=none&taskId=u5c86521e-ae81-4c6d-8b14-f711a9dc2a7&title=&width=948" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="非父子通信-event-bus-事件总线"><a href="#非父子通信-event-bus-事件总线" class="headerlink" title="非父子通信-event bus 事件总线"></a>非父子通信-event bus 事件总线</h2><h3 id="2-步骤"><a href="#2-步骤" class="headerlink" title="2.步骤"></a>2.步骤</h3><ol>
+<li>在一个js文件中创建一个都能访问的事件总线 （空Vue实例）<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> Vue from <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-type">const</span> <span class="hljs-variable">Bus</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Vue</span>()
+export <span class="hljs-keyword">default</span> Bus</code></pre></div>
+A组件（接受方），监听Bus的 $on事件<div class="code-wrapper"><pre><code class="hljs java">created () &#123;
+  Bus.$on(<span class="hljs-string">&#x27;sendMsg&#x27;</span>, (msg) =&gt; &#123;
+    <span class="hljs-built_in">this</span>.msg = msg
+  &#125;)
+&#125;</code></pre></div>
+B组件（发送方），触发Bus的$emit事件<div class="code-wrapper"><pre><code class="hljs java">Bus.$emit(<span class="hljs-string">&#x27;sendMsg&#x27;</span>, <span class="hljs-string">&#x27;这是一个消息&#x27;</span>)</code></pre></div>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698636317024-ed96fe9a-a0e1-4fed-a41f-9d3bc47c8f13.png#averageHue=%23f7f3f2&clientId=u95097dde-b906-4&from=paste&height=530&id=u3eab1ac4&originHeight=662&originWidth=1069&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=149416&status=done&style=none&taskId=ub9fc78d3-3b61-4635-974c-25487e8f786&title=&width=855.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>这种通信实际上是通过总线也就是第三方vue来实现的，接受方使用$on方法在总线中注册事件（包括事件处理函数）或者说是注册监听器，然后发送方可以使用$emit调用接收方往总线中添加的事件，使用$emit方法调用总线中的事件的时候通过$emit的第二个参数就实现了传递数据了。简单来说就是接受数据的一方将要对数据的处理写入总线Vue中，发送数据的一凡通过$emit方法传递数据并调用方法进行处理。</li>
+</ol>
+<h2 id="非父子通信-provide-inject："><a href="#非父子通信-provide-inject：" class="headerlink" title="非父子通信-provide&amp;inject："></a>非父子通信-provide&amp;inject：</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698635901968-0cd2aa5a-e07a-4c1e-b375-bd44716e3694.png#averageHue=%237db093&clientId=u95097dde-b906-4&from=paste&height=417&id=u32c84a3f&originHeight=521&originWidth=1056&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=51141&status=done&style=none&taskId=u1770605b-da88-4f7b-bc78-b73dbe41271&title=&width=844.8" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<ol>
+<li>父组件 provide提供数据<div class="code-wrapper"><pre><code class="hljs java">export <span class="hljs-keyword">default</span> &#123;
+  provide () &#123;
+    <span class="hljs-keyword">return</span> &#123;
+       <span class="hljs-comment">// 普通类型【非响应式】</span>
+       color: <span class="hljs-built_in">this</span>.color, 
+       <span class="hljs-comment">// 复杂类型【响应式】</span>
+       userInfo: <span class="hljs-built_in">this</span>.userInfo, 
+    &#125;
+  &#125;
+&#125;</code></pre></div>
+2.子&#x2F;孙组件 inject获取数据<div class="code-wrapper"><pre><code class="hljs java">export <span class="hljs-keyword">default</span> &#123;
+  inject: [<span class="hljs-string">&#x27;color&#x27;</span>,<span class="hljs-string">&#x27;userInfo&#x27;</span>],
+  created () &#123;
+    console.log(<span class="hljs-built_in">this</span>.color, <span class="hljs-built_in">this</span>.userInfo)
+  &#125;
+&#125;</code></pre></div></li>
+</ol>
+<h3 id="4-注意"><a href="#4-注意" class="headerlink" title="4.注意"></a>4.注意</h3><ul>
+<li>provide提供的简单类型的数据不是响应式的，复杂类型数据是响应式。（推荐提供复杂类型数据）</li>
+<li>子&#x2F;孙组件通过inject获取的数据，不能在自身组件内修改</li>
+</ul>
+<h2 id="v-model"><a href="#v-model" class="headerlink" title="v-model:"></a>v-model:</h2><p>提供数据的双向绑定</p>
+<ul>
+<li>数据变，视图跟着变 :value</li>
+<li>视图变，数据跟着变 <a href="/input">@input </a></li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1698637980586-383af282-f155-4287-bcc5-aef301ea9041.png#averageHue=%23202020&clientId=u95097dde-b906-4&from=paste&height=174&id=u72bd7179&originHeight=217&originWidth=677&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40698&status=done&style=none&taskId=uf83fb5e0-7535-4e96-8f7c-599f7e57a2a&title=&width=541.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/muzidigbig/article/details/85317387">vue中$nextTick的用法(视图渲染完，操作dom)-CSDN博客</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhouzuoluo/article/details/84752280">vue.nextTick()方法的使用详解（简单明了）_$nexttick-CSDN博客</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/vue/" class="print-no-link">#vue</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vue学习笔记</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/Vue_/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E5%89%8D%E7%AB%AF%E8%99%AB%E5%B7%A2%EF%BC%9A/" title="前端bug">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">前端bug</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/Springboot_/" title="Springboot学习笔记">
+                        <span class="hidden-mobile">Springboot学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

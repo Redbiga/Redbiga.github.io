@@ -1,0 +1,969 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="springsecurity自动配置解析：SecurityFilterAutoConfiguration：spring security自动配置的源码简单分析 - 程序晓猿 - 博客园（详细但是也挺难的） @EnableConfigurationProperties(&amp;#123;SecurityProperties.class&amp;#125;)注解，Spring Boot会自动将这些属性加载到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springSecurity">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E6%B1%9F%E5%8D%97%E4%B8%80%E7%82%B9%E9%9B%A8springSecurity_/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="springsecurity自动配置解析：SecurityFilterAutoConfiguration：spring security自动配置的源码简单分析 - 程序晓猿 - 博客园（详细但是也挺难的） @EnableConfigurationProperties(&amp;#123;SecurityProperties.class&amp;#125;)注解，Spring Boot会自动将这些属性加载到">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700456347886-7de54b1e-0d9e-4152-ad92-47bd9ef539fb.jpeg#averageHue=%23fafafa&clientId=uf783de77-98a1-4&from=paste&id=BlS8q&originHeight=1488&originWidth=1080&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u3002f874-d427-448f-aeaa-de701abfb8e&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700459594842-c9c3cb42-5ff5-4ea1-92a6-638ed3a7fc2c.png#averageHue=%23fefefe&clientId=uf783de77-98a1-4&from=paste&id=u4bc7aa3f&originHeight=519&originWidth=1011&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=uf0086c3a-d91d-4588-9269-6dc0a248b09&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700459619119-d8bcb9b2-56ec-45fd-bf0d-710ba773b507.png#averageHue=%23fefefe&clientId=uf783de77-98a1-4&from=paste&id=u795db273&originHeight=424&originWidth=843&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=ue765f258-cee3-4292-96b9-2692eb9f292&title=">
+<meta property="article:published_time" content="2024-01-26T10:13:57.330Z">
+<meta property="article:modified_time" content="2024-01-26T10:14:47.847Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="springSecurity">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700456347886-7de54b1e-0d9e-4152-ad92-47bd9ef539fb.jpeg#averageHue=%23fafafa&clientId=uf783de77-98a1-4&from=paste&id=BlS8q&originHeight=1488&originWidth=1080&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u3002f874-d427-448f-aeaa-de701abfb8e&title=">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>springSecurity - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="springSecurity"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 18:13" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">springSecurity</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="springsecurity自动配置解析："><a href="#springsecurity自动配置解析：" class="headerlink" title="springsecurity自动配置解析："></a>springsecurity自动配置解析：</h2><p>SecurityFilterAutoConfiguration：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxuxiaoyuan/p/17300575.html">spring security自动配置的源码简单分析 - 程序晓猿 - 博客园</a>（详细但是也挺难的）</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@EnableConfigurationProperties(&#123;SecurityProperties.class&#125;)</span>注解，Spring Boot会自动将这些属性加载到应用程序的上下文中，使得我们可以通过<span class="hljs-meta">@Autowired</span>注解或其他方式方便地访问和使用这些属性。</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs java">表示SecurityFilterAutoConfiguration的自动配置必须要在</code></pre></div>
+<h3 id="请求到达spring-security的处理过程："><a href="#请求到达spring-security的处理过程：" class="headerlink" title="请求到达spring security的处理过程："></a>请求到达spring security的处理过程：</h3><p>一个请求到达spring security后首先会被DelegatingFilterProxy这个过滤器拦截到，这是一个代理过滤器，它会使用内部的代理目标delegate 也就是从容器中获取名称是springSecurityFilterChain的过滤器（而这个过滤器是由由WebSecurity 构建的FilterChainProxy这个类型的过滤器来处理请求,）总结下请求的处理路径就是：<br>1.DelegatingFilterProxy —–&gt;2.FilterChainProxy<br>详细看下FilterChainProxy这个过滤器</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FilterChainProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">GenericFilterBean</span> &#123;
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">    这个属性很重要,过滤器链的集合,从这个属性的类型可以知道spring security支持多个过滤器链</span>
+<span class="hljs-comment">    一个链条对象SecurityFilterChain中会包含多个过滤器,</span>
+<span class="hljs-comment">    当然一般情况我们的应用中只需要配置一个链条对象</span>
+<span class="hljs-comment">    */</span>
+    <span class="hljs-keyword">private</span> List&lt;SecurityFilterChain&gt; filterChains;
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-comment">//下面的方法用于拦截并处理HTTP请求。首先检查是否已经应用了过滤器，如果没有则将一个标记属</span>
+    <span class="hljs-comment">// 性设置到请求中，然后执行内部的过滤器处理方法。最后，清除SecurityContextHolder中的上下</span>
+    <span class="hljs-comment">// 文，并移除标记属性。如果已经应用了过滤器，则直接执行内部处理方法。</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request, ServletResponse response,</span>
+<span class="hljs-params">			FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+		<span class="hljs-type">boolean</span> <span class="hljs-variable">clearContext</span> <span class="hljs-operator">=</span> request.getAttribute(FILTER_APPLIED) == <span class="hljs-literal">null</span>;
+		<span class="hljs-keyword">if</span> (clearContext) &#123;
+			<span class="hljs-keyword">try</span> &#123;
+				request.setAttribute(FILTER_APPLIED, Boolean.TRUE);
+				doFilterInternal(request, response, chain);
+			&#125;
+			<span class="hljs-keyword">finally</span> &#123;
+				SecurityContextHolder.clearContext();
+				request.removeAttribute(FILTER_APPLIED);
+			&#125;
+		&#125;
+		<span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-comment">//请求进来后会执行到这里来执行真正的过滤逻辑</span>
+			doFilterInternal(request, response, chain);
+		&#125;
+	&#125;
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilterInternal</span><span class="hljs-params">(ServletRequest request, ServletResponse response,</span>
+<span class="hljs-params">			FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+
+		<span class="hljs-type">FirewalledRequest</span> <span class="hljs-variable">fwRequest</span> <span class="hljs-operator">=</span> firewall
+				.getFirewalledRequest((HttpServletRequest) request);
+		<span class="hljs-type">HttpServletResponse</span> <span class="hljs-variable">fwResponse</span> <span class="hljs-operator">=</span> firewall
+				.getFirewalledResponse((HttpServletResponse) response);
+
+        <span class="hljs-comment">/* 首先通过这个getFilters方法来从过滤器链的集合filterChains中匹配到一个过滤器链</span>
+<span class="hljs-comment">           对象SecurityFilterChain，返回这个链条里边的所有过滤器</span>
+<span class="hljs-comment">        */</span>
+		List&lt;Filter&gt; filters = getFilters(fwRequest);
+
+		<span class="hljs-keyword">if</span> (filters == <span class="hljs-literal">null</span> || filters.size() == <span class="hljs-number">0</span>) &#123;
+			<span class="hljs-keyword">if</span> (logger.isDebugEnabled()) &#123;
+				logger.debug(UrlUtils.buildRequestUrl(fwRequest)
+						+ (filters == <span class="hljs-literal">null</span> ? <span class="hljs-string">&quot; has no matching filters&quot;</span>
+								: <span class="hljs-string">&quot; has an empty filter list&quot;</span>));
+			&#125;
+
+			fwRequest.reset();
+
+			chain.doFilter(fwRequest, fwResponse);
+
+			<span class="hljs-keyword">return</span>;
+		&#125;
+		 <span class="hljs-comment">// 根据filters构造虚拟过滤器链对象VirtualFilterChain来遍历执行filters中的每个过滤器</span>
+         <span class="hljs-comment">// VirtualFilterChain是当前类中的内部类，遍历的原理就是这个类</span>
+		<span class="hljs-type">VirtualFilterChain</span> <span class="hljs-variable">vfc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">VirtualFilterChain</span>(fwRequest, chain, filters);
+		vfc.doFilter(fwRequest, fwResponse);
+	&#125;
+    
+    <span class="hljs-comment">// 这个方法用来根据request对象从filterChains中匹配出一个SecurityFilterChain对象并返回</span>
+    <span class="hljs-comment">// 此链条中的所有过滤器</span>
+    <span class="hljs-keyword">private</span> List&lt;Filter&gt; <span class="hljs-title function_">getFilters</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;
+		<span class="hljs-comment">//从这个方法可以看出SecurityFilterChain中一定存在两个方法 matches，getFilters</span>
+        <span class="hljs-keyword">for</span> (SecurityFilterChain chain : filterChains) &#123;
+			<span class="hljs-keyword">if</span> (chain.matches(request)) &#123;
+				<span class="hljs-keyword">return</span> chain.getFilters();
+			&#125;
+		&#125;
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+	&#125;
+    
+    <span class="hljs-comment">//内部类用来依次执行上边getFilters方法获取到的filters中的所有过滤器</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VirtualFilterChain</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FilterChain</span> &#123;
+		<span class="hljs-comment">/* 这个变量记录了原始的FilterChain对象,也就是FilterChainProxy这个过滤器的doFilter方法中的参            数FilterChain,通过这个FilterChain可以把请求从FilterChainProxy转给其他的过滤器(请求已经被         spring security处理完了接着去执行其他的过滤器)</span>
+<span class="hljs-comment">		</span>
+<span class="hljs-comment">		这里需要普及一下Filter的相关知识,当我们的应用中配置多个过滤器(不仅是spirng security的过滤器)         时,是通过FilterChain实现从filter1转给filter2的</span>
+<span class="hljs-comment">		下面是Filter接口的源码</span>
+<span class="hljs-comment">        public interface Filter &#123;</span>
+<span class="hljs-comment">        </span>
+<span class="hljs-comment">           //这个方法参数chain就是用来实现把请求从filter1转给filter2的</span>
+<span class="hljs-comment">            public void doFilter(ServletRequest request, ServletResponse response,</span>
+<span class="hljs-comment">                FilterChain chain) throws IOException, ServletException;</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">        </span>
+<span class="hljs-comment">        一般我们实现Filter接口时都要实现此方法,并通过chain.doFilter方法实现把请求交给下一个过滤器。</span>
+<span class="hljs-comment">        public  MyFilter implements Filter&#123;</span>
+<span class="hljs-comment">        	@Override</span>
+<span class="hljs-comment">        	public void doFilter(ServletRequest request, ServletResponse response,</span>
+<span class="hljs-comment">            FilterChain chain) throws IOException, ServletException&#123;</span>
+<span class="hljs-comment">            </span>
+<span class="hljs-comment">              ...一些过滤的逻辑</span>
+<span class="hljs-comment">              //最后把请求交给下一个顾虑器时都会执行</span>
+<span class="hljs-comment">              chain.doFilter(request, response);</span>
+<span class="hljs-comment">            &#125;</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">        </span>
+<span class="hljs-comment">		*/</span>
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> FilterChain originalChain;
+		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;Filter&gt; additionalFilters;
+		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> FirewalledRequest firewalledRequest;
+		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> size;
+		<span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">currentPosition</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+
+		<span class="hljs-keyword">private</span> <span class="hljs-title function_">VirtualFilterChain</span><span class="hljs-params">(FirewalledRequest firewalledRequest,</span>
+<span class="hljs-params">				FilterChain chain, List&lt;Filter&gt; additionalFilters)</span> &#123;
+			<span class="hljs-built_in">this</span>.originalChain = chain;
+			<span class="hljs-built_in">this</span>.additionalFilters = additionalFilters;
+			<span class="hljs-built_in">this</span>.size = additionalFilters.size();
+			<span class="hljs-built_in">this</span>.firewalledRequest = firewalledRequest;
+		&#125;
+
+		<span class="hljs-meta">@Override</span>
+		<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request, ServletResponse response)</span>
+				<span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+            <span class="hljs-comment">//这个方法通过currentPosition来控制递归调用additionalFilters中的所有过滤器</span>
+			<span class="hljs-keyword">if</span> (currentPosition == size) &#123;
+                <span class="hljs-comment">//这里表示执行到了最后一个过滤器</span>
+				<span class="hljs-keyword">if</span> (logger.isDebugEnabled()) &#123;
+					logger.debug(UrlUtils.buildRequestUrl(firewalledRequest)
+							+ <span class="hljs-string">&quot; reached end of additional filter chain; proceeding with original chain&quot;</span>);
+				&#125;
+
+				<span class="hljs-comment">// Deactivate path stripping as we exit the security filter chain</span>
+				<span class="hljs-built_in">this</span>.firewalledRequest.reset();
+				<span class="hljs-comment">// spring security已经处理完了，把请求转给其他的过滤器</span>
+				originalChain.doFilter(request, response);
+			&#125;
+			<span class="hljs-keyword">else</span> &#123;
+				currentPosition++;
+				<span class="hljs-comment">// 取出additionalFilters中currentPosition位置的过滤器</span>
+				<span class="hljs-type">Filter</span> <span class="hljs-variable">nextFilter</span> <span class="hljs-operator">=</span> additionalFilters.get(currentPosition - <span class="hljs-number">1</span>);
+
+				<span class="hljs-keyword">if</span> (logger.isDebugEnabled()) &#123;
+					logger.debug(UrlUtils.buildRequestUrl(firewalledRequest)
+							+ <span class="hljs-string">&quot; at position &quot;</span> + currentPosition + <span class="hljs-string">&quot; of &quot;</span> + size
+							+ <span class="hljs-string">&quot; in additional filter chain; firing Filter: &#x27;&quot;</span>
+							+ nextFilter.getClass().getSimpleName() + <span class="hljs-string">&quot;&#x27;&quot;</span>);
+				&#125;
+				<span class="hljs-comment">//因为VirtualFilterChain实现了FilterChain接口，所以这里</span>
+                <span class="hljs-comment">//利用this把请求又转给了自己,相当于递归,通过currentPosition的递增会</span>
+                 <span class="hljs-comment">//遍历执行完additionalFilters中的全部过滤器。</span>
+				nextFilter.doFilter(request, response, <span class="hljs-built_in">this</span>);
+			&#125;
+		&#125;
+	&#125;
+&#125;
+</code></pre></div>
+<p>所以真正处理请求的其实是FilterChainProxy中维护的 SecurityFilterChain ,再更新下上边说的请求处理路径<br>1.DelegatingFilterProxy —–&gt;2.FilterChainProxy —-&gt;3.SecurityFilterChain<br>总结：<br>先是在SecurityFilterAutoConfiguration中给容器中加入了一个DelegatingFilterProxyRegistrationBean ,这个bean最后会给应用中注册一个DelegatingFilterProxy,这个代理过滤器会从容器中找出名称为springSecurityFilterChain的过滤器来执行它；<br>而这个springSecurityFilterChain是在WebSecurityConfiguration（这个类可以靠SecurityAutoConfiguration导入到容器中的）<br>）中由springSecurityFilterChain这个方法加到spring容器中的,在这个方法中会调用构建器WebSecurity.build方法创建出一个FilterChainProxy过滤器放到spring容器中;<br>当执行到WebSecurity.performBuild方法,会先调用SecurityFilterChain的构建器HttpSecurity的build方法构建出DefaultSecurityFilterChain对象,该对象内部会持有多个过滤器,然后把该对象作为参数创建出FilterChainProxy 对象返回。<br>可以看到这个过程中WebSecurity 是一个很关键的角色，它创建了DefaultSecurityFilterChain和FilterChainProxy</p>
+<ul>
+<li><input disabled="" type="checkbox"> SecurityFilterAutoConfiguration-&gt;DelegatingFilterProxyRegistrationBean-&gt;DelegatingFilterProxy-&gt;FilterChainProxy-&gt;DefaultSecurityFilterChain;这里其中的FilterChainProxy-&gt;DefaultSecurityFilterChain是在websecurity中创建的。</li>
+</ul>
+<p>webSecurity这个构建器用来创建Filter,，其中它具体构造过滤链还是落在WebSecurityConfigurerAdapter上的configure方法。<br>WebSecurity是一个接口，它定义了Spring Security框架提供的安全功能的抽象接口。WebSecurityConfigurer是一个抽象类，用于配置Web应用程序的安全性。WebSecurityConfigurerAdapter是WebSecurityConfigurer的子类，它通过实现WebSecurityConfigurer中的抽象方法来配置Web应用程序的安全性。它还提供了默认实现来简化配置过程。因此，WebSecurityConfigurerAdapter是WebSecurityConfigurer的适配器类，用于方便地配置Web应用程序的安全性。<br>个人总结：我们一般配置安全信息配置类一般是要重写WebSecurityConfigurerAdapter，为什么要重写这个？因为spring从SecurityFilterAutoConfiguration自动加载过滤链的时候需要提取加载WebSecurityAutoConfiguration到容器中，而WebSecurityAutoConfiguration会加载WebSecurityConfiguration到容器中，其中真正过滤器链的创建还是要落在WebSecurityConfigurerAdapter上的configure方法上，当我们没有配置安全信息类时就启动时就加载WebSecurityConfigurerAdapter的其他默认配置类到容器中，比如：DefaultConfigurerAdapter。<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7046236598832201758#heading-14">🍃【Spring专题】「技术原理」Spring Security的核心功能和加载运行流程的原理分析 - 掘金</a>（这个简单些）<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37989980/article/details/107519382">Spring Security——认证、授权的工作原理_spring security 授权原理-CSDN博客</a><br><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700456347886-7de54b1e-0d9e-4152-ad92-47bd9ef539fb.jpeg#averageHue=%23fafafa&clientId=uf783de77-98a1-4&from=paste&id=BlS8q&originHeight=1488&originWidth=1080&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u3002f874-d427-448f-aeaa-de701abfb8e&title=" srcset="/img/loading.gif" lazyload><br>个人简单总结：就是安全的过滤链配置是通过重写WebSecurityConfigurerAdapter中的configure实现的，而这个过滤链接包括认证和授权：而下面的认证授权过滤链几乎都集中到WebSecurityConfigurerAdapter中了。	<br>认证：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700459594842-c9c3cb42-5ff5-4ea1-92a6-638ed3a7fc2c.png#averageHue=%23fefefe&clientId=uf783de77-98a1-4&from=paste&id=u4bc7aa3f&originHeight=519&originWidth=1011&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=uf0086c3a-d91d-4588-9269-6dc0a248b09&title=" srcset="/img/loading.gif" lazyload><br>授权：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700459619119-d8bcb9b2-56ec-45fd-bf0d-710ba773b507.png#averageHue=%23fefefe&clientId=uf783de77-98a1-4&from=paste&id=u795db273&originHeight=424&originWidth=843&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=ue765f258-cee3-4292-96b9-2692eb9f292&title=" srcset="/img/loading.gif" lazyload></p>
+<h2 id="获取ip地址："><a href="#获取ip地址：" class="headerlink" title="获取ip地址："></a>获取ip地址：</h2><h2 id="SpringSecurity配置过滤器的时候对-and的理解："><a href="#SpringSecurity配置过滤器的时候对-and的理解：" class="headerlink" title="SpringSecurity配置过滤器的时候对.and的理解："></a>SpringSecurity配置过滤器的时候对.and的理解：</h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1651669">Spring Security 配置中的 and 到底该怎么理解？-腾讯云开发者社区-腾讯云</a><br>springsecurity有15个过滤器，and结束的地方是每个过滤器相关配置结束的地方。</p>
+<h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><p>1.我们往容器中注入了UserDetailsService后，我们配置文件中配置的</p>
+<div class="code-wrapper"><pre><code class="hljs java">spring:
+  security:
+    user:
+      name: admin
+      password: <span class="hljs-number">888888</span></code></pre></div>
+<p>就会失效。这是因为在这种情况下，Spring Security将使用注入的UserDetailsService返回的UserDetails对象来进行身份验证，而不再使用配置文件中的用户名和密码。<br>2.当我们希望系统想从指定的数据源获取<br>3.</p>
+<div class="code-wrapper"><pre><code class="hljs java">UserDetails是一个接口，表示用户的身份信息。它包含了用户的基本信息，如用户名、密码、角色等。
+WebAuthenticationDetails是一个类，表示Web应用程序中的身份验证细节。它包含了用户进行身份验证时的相关信息，如用户的IP地址、浏览器的 Referer 等
+UserDetails是UserDetailsService获取的。</code></pre></div>
+<p>4.<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64526372/when-should-i-override-the-configureauthenticationmanagerbuilder-auth-from-spr">When should I override the configure(AuthenticationManagerBuilder auth) from Spring Security in a Spring Boot app?</a></p>
+<div class="code-wrapper"><pre><code class="hljs java">注入 UserDetailsService 实例和重写 configure(AuthenticationManagerBuilder auth) 方法之间的
+区别在于配置的灵活性和控制权。
+
+注入 UserDetailsService 实例：
+
+通过将 UserDetailsService 实例注入到容器中，Spring Security 将自动使用该实例进行身份验证。
+这种方式适用于简单的身份验证需求，例如基于数据库的验证，只需要提供用户详细信息的查询逻辑。
+你无法直接在代码中对身份验证流程进行更详细的配置，因为验证过程是由 Spring Security 自动处理的。
+重写 configure(AuthenticationManagerBuilder auth) 方法：
+
+通过重写 configure(AuthenticationManagerBuilder auth) 方法，你可以更精确地配置身份验证过程。
+你可以定义多个身份验证提供者，并为每个提供者指定不同的验证逻辑、密码编码器等。
+可以使用多种身份验证方式，如数据库、LDAP、OAuth 等。
+可以自定义用户详细信息的加载方式和逻辑。
+可以添加其他的身份验证配置，如记住我功能、会话管理、多因素身份验证等。
+你可以在代码中直接控制身份验证的细节，并根据需要进行自定义和扩展。</code></pre></div>
+<h2 id="springsecurity中的-ThreadLocal如何理解："><a href="#springsecurity中的-ThreadLocal如何理解：" class="headerlink" title="springsecurity中的 ThreadLocal如何理解："></a>springsecurity中的 ThreadLocal如何理解：</h2><div class="code-wrapper"><pre><code class="hljs java">在Spring Security中，ThreadLocal主要用于存储当前用户的信息。当用户进行认证并获得访问权限后，
+Spring Security会将用户信息存储到ThreadLocal中，以便在请求的处理过程中可以获取到当前用户的信息
+。  具体来说，Spring Security提供了SecurityContextHolder类来管理用户信息的存储和获取。
+SecurityContextHolder类中有一个getContext()方法返回一个SecurityContext对象，该对象中有一个
+getAuthentication()方法返回一个Authentication对象，该对象中存储了用户的信息。 
+在每个请求的处理过程中，Spring Security会将Authentication对象存储到ThreadLocal中，
+以便在需要访问用户信息的地方可以通过SecurityContextHolder.getContext().getAuthentication()
+来获取到用户的信息。  需要注意的是，ThreadLocal的使用可以保证每个请求都有独立的用户信息
+存储空间，避免了多个线程间共享用户信息导致的安全问题。但是，ThreadLocal的使用也会带来一定
+的性能开销，因为每个线程都需要存储和获取自己的ThreadLocal对象。因此，在使用ThreadLocal
+存储用户信息时，需要注意权衡安全和性能的关系。</code></pre></div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/springSecurity/" class="category-chain-item">springSecurity</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/springSecurity/" class="print-no-link">#springSecurity</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>springSecurity</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/江南一点雨springSecurity_/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E6%B1%9F%E5%8D%97%E4%B8%80%E7%82%B9%E9%9B%A8springboot%E6%95%B4%E7%90%86%EF%BC%9A/" title="springboot2江南一点雨博客总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">springboot2江南一点雨博客总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%9E%E9%AA%8C%E4%BA%94%EF%BC%9A%E7%A8%8B%E5%BA%8F%E9%93%BE%E6%8E%A5%E5%92%8CELF%EF%BC%9A/" title="计算机基础实验五：程序链接和ELF">
+                        <span class="hidden-mobile">计算机基础实验五：程序链接和ELF</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

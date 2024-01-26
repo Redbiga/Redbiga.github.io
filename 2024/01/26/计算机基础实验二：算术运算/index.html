@@ -1,0 +1,845 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="整数加减法运算的电路：相关知识：补码运算：减法器：当sub等于1，做减法。Y按位取反后送到加法段，同时加上Cin达到末尾加1的效果，这个步骤其实是求Y的补码。补码加法运算中，不区分符号位和数值位。加法器执行的就是0，1序列的运算，没有符号区分。 实验程序： 实验过程：1.编译程序和反汇编：2.查看反汇编文件：3.在IA-32中带符号整数的加法和无符号底层采用的机器级的指令是一样的。实现带符">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机基础实验2：算术运算">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="整数加减法运算的电路：相关知识：补码运算：减法器：当sub等于1，做减法。Y按位取反后送到加法段，同时加上Cin达到末尾加1的效果，这个步骤其实是求Y的补码。补码加法运算中，不区分符号位和数值位。加法器执行的就是0，1序列的运算，没有符号区分。 实验程序： 实验过程：1.编译程序和反汇编：2.查看反汇编文件：3.在IA-32中带符号整数的加法和无符号底层采用的机器级的指令是一样的。实现带符">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686635645026-491a4a9b-e17d-421e-98be-e0be8b3bdf4d.png#averageHue=%23d7e2e9&clientId=uf497cce0-24e8-4&from=paste&height=426&id=ud6900061&originHeight=533&originWidth=1016&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=576485&status=done&style=none&taskId=ub08dc3a0-f76e-4c25-87b4-542d50f06b6&title=&width=812.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686635714536-adc3490c-3808-4359-bf80-fc716eab44e8.png#averageHue=%23dae4eb&clientId=uf497cce0-24e8-4&from=paste&height=350&id=ub70c074c&originHeight=438&originWidth=1016&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=503999&status=done&style=none&taskId=u801e4926-ffb8-401a-b883-115f76c27ed&title=&width=812.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686636315842-382ee28c-1042-4254-a404-15cd6909f6f2.png#averageHue=%234b5545&clientId=uf497cce0-24e8-4&from=paste&height=558&id=u0a4346c7&originHeight=697&originWidth=574&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=775943&status=done&style=none&taskId=u76fd829a-1451-4ce6-bb0d-c0dd6bd03eb&title=&width=459.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686636682204-48bc497d-7a12-46d7-85df-c5f316c60450.png#averageHue=%23642f1f&clientId=uf497cce0-24e8-4&from=paste&height=41&id=u93b47db1&originHeight=51&originWidth=523&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47334&status=done&style=none&taskId=u817dbf3e-f587-413d-b207-c3e876bea6c&title=&width=418.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686636792211-40768b50-a8b2-4928-a3b7-7b55b234f866.png#averageHue=%23a28068&clientId=uf497cce0-24e8-4&from=paste&height=280&id=ue3394880&originHeight=350&originWidth=695&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=324824&status=done&style=none&taskId=ubf43d476-719a-446a-8c9a-1b3c364662f&title=&width=556">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686638519778-3e6f4589-6bb0-43ec-9679-408218ec3b2d.png#averageHue=%23404b40&clientId=u20a15d3d-eb79-4&from=paste&height=226&id=uf700421d&originHeight=282&originWidth=639&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=292332&status=done&style=none&taskId=u9459aaa3-084c-454e-9ad4-f8c5611abf0&title=&width=511.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686639711401-d61ac2e5-4826-4d86-b4a0-3a8f5095d51c.png#averageHue=%23434e3e&clientId=u20a15d3d-eb79-4&from=paste&height=187&id=u00d64490&originHeight=234&originWidth=726&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=314724&status=done&style=none&taskId=u4ae490ee-e02f-4dd8-9a1c-15034205657&title=&width=580.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/__latex/37564aa9cf2b72dd19a28e0a5529cf5c.svg#card=math&code=CF%3DCount%5Coplus%20Sub%0A&id=yrmh2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641222573-65bb2160-1be0-4ed4-ad98-49619f33e321.png#averageHue=%23769069&clientId=u20a15d3d-eb79-4&from=paste&height=125&id=ucf134a04&originHeight=156&originWidth=559&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=161595&status=done&style=none&taskId=u5ed262aa-c070-4a23-801e-c9824dea6ff&title=&width=447.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641230310-1fd68715-9f8c-4559-821a-a459dc63a10b.png#averageHue=%23e2e2e2&clientId=u20a15d3d-eb79-4&from=paste&height=109&id=uc340d345&originHeight=136&originWidth=386&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=16661&status=done&style=none&taskId=u06f6b269-6938-4eec-87bc-c12a72ebf75&title=&width=308.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641319727-58e9beb5-7a32-41b0-b61c-6f98b333540c.png#averageHue=%23d3d2d2&clientId=u20a15d3d-eb79-4&from=paste&height=148&id=u5c7c4c74&originHeight=185&originWidth=387&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=37030&status=done&style=none&taskId=u0ed8559e-824a-4d65-ba38-2de454a1331&title=&width=309.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641836745-a860e12f-4bbc-4e9a-8408-b17943ae896f.png#averageHue=%23485440&clientId=u20a15d3d-eb79-4&from=paste&height=252&id=ucafe242f&originHeight=315&originWidth=631&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=377728&status=done&style=none&taskId=u0e113738-40d7-4e4b-a048-f8cdee9b284&title=&width=504.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641860325-dcfe1c67-e04a-4c0b-87a7-7659dfbd3139.png#averageHue=%23e8e8e8&clientId=u20a15d3d-eb79-4&from=paste&height=128&id=ud03abc6c&originHeight=160&originWidth=377&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21568&status=done&style=none&taskId=u15a0326f-015b-4dc8-9761-8650fbdf917&title=&width=301.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645186237-f2a75a10-32ef-4e0c-9869-7c63c3c7cb56.png#averageHue=%23545e46&clientId=u20a15d3d-eb79-4&from=paste&height=212&id=u934c0ec8&originHeight=265&originWidth=607&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=308049&status=done&style=none&taskId=u5cf09695-4e8e-4cd3-aed5-a92eeb0b3cb&title=&width=485.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645689625-8c14ee71-f020-41be-86f9-00fcfc4eb174.png#averageHue=%23e4e4e4&clientId=u20a15d3d-eb79-4&from=paste&height=111&id=u9034977b&originHeight=139&originWidth=375&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21283&status=done&style=none&taskId=u9573ade7-7867-41a4-9fb1-daee3b0e74d&title=&width=300">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686643514521-367d68b2-a937-48e3-8cca-40897a3129d4.png#averageHue=%2376b56d&clientId=u20a15d3d-eb79-4&from=paste&height=50&id=u165aec3c&originHeight=63&originWidth=413&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47044&status=done&style=none&taskId=ud1df09aa-5c82-4d5e-a2e0-ba3cfbf1c95&title=&width=330.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645606274-e845d961-fcca-409c-a19d-33906a002035.png#averageHue=%23a84218&clientId=u20a15d3d-eb79-4&from=paste&height=43&id=u3c226ef0&originHeight=54&originWidth=422&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=37441&status=done&style=none&taskId=u5cebae93-5789-4ebf-aeab-dfb9a775e9d&title=&width=337.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645656575-1c3d66a7-a38a-42e2-b3bf-0630577eedf5.png#averageHue=%235a6655&clientId=u20a15d3d-eb79-4&from=paste&height=46&id=ufb01565d&originHeight=57&originWidth=293&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=25625&status=done&style=none&taskId=u9c05a23a-b027-4c3f-b531-789c1f799b5&title=&width=234.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686646156135-684bbcad-8834-4620-a78a-7b2d7ca2a6f7.png#averageHue=%234e5a48&clientId=u20a15d3d-eb79-4&from=paste&height=535&id=u21ff110b&originHeight=669&originWidth=551&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=728595&status=done&style=none&taskId=u44d6ef6a-53c4-4bf4-bc22-a8cb4349aec&title=&width=440.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686646458419-621e8519-d61c-456f-ade4-4d6aeb91d39b.png#averageHue=%237b5c2f&clientId=u20a15d3d-eb79-4&from=paste&height=114&id=ud9da25ee&originHeight=143&originWidth=638&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=186757&status=done&style=none&taskId=u497c2652-2d9a-45a9-ae0d-68ebc9d915f&title=&width=510.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647272682-829784db-abee-47ae-a306-aafa9f408cc8.png#averageHue=%23d9dad9&clientId=u20a15d3d-eb79-4&from=paste&height=277&id=uc90faf0b&originHeight=346&originWidth=628&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=163856&status=done&style=none&taskId=u71ca6d76-fc6b-431d-8798-dcc08982726&title=&width=502.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647318423-0d44a469-42df-4014-9351-4f19ab2518ad.png#averageHue=%23c4c4c3&clientId=u20a15d3d-eb79-4&from=paste&height=215&id=ub87c4180&originHeight=269&originWidth=542&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=103521&status=done&style=none&taskId=uc1058e39-8606-4236-b3e7-678aca9f25d&title=&width=433.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647608245-5985da30-fb26-4e8a-8d0f-1160e6396c6b.png#averageHue=%23d3dae0&clientId=u20a15d3d-eb79-4&from=paste&height=266&id=u9b5581ca&originHeight=332&originWidth=717&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=195462&status=done&style=none&taskId=uee967e3d-c611-4e23-93b4-577073142a1&title=&width=573.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647745257-00c70c26-ba8a-4c2a-aa5b-bd37efcac214.png#averageHue=%23ced6dc&clientId=u20a15d3d-eb79-4&from=paste&height=333&id=u3f1fa853&originHeight=416&originWidth=860&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=409721&status=done&style=none&taskId=u743484d3-3044-4eaa-8e83-4efad337c12&title=&width=688">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647868554-883381d7-d0d8-48d2-8f52-ab23634c6ab0.png#averageHue=%23c6cdd3&clientId=u20a15d3d-eb79-4&from=paste&height=358&id=ud6a8e5da&originHeight=447&originWidth=736&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=340700&status=done&style=none&taskId=ua890f49e-c3e1-429a-8acd-21656b70271&title=&width=588.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686648523146-3436058e-91e6-4c39-b7b3-977b7c28f715.png#averageHue=%23eee9e8&clientId=u20a15d3d-eb79-4&from=paste&height=209&id=u4f2b76f3&originHeight=261&originWidth=705&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=152563&status=done&style=none&taskId=ub25b2a0c-ae6e-4197-961b-5b587da0c0c&title=&width=564">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649122338-0fae6f93-e922-495d-bd32-2ade9a1e637f.png#averageHue=%23d1dde5&clientId=u20a15d3d-eb79-4&from=paste&height=277&id=ud684c33d&originHeight=346&originWidth=704&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=232114&status=done&style=none&taskId=ucc39b240-f390-4b86-957c-58f8cc6b434&title=&width=563.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649324498-21c90caa-7ea2-47ae-9c81-5315feb6ef30.png#averageHue=%23dbe3e9&clientId=u20a15d3d-eb79-4&from=paste&height=302&id=u26a5b0c5&originHeight=377&originWidth=783&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=312157&status=done&style=none&taskId=ucbd3a139-e019-4e50-879c-759cea19b16&title=&width=626.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649361681-f6b955a4-fa8e-41a6-9cd4-f8ade23a887c.png#averageHue=%23dbe3e9&clientId=u20a15d3d-eb79-4&from=paste&height=151&id=u2ef0daf6&originHeight=189&originWidth=682&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132636&status=done&style=none&taskId=ua06bfe29-cc49-4ad2-8e15-95dc1fb9296&title=&width=545.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649414122-1f252fe3-82d5-4aad-8d07-4880fc934c0d.png#averageHue=%23dae1e6&clientId=u20a15d3d-eb79-4&from=paste&height=128&id=ue5fc6ff8&originHeight=160&originWidth=670&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=115166&status=done&style=none&taskId=u8a3d469b-a6da-45e6-9f6f-8e974baf6e6&title=&width=536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649464472-191f2baa-647e-41db-80ea-fd27d68dca68.png#averageHue=%23dce3e8&clientId=u20a15d3d-eb79-4&from=paste&height=142&id=u2e1d70a4&originHeight=178&originWidth=647&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=118673&status=done&style=none&taskId=u9e820a2b-b044-4a96-a005-bc8ccd3edfe&title=&width=517.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649483103-c3250154-9c5b-4f97-8115-ef25db9d87c2.png#averageHue=%23d7dfe5&clientId=u20a15d3d-eb79-4&from=paste&height=113&id=ucfb99266&originHeight=141&originWidth=694&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=108768&status=done&style=none&taskId=u77158be9-6018-42bb-95b0-37110eb0c74&title=&width=555.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686658767252-a48bdc28-dbfc-4510-9788-4e31d202c070.png#averageHue=%23926956&clientId=u20a15d3d-eb79-4&from=paste&height=388&id=u259752a2&originHeight=485&originWidth=984&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=668299&status=done&style=none&taskId=u0abb24f3-3737-4c6a-a4de-b5b42151266&title=&width=787.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686659293043-6550c2c1-a547-45ee-8e8f-78f30ecb53e5.png#averageHue=%23361e42&clientId=u20a15d3d-eb79-4&from=paste&height=34&id=uabe307b3&originHeight=43&originWidth=501&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26341&status=done&style=none&taskId=u2a02bf70-700c-4662-af59-b89748ef62d&title=&width=400.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686658804667-5365fd9e-f756-4eb5-b0c5-7464e72ad75f.png#averageHue=%231e4586&clientId=u20a15d3d-eb79-4&from=paste&height=191&id=uf52ff2be&originHeight=239&originWidth=610&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=213048&status=done&style=none&taskId=ua9cb4717-4847-4b4b-a9d9-7c64f143f5a&title=&width=488">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686658949718-69920efa-2a59-4751-b298-bb6ed513a5d1.png#averageHue=%2325447c&clientId=u20a15d3d-eb79-4&from=paste&height=46&id=u87e5daee&originHeight=57&originWidth=590&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47418&status=done&style=none&taskId=u3b5f9014-44bf-4751-b254-ff1a3ac8135&title=&width=472">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686660320423-29f47887-cb9f-477a-9305-cda3f9cc0077.png#averageHue=%23303063&clientId=u20a15d3d-eb79-4&from=paste&height=360&id=ufc51f0f7&originHeight=450&originWidth=709&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=418093&status=done&style=none&taskId=uc152b2c3-b50b-41ec-8954-12a66e5fa3c&title=&width=567.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686660561230-7e690755-ffa8-4647-81ee-7e938d9ad6a2.png#averageHue=%23f4e8e2&clientId=u20a15d3d-eb79-4&from=paste&height=55&id=u184f4d9e&originHeight=69&originWidth=687&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=15302&status=done&style=none&taskId=uf9b537b9-8912-4d48-a78f-38718d3be57&title=&width=549.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661136042-ab684d26-f88d-444e-9db0-a4a970b599d3.png#averageHue=%233e6c32&clientId=u20a15d3d-eb79-4&from=paste&height=24&id=u86f9bbc4&originHeight=30&originWidth=351&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17173&status=done&style=none&taskId=u65d3d9b7-1ddc-4f75-8e93-25cb2949527&title=&width=280.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661147426-d2af6fc8-5df5-438a-8e7a-9ddc9d4e5915.png#averageHue=%231e5b9f&clientId=u20a15d3d-eb79-4&from=paste&height=26&id=ueb118978&originHeight=33&originWidth=349&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=19076&status=done&style=none&taskId=u392876fc-26ad-4560-ae6d-9d166f58839&title=&width=279.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661207165-87ad4bb8-ec35-4bcb-a761-afc45fd97f37.png#averageHue=%23d3dce4&clientId=u20a15d3d-eb79-4&from=paste&height=292&id=u0b3128b3&originHeight=365&originWidth=1059&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=464760&status=done&style=none&taskId=u12ac06fd-6a3a-4275-b510-9d2cc64c83e&title=&width=847.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661227252-308fcb49-d122-41be-a96b-cf518b468646.png#averageHue=%23cdd8e1&clientId=u20a15d3d-eb79-4&from=paste&height=47&id=uf1f5ce29&originHeight=59&originWidth=610&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56470&status=done&style=none&taskId=u0557e27a-25aa-493b-ade3-bdfbb8960d9&title=&width=488">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661236725-f7fda7b1-75d5-4f74-9cfc-16fa88c98df7.png#averageHue=%23ccd7e0&clientId=u20a15d3d-eb79-4&from=paste&height=46&id=u050a3e12&originHeight=57&originWidth=632&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56092&status=done&style=none&taskId=u46b4014e-bb21-44da-a0be-44a0dbc8ded&title=&width=505.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661260710-73ca8cad-5666-40a9-b570-813e2eae8a1a.png#averageHue=%23cfdae3&clientId=u20a15d3d-eb79-4&from=paste&height=109&id=u18ca58bf&originHeight=136&originWidth=572&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=117845&status=done&style=none&taskId=u0f2aa6c1-ac84-4dd2-98ff-13182101f23&title=&width=457.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661284860-f1beda9d-f8da-4325-bfa2-d42979d86643.png#averageHue=%23bdcbd7&clientId=u20a15d3d-eb79-4&from=paste&height=35&id=u00163263&originHeight=44&originWidth=574&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=44432&status=done&style=none&taskId=ufe311036-dfa0-48ad-a5b7-ddc22ca6188&title=&width=459.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661325119-67e01597-3060-43b5-b236-edfbbada1b3a.png#averageHue=%23ccd7e0&clientId=u20a15d3d-eb79-4&from=paste&height=106&id=ua545bfcb&originHeight=133&originWidth=883&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209915&status=done&style=none&taskId=u0e2ad06e-445f-4eb9-a5c3-1ebdc45405e&title=&width=706.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661376087-fb7cc8d2-f6e4-4b3a-afe3-aa816b43daa1.png#averageHue=%23d1dce5&clientId=u20a15d3d-eb79-4&from=paste&height=151&id=ue0ed86fd&originHeight=189&originWidth=510&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=122289&status=done&style=none&taskId=u1e663fe0-2d28-41bf-9f34-8cdf24df54f&title=&width=408">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661408195-3a6ab84a-0feb-418f-a613-034c9192622e.png#averageHue=%23dce4eb&clientId=u20a15d3d-eb79-4&from=paste&height=158&id=u0018a924&originHeight=198&originWidth=840&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=172050&status=done&style=none&taskId=u209a0da4-d0d6-4146-b1c0-4136008804f&title=&width=672">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661451694-8c632b36-a22b-4244-aca8-f29fc2af0c9d.png#averageHue=%23969fa7&clientId=u20a15d3d-eb79-4&from=paste&height=44&id=u88af7bc2&originHeight=55&originWidth=461&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40320&status=done&style=none&taskId=uf1fed143-aa42-40c6-8795-84b27db9815&title=&width=368.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661740325-eab301c6-17be-4cc5-8fc3-f28bbc25e722.png#averageHue=%23cad8e3&clientId=u20a15d3d-eb79-4&from=paste&height=446&id=u0d273412&originHeight=558&originWidth=1015&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=709850&status=done&style=none&taskId=u8948f302-de00-4ad5-94a3-3b04209d60d&title=&width=812">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686662310902-dab74e6d-cc37-4c43-8bab-77011a9f61dc.png#averageHue=%23dcdcdb&clientId=u20a15d3d-eb79-4&from=paste&height=247&id=u5a6ef67e&originHeight=309&originWidth=618&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=123196&status=done&style=none&taskId=ufb486c06-dd50-4292-9074-2f072be9b65&title=&width=494.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686662347830-d402e15c-c983-4dbe-82e2-65bd731f8d9b.png#averageHue=%23c7c7c6&clientId=u20a15d3d-eb79-4&from=paste&height=258&id=ubdd86621&originHeight=323&originWidth=697&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=159707&status=done&style=none&taskId=u085a0fd5-8e79-4b3a-9e18-44ec2509ecb&title=&width=557.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686670221517-0bbc388a-0135-4663-b20a-06f2bd3d1ab4.png#averageHue=%23e4e4e3&clientId=u20a15d3d-eb79-4&from=paste&height=230&id=ub028fdaa&originHeight=288&originWidth=480&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91905&status=done&style=none&taskId=u2a6050d5-fc57-476b-ba92-0ff0c018791&title=&width=384">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686670797708-d5eaf847-9fc7-4595-be36-f058c2d46467.png#averageHue=%23323066&clientId=u20a15d3d-eb79-4&from=paste&height=601&id=u56dd931f&originHeight=751&originWidth=780&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=702821&status=done&style=none&taskId=ueb2e46e9-4a23-4ca8-8ac2-838e5c35eb5&title=&width=624">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686670911992-7299be9b-bc8e-4a42-985a-fff91abfd2a7.png#averageHue=%231c3976&clientId=u20a15d3d-eb79-4&from=paste&height=115&id=u869659b4&originHeight=144&originWidth=568&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=130485&status=done&style=none&taskId=ue13ed1ff-65c6-4b0b-8a9a-26b64791089&title=&width=454.4">
+<meta property="article:published_time" content="2024-01-26T09:41:59.638Z">
+<meta property="article:modified_time" content="2024-01-26T09:42:31.934Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686635645026-491a4a9b-e17d-421e-98be-e0be8b3bdf4d.png#averageHue=%23d7e2e9&clientId=uf497cce0-24e8-4&from=paste&height=426&id=ud6900061&originHeight=533&originWidth=1016&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=576485&status=done&style=none&taskId=ub08dc3a0-f76e-4c25-87b4-542d50f06b6&title=&width=812.8">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>计算机基础实验2：算术运算 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机基础实验2：算术运算"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 17:41" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          991 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机基础实验2：算术运算</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="整数加减法运算的电路："><a href="#整数加减法运算的电路：" class="headerlink" title="整数加减法运算的电路："></a>整数加减法运算的电路：</h2><h4 id="相关知识："><a href="#相关知识：" class="headerlink" title="相关知识："></a>相关知识：</h4><p><strong>补码运算：</strong><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686635645026-491a4a9b-e17d-421e-98be-e0be8b3bdf4d.png#averageHue=%23d7e2e9&clientId=uf497cce0-24e8-4&from=paste&height=426&id=ud6900061&originHeight=533&originWidth=1016&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=576485&status=done&style=none&taskId=ub08dc3a0-f76e-4c25-87b4-542d50f06b6&title=&width=812.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><strong>减法器：当sub等于1，做减法。Y按位取反后送到加法段，同时加上Cin达到末尾加1的效果，这个步骤其实是求Y的补码。</strong><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686635714536-adc3490c-3808-4359-bf80-fc716eab44e8.png#averageHue=%23dae4eb&clientId=uf497cce0-24e8-4&from=paste&height=350&id=ub70c074c&originHeight=438&originWidth=1016&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=503999&status=done&style=none&taskId=u801e4926-ffb8-401a-b883-115f76c27ed&title=&width=812.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><strong>补码加法运算中，不区分符号位和数值位。加法器执行的就是0，1序列的运算，没有符号区分。</strong></p>
+<h4 id="实验程序："><a href="#实验程序：" class="headerlink" title="实验程序："></a>实验程序：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686636315842-382ee28c-1042-4254-a404-15cd6909f6f2.png#averageHue=%234b5545&clientId=uf497cce0-24e8-4&from=paste&height=558&id=u0a4346c7&originHeight=697&originWidth=574&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=775943&status=done&style=none&taskId=u76fd829a-1451-4ce6-bb0d-c0dd6bd03eb&title=&width=459.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="实验过程："><a href="#实验过程：" class="headerlink" title="实验过程："></a>实验过程：</h4><p>1.编译程序和反汇编：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686636682204-48bc497d-7a12-46d7-85df-c5f316c60450.png#averageHue=%23642f1f&clientId=uf497cce0-24e8-4&from=paste&height=41&id=u93b47db1&originHeight=51&originWidth=523&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47334&status=done&style=none&taskId=u817dbf3e-f587-413d-b207-c3e876bea6c&title=&width=418.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>2.查看反汇编文件：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686636792211-40768b50-a8b2-4928-a3b7-7b55b234f866.png#averageHue=%23a28068&clientId=uf497cce0-24e8-4&from=paste&height=280&id=ue3394880&originHeight=350&originWidth=695&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=324824&status=done&style=none&taskId=ubf43d476-719a-446a-8c9a-1b3c364662f&title=&width=556" srcset="/img/loading.gif" lazyload alt="image.png"><br>3.在IA-32中带符号整数的加法和无符号底层采用的机器级的指令是一样的。实现带符号整数的加减运行和去符号整数的加减运算电路只有一个。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686638519778-3e6f4589-6bb0-43ec-9679-408218ec3b2d.png#averageHue=%23404b40&clientId=u20a15d3d-eb79-4&from=paste&height=226&id=uf700421d&originHeight=282&originWidth=639&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=292332&status=done&style=none&taskId=u9459aaa3-084c-454e-9ad4-f8c5611abf0&title=&width=511.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>MIPS指令系统中无符号加减运算指令不置溢出状态，也即输出的of都是0；<br>不同的指令体系都只有一个加减运算电路，只不过不同的指令体系的标志位的处理不一样。<br>4.调试该程序：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686639711401-d61ac2e5-4826-4d86-b4a0-3a8f5095d51c.png#averageHue=%23434e3e&clientId=u20a15d3d-eb79-4&from=paste&height=187&id=u00d64490&originHeight=234&originWidth=726&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=314724&status=done&style=none&taskId=u4ae490ee-e02f-4dd8-9a1c-15034205657&title=&width=580.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>5.总结：当sub为0时做减法，当sub为1时做加法，带符号整数的加减法运算采用补码形式让加减运算可以用同一个电路实现，不管无符号还是有符号其加减运算的机械数是一样的。</p>
+<h2 id="整数加减运算的状态标志信息："><a href="#整数加减运算的状态标志信息：" class="headerlink" title="整数加减运算的状态标志信息："></a>整数加减运算的状态标志信息：</h2><h4 id="相关知识：OF-溢出标志，带符号整数是否超出范围；对于加法器来说只有同号相加有溢出；ZF-零标志位；SF：符号标志位，其结果为Sum的最高有效位；Count：加法器的最高有效位，有进位为1，没有为0；CF：进-借位信息；"><a href="#相关知识：OF-溢出标志，带符号整数是否超出范围；对于加法器来说只有同号相加有溢出；ZF-零标志位；SF：符号标志位，其结果为Sum的最高有效位；Count：加法器的最高有效位，有进位为1，没有为0；CF：进-借位信息；" class="headerlink" title="相关知识：OF:溢出标志，带符号整数是否超出范围；对于加法器来说只有同号相加有溢出；ZF:零标志位；SF：符号标志位，其结果为Sum的最高有效位；Count：加法器的最高有效位，有进位为1，没有为0；CF：进&#x2F;借位信息；;"></a>相关知识：OF:溢出标志，带符号整数是否超出范围；对于加法器来说只有同号相加有溢出；ZF:零标志位；SF：符号标志位，其结果为Sum的最高有效位；Count：加法器的最高有效位，有进位为1，没有为0；CF：进&#x2F;借位信息；<img src="https://cdn.nlark.com/yuque/__latex/37564aa9cf2b72dd19a28e0a5529cf5c.svg#card=math&code=CF%3DCount%5Coplus%20Sub%0A&id=yrmh2" srcset="/img/loading.gif" lazyload>;</h4><h4 id="查看标志寄存器："><a href="#查看标志寄存器：" class="headerlink" title="查看标志寄存器："></a>查看标志寄存器：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641222573-65bb2160-1be0-4ed4-ad98-49619f33e321.png#averageHue=%23769069&clientId=u20a15d3d-eb79-4&from=paste&height=125&id=ucf134a04&originHeight=156&originWidth=559&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=161595&status=done&style=none&taskId=u5ed262aa-c070-4a23-801e-c9824dea6ff&title=&width=447.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641230310-1fd68715-9f8c-4559-821a-a459dc63a10b.png#averageHue=%23e2e2e2&clientId=u20a15d3d-eb79-4&from=paste&height=109&id=uc340d345&originHeight=136&originWidth=386&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=16661&status=done&style=none&taskId=u06f6b269-6938-4eec-87bc-c12a72ebf75&title=&width=308.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641319727-58e9beb5-7a32-41b0-b61c-6f98b333540c.png#averageHue=%23d3d2d2&clientId=u20a15d3d-eb79-4&from=paste&height=148&id=u5c7c4c74&originHeight=185&originWidth=387&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=37030&status=done&style=none&taskId=u0ed8559e-824a-4d65-ba38-2de454a1331&title=&width=309.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试查看ua-ub运算的寄存器："><a href="#调试查看ua-ub运算的寄存器：" class="headerlink" title="调试查看ua+ub运算的寄存器："></a>调试查看ua+ub运算的寄存器：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641836745-a860e12f-4bbc-4e9a-8408-b17943ae896f.png#averageHue=%23485440&clientId=u20a15d3d-eb79-4&from=paste&height=252&id=ucafe242f&originHeight=315&originWidth=631&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=377728&status=done&style=none&taskId=u0e113738-40d7-4e4b-a048-f8cdee9b284&title=&width=504.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686641860325-dcfe1c67-e04a-4c0b-87a7-7659dfbd3139.png#averageHue=%23e8e8e8&clientId=u20a15d3d-eb79-4&from=paste&height=128&id=ud03abc6c&originHeight=160&originWidth=377&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21568&status=done&style=none&taskId=u15a0326f-015b-4dc8-9761-8650fbdf917&title=&width=301.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试跟踪a-b的标注为："><a href="#调试跟踪a-b的标注为：" class="headerlink" title="调试跟踪a-b的标注为："></a>调试跟踪a-b的标注为：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645186237-f2a75a10-32ef-4e0c-9869-7c63c3c7cb56.png#averageHue=%23545e46&clientId=u20a15d3d-eb79-4&from=paste&height=212&id=u934c0ec8&originHeight=265&originWidth=607&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=308049&status=done&style=none&taskId=u5cf09695-4e8e-4cd3-aed5-a92eeb0b3cb&title=&width=485.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645689625-8c14ee71-f020-41be-86f9-00fcfc4eb174.png#averageHue=%23e4e4e4&clientId=u20a15d3d-eb79-4&from=paste&height=111&id=u9034977b&originHeight=139&originWidth=375&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21283&status=done&style=none&taskId=u9573ade7-7867-41a4-9fb1-daee3b0e74d&title=&width=300" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686643514521-367d68b2-a937-48e3-8cca-40897a3129d4.png#averageHue=%2376b56d&clientId=u20a15d3d-eb79-4&from=paste&height=50&id=u165aec3c&originHeight=63&originWidth=413&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47044&status=done&style=none&taskId=ud1df09aa-5c82-4d5e-a2e0-ba3cfbf1c95&title=&width=330.4" srcset="/img/loading.gif" lazyload alt="image.png">这里的”14 uc&#x3D;ua+ub;表示断点在14行，14行的内容是uc&#x3D;ua+ub;程序会停止在14行，其中14的内容没有执行；键入s会执行这条语句，同时会在屏幕显示是即将执行的语句；s选项是执行下一行语句（会过滤空行），遇到函数的时候进入函数内并停留在函数的第一行；n选项跟s一样，唯一的区别是n选项遇到函数时会直接执行函数；<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28351609/article/details/114855630?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168664212316782427480701%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168664212316782427480701&biz_id=0&spm=1018.2226.3001.4187">GDB调试命令详解_小桥流水人家_的博客-CSDN博客</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645606274-e845d961-fcca-409c-a19d-33906a002035.png#averageHue=%23a84218&clientId=u20a15d3d-eb79-4&from=paste&height=43&id=u3c226ef0&originHeight=54&originWidth=422&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=37441&status=done&style=none&taskId=u5cebae93-5789-4ebf-aeab-dfb9a775e9d&title=&width=337.6" srcset="/img/loading.gif" lazyload alt="image.png">这里表示si将要执行的是d&#x3D;a-b这条语句产生的指令的第一个指令。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686645656575-1c3d66a7-a38a-42e2-b3bf-0630577eedf5.png#averageHue=%235a6655&clientId=u20a15d3d-eb79-4&from=paste&height=46&id=ufb01565d&originHeight=57&originWidth=293&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=25625&status=done&style=none&taskId=u9c05a23a-b027-4c3f-b531-789c1f799b5&title=&width=234.4" srcset="/img/loading.gif" lazyload alt="image.png">ud&#x3D;ua-ub;这条语句没有执行；</p>
+<h2 id="整数加减结果溢出问题："><a href="#整数加减结果溢出问题：" class="headerlink" title="整数加减结果溢出问题："></a>整数加减结果溢出问题：</h2><h4 id="相关程序："><a href="#相关程序：" class="headerlink" title="相关程序："></a>相关程序：</h4><ol>
+<li><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686646156135-684bbcad-8834-4620-a78a-7b2d7ca2a6f7.png#averageHue=%234e5a48&clientId=u20a15d3d-eb79-4&from=paste&height=535&id=u21ff110b&originHeight=669&originWidth=551&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=728595&status=done&style=none&taskId=u44d6ef6a-53c4-4bf4-bc22-a8cb4349aec&title=&width=440.8" srcset="/img/loading.gif" lazyload alt="image.png"></li>
+<li></li>
+</ol>
+<h4 id="编译运行程序："><a href="#编译运行程序：" class="headerlink" title="编译运行程序："></a>编译运行程序：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686646458419-621e8519-d61c-456f-ade4-4d6aeb91d39b.png#averageHue=%237b5c2f&clientId=u20a15d3d-eb79-4&from=paste&height=114&id=ud9da25ee&originHeight=143&originWidth=638&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=186757&status=done&style=none&taskId=u497c2652-2d9a-45a9-ae0d-68ebc9d915f&title=&width=510.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647272682-829784db-abee-47ae-a306-aafa9f408cc8.png#averageHue=%23d9dad9&clientId=u20a15d3d-eb79-4&from=paste&height=277&id=uc90faf0b&originHeight=346&originWidth=628&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=163856&status=done&style=none&taskId=u71ca6d76-fc6b-431d-8798-dcc08982726&title=&width=502.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647318423-0d44a469-42df-4014-9351-4f19ab2518ad.png#averageHue=%23c4c4c3&clientId=u20a15d3d-eb79-4&from=paste&height=215&id=ub87c4180&originHeight=269&originWidth=542&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=103521&status=done&style=none&taskId=uc1058e39-8606-4236-b3e7-678aca9f25d&title=&width=433.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647608245-5985da30-fb26-4e8a-8d0f-1160e6396c6b.png#averageHue=%23d3dae0&clientId=u20a15d3d-eb79-4&from=paste&height=266&id=u9b5581ca&originHeight=332&originWidth=717&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=195462&status=done&style=none&taskId=uee967e3d-c611-4e23-93b4-577073142a1&title=&width=573.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647745257-00c70c26-ba8a-4c2a-aa5b-bd37efcac214.png#averageHue=%23ced6dc&clientId=u20a15d3d-eb79-4&from=paste&height=333&id=u3f1fa853&originHeight=416&originWidth=860&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=409721&status=done&style=none&taskId=u743484d3-3044-4eaa-8e83-4efad337c12&title=&width=688" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686647868554-883381d7-d0d8-48d2-8f52-ab23634c6ab0.png#averageHue=%23c6cdd3&clientId=u20a15d3d-eb79-4&from=paste&height=358&id=ud6a8e5da&originHeight=447&originWidth=736&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=340700&status=done&style=none&taskId=ua890f49e-c3e1-429a-8acd-21656b70271&title=&width=588.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686648523146-3436058e-91e6-4c39-b7b3-977b7c28f715.png#averageHue=%23eee9e8&clientId=u20a15d3d-eb79-4&from=paste&height=209&id=u4f2b76f3&originHeight=261&originWidth=705&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=152563&status=done&style=none&taskId=ub25b2a0c-ae6e-4197-961b-5b587da0c0c&title=&width=564" srcset="/img/loading.gif" lazyload alt="image.png"><br>整型转换和截断操作本身并不会改变 CF 和 OF 标志位的值。</p>
+<h2 id="IEEE-754浮点数标准："><a href="#IEEE-754浮点数标准：" class="headerlink" title="IEEE 754浮点数标准："></a>IEEE 754浮点数标准：</h2><h4 id="相关知识：-1"><a href="#相关知识：-1" class="headerlink" title="相关知识："></a>相关知识：</h4><p> <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649122338-0fae6f93-e922-495d-bd32-2ade9a1e637f.png#averageHue=%23d1dde5&clientId=u20a15d3d-eb79-4&from=paste&height=277&id=ud684c33d&originHeight=346&originWidth=704&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=232114&status=done&style=none&taskId=ucc39b240-f390-4b86-957c-58f8cc6b434&title=&width=563.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649324498-21c90caa-7ea2-47ae-9c81-5315feb6ef30.png#averageHue=%23dbe3e9&clientId=u20a15d3d-eb79-4&from=paste&height=302&id=u26a5b0c5&originHeight=377&originWidth=783&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=312157&status=done&style=none&taskId=ucbd3a139-e019-4e50-879c-759cea19b16&title=&width=626.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>规格化数：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649361681-f6b955a4-fa8e-41a6-9cd4-f8ade23a887c.png#averageHue=%23dbe3e9&clientId=u20a15d3d-eb79-4&from=paste&height=151&id=u2ef0daf6&originHeight=189&originWidth=682&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=132636&status=done&style=none&taskId=ua06bfe29-cc49-4ad2-8e15-95dc1fb9296&title=&width=545.6" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649414122-1f252fe3-82d5-4aad-8d07-4880fc934c0d.png#averageHue=%23dae1e6&clientId=u20a15d3d-eb79-4&from=paste&height=128&id=ue5fc6ff8&originHeight=160&originWidth=670&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=115166&status=done&style=none&taskId=u8a3d469b-a6da-45e6-9f6f-8e974baf6e6&title=&width=536" srcset="/img/loading.gif" lazyload alt="image.png"><br>非规格化数：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649464472-191f2baa-647e-41db-80ea-fd27d68dca68.png#averageHue=%23dce3e8&clientId=u20a15d3d-eb79-4&from=paste&height=142&id=u2e1d70a4&originHeight=178&originWidth=647&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=118673&status=done&style=none&taskId=u9e820a2b-b044-4a96-a005-bc8ccd3edfe&title=&width=517.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686649483103-c3250154-9c5b-4f97-8115-ef25db9d87c2.png#averageHue=%23d7dfe5&clientId=u20a15d3d-eb79-4&from=paste&height=113&id=ucfb99266&originHeight=141&originWidth=694&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=108768&status=done&style=none&taskId=u77158be9-6018-42bb-95b0-37110eb0c74&title=&width=555.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="测试程序代码："><a href="#测试程序代码：" class="headerlink" title="测试程序代码："></a>测试程序代码：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686658767252-a48bdc28-dbfc-4510-9788-4e31d202c070.png#averageHue=%23926956&clientId=u20a15d3d-eb79-4&from=paste&height=388&id=u259752a2&originHeight=485&originWidth=984&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=668299&status=done&style=none&taskId=u0abb24f3-3737-4c6a-a4de-b5b42151266&title=&width=787.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="编译运行："><a href="#编译运行：" class="headerlink" title="编译运行："></a>编译运行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686659293043-6550c2c1-a547-45ee-8e8f-78f30ecb53e5.png#averageHue=%23361e42&clientId=u20a15d3d-eb79-4&from=paste&height=34&id=uabe307b3&originHeight=43&originWidth=501&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=26341&status=done&style=none&taskId=u2a02bf70-700c-4662-af59-b89748ef62d&title=&width=400.8" srcset="/img/loading.gif" lazyload alt="image.png">这里需要选择-g选项，表示生成调试信息，不然后面调试中输入l选项会报：No symbol table is loaded. Use the “file” command.错误<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686658804667-5365fd9e-f756-4eb5-b0c5-7464e72ad75f.png#averageHue=%231e4586&clientId=u20a15d3d-eb79-4&from=paste&height=191&id=uf52ff2be&originHeight=239&originWidth=610&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=213048&status=done&style=none&taskId=ua9cb4717-4847-4b4b-a9d9-7c64f143f5a&title=&width=488" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="反编译："><a href="#反编译：" class="headerlink" title="反编译："></a>反编译：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686658949718-69920efa-2a59-4751-b298-bb6ed513a5d1.png#averageHue=%2325447c&clientId=u20a15d3d-eb79-4&from=paste&height=46&id=u87e5daee&originHeight=57&originWidth=590&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=47418&status=done&style=none&taskId=u3b5f9014-44bf-4751-b254-ff1a3ac8135&title=&width=472" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="调试追踪程序："><a href="#调试追踪程序：" class="headerlink" title="调试追踪程序："></a>调试追踪程序：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686660320423-29f47887-cb9f-477a-9305-cda3f9cc0077.png#averageHue=%23303063&clientId=u20a15d3d-eb79-4&from=paste&height=360&id=ufc51f0f7&originHeight=450&originWidth=709&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=418093&status=done&style=none&taskId=uc152b2c3-b50b-41ec-8954-12a66e5fa3c&title=&width=567.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>x&#x2F;23xw $esp:23是(R[ebp]-R[esp]+4)&#x2F;4得到的，求的是栈的大小，这里的w是4字节显示也即选取4字节然后显示出来，这里显示出来的结果以及处理过了的，显示的内容不是小段方式了。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686660561230-7e690755-ffa8-4647-81ee-7e938d9ad6a2.png#averageHue=%23f4e8e2&clientId=u20a15d3d-eb79-4&from=paste&height=55&id=u184f4d9e&originHeight=69&originWidth=687&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=15302&status=done&style=none&taskId=uf9b537b9-8912-4d48-a78f-38718d3be57&title=&width=549.6" srcset="/img/loading.gif" lazyload alt="image.png">这里看出-0x4c(%ebp)&#x3D;0xffffd3fc(内容是0x7f8000000阶码全为1，尾数全为0，这里已经处理过了，不用按照小段方式处理了)处的内容是无穷大。</p>
+<h2 id="尾数舍入问题："><a href="#尾数舍入问题：" class="headerlink" title="尾数舍入问题："></a>尾数舍入问题：</h2><h4 id="程序代码：1-与IEEE-754的代码一致"><a href="#程序代码：1-与IEEE-754的代码一致" class="headerlink" title="程序代码：1.与IEEE 754的代码一致"></a>程序代码：1.与IEEE 754的代码一致</h4><h4 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h4><p>1，定义的0.1但是print的结果与0.1有出入？<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661136042-ab684d26-f88d-444e-9db0-a4a970b599d3.png#averageHue=%233e6c32&clientId=u20a15d3d-eb79-4&from=paste&height=24&id=u86f9bbc4&originHeight=30&originWidth=351&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17173&status=done&style=none&taskId=u65d3d9b7-1ddc-4f75-8e93-25cb2949527&title=&width=280.8" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661147426-d2af6fc8-5df5-438a-8e7a-9ddc9d4e5915.png#averageHue=%231e5b9f&clientId=u20a15d3d-eb79-4&from=paste&height=26&id=ueb118978&originHeight=33&originWidth=349&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=19076&status=done&style=none&taskId=u392876fc-26ad-4560-ae6d-9d166f58839&title=&width=279.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661207165-87ad4bb8-ec35-4bcb-a761-afc45fd97f37.png#averageHue=%23d3dce4&clientId=u20a15d3d-eb79-4&from=paste&height=292&id=u0b3128b3&originHeight=365&originWidth=1059&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=464760&status=done&style=none&taskId=u12ac06fd-6a3a-4275-b510-9d2cc64c83e&title=&width=847.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661227252-308fcb49-d122-41be-a96b-cf518b468646.png#averageHue=%23cdd8e1&clientId=u20a15d3d-eb79-4&from=paste&height=47&id=uf1f5ce29&originHeight=59&originWidth=610&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56470&status=done&style=none&taskId=u0557e27a-25aa-493b-ade3-bdfbb8960d9&title=&width=488" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661236725-f7fda7b1-75d5-4f74-9cfc-16fa88c98df7.png#averageHue=%23ccd7e0&clientId=u20a15d3d-eb79-4&from=paste&height=46&id=u050a3e12&originHeight=57&originWidth=632&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56092&status=done&style=none&taskId=u46b4014e-bb21-44da-a0be-44a0dbc8ded&title=&width=505.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661260710-73ca8cad-5666-40a9-b570-813e2eae8a1a.png#averageHue=%23cfdae3&clientId=u20a15d3d-eb79-4&from=paste&height=109&id=u18ca58bf&originHeight=136&originWidth=572&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=117845&status=done&style=none&taskId=u0f2aa6c1-ac84-4dd2-98ff-13182101f23&title=&width=457.6" srcset="/img/loading.gif" lazyload alt="image.png">（有隐藏1）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661284860-f1beda9d-f8da-4325-bfa2-d42979d86643.png#averageHue=%23bdcbd7&clientId=u20a15d3d-eb79-4&from=paste&height=35&id=u00163263&originHeight=44&originWidth=574&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=44432&status=done&style=none&taskId=ufe311036-dfa0-48ad-a5b7-ddc22ca6188&title=&width=459.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661325119-67e01597-3060-43b5-b236-edfbbada1b3a.png#averageHue=%23ccd7e0&clientId=u20a15d3d-eb79-4&from=paste&height=106&id=ua545bfcb&originHeight=133&originWidth=883&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209915&status=done&style=none&taskId=u0e2ad06e-445f-4eb9-a5c3-1ebdc45405e&title=&width=706.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="4种舍入标准："><a href="#4种舍入标准：" class="headerlink" title="4种舍入标准："></a>4种舍入标准：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661376087-fb7cc8d2-f6e4-4b3a-afe3-aa816b43daa1.png#averageHue=%23d1dce5&clientId=u20a15d3d-eb79-4&from=paste&height=151&id=ue0ed86fd&originHeight=189&originWidth=510&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=122289&status=done&style=none&taskId=u1e663fe0-2d28-41bf-9f34-8cdf24df54f&title=&width=408" srcset="/img/loading.gif" lazyload alt="image.png"><br> <img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661408195-3a6ab84a-0feb-418f-a613-034c9192622e.png#averageHue=%23dce4eb&clientId=u20a15d3d-eb79-4&from=paste&height=158&id=u0018a924&originHeight=198&originWidth=840&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=172050&status=done&style=none&taskId=u209a0da4-d0d6-4146-b1c0-4136008804f&title=&width=672" srcset="/img/loading.gif" lazyload alt="image.png"><br>意味着a,b之间的数据只能用a,b近似表示；<img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661451694-8c632b36-a22b-4244-aca8-f29fc2af0c9d.png#averageHue=%23969fa7&clientId=u20a15d3d-eb79-4&from=paste&height=44&id=u88af7bc2&originHeight=55&originWidth=461&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=40320&status=done&style=none&taskId=uf1fed143-aa42-40c6-8795-84b27db9815&title=&width=368.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686661740325-eab301c6-17be-4cc5-8fc3-f28bbc25e722.png#averageHue=%23cad8e3&clientId=u20a15d3d-eb79-4&from=paste&height=446&id=u0d273412&originHeight=558&originWidth=1015&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=709850&status=done&style=none&taskId=u8948f302-de00-4ad5-94a3-3b04209d60d&title=&width=812" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="浮点数的基本运算："><a href="#浮点数的基本运算：" class="headerlink" title="浮点数的基本运算："></a>浮点数的基本运算：</h2><h4 id="相关知识点："><a href="#相关知识点：" class="headerlink" title="相关知识点："></a>相关知识点：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686662310902-dab74e6d-cc37-4c43-8bab-77011a9f61dc.png#averageHue=%23dcdcdb&clientId=u20a15d3d-eb79-4&from=paste&height=247&id=u5a6ef67e&originHeight=309&originWidth=618&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=123196&status=done&style=none&taskId=ufb486c06-dd50-4292-9074-2f072be9b65&title=&width=494.4" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686662347830-d402e15c-c983-4dbe-82e2-65bd731f8d9b.png#averageHue=%23c7c7c6&clientId=u20a15d3d-eb79-4&from=paste&height=258&id=ubdd86621&originHeight=323&originWidth=697&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=159707&status=done&style=none&taskId=u085a0fd5-8e79-4b3a-9e18-44ec2509ecb&title=&width=557.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686670221517-0bbc388a-0135-4663-b20a-06f2bd3d1ab4.png#averageHue=%23e4e4e3&clientId=u20a15d3d-eb79-4&from=paste&height=230&id=ub028fdaa&originHeight=288&originWidth=480&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91905&status=done&style=none&taskId=u2a6050d5-fc57-476b-ba92-0ff0c018791&title=&width=384" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="模拟0-1相关的爱国者导弹问题程序："><a href="#模拟0-1相关的爱国者导弹问题程序：" class="headerlink" title="模拟0.1相关的爱国者导弹问题程序："></a>模拟0.1相关的爱国者导弹问题程序：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686670797708-d5eaf847-9fc7-4595-be36-f058c2d46467.png#averageHue=%23323066&clientId=u20a15d3d-eb79-4&from=paste&height=601&id=u56dd931f&originHeight=751&originWidth=780&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=702821&status=done&style=none&taskId=ueb2e46e9-4a23-4ca8-8ac2-838e5c35eb5&title=&width=624" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="编译运行：-1"><a href="#编译运行：-1" class="headerlink" title="编译运行："></a>编译运行：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1686670911992-7299be9b-bc8e-4a42-985a-fff91abfd2a7.png#averageHue=%231c3976&clientId=u20a15d3d-eb79-4&from=paste&height=115&id=u869659b4&originHeight=144&originWidth=568&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=130485&status=done&style=none&taskId=ue13ed1ff-65c6-4b0b-8a9a-26b64791089&title=&width=454.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/" class="category-chain-item">课程作业</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计算机基础实验2：算术运算</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/计算机基础实验二：算术运算/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9A%E7%BB%93%E6%9E%84%E5%8C%96%E6%95%B0%E6%8D%AE%E5%82%A8%E5%AD%98/" title="计算机基础实验三：结构化数据存储">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机基础实验三：结构化数据存储</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%EF%BC%9A/" title="计算机基础课后期末复习">
+                        <span class="hidden-mobile">计算机基础课后期末复习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

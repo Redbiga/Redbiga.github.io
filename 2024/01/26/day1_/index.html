@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.SpringBoot项目的搭建：项目介绍： 添加依赖包的介绍：Spring Boot DevTools依赖包的介绍Spring Boot DevTools 是 Spring Boot 中一个非常实用的开发工具，它提供了许多方便开发的功能，例如自动重启、自动显示错误页面、自动刷新等。DevTools 是一个可选的依赖，可以通过在 pom.xml 文件中添加依赖来引入。具体来说，添加 S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="周记">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/day1_/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.SpringBoot项目的搭建：项目介绍： 添加依赖包的介绍：Spring Boot DevTools依赖包的介绍Spring Boot DevTools 是 Spring Boot 中一个非常实用的开发工具，它提供了许多方便开发的功能，例如自动重启、自动显示错误页面、自动刷新等。DevTools 是一个可选的依赖，可以通过在 pom.xml 文件中添加依赖来引入。具体来说，添加 S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688027568791-f55ba44c-eec5-48a2-b3da-8c38a2e16a69.png#averageHue=%23eae8e7&clientId=ucabb86a5-8dff-4&from=paste&height=562&id=u5ff7ad24&originHeight=703&originWidth=1365&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=176982&status=done&style=none&taskId=ua6f0773f-df4b-47f7-b722-6f2d9f3f02c&title=&width=1092">
+<meta property="article:published_time" content="2024-01-26T11:08:04.470Z">
+<meta property="article:modified_time" content="2024-01-26T11:09:05.740Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="零散知识点">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688027568791-f55ba44c-eec5-48a2-b3da-8c38a2e16a69.png#averageHue=%23eae8e7&clientId=ucabb86a5-8dff-4&from=paste&height=562&id=u5ff7ad24&originHeight=703&originWidth=1365&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=176982&status=done&style=none&taskId=ua6f0773f-df4b-47f7-b722-6f2d9f3f02c&title=&width=1092">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>周记 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="周记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 19:08" pubdate>
+          2024年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">周记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+<h2 id="1-SpringBoot项目的搭建："><a href="#1-SpringBoot项目的搭建：" class="headerlink" title="1.SpringBoot项目的搭建："></a>1.SpringBoot项目的搭建：</h2><h4 id="项目介绍："><a href="#项目介绍：" class="headerlink" title="项目介绍："></a>项目介绍：</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1688027568791-f55ba44c-eec5-48a2-b3da-8c38a2e16a69.png#averageHue=%23eae8e7&clientId=ucabb86a5-8dff-4&from=paste&height=562&id=u5ff7ad24&originHeight=703&originWidth=1365&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=176982&status=done&style=none&taskId=ua6f0773f-df4b-47f7-b722-6f2d9f3f02c&title=&width=1092" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="添加依赖包的介绍："><a href="#添加依赖包的介绍：" class="headerlink" title="添加依赖包的介绍："></a>添加依赖包的介绍：</h4><p>Spring Boot DevTools依赖包的介绍<br>Spring Boot DevTools 是 Spring Boot 中一个非常实用的开发工具，它提供了许多方便开发的功能，例如自动重启、自动显示错误页面、自动刷新等。DevTools 是一个可选的依赖，可以通过在 pom.xml 文件中添加依赖来引入。<br>具体来说，添加 Spring Boot DevTools 依赖的方法如下：<br>xml<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-devtools<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+<p>这个依赖包含了许多实用的工具类和功能，例如：</p>
+<ul>
+<li>自动重启：在修改代码后，可以自动重新启动应用程序，从而减少开发过程中的重复操作。</li>
+<li>自动显示错误页面：当出现错误时，可以自动显示错误页面，便于开发人员进行排查和调试。</li>
+<li>自动刷新：当修改了静态资源（例如 HTML、CSS、JavaScript）时，可以自动刷新页面，从而方便开发人员进行调试。</li>
+<li>热部署：可以在运行时替换类文件，从而避免应用程序重启，提高开发效率。</li>
+</ul>
+<p>需要注意的是，Spring Boot DevTools 只适用于开发环境，不建议在生产环境中使用。此外，由于 DevTools 中包含了许多自动化功能，可能会影响应用程序的性能和稳定性，因此需要根据实际情况进行选择和配置。<br>Lombok依赖包<br>Lombok 是一个 Java 库，它提供了许多简化 Java 代码编写的功能，例如自动生成 getter&#x2F;setter 方法、构造函数、equals 和 hashCode 方法等。Lombok 是一个可选的依赖，可以通过在 pom.xml 文件中添加依赖来引入。<br>具体来说，添加 Lombok 依赖的方法如下：<br>xml<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+<p>这个依赖包含了许多实用的注解和工具类，例如：</p>
+<ul>
+<li>@Getter 和 @Setter：自动生成属性的 getter&#x2F;setter 方法。</li>
+<li>@Data：自动生成属性的 getter&#x2F;setter 方法、equals 和 hashCode 方法、toString 方法和无参构造函数。</li>
+<li>@Builder：自动生成 Builder 模式的代码，用于构建复杂的对象。</li>
+<li>@NoArgsConstructor 和 @AllArgsConstructor：自动生成无参和全参构造函数。</li>
+<li>@Slf4j：自动生成日志记录器，可以使用 log 变量进行日志记录。</li>
+</ul>
+<p>需要注意的是，Lombok 通过注解来简化代码编写，但是这些注解并不是标准的 Java 注解，因此需要使用 Lombok 的插件来解析和编译这些注解。在使用 Lombok 时，需要在开发环境中安装 Lombok 插件，以便正确地解析和编译 Lombok 注解。<br>Spring Configuration Processor依赖包<br>Spring Configuration Processor 是一个用于处理 Spring Boot 应用程序的注解处理器，可以生成用于配置 Spring 应用程序的元数据。在使用 Spring Boot 2.2 及以上版本时，可以使用 Spring Configuration Processor 来生成配置元数据，从而提高应用程序的性能和可维护性。<br>要使用 Spring Configuration Processor，需要在项目的依赖中添加以下依赖项：<br>xml<br>Copy</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+<p>在这个依赖中，spring-boot-configuration-processor 是 Spring Configuration Processor 的实现依赖。optional 标记表示该依赖项是可选的，因为 Spring Configuration Processor 不是必需的依赖项。如果不需要使用 Spring Configuration Processor，则可以将该依赖项从项目中删除。<br>需要注意的是，Spring Configuration Processor 只能处理使用 Spring Boot 配置注解（例如 @ConfigurationProperties、@Value 等）的类，如果没有使用这些注解，则无法从中生成配置元数据。在使用 Spring Configuration Processor 时，应该遵循以下几个最佳实践：</p>
+<ol>
+<li>遵循 Spring Boot 的命名约定，例如将配置类命名为 application.properties 或 application.yml 中的属性名。</li>
+<li>使用 @ConfigurationProperties 和 @Value 注解来标记配置类和属性，以便生成配置元数据。</li>
+<li>在配置类和属性上添加必要的注释，以便生成的配置元数据具有可读性和可维护性。</li>
+</ol>
+<h4 id="创建配置文件："><a href="#创建配置文件：" class="headerlink" title="创建配置文件："></a>创建配置文件：</h4><p>Spring boot 的配置文件主要用来配置项目的核心配置内容， 配置文件有两种格式一种事  .properties<br>的属性文件。  另一中是  .yml&#x2F;.yaml 为后缀的  yaml 格式文件。<br>创建好springboot项目后默认会有一个属性配置文件：    application.properties<br>注意：两种配置文件只需要存在其中一种即可。    yml 格式的文件配置更加简洁明了，相较于属性<br>配置文件。</p>
+<h6 id="属性配置文件："><a href="#属性配置文件：" class="headerlink" title="属性配置文件："></a>属性配置文件：</h6><p>**# 修改服务器的默认端口号 **<br>server.port&#x3D;8888</p>
+<h1 id="修改一下项目的根路径"><a href="#修改一下项目的根路径" class="headerlink" title="修改一下项目的根路径"></a>修改一下项目的根路径</h1><p>server.servlet.context-path&#x3D;&#x2F;test<br>注意： 第一个等号左边是key , 右边是值， 不要在等号两边加空格。<br><strong>6.2 yaml 配置文件</strong><br>application.yml文件，全称是 YAML Ain’t Markup Language，它是以数据为中心的标记语言，比XML和<br>JSON更适合作为配置文件</p>
+<h1 id="端口号-注意不同层级通过缩进来识别，-同一级要对齐，-属性和值之间必须用空格来分隔，-空格不能省"><a href="#端口号-注意不同层级通过缩进来识别，-同一级要对齐，-属性和值之间必须用空格来分隔，-空格不能省" class="headerlink" title="端口号    注意不同层级通过缩进来识别，    同一级要对齐，    属性和值之间必须用空格来分隔，    空格不能省"></a>端口号    注意不同层级通过缩进来识别，    同一级要对齐，    属性和值之间必须用空格来分隔，    空格不能省</h1><p>server:<br>port: 9999<br>servlet:<br>   context-path: &#x2F;demo（这里要求在项目文件下有demo文件）<br>同一级要左对齐， key和值之间需要一个空格， 不能省略，  key 的不同级使用缩进来表示<br>对于springboot的主配置文件名称必须是  application.properties 或者<br>application.yml&#x2F;yaml .</p>
+<h4 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC:"></a>SpringMVC:</h4><p>上面pom.xml里面导入 spring-boot-starter-web 就已经引入springmvc的环境了.<br>对应的依赖：</p>
+<!--   springMVC 应用的依赖， 包含tomcat服务等的配置     -->
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-web</artifactId> 
+</dependency>
+spring-boot-starter-web 是 Spring Boot 框架提供的一个 Starter 模块，用于构建基于 Web 的应用程序。它提供了一组常用的依赖项，例如 Spring MVC、Tomcat、Jackson 和 Spring Web 等，这些依赖项可以帮助开发人员快速构建 Web 应用程序。
+通过在 Maven 或 Gradle 项目中引入 spring-boot-starter-web Starter 模块，开发人员可以轻松地构建一个 Web 应用程序，并且不需要手动添加依赖项。此外，Spring Boot 还为该 Starter 模块提供了默认配置，以帮助开发人员快速启动应用程序，而无需进行复杂的配置。
+#### 表单提交请求流程：
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/28066124/1688087188138-19666bb0-884c-4275-b365-c7a0c75cc802.png#averageHue=%23f2f0ef&clientId=ucabb86a5-8dff-4&from=paste&height=526&id=u1e5c2d90&originHeight=658&originWidth=1359&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=174427&status=done&style=none&taskId=ud813ea41-d14e-4d7c-b546-f4df6469bbf&title=&width=1087.2)
+#### 相关注解：
+###### @RestController
+@RestController 是 Spring Framework 中的一个注解，用于将一个类标记为 RESTful web 服务的控制器。
+与传统的 Spring MVC 控制器不同，使用 @RestController 注解的类会自动将返回值转换为 JSON 或 XML 格式，并将其写入 HTTP 响应。这意味着开发人员可以更轻松地构建 RESTful Web 服务，而无需手动编写代码来序列化和反序列化数据。
+当一个类使用 @RestController 注解时，Spring 会自动将其识别为一个控制器，并自动进行一些配置，例如将该类中的方法映射到相应的 URL 路径上。开发人员可以使用其他注解，例如 @GetMapping、@PostMapping、@PutMapping 和 @DeleteMapping 等来定义不同的请求方法，以及它们所处理的不同 URL。
+Spring Framework 的核心是 Spring IOC 容器，它是一个负责管理应用程序组件的容器。在 IOC 容器中，组件之间的依赖关系被自动注入，这使得开发人员可以更加专注于编写业务逻辑，而不需要处理组件之间的耦合度。
+[The Spring @Controller and @RestController Annotations | Baeldung](https://www.baeldung.com/spring-controller-vs-restcontroller)
+###### RESTful web 服务
+RESTful web 服务是一种基于 REST 架构风格的 Web 服务，它使用 HTTP 协议提供数据和功能，以便其他应用程序或客户端可以通过 HTTP 请求进行访问和使用。
+REST 是一种架构风格，它是 Representational State Transfer 的缩写，其中表述（Representational）指的是资源的表现形式，状态（State）指的是资源在某一时间点的状态，转移（Transfer）指的是客户端根据资源状态做出的一些行为。
+在 RESTful web 服务中，资源通常是通过 URL（统一资源定位符）来表示的，并且可以使用 HTTP 动词（GET、POST、PUT、DELETE 等）来定义对资源的操作。例如，可以使用 GET 请求来获取资源的状态，使用 POST 请求来创建资源，使用 PUT 请求来更新资源，使用 DELETE 请求来删除资源等。此外，RESTful web 服务通常使用 JSON 或 XML 等格式来表示数据。
+RESTful web 服务的优点包括可伸缩性、可重用性、可扩展性和可靠性等。它已成为构建 Web 服务的一种主流架构风格，并被广泛应用于各种 Web 应用程序和移动应用程序中。
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86%E7%82%B9/" class="print-no-link">#零散知识点</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>周记</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/day1_/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/javaFX/" title="javafx">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">javafx</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/SSM%E3%80%81/" title="SSM学习总结">
+                        <span class="hidden-mobile">SSM学习总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>

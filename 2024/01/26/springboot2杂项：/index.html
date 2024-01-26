@@ -1,0 +1,837 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+   <meta name="referrer" content="no-referrer">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
+  <link rel="icon" href="/img/avatar1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="山麋一笑">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.springboot自定义start讲解:使用SpringBoot自定义一个starter启动包，超详细_自定义starter 如何导入目标工程-CSDN博客InitializingBean的作用是什么？InitializingBean的作用是Bean注入到Spring容器且初始化后，执行特定业务化的操作。Spring允许容器中的Bean，在Bean初始化完成后或者Bean销毁前">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring杂项">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/springboot2%E6%9D%82%E9%A1%B9%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.springboot自定义start讲解:使用SpringBoot自定义一个starter启动包，超详细_自定义starter 如何导入目标工程-CSDN博客InitializingBean的作用是什么？InitializingBean的作用是Bean注入到Spring容器且初始化后，执行特定业务化的操作。Spring允许容器中的Bean，在Bean初始化完成后或者Bean销毁前">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706256016594-c1001dcc-4f05-42a9-9447-53fec5e30fba.png#averageHue=%23fafafa&clientId=u92023ef0-aba6-4&from=paste&id=u8bd8c265&originHeight=584&originWidth=876&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u92d69530-4aca-4ef1-a7e7-1236793206d&title=">
+<meta property="article:published_time" content="2024-01-26T08:14:57.667Z">
+<meta property="article:modified_time" content="2024-01-26T08:26:27.200Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706256016594-c1001dcc-4f05-42a9-9447-53fec5e30fba.png#averageHue=%23fafafa&clientId=u92023ef0-aba6-4&from=paste&id=u8bd8c265&originHeight=584&originWidth=876&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u92d69530-4aca-4ef1-a7e7-1236793206d&title=">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>spring杂项 - 山麋一笑</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>山麋一笑</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="spring杂项"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-26 16:14" pubdate>
+          2024年1月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">spring杂项</h1>
+            
+            
+              <div class="markdown-body">
+                
+                 <meta name="referrer" content="no-referrer">
+
+
+
+
+
+<h1 id="1-springboot自定义start讲解-使用SpringBoot自定义一个starter启动包，超详细-自定义starter-如何导入目标工程-CSDN博客"><a href="#1-springboot自定义start讲解-使用SpringBoot自定义一个starter启动包，超详细-自定义starter-如何导入目标工程-CSDN博客" class="headerlink" title="1.springboot自定义start讲解:使用SpringBoot自定义一个starter启动包，超详细_自定义starter 如何导入目标工程-CSDN博客"></a>1.springboot自定义start讲解:<a target="_blank" rel="noopener" href="https://blog.csdn.net/languageStudent/article/details/119794955">使用SpringBoot自定义一个starter启动包，超详细_自定义starter 如何导入目标工程-CSDN博客</a></h1><h1 id="InitializingBean的作用是什么？"><a href="#InitializingBean的作用是什么？" class="headerlink" title="InitializingBean的作用是什么？"></a>InitializingBean的作用是什么？</h1><div class="code-wrapper"><pre><code class="hljs java">InitializingBean的作用是Bean注入到Spring容器且初始化后，执行特定业务化的操作。Spring允许容器中的Bean，在Bean初始化完成后或者Bean销毁前，执行特定业务化的操作，常用的实现方式有以下三种：
+
+通过实现InitializingBean/DisposableBean接口来处理初始化后/销毁前的操作；
+通过标签的init-method/destroy-method属性处理初始化后/销毁前的操作；
+在指定方法上加上<span class="hljs-meta">@PostConstruct</span>或<span class="hljs-meta">@PreDestroy</span>注解来处理初始化后/销毁前的操作。</code></pre></div>
+<h1 id="XXXAware相关的接口："><a href="#XXXAware相关的接口：" class="headerlink" title="XXXAware相关的接口："></a>XXXAware相关的接口：</h1><h1 id="SpringBoot项目的目录结构及名规范："><a href="#SpringBoot项目的目录结构及名规范：" class="headerlink" title="SpringBoot项目的目录结构及名规范："></a>SpringBoot项目的目录结构及名规范：</h1><h2 id="目录说明"><a href="#目录说明" class="headerlink" title="目录说明"></a>目录说明</h2><div class="code-wrapper"><pre><code class="hljs java">servicex                 <span class="hljs-comment">// 项目名</span>
+    |- admin-ui          <span class="hljs-comment">// 管理服务前端代码(一般将UI和SERVICE放到一个工程中，便于管理)</span>
+    |- servicex-auth     <span class="hljs-comment">// 模块1</span>
+    |- servicex-common   <span class="hljs-comment">// 模块2</span>
+    |- servicex-gateway  <span class="hljs-comment">// 模块3</span>
+    |- servicex-system   <span class="hljs-comment">// 模块4</span>
+        |- src
+            |- main                  <span class="hljs-comment">// 业务逻辑</span>
+                |- assembly          <span class="hljs-comment">// 基于maven assembly插件的服务化打包方案</span>
+                    |- bin           <span class="hljs-comment">// 模块脚本(启动、停止、重启)</span>
+                    |- sbin          <span class="hljs-comment">// 管理员角色使用的脚本(环境检查、系统检测等等)</span>
+                    |- assembly.xml  <span class="hljs-comment">// 配置文件</span>
+                |- java              <span class="hljs-comment">// 源码</span>
+                    |- com
+                        |- hadoopx
+                            |- servicex
+                                |- system
+                                    |- annotation     <span class="hljs-comment">// 注解</span>
+                                    |- aspect         <span class="hljs-comment">// 面向切面编程</span>
+                                    |- config         <span class="hljs-comment">// 配置文件POJO</span>
+                                    |- filter         <span class="hljs-comment">// 过滤器</span>
+                                    |- constant       <span class="hljs-comment">// 存放常量</span>
+                                    |- utils          <span class="hljs-comment">// 工具</span>
+                                    |- exception      <span class="hljs-comment">// 异常</span>
+                                    |- controller     <span class="hljs-comment">// 控制层(将请求通过URL匹配，分配到不同的接收器/方法进行处理，然后返回结果)</span>
+                                    |- service        <span class="hljs-comment">// 服务层接口</span>
+                                        |- impl       <span class="hljs-comment">// 服务层实现</span>
+                                    |- mapper/repository <span class="hljs-comment">// 数据访问层，与数据库交互为service提供接口</span>
+                                    |- entity/domain     <span class="hljs-comment">// 实体对象</span>
+                                        |- dto <span class="hljs-comment">// 持久层需要的实体对象(用于服务层与持久层之间的数据传输对象)</span>
+                                        |- vo <span class="hljs-comment">// 视图层需要的实体对象(用于服务层与视图层之间的数据传输对象)</span>
+                                    |- *Application.java  <span class="hljs-comment">// 入口启动类</span>
+                |- resources         <span class="hljs-comment">// 资源</span>
+                    |- <span class="hljs-keyword">static</span>        <span class="hljs-comment">// 静态资源(html、css、js、图片等)</span>
+                    |- templates     <span class="hljs-comment">// 视图模板(jsp、thymeleaf等)</span>
+                    |- mapper        <span class="hljs-comment">// 存放数据访问层对应的XML配置</span>
+                        |- *Mapper.xml
+                        |- ...
+                    |- application.yml        <span class="hljs-comment">// 公共配置</span>
+                    |- application-dev.yml    <span class="hljs-comment">// 开发环境配置</span>
+                    |- application-prod.yml   <span class="hljs-comment">// 生产环境配置</span>
+                    |- banner.txt    
+                    |- logback.xml            <span class="hljs-comment">// 日志配置</span>
+            |- test                  <span class="hljs-comment">// 测试源码</span>
+               |- java               
+                    |- com
+                        |- hadoopx
+                            |- servicex
+                                |- system
+                                    |- 根据具体情况按源码目录结构存放编写的测试用例
+        |- target     <span class="hljs-comment">// 编译打包输出目录(自动生成，不需要创建)</span>
+        |- pom.xml    <span class="hljs-comment">// 该模块的POM文件</span>
+    |- sql            <span class="hljs-comment">// 项目需要的SQL脚本</span>
+    |- doc            <span class="hljs-comment">// 精简版的开发、运维手册</span>
+    |- .gitignore     <span class="hljs-comment">// 哪些文件不用传到版本管控工具中</span>
+    |- pom.xml        <span class="hljs-comment">// 工程总POM文件</span>
+    |- README.md      <span class="hljs-comment">// 注意事项</span>
+External Libraries    <span class="hljs-comment">// 相关JAR包依赖</span>
+</code></pre></div>
+<p>(1). mapper&#x2F;repository，数据访问层，与数据库交互为service提供接口(对某个表进行增删改查，一个’<em>Mapper.java’和一个’</em>Mapper.xml’对应一张表(存在关联查询的情况)；Mybatis使用的是mapper，JPA使用的是repository)<br>(2). entity&#x2F;domain，数据实体类(Mybatis使用的是entity，JPA使用的是domain)<br>(3). POJO，VO，DTO，DO，PO，BO的含义：</p>
+<p>POJO：是一个简单的、普通的JAVA对象，它包含业务逻辑处理或持久化逻辑等。但不是JavaBean、EntityBean等，不具有任何特殊角色，不继承或不实现任何其它JAVA框架的类或接口。可以包含类似与JavaBean属性和对属性访问的setter和getter方法的对象。<br>VO(View Object)：视图对象，用于展示层显示，代表展示层需要显示的数据。它的作用是把某个指定页面&#x2F;组件需要的所有数据封装起来。<br>DTO(Data Transfer Object)：数据传输对象，用于服务层与持久层之间的数据传输对象，代表服务层需要接收&#x2F;返回的数据。<br>DO(Domain Object)： 领域对象，就是从现实世界中抽象出来的有形或无形的实体对象。<br>PO(Persistent Object)：持久化对象，它跟持久层(通常是关系型数据库)的数据结构形成一一对应的映射关系，数据表中的每个字段(或若干个)就对应PO的一个(或若干个)属性。<br>BO(Business Object)： 业务对象，用于把业务逻辑封装为一个对象，这个对象可以包括一个或多个其它的对象。<br>POJO持久化之后 -&gt; PO；POJO传输过程中 -&gt; DTO；POJO用作表示层 -&gt; VO<br><img src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1706256016594-c1001dcc-4f05-42a9-9447-53fec5e30fba.png#averageHue=%23fafafa&clientId=u92023ef0-aba6-4&from=paste&id=u8bd8c265&originHeight=584&originWidth=876&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u92d69530-4aca-4ef1-a7e7-1236793206d&title=" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/springboot2/" class="category-chain-item">springboot2</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/spring/" class="print-no-link">#spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>spring杂项</div>
+      <div>http://www.bojiboqi.fun/2024/01/26/springboot2杂项：/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>山麋一笑</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/26/%E5%A4%A7%E8%AF%9Dhttp_/" title="大话HTTP">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">大话HTTP</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/26/spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9A/" title="spring常见注解">
+                        <span class="hidden-mobile">spring常见注解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+  
+
+
+
+</div>
+
+
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/yinhua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
+  <link defer rel="stylesheet" href="/css/backgroundize.css" />
+  <!-- hexo injector body_end end --></body>
+</html>
