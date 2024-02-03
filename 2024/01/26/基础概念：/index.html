@@ -1,345 +1,199 @@
-
-
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-   <meta name="referrer" content="no-referrer">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar1.png">
-  <link rel="icon" href="/img/avatar1.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="山麋一笑">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="1.网关：网关是什么意思？3分钟了解网关的作用是一种网间连接器，协议转换器，它是信息从一个网络发往另一个网络需经过的一道“关口”。仅用于两个高层协议不同的网络互联。如果网络A中的主机发现数据包的目的地址不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某台主机。假设网络A的IP地址范围为“192.168.1.1192.168.1.2">
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>山麋一笑 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="1.网关： 网关是什么意思？3分钟了解网关的作用 是一种网间连接器，协议转换器，**它是信息从一个网络发往另一个网络需经过的一道“关口”。**仅用于两个高层协议不同的网络互联。 如果网络A中的主机发现数据包的目的地址不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某台主机。假设网络A的IP地址范围为“192.168.1.1~192.168.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="山麋一笑">
 <meta property="og:url" content="http://www.bojiboqi.fun/2024/01/26/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A/index.html">
 <meta property="og:site_name" content="山麋一笑">
-<meta property="og:description" content="1.网关：网关是什么意思？3分钟了解网关的作用是一种网间连接器，协议转换器，它是信息从一个网络发往另一个网络需经过的一道“关口”。仅用于两个高层协议不同的网络互联。如果网络A中的主机发现数据包的目的地址不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某台主机。假设网络A的IP地址范围为“192.168.1.1192.168.1.2">
+<meta property="og:description" content="1.网关： 网关是什么意思？3分钟了解网关的作用 是一种网间连接器，协议转换器，**它是信息从一个网络发往另一个网络需经过的一道“关口”。**仅用于两个高层协议不同的网络互联。 如果网络A中的主机发现数据包的目的地址不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某台主机。假设网络A的IP地址范围为“192.168.1.1~192.168.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700194845233-5198e879-64d8-41e7-81ac-57c7f55cff70.png#averageHue=%23faf9f9&clientId=u3b084d49-ee67-4&from=paste&height=322&id=u0f6f2455&originHeight=403&originWidth=821&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=118902&status=done&style=none&taskId=u82529152-0ca1-411e-aa0c-5d460ac4ebd&title=&width=656.8">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700195208909-17d6aae4-083c-4957-9232-bbfc7e155bc4.jpeg#averageHue=%23dcdfb5&clientId=u3b084d49-ee67-4&from=paste&id=ua2fd401b&originHeight=713&originWidth=1029&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=uec578ac1-ac87-40d2-8485-7fd5b220f9b&title=">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/webp/28066124/1700201967861-0e3bffd7-f786-40d8-bc9b-f87c6083ce7f.webp#averageHue=%23fafafa&clientId=u3b084d49-ee67-4&from=paste&id=u2d8dd9cc&originHeight=676&originWidth=1512&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u4ff7aea7-5476-4904-94b5-3a3985f3f82&title=">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204213622-a5f6b128-f463-463d-b576-eb9d9325baab.png#averageHue=%23e7c48d&clientId=u14ed016d-7def-4&from=paste&height=251&id=u9b4d4163&originHeight=314&originWidth=667&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29108&status=done&style=none&taskId=u06d79a7f-58f0-4fdc-8580-d9fb2fb258c&title=&width=533.6">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204216495-f638fb78-c0bd-4683-9ab1-ea6ccfbc7ea3.png#averageHue=%2321221f&clientId=u14ed016d-7def-4&from=paste&height=125&id=u769039da&originHeight=156&originWidth=384&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=19420&status=done&style=none&taskId=u0dd1e5b9-07a3-463b-ae29-b0fe157a1f9&title=&width=307.2">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700204599469-ffc6e277-8ddc-48c1-b916-d80d748263ce.jpeg#averageHue=%23faf9f8&clientId=u14ed016d-7def-4&from=paste&id=uf370d912&originHeight=849&originWidth=1520&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u0ab560b1-b4e5-4f98-9091-e8f8fa3192b&title=">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204615594-2b427ada-8b10-4522-a70a-9ea5e3eb9d67.png#averageHue=%23fefdfc&clientId=u14ed016d-7def-4&from=paste&height=285&id=u87d516e9&originHeight=356&originWidth=918&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=32572&status=done&style=none&taskId=u4b13422f-df8c-4e10-8c70-86f9df1ffce&title=&width=734.4">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700205658192-5e94b6ed-db2d-4a02-99ee-c2f3e7330d38.png#averageHue=%23fefefd&clientId=u14ed016d-7def-4&from=paste&height=272&id=u1083fb3b&originHeight=340&originWidth=416&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=14726&status=done&style=none&taskId=u0db03197-f0b5-40f0-93b2-915cc776ec3&title=&width=332.8">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700205776261-18a3aba0-275a-48b6-97d6-59087c3a94c7.png#averageHue=%23fefefd&clientId=u14ed016d-7def-4&from=paste&height=262&id=u80c9fc87&originHeight=327&originWidth=820&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21516&status=done&style=none&taskId=uf4157dd9-6290-4776-8eaa-c6d1124d560&title=&width=656">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700750535386-ebe77b78-8b6c-406a-9ec5-19c3061bbccb.png#averageHue=%23fefdfc&clientId=u31d300d4-d8fe-4&from=paste&height=593&id=u2bf67d9b&originHeight=741&originWidth=623&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42614&status=done&style=none&taskId=uf1c5a699-758c-4b7b-a2fd-4f4ce027930&title=&width=498.4">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700753920325-bc7ca01b-e14b-4782-8e3f-00836c428c36.png#averageHue=%23fefdfd&clientId=u31d300d4-d8fe-4&from=paste&height=277&id=uf9d98854&originHeight=346&originWidth=536&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17820&status=done&style=none&taskId=ue1409026-7c29-4adc-8681-ebd2be42379&title=&width=428.8">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700754363644-c59d58a0-a651-4aa4-88dc-ee0b42f40a76.png#averageHue=%23fefefe&clientId=u31d300d4-d8fe-4&from=paste&height=488&id=ucae36bdb&originHeight=610&originWidth=817&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42879&status=done&style=none&taskId=ub3437b14-542e-4219-97d7-e2f2e355e1a&title=&width=653.6">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/favicon.png">
 <meta property="article:published_time" content="2024-01-26T11:11:35.890Z">
 <meta property="article:modified_time" content="2024-01-26T11:12:28.852Z">
 <meta property="article:author" content="山麋一笑">
 <meta property="article:tag" content="零散知识点">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700194845233-5198e879-64d8-41e7-81ac-57c7f55cff70.png#averageHue=%23faf9f9&clientId=u3b084d49-ee67-4&from=paste&height=322&id=u0f6f2455&originHeight=403&originWidth=821&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=118902&status=done&style=none&taskId=u82529152-0ca1-411e-aa0c-5d460ac4ebd&title=&width=656.8">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>山麋一笑</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-  
-<link rel="stylesheet" href="/xm_custom/custom.css">
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"www.bojiboqi.fun","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","app_key":"Y2GZN9C0SLdOpVG4hMb1TEJM","server_url":"https://nksnf5ng.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-    <!-- Google tag (gtag.js) -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/favicon.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/01/26/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '山麋一笑',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-26 19:12:28'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
           }
-          gtag('js', new Date());
-          gtag('config', '');
-        });
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
       }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
     
-  
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
 
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
 
-
-  
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-
-<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
-  
-  <header>
+        document.head.appendChild(script)
+      })
     
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>山麋一笑</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于我</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default1.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text=""></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
     
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-26 19:11" pubdate>
-          2024年1月26日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
         
-          2.4k 字
-        
-      </span>
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          20 分钟
-        
-      </span>
-    
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
 
-    
-    
-      
-        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="leancloud-page-views"></span> 次
-        </span>
-        
-      
-    
-  </div>
-
-
-        
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
-            
-            
-              <div class="markdown-body">
-                
-                 <meta name="referrer" content="no-referrer">
-
-
-
-
-
-<h5 id="1-网关："><a href="#1-网关：" class="headerlink" title="1.网关："></a>1.网关：</h5><p><a target="_blank" rel="noopener" href="https://www.itheima.com/news/20211130/153644.html">网关是什么意思？3分钟了解网关的作用</a><br>是一种网间连接器，协议转换器，<strong>它是信息从一个网络发往另一个网络需经过的一道“关口”。</strong>仅用于两个高层协议不同的网络互联。<br>如果网络A中的主机发现数据包的目的地址不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某台主机。假设网络A的IP地址范围为“192.168.1.1<del>192.168.1.254”，子网掩码为255.255.255.0;网络B的IP地址范围为“192.168.2.1</del>192.168.2.254”,子网掩码为255.255.255.0，那么网络A向网络B发送数据包的过程如下图所示。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700194845233-5198e879-64d8-41e7-81ac-57c7f55cff70.png#averageHue=%23faf9f9&clientId=u3b084d49-ee67-4&from=paste&height=322&id=u0f6f2455&originHeight=403&originWidth=821&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=118902&status=done&style=none&taskId=u82529152-0ca1-411e-aa0c-5d460ac4ebd&title=&width=656.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>（上图中的255.255.255.0是掩码地址）<br>网关的IP地址是用来实现不同网络之间的通信的。网关是一种网络设备，它可以将数据包从一个网络转发到另一个网络中的设备。网关的IP地址就是它的网络接口的地址，它用于标识网关在网络中的位置。网关的IP地址可以是任意的，只要符合IP地址的分配规则就行。但是为了方便管理和区分，一般会将一个网段的第一个或最后一个IP地址作为网关的IP地址。</p>
-<h5 id="2-域名和域名查询："><a href="#2-域名和域名查询：" class="headerlink" title="2.域名和域名查询："></a>2.域名和域名查询：</h5><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/crazylqy/p/7110357.html">一张图看懂DNS域名解析全过程 - crazyYong - 博客园</a><br><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700195208909-17d6aae4-083c-4957-9232-bbfc7e155bc4.jpeg#averageHue=%23dcdfb5&clientId=u3b084d49-ee67-4&from=paste&id=ua2fd401b&originHeight=713&originWidth=1029&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=uec578ac1-ac87-40d2-8485-7fd5b220f9b&title=" srcset="/img/loading.gif" lazyload></p>
-<h5 id="HTTP-304状态码的详细讲解："><a href="#HTTP-304状态码的详细讲解：" class="headerlink" title="HTTP 304状态码的详细讲解："></a>HTTP 304状态码的详细讲解：</h5><p>自从上次请求后，请求的网页未修改过。服务器返回此响应时，不会返回网页内容（因为浏览器缓存了上次请求的内容，外加网页没有修改）。</p>
-<h5 id="get和post的区别："><a href="#get和post的区别：" class="headerlink" title="get和post的区别："></a>get和post的区别：</h5><ul>
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">61</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.loliapi.com/acg/pc/')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-26T11:11:35.890Z" title="发表于 2024-01-26 19:11:35">2024-01-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-26T11:12:28.852Z" title="更新于 2024-01-26 19:12:28">2024-01-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"> <meta name="referrer" content="no-referrer">
+<h5 id="1-网关：">1.网关：</h5>
+<p><a target="_blank" rel="noopener" href="https://www.itheima.com/news/20211130/153644.html">网关是什么意思？3分钟了解网关的作用</a><br>
+是一种网间连接器，协议转换器，**它是信息从一个网络发往另一个网络需经过的一道“关口”。**仅用于两个高层协议不同的网络互联。<br>
+如果网络A中的主机发现数据包的目的地址不在本地网络中，就把数据包转发给它自己的网关，再由网关转发给网络B的网关，网络B的网关再转发给网络B的某台主机。假设网络A的IP地址范围为“192.168.1.1~192.168.1.254”，子网掩码为255.255.255.0;网络B的IP地址范围为“192.168.2.1~192.168.2.254”,子网掩码为255.255.255.0，那么网络A向网络B发送数据包的过程如下图所示。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700194845233-5198e879-64d8-41e7-81ac-57c7f55cff70.png#averageHue=%23faf9f9&amp;clientId=u3b084d49-ee67-4&amp;from=paste&amp;height=322&amp;id=u0f6f2455&amp;originHeight=403&amp;originWidth=821&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=118902&amp;status=done&amp;style=none&amp;taskId=u82529152-0ca1-411e-aa0c-5d460ac4ebd&amp;title=&amp;width=656.8" alt="image.png"><br>
+（上图中的255.255.255.0是掩码地址）<br>
+网关的IP地址是用来实现不同网络之间的通信的。网关是一种网络设备，它可以将数据包从一个网络转发到另一个网络中的设备。网关的IP地址就是它的网络接口的地址，它用于标识网关在网络中的位置。网关的IP地址可以是任意的，只要符合IP地址的分配规则就行。但是为了方便管理和区分，一般会将一个网段的第一个或最后一个IP地址作为网关的IP地址。</p>
+<h5 id="2-域名和域名查询：">2.域名和域名查询：</h5>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/crazylqy/p/7110357.html">一张图看懂DNS域名解析全过程 - crazyYong - 博客园</a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700195208909-17d6aae4-083c-4957-9232-bbfc7e155bc4.jpeg#averageHue=%23dcdfb5&amp;clientId=u3b084d49-ee67-4&amp;from=paste&amp;id=ua2fd401b&amp;originHeight=713&amp;originWidth=1029&amp;originalType=url&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;taskId=uec578ac1-ac87-40d2-8485-7fd5b220f9b&amp;title=" alt=""></p>
+<h5 id="HTTP-304状态码的详细讲解：">HTTP 304状态码的详细讲解：</h5>
+<p>自从上次请求后，请求的网页未修改过。服务器返回此响应时，不会返回网页内容（因为浏览器缓存了上次请求的内容，外加网页没有修改）。</p>
+<h5 id="get和post的区别：">get和post的区别：</h5>
+<ul>
 <li>GET请求是用来从服务器获取数据的，而POST请求是用来向服务器发送数据的。GET请求的参数会附加在URL后面，而POST请求的参数会放在请求体中。</li>
 <li>GET请求的参数有长度限制，一般不能超过2048个字符，而POST请求的参数没有长度限制。GET请求的参数只能是ASCII字符，而POST请求的参数可以是任意类型的数据。</li>
 <li>GET请求可以被缓存、收藏为书签、保存在浏览器历史记录中，而POST请求不会。GET请求在回退和刷新时不会有影响，而POST请求可能会导致数据被重复提交。</li>
@@ -349,466 +203,93 @@
 <li></li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1529973">GET方法传递中文参数乱码解决办法-腾讯云开发者社区-腾讯云</a></p>
-<h5 id="servlet和servlet容器："><a href="#servlet和servlet容器：" class="headerlink" title="servlet和servlet容器："></a>servlet和servlet容器：</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lz233333/article/details/68065749">理解Servlet和Servlet容器、Web服务器等概念-CSDN博客</a></p>
-<h6 id="他们之间的关系："><a href="#他们之间的关系：" class="headerlink" title="他们之间的关系："></a>他们之间的关系：</h6><p>1.servlet是运行在servlet容器中的小程序，由Servlet容器所管理，用于生成动态的内容。Servlet没有main方法，不能独立运行，它必须被部署到Servlet容器中，由容器来实例化和调用 Servlet的方法（如doGet()和doPost()），Servlet容器在Servlet的生命周期内包括生成和管理Servlet。有了servlet之后，用户通过单击某个链接或者直接在浏览器的地址栏中输入URL来访问Servlet，Web服务器接收到该请求后，并不是将 请求直接交给Servlet，而是交给Servlet容器。Servlet容器实例化Servlet，调用Servlet的一个特定方法对请求进行处理， 并产生一个响应。这个响应由Servlet容器返回给Web服务器，Web服务器包装这个响应，以HTTP响应的形式发送给Web浏览器。</p>
-<h6 id="servlet容器的作用："><a href="#servlet容器的作用：" class="headerlink" title="servlet容器的作用："></a>servlet容器的作用：</h6><p>1.通信支持:利用容器提供的方法，你能轻松的让servlet与web服务器对话，而不用自己建立serversocket、监听某个端口、创建流等 等。</p>
-<h6 id="2-常见的servlet容器：tomcat"><a href="#2-常见的servlet容器：tomcat" class="headerlink" title="2.常见的servlet容器：tomcat"></a>2.常见的servlet容器：tomcat</h6><p>Tomcat服务器接受客户请求并做出响应的过程如下：<br>1）客户端（通常都是浏览器）访问Web服务器，发送HTTP请求。<br>2）Web服务器接收到请求后，传递给Servlet容器。<br>3）Servlet容器加载Servlet，产生Servlet实例后，向其传递表示请求和响应的对象。<br>4）Servlet实例使用请求对象得到客户端的请求信息，然后进行相应的处理。<br>5）Servlet实例将处理结果通过响应对象发送回客户端，容器负责确保响应正确送出，同时将控制返回给Web服务器。</p>
-<h6 id="servlet生命周期："><a href="#servlet生命周期：" class="headerlink" title="servlet生命周期："></a>servlet生命周期：</h6><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7147162584137859108">Servlet 的生命周期，什么是cookie，Session的详细解析，servletContext对象的详细解析 - 掘金</a><br><img src="https://cdn.nlark.com/yuque/0/2023/webp/28066124/1700201967861-0e3bffd7-f786-40d8-bc9b-f87c6083ce7f.webp#averageHue=%23fafafa&clientId=u3b084d49-ee67-4&from=paste&id=u2d8dd9cc&originHeight=676&originWidth=1512&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u4ff7aea7-5476-4904-94b5-3a3985f3f82&title=" srcset="/img/loading.gif" lazyload><br>1.init()<br>init方法设计为只调用一次。如果servlet的实例不存在，则Web容器：<br>加载servlet类<br>创建servlet类的实例<br>通过调用init方法初始化它<br>init方法必须成功完成之后，servlet才能接收任何请求。如果init方法抛出ServletException或在Web服务器定义的时间段内未返回，servlet容器将无法将servlet放入服务。</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ServletException &#123;
-    <span class="hljs-comment">// Initialization code like set up database etc....</span>
-&#125;</code></pre></div>
-<p>2.service()<br>此方法仅在servlet的init（）方法成功完成后调用。<br>Container调用service（）方法来处理来自客户端的请求，解释HTTP请求类型（GET、POST、PUT、DELETE等）并酌情调用doGet、doPost、doput、doDelete等方法。</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">service</span><span class="hljs-params">(ServletRequest request, ServletResponse response)</span> 
-  <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
-    <span class="hljs-comment">// ...</span>
-&#125;</code></pre></div>
-
+<h5 id="servlet和servlet容器：">servlet和servlet容器：</h5>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lz233333/article/details/68065749">理解Servlet和Servlet容器、Web服务器等概念-CSDN博客</a></p>
+<h6 id="他们之间的关系：">他们之间的关系：</h6>
+<p>1.servlet是运行在servlet容器中的小程序，由Servlet容器所管理，用于生成动态的内容。Servlet没有main方法，不能独立运行，它必须被部署到Servlet容器中，由容器来实例化和调用 Servlet的方法（如doGet()和doPost()），Servlet容器在Servlet的生命周期内包括生成和管理Servlet。有了servlet之后，用户通过单击某个链接或者直接在浏览器的地址栏中输入URL来访问Servlet，Web服务器接收到该请求后，并不是将 请求直接交给Servlet，而是交给Servlet容器。Servlet容器实例化Servlet，调用Servlet的一个特定方法对请求进行处理， 并产生一个响应。这个响应由Servlet容器返回给Web服务器，Web服务器包装这个响应，以HTTP响应的形式发送给Web浏览器。</p>
+<h6 id="servlet容器的作用：">servlet容器的作用：</h6>
+<p>1.通信支持:利用容器提供的方法，你能轻松的让servlet与web服务器对话，而不用自己建立serversocket、监听某个端口、创建流等 等。</p>
+<h6 id="2-常见的servlet容器：tomcat">2.常见的servlet容器：tomcat</h6>
+<p>Tomcat服务器接受客户请求并做出响应的过程如下：<br>
+1）客户端（通常都是浏览器）访问Web服务器，发送HTTP请求。<br>
+2）Web服务器接收到请求后，传递给Servlet容器。<br>
+3）Servlet容器加载Servlet，产生Servlet实例后，向其传递表示请求和响应的对象。<br>
+4）Servlet实例使用请求对象得到客户端的请求信息，然后进行相应的处理。<br>
+5）Servlet实例将处理结果通过响应对象发送回客户端，容器负责确保响应正确送出，同时将控制返回给Web服务器。</p>
+<h6 id="servlet生命周期：">servlet生命周期：</h6>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7147162584137859108">Servlet 的生命周期，什么是cookie，Session的详细解析，servletContext对象的详细解析 - 掘金</a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/webp/28066124/1700201967861-0e3bffd7-f786-40d8-bc9b-f87c6083ce7f.webp#averageHue=%23fafafa&amp;clientId=u3b084d49-ee67-4&amp;from=paste&amp;id=u2d8dd9cc&amp;originHeight=676&amp;originWidth=1512&amp;originalType=url&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;taskId=u4ff7aea7-5476-4904-94b5-3a3985f3f82&amp;title=" alt=""><br>
+1.init()<br>
+init方法设计为只调用一次。如果servlet的实例不存在，则Web容器：<br>
+加载servlet类<br>
+创建servlet类的实例<br>
+通过调用init方法初始化它<br>
+init方法必须成功完成之后，servlet才能接收任何请求。如果init方法抛出ServletException或在Web服务器定义的时间段内未返回，servlet容器将无法将servlet放入服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">    <span class="comment">// Initialization code like set up database etc....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.service()<br>
+此方法仅在servlet的init（）方法成功完成后调用。<br>
+Container调用service（）方法来处理来自客户端的请求，解释HTTP请求类型（GET、POST、PUT、DELETE等）并酌情调用doGet、doPost、doput、doDelete等方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">service</span><span class="params">(ServletRequest request, ServletResponse response)</span> </span><br><span class="line">  <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>destroy()</li>
 </ol>
-<p>由Servlet容器调用以使Servlet退出服务。<br>此方法仅在servlet的服务方法中的所有线程都退出或超时后调用。容器调用此方法后，不会在Servlet上再次调用服务方法。</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;
-    <span class="hljs-comment">// </span>
-&#125;</code></pre></div>
-<h6 id="servlet实践："><a href="#servlet实践：" class="headerlink" title="servlet实践："></a>servlet实践：</h6><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuwc/p/13991809.html">spring-Servlet&#x2F;Tomcat&#x2F;Spring - 秦羽的思考 - 博客园</a>(重要较难）<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204213622-a5f6b128-f463-463d-b576-eb9d9325baab.png#averageHue=%23e7c48d&clientId=u14ed016d-7def-4&from=paste&height=251&id=u9b4d4163&originHeight=314&originWidth=667&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29108&status=done&style=none&taskId=u06d79a7f-58f0-4fdc-8580-d9fb2fb258c&title=&width=533.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204216495-f638fb78-c0bd-4683-9ab1-ea6ccfbc7ea3.png#averageHue=%2321221f&clientId=u14ed016d-7def-4&from=paste&height=125&id=u769039da&originHeight=156&originWidth=384&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=19420&status=done&style=none&taskId=u0dd1e5b9-07a3-463b-ae29-b0fe157a1f9&title=&width=307.2" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h5 id="serveltContext"><a href="#serveltContext" class="headerlink" title="serveltContext:"></a>serveltContext:</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700204599469-ffc6e277-8ddc-48c1-b916-d80d748263ce.jpeg#averageHue=%23faf9f8&clientId=u14ed016d-7def-4&from=paste&id=uf370d912&originHeight=849&originWidth=1520&originalType=url&ratio=1.25&rotation=0&showTitle=false&status=done&style=none&taskId=u0ab560b1-b4e5-4f98-9091-e8f8fa3192b&title=" srcset="/img/loading.gif" lazyload><br>你可以把它想象成一个公用的空间，可以被所有的客户访问，也就是说A客户端可以访问D，B客户端可以访问D，C客户端也可以访问D。<br>WEB容器在启动时，它会为每个Web应用程序都创建一个对应的ServletContext，它代表当前Web应用。并且它被所有客户端共享。<br>ServletContext对象可以通过ServletConfig.getServletContext()方法获得对ServletContext对象的引用，也可以通过this.getServletContext()方法获得其对象的引用。<br>由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。ServletContext对象通常也被称之为context域对象。公共聊天室就会用到它。<br>当web应用关闭、Tomcat关闭或者Web应用reload的时候，ServletContext对象会被销毁<br>l练习：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204615594-2b427ada-8b10-4522-a70a-9ea5e3eb9d67.png#averageHue=%23fefdfc&clientId=u14ed016d-7def-4&from=paste&height=285&id=u87d516e9&originHeight=356&originWidth=918&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=32572&status=done&style=none&taskId=u4b13422f-df8c-4e10-8c70-86f9df1ffce&title=&width=734.4" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h5 id="sessionStorage-、localStorage-和-cookie-之间的区别"><a href="#sessionStorage-、localStorage-和-cookie-之间的区别" class="headerlink" title="sessionStorage 、localStorage 和 cookie 之间的区别"></a>sessionStorage 、localStorage 和 cookie 之间的区别</h5><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903713098694664">sessionStorage 、localStorage 和 cookie 之间的区别 - 掘金</a></p>
-<h5 id="html知识点："><a href="#html知识点：" class="headerlink" title="html知识点："></a>html知识点：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700205658192-5e94b6ed-db2d-4a02-99ee-c2f3e7330d38.png#averageHue=%23fefefd&clientId=u14ed016d-7def-4&from=paste&height=272&id=u1083fb3b&originHeight=340&originWidth=416&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=14726&status=done&style=none&taskId=u0db03197-f0b5-40f0-93b2-915cc776ec3&title=&width=332.8" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700205776261-18a3aba0-275a-48b6-97d6-59087c3a94c7.png#averageHue=%23fefefd&clientId=u14ed016d-7def-4&from=paste&height=262&id=u80c9fc87&originHeight=327&originWidth=820&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=21516&status=done&style=none&taskId=uf4157dd9-6290-4776-8eaa-c6d1124d560&title=&width=656" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<h5 id="JS知识点："><a href="#JS知识点：" class="headerlink" title="JS知识点："></a>JS知识点：</h5><p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700750535386-ebe77b78-8b6c-406a-9ec5-19c3061bbccb.png#averageHue=%23fefdfc&clientId=u31d300d4-d8fe-4&from=paste&height=593&id=u2bf67d9b&originHeight=741&originWidth=623&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42614&status=done&style=none&taskId=uf1c5a699-758c-4b7b-a2fd-4f4ce027930&title=&width=498.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>这是一个闭包问题，原因是：js脚本是从上往下执行的，每次循环都会为每个elements[i]元素绑定一个click事件处理函数该函数监听click事件。当元素被点击时，该事件处理函数会被调用，并且该函数会显示一个弹窗，内容是当前的i值。 所有的事件处理函数共享同一个i变量，因此它们都会显示循环结束后的i值。<br>闭包问题：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904174077870087">理解Js的闭包问题 - 掘金</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1012622?areaSource=106002.5">JavaScript学习总结(三)——闭包、IIFE、原型、函数与对象-腾讯云开发者社区-腾讯云</a><br><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700753920325-bc7ca01b-e14b-4782-8e3f-00836c428c36.png#averageHue=%23fefdfd&clientId=u31d300d4-d8fe-4&from=paste&height=277&id=uf9d98854&originHeight=346&originWidth=536&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=17820&status=done&style=none&taskId=ue1409026-7c29-4adc-8681-ebd2be42379&title=&width=428.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>上面的题目应该这样理解：js只有单线程，可以分为主线程和任务队列，主线程执行完后才从队列中拿出没有执行完的任务，这里的setTimeout就是把里面的任务放进任务队列中，而其他任务在主线程中。<br><a target="_blank" rel="noopener" href="https://coolnuanfeng.github.io/javascriptRun">深入理解 Javascript 运行机制及原型</a></p>
-<div class="code-wrapper"><pre><code class="hljs java">事件执行
-JavaScript语言的一大特点就是单线程，也就是说，同一个时间只能做一件事。
-
-单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，
-后一个任务就不得不一直等着。
-
-JavaScript语言的设计者意识到，这时主线程完全可以不管IO设备，挂起处于等待中的任务，
-先运行排在后面的任务。于是，所有任务可以分成两种，一种是同步任务（synchronous），
-另一种是异步任务（asynchronous）。
-
-因此Javascript运行机制可以简单理解成一个主线程（执行栈）和一个任务队列，脚本运行时
-先运行主线程，主线程运行完后，从”任务队列”中读取事件，运行任务队列的任务，这个过程是循环不断的
-，又称Event Loop（事件循环）。</code></pre></div>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700754363644-c59d58a0-a651-4aa4-88dc-ee0b42f40a76.png#averageHue=%23fefefe&clientId=u31d300d4-d8fe-4&from=paste&height=488&id=ucae36bdb&originHeight=610&originWidth=817&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42879&status=done&style=none&taskId=ub3437b14-542e-4219-97d7-e2f2e355e1a&title=&width=653.6" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86%E7%82%B9/" class="print-no-link">#零散知识点</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div></div>
-      <div>http://www.bojiboqi.fun/2024/01/26/基础概念：/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>山麋一笑</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年1月26日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/01/26/SpirngBoot%E5%BC%80%E6%BA%90Demo%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%9A/" title="SpirngBoot开源Demo源码分析：">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SpirngBoot开源Demo源码分析：</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/01/26/javaFX/" title="javafx">
-                        <span class="hidden-mobile">javafx</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz","appKey":"Y2GZN9C0SLdOpVG4hMb1TEJM","path":"window.location.pathname","placeholder":"如有错误还望指正","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nksnf5ng.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
-          {
-            el: "#valine",
-            path: window.location.pathname
-          }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-  
-
-
-
-</div>
-
-
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
+<p>由Servlet容器调用以使Servlet退出服务。<br>
+此方法仅在servlet的服务方法中的所有线程都退出或超时后调用。容器调用此方法后，不会在Servlet上再次调用服务方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="servlet实践：">servlet实践：</h6>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuwc/p/13991809.html">spring-Servlet/Tomcat/Spring - 秦羽的思考 - 博客园</a>(重要较难）<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204213622-a5f6b128-f463-463d-b576-eb9d9325baab.png#averageHue=%23e7c48d&amp;clientId=u14ed016d-7def-4&amp;from=paste&amp;height=251&amp;id=u9b4d4163&amp;originHeight=314&amp;originWidth=667&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=29108&amp;status=done&amp;style=none&amp;taskId=u06d79a7f-58f0-4fdc-8580-d9fb2fb258c&amp;title=&amp;width=533.6" alt="image.png"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204216495-f638fb78-c0bd-4683-9ab1-ea6ccfbc7ea3.png#averageHue=%2321221f&amp;clientId=u14ed016d-7def-4&amp;from=paste&amp;height=125&amp;id=u769039da&amp;originHeight=156&amp;originWidth=384&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=19420&amp;status=done&amp;style=none&amp;taskId=u0dd1e5b9-07a3-463b-ae29-b0fe157a1f9&amp;title=&amp;width=307.2" alt="image.png"></p>
+<h5 id="serveltContext">serveltContext:</h5>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1700204599469-ffc6e277-8ddc-48c1-b916-d80d748263ce.jpeg#averageHue=%23faf9f8&amp;clientId=u14ed016d-7def-4&amp;from=paste&amp;id=uf370d912&amp;originHeight=849&amp;originWidth=1520&amp;originalType=url&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;taskId=u0ab560b1-b4e5-4f98-9091-e8f8fa3192b&amp;title=" alt=""><br>
+你可以把它想象成一个公用的空间，可以被所有的客户访问，也就是说A客户端可以访问D，B客户端可以访问D，C客户端也可以访问D。<br>
+WEB容器在启动时，它会为每个Web应用程序都创建一个对应的ServletContext，它代表当前Web应用。并且它被所有客户端共享。<br>
+ServletContext对象可以通过ServletConfig.getServletContext()方法获得对ServletContext对象的引用，也可以通过this.getServletContext()方法获得其对象的引用。<br>
+由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。ServletContext对象通常也被称之为context域对象。公共聊天室就会用到它。<br>
+当web应用关闭、Tomcat关闭或者Web应用reload的时候，ServletContext对象会被销毁<br>
+l练习：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700204615594-2b427ada-8b10-4522-a70a-9ea5e3eb9d67.png#averageHue=%23fefdfc&amp;clientId=u14ed016d-7def-4&amp;from=paste&amp;height=285&amp;id=u87d516e9&amp;originHeight=356&amp;originWidth=918&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=32572&amp;status=done&amp;style=none&amp;taskId=u4b13422f-df8c-4e10-8c70-86f9df1ffce&amp;title=&amp;width=734.4" alt="image.png"></p>
+<h5 id="sessionStorage-、localStorage-和-cookie-之间的区别">sessionStorage 、localStorage 和 cookie 之间的区别</h5>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903713098694664">sessionStorage 、localStorage 和 cookie 之间的区别 - 掘金</a></p>
+<h5 id="html知识点：">html知识点：</h5>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700205658192-5e94b6ed-db2d-4a02-99ee-c2f3e7330d38.png#averageHue=%23fefefd&amp;clientId=u14ed016d-7def-4&amp;from=paste&amp;height=272&amp;id=u1083fb3b&amp;originHeight=340&amp;originWidth=416&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=14726&amp;status=done&amp;style=none&amp;taskId=u0db03197-f0b5-40f0-93b2-915cc776ec3&amp;title=&amp;width=332.8" alt="image.png"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700205776261-18a3aba0-275a-48b6-97d6-59087c3a94c7.png#averageHue=%23fefefd&amp;clientId=u14ed016d-7def-4&amp;from=paste&amp;height=262&amp;id=u80c9fc87&amp;originHeight=327&amp;originWidth=820&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=21516&amp;status=done&amp;style=none&amp;taskId=uf4157dd9-6290-4776-8eaa-c6d1124d560&amp;title=&amp;width=656" alt="image.png"></p>
+<h5 id="JS知识点：">JS知识点：</h5>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700750535386-ebe77b78-8b6c-406a-9ec5-19c3061bbccb.png#averageHue=%23fefdfc&amp;clientId=u31d300d4-d8fe-4&amp;from=paste&amp;height=593&amp;id=u2bf67d9b&amp;originHeight=741&amp;originWidth=623&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=42614&amp;status=done&amp;style=none&amp;taskId=uf1c5a699-758c-4b7b-a2fd-4f4ce027930&amp;title=&amp;width=498.4" alt="image.png"><br>
+这是一个闭包问题，原因是：js脚本是从上往下执行的，每次循环都会为每个elements[i]元素绑定一个click事件处理函数该函数监听click事件。当元素被点击时，该事件处理函数会被调用，并且该函数会显示一个弹窗，内容是当前的i值。 所有的事件处理函数共享同一个i变量，因此它们都会显示循环结束后的i值。<br>
+闭包问题：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904174077870087">理解Js的闭包问题 - 掘金</a><br>
+<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1012622?areaSource=106002.5">JavaScript学习总结(三)——闭包、IIFE、原型、函数与对象-腾讯云开发者社区-腾讯云</a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700753920325-bc7ca01b-e14b-4782-8e3f-00836c428c36.png#averageHue=%23fefdfd&amp;clientId=u31d300d4-d8fe-4&amp;from=paste&amp;height=277&amp;id=uf9d98854&amp;originHeight=346&amp;originWidth=536&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=17820&amp;status=done&amp;style=none&amp;taskId=ue1409026-7c29-4adc-8681-ebd2be42379&amp;title=&amp;width=428.8" alt="image.png"><br>
+上面的题目应该这样理解：js只有单线程，可以分为主线程和任务队列，主线程执行完后才从队列中拿出没有执行完的任务，这里的setTimeout就是把里面的任务放进任务队列中，而其他任务在主线程中。<br>
+<a target="_blank" rel="noopener" href="https://coolnuanfeng.github.io/javascriptRun">深入理解 Javascript 运行机制及原型</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">事件执行</span><br><span class="line">JavaScript语言的一大特点就是单线程，也就是说，同一个时间只能做一件事。</span><br><span class="line"></span><br><span class="line">单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，</span><br><span class="line">后一个任务就不得不一直等着。</span><br><span class="line"></span><br><span class="line">JavaScript语言的设计者意识到，这时主线程完全可以不管IO设备，挂起处于等待中的任务，</span><br><span class="line">先运行排在后面的任务。于是，所有任务可以分成两种，一种是同步任务（synchronous），</span><br><span class="line">另一种是异步任务（asynchronous）。</span><br><span class="line"></span><br><span class="line">因此Javascript运行机制可以简单理解成一个主线程（执行栈）和一个任务队列，脚本运行时</span><br><span class="line">先运行主线程，主线程运行完后，从”任务队列”中读取事件，运行任务队列的任务，这个过程是循环不断的</span><br><span class="line">，又称Event Loop（事件循环）。</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1700754363644-c59d58a0-a651-4aa4-88dc-ee0b42f40a76.png#averageHue=%23fefefe&amp;clientId=u31d300d4-d8fe-4&amp;from=paste&amp;height=488&amp;id=ucae36bdb&amp;originHeight=610&amp;originWidth=817&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=42879&amp;status=done&amp;style=none&amp;taskId=ub3437b14-542e-4219-97d7-e2f2e355e1a&amp;title=&amp;width=653.6" alt="image.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/01/26/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A/">http://www.bojiboqi.fun/2024/01/26/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86%E7%82%B9/">零散知识点</a></div><div class="post_share"><div class="social-share" data-image="/img/favicon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/26/SpirngBoot%E5%BC%80%E6%BA%90Demo%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%9A/" title="SpirngBoot开源Demo源码分析："><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpirngBoot开源Demo源码分析：</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/26/javaFX/" title="javafx"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">javafx</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/01/26/day1_/" title="周记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-26</div><div class="title">周记</div></div></a></div><div><a href="/2024/01/26/%E6%90%9C%E7%B4%A2%E7%9A%84%E6%8A%80%E5%B7%A7%EF%BC%9A/" title="搜索技巧"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-26</div><div class="title">搜索技巧</div></div></a></div><div><a href="/2024/01/26/%E6%9D%82%E8%AE%B0%EF%BC%9A/" title="杂记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-26</div><div class="title">杂记</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%BD%91%E5%85%B3%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">1.网关：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%9F%9F%E5%90%8D%E5%92%8C%E5%9F%9F%E5%90%8D%E6%9F%A5%E8%AF%A2%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">2.域名和域名查询：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#HTTP-304%E7%8A%B6%E6%80%81%E7%A0%81%E7%9A%84%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">HTTP 304状态码的详细讲解：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#get%E5%92%8Cpost%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">get和post的区别：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#servlet%E5%92%8Cservlet%E5%AE%B9%E5%99%A8%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">servlet和servlet容器：</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%96%E4%BB%AC%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9A"><span class="toc-number">5.1.</span> <span class="toc-text">他们之间的关系：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#servlet%E5%AE%B9%E5%99%A8%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="toc-number">5.2.</span> <span class="toc-text">servlet容器的作用：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-%E5%B8%B8%E8%A7%81%E7%9A%84servlet%E5%AE%B9%E5%99%A8%EF%BC%9Atomcat"><span class="toc-number">5.3.</span> <span class="toc-text">2.常见的servlet容器：tomcat</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9A"><span class="toc-number">5.4.</span> <span class="toc-text">servlet生命周期：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#servlet%E5%AE%9E%E8%B7%B5%EF%BC%9A"><span class="toc-number">5.5.</span> <span class="toc-text">servlet实践：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#serveltContext"><span class="toc-number">6.</span> <span class="toc-text">serveltContext:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sessionStorage-%E3%80%81localStorage-%E5%92%8C-cookie-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">sessionStorage 、localStorage 和 cookie 之间的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#html%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%9A"><span class="toc-number">8.</span> <span class="toc-text">html知识点：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JS%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%9A"><span class="toc-number">9.</span> <span class="toc-text">JS知识点：</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'NkSNF5NG3Uup8tDgwIfBlJ9d-gzGzoHsz',
+      appKey: 'Y2GZN9C0SLdOpVG4hMb1TEJM',
+      avatar: 'monsterid',
+      serverURLs: 'https://nksnf5ng.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js')
+      initValine()
     }
+  }
 
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-  
-<script src="/js/DynamicLine.js"></script>
-<script src="/js/custom.js"></script>
-<script src="/js/yinhua.js"></script>
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-
-<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script>
-  <link defer rel="stylesheet" href="/css/backgroundize.css" />
-  <!-- hexo injector body_end end --></body>
-</html>
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script src="/js/ip_content.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
