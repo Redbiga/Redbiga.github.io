@@ -612,6 +612,13 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/IDEA/</loc>
+    <lastmod>2024-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/hexo/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -626,13 +633,6 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/IDEA/</loc>
-    <lastmod>2024-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://www.bojiboqi.fun/tags/Linux/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -640,14 +640,14 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/Rabbits/</loc>
+    <loc>http://www.bojiboqi.fun/tags/Linux%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/Linux%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
+    <loc>http://www.bojiboqi.fun/tags/Rabbits/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -668,6 +668,13 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/ssm/</loc>
+    <lastmod>2024-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -676,13 +683,6 @@
   
   <url>
     <loc>http://www.bojiboqi.fun/tags/spring/</loc>
-    <lastmod>2024-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.bojiboqi.fun/tags/ssm/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -801,13 +801,6 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2024-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://www.bojiboqi.fun/tags/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -822,7 +815,7 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</loc>
+    <loc>http://www.bojiboqi.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -836,6 +829,13 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2024-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/UML/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -843,14 +843,14 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/C/</loc>
+    <loc>http://www.bojiboqi.fun/tags/springCloud/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/springCloud/</loc>
+    <loc>http://www.bojiboqi.fun/tags/C/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -880,14 +880,14 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/categories/Linux/</loc>
+    <loc>http://www.bojiboqi.fun/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
+    <loc>http://www.bojiboqi.fun/categories/Linux/</loc>
     <lastmod>2024-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
