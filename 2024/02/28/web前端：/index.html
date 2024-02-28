@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>web前端 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="1.VScode的使用： 如何快速生成HTML模板 输入！然后tab就可以快速生成html模板了 绘制三角形： 总结： 1.display:flex(弹性盒子布局)详解_display: flex_羡阳公子的博客-CSDN博客 2.CSS：N种使用CSS 绘制三角形的方法_三角形css_打瞌睡的兔兔小姐的博客-CSDN博客【前端怪谈】两个行内块元素之间的间距问题_行内块元素间距问题_hhhhh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web前端">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/02/28/web%E5%89%8D%E7%AB%AF%EF%BC%9A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="1.VScode的使用： 如何快速生成HTML模板 输入！然后tab就可以快速生成html模板了 绘制三角形： 总结： 1.display:flex(弹性盒子布局)详解_display: flex_羡阳公子的博客-CSDN博客 2.CSS：N种使用CSS 绘制三角形的方法_三角形css_打瞌睡的兔兔小姐的博客-CSDN博客【前端怪谈】两个行内块元素之间的间距问题_行内块元素间距问题_hhhhh">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.dmoe.cc/random.php?4594">
+<meta property="article:published_time" content="2024-02-28T13:02:28.480Z">
+<meta property="article:modified_time" content="2024-02-28T10:44:05.337Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.dmoe.cc/random.php?4594"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/02/28/web%E5%89%8D%E7%AB%AF%EF%BC%9A/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'web前端',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-28 18:44:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href='/css/footer.css'><link rel="stylesheet" href='/css/wave.css'><link rel="stylesheet" href='/css/universe.css'><link rel="stylesheet" href='/css/custom.css'><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/runtime.css"><link rel="stylesheet" href="/css/darkRead.css"><link rel="stylesheet" href="https://cdn1.tianli0.top/gh/zhheo/Post-Abstract-AI@0.15.2/tianli_gpt.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.dmoe.cc/random.php?4594')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">web前端</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-28T13:02:28.480Z" title="发表于 2024-02-28 21:02:28">2024-02-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-28T10:44:05.337Z" title="更新于 2024-02-28 18:44:05">2024-02-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/">课程作业</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="web前端"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"> <meta name="referrer" content="no-referrer">
+<h1>1.VScode的使用：</h1>
+<h2 id="如何快速生成HTML模板">如何快速生成HTML模板</h2>
+<p>输入！然后tab就可以快速生成html模板了</p>
+<h1>绘制三角形：</h1>
+<h2 id="总结：">总结：</h2>
+<p>1.<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44537625/article/details/100040169">display:flex(弹性盒子布局)详解_display: flex_羡阳公子的博客-CSDN博客</a><br>
+2.<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44015669/article/details/115663156">CSS：N种使用CSS 绘制三角形的方法_三角形css_打瞌睡的兔兔小姐的博客-CSDN博客</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/hhhhhhhssss/article/details/119177898">【前端怪谈】两个行内块元素之间的间距问题_行内块元素间距问题_hhhhhhhssss的博客-CSDN博客</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/160929003">css之div盒子居中常用方法大全</a></p>
+<h1>2.如何在输入框前设置图片：</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/heromps/article/details/112576867">input里面添加图片_input输入框添加图片_heromps的博客-CSDN博客</a></p>
+<h2 id="输入框文本缩进的方法：">输入框文本缩进的方法：</h2>
+<p>**CSS中的text-indent属性可以实现：**text-indent 属性规定文本块中首行文本的缩进。可以给改属性赋值px,百分比等，默认是0；<br>
+注释：允许使用负值。如果使用负值，那么首行会被缩进到左边。<br>
+<a target="_blank" rel="noopener" href="https://worktile.com/kb/p/24580">html的缩进属性介绍 • Worktile社区</a><br>
+3.Live Server是一款在vscode上面修改编码刷新界面就可以反馈在浏览器的插件</p>
+<h1>第3次实验总结：</h1>
+<h4 id="1-如何在无序列表的列表项下边生成下划线">1.如何在无序列表的列表项下边生成下划线</h4>
+<p>只需要设置无序列表项的下边框就可以了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ul li &#123;</span><br><span class="line">border-bottom: 1px solid black; /* 设置下划线的宽度、样式和颜色 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-js中动态生成的元素也受css的影响">2.js中动态生成的元素也受css的影响</h4>
+<h4 id="3-行内块元素，块元素，行元素的区别：">3.行内块元素，块元素，行元素的区别：</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">每个块级元素都是独自占一行；</span><br><span class="line">高度，行高，外边距（margin）以及内边距（padding）都可以控制；</span><br><span class="line">元素的宽度如果不设置的话，默认为父元素的宽度（父元素宽度100%；</span><br><span class="line">多个块状元素标签写在一起，默认排列方式为从上至下</span><br><span class="line">一般作为容器使用</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;address&gt;  // 定义地址 </span><br><span class="line">&lt;caption&gt;  // 定义表格标题 </span><br><span class="line">&lt;dd&gt;      // 定义列表中定义条目 </span><br><span class="line">&lt;div&gt;     // 定义文档中的分区或节 </span><br><span class="line">&lt;dl&gt;    // 定义列表 </span><br><span class="line">&lt;dt&gt;     // 定义列表中的项目 </span><br><span class="line">&lt;fieldset&gt;  // 定义一个框架集 </span><br><span class="line">&lt;form&gt;  // 创建 HTML 表单 </span><br><span class="line">&lt;h1&gt;    // 定义最大的标题</span><br><span class="line">&lt;h2&gt;    // 定义副标题</span><br><span class="line">&lt;h3&gt;     // 定义标题</span><br><span class="line">&lt;h4&gt;     // 定义标题</span><br><span class="line">&lt;h5&gt;     // 定义标题</span><br><span class="line">&lt;h6&gt;     // 定义最小的标题</span><br><span class="line">&lt;hr&gt;     // 创建一条水平线</span><br><span class="line">&lt;legend&gt;    // 元素为 fieldset 元素定义标题</span><br><span class="line">&lt;li&gt;     // 标签定义列表项目</span><br><span class="line">&lt;noframes&gt;    // 为那些不支持框架的浏览器显示文本，于 frameset 元素内部</span><br><span class="line">&lt;noscript&gt;    // 定义在脚本未被执行时的替代内容</span><br><span class="line">&lt;ol&gt;     // 定义有序列表</span><br><span class="line">&lt;ul&gt;    // 定义无序列表</span><br><span class="line">&lt;p&gt;     // 标签定义段落</span><br><span class="line">&lt;pre&gt;     // 定义预格式化的文本</span><br><span class="line">&lt;table&gt;     // 标签定义 HTML 表格</span><br><span class="line">&lt;tbody&gt;     // 标签表格主体（正文）</span><br><span class="line">&lt;td&gt;    // 表格中的标准单元格</span><br><span class="line">&lt;tfoot&gt;     // 定义表格的页脚（脚注或表注）</span><br><span class="line">&lt;th&gt;    // 定义表头单元格</span><br><span class="line">&lt;thead&gt;    // 标签定义表格的表头</span><br><span class="line">&lt;tr&gt;     // 定义表格中的行</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">行内元素不可以设置宽（width）和高（height）,或者说设置了高宽无效</span><br><span class="line">不会独占一行，相邻的行内元素会排列在同一行里，直到一行排不下才会自动换行，其宽度随元素的内容而</span><br><span class="line">变化；</span><br><span class="line">高宽无效，对外边距（margin）和内边距（padding）仅设置左右方向有效 上下无效；</span><br><span class="line">设置行高有效，等同于给父级元素设置行高；</span><br><span class="line">元素的宽度就是它包含的文字或图片的宽度，不可改变；</span><br><span class="line">行内元素中不能放块级元素，a 链接里面不能再放链接；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;a&gt;     // 标签可定义锚 </span><br><span class="line">&lt;abbr&gt;     // 表示一个缩写形式 </span><br><span class="line">&lt;acronym&gt;     // 定义只取首字母缩写 </span><br><span class="line">&lt;b&gt;     // 字体加粗 </span><br><span class="line">&lt;bdo&gt;     // 可覆盖默认的文本方向 </span><br><span class="line">&lt;big&gt;     // 大号字体加粗 </span><br><span class="line">&lt;br&gt;     // 换行 </span><br><span class="line">&lt;cite&gt;     // 引用进行定义 </span><br><span class="line">&lt;code&gt;    // 定义计算机代码文本</span><br><span class="line">&lt;dfn&gt;     // 定义一个定义项目</span><br><span class="line">&lt;em&gt;     // 定义为强调的内容</span><br><span class="line">&lt;i&gt;     // 斜体文本效果</span><br><span class="line">&lt;kbd&gt;     // 定义键盘文本</span><br><span class="line">&lt;label&gt;     // 标签为 input 元素定义标注（标记）</span><br><span class="line">&lt;q&gt;     // 定义短的引用</span><br><span class="line">&lt;samp&gt;     // 定义样本文本</span><br><span class="line">&lt;select&gt; // 创建单选或多选菜单</span><br><span class="line">&lt;small&gt;     // 呈现小号字体效果</span><br><span class="line">&lt;span&gt;     // 组合文档中的行内元素</span><br><span class="line">&lt;strong&gt; // 加粗</span><br><span class="line">&lt;sub&gt;     // 定义下标文本</span><br><span class="line">&lt;sup&gt;     // 定义上标文本</span><br><span class="line">&lt;textarea&gt;     // 多行的文本输入控件</span><br><span class="line">&lt;tt&gt;     // 打字机或者等宽的文本效果</span><br><span class="line">&lt;var&gt;    // 定义变量</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">高度、行高、外边距以及内边距都可以控制；</span><br><span class="line">默认宽度就是它本身内容的宽度，不独占一行，但是之间会有空白缝隙，设置它上一级的 font-size 为 0，</span><br><span class="line">才会消除间隙；</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;button&gt; </span><br><span class="line">&lt;input&gt;   </span><br><span class="line">&lt;textarea&gt; </span><br><span class="line">&lt;select&gt; </span><br><span class="line">&lt;img&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="4-ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法：">4.ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法：</h4>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695973720293-633d2c10-4755-4ea9-b58e-4a3a872fd229.png#averageHue=%23fcf9f6&amp;clientId=u09562b73-ac0f-4&amp;from=paste&amp;height=268&amp;id=u231ef2a4&amp;originHeight=335&amp;originWidth=506&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=13386&amp;status=done&amp;style=none&amp;taskId=ua14eb321-7cef-4b76-9cd2-d8935def6ae&amp;title=&amp;width=404.8" alt="image.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ul&#123;</span><br><span class="line">margin-left:-50px;</span><br><span class="line">&#125;</span><br><span class="line">//利用margin负数左移原理对齐，但是不建议。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//其实这里的li可以看出是ul元素中的内容，浏览器默认设置了它与li之间的左padding;只有我们手动</span><br><span class="line">把padding设置为0就可以解决你。</span><br><span class="line">ul&#123;</span><br><span class="line">padding:0px;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-去除行内块元素之间的空格：">5.去除行内块元素之间的空格：</h4>
+<p>浏览器处理空格的规则：文字的前部和后部的空格都会忽略，内部的连续空格只会算作一个。浏览器会自动把换行符号转成普通的空格键。<br>
+white-space ：是css针对浏览器对应空格处理的方法。<br>
+产生原因：html文档中标签与标签之间有换行符和空格，而这些会被解析为文本节点，其中换行符被解析为1个空格，多个连续的空格会被解析为1个空格。这些空格的文本节点在行之间会占据一定的空间的，因此在行内元素和行内块元素之间会有空格，这空格的参数是因为这些标签之间的换行符和空格产生的。<br>
+消除方法：<br>
+例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;wrapper&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child1&quot;&gt;child1&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;child2&quot;&gt;child2&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>方法1：把这些标签紧密书写，让其中没有换行符号和空格</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;wrapper&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;child1&quot;&gt;child1&lt;/div&gt;&lt;div class=&quot;child2&quot;&gt;child2&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>方法2：使用margin为负值移动特定的元素（不建议）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.child2 &#123;</span><br><span class="line">    margin-left: -5px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法3：空格也是文本的一种可以在其父节点设置font-size: 0,这样就会让子元素中的文字不会显示，同理想要在标签当中的文本也不会显示，这个时候我们在额外设置子标签中的文本大小就可以了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">    font-size: 0;</span><br><span class="line">&#125;</span><br><span class="line">.child1, .child2 &#123;</span><br><span class="line">    font-size: 14px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法4：既然是有标签之间的换行符和空格产生的，我们可以在这之间添加一个不会显示在浏览器上的内容占据换行符和空格就好了。没错这种内容就是注释。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;Resolve Resolve5&quot;&gt;</span><br><span class="line"></span><br><span class="line">  &lt;span&gt;左侧行内元素&lt;/span&gt;&lt;!-- 消除行内元素换行导致的空白</span><br><span class="line"></span><br><span class="line">--&gt;&lt;span&gt;右侧行内元素&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>方法5：使用负的文字间距（letter-spacing）。通过将行内元素和行内块元素之间的文字间距设为负值，同样可以达到移除空白间距的效果。<br>
+方法6：使用float</p>
+<h4 id="CSS中的float属性：">CSS中的float属性：</h4>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903616155746312">CSS 深入理解之 float 浮动 - 掘金</a><br>
+<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016153055">滑动验证页面</a><br>
+1.浮动的概念：就是一个元素脱离了标准流，然后在原本的位置浮起来了（第一个浮起来的元素在本行，后面的可能会紧跟前面浮动元素的行）。其后的块级元素会移动占据浮动元素原来的位置，其中块级元素里面的内容不会占据浮动元素原来的位置，而是环绕它<br>
+2.特性：包裹性：包裹指的是一个浮动元素，如果子元素宽度足够小，则浮动元素的宽度就是该子元素的宽度。<br>
+自适应指的是如果浮动元素的父元素有设置宽度，并且浮动元素的子元素宽度超出了父元素，则浮动元素的宽度最终表现为父元素的宽度；<br>
+破坏性：浮动元素会让父元素发生高度塌陷。也就是父元素的高度为0（父元素没有边框的情况，有边框的话高度在边框的1~2倍之间）<br>
+块状化：一旦元素float的属性不为none，则其display计算值就是block或者table。这里的块状化意思是可以像block元素一样设置宽和高，并不是真正的块元素。<br>
+没有任何的margin重叠：也就是说上下左右两个浮动元素之间的大小是其各自元素设置的margin之和。</p>
+<h4 id="清除浮动：">清除浮动：</h4>
+<p>1.清除元素只是清除元素自身的浮动效果，没有浮动的元素也可以清除浮动。清除浮动是让<strong>元素盒子的边不能和前面的浮动元素相邻。</strong><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989142535-5930cc04-db98-4143-80f3-e74d6b566892.png#averageHue=%23edece6&amp;clientId=u09562b73-ac0f-4&amp;from=paste&amp;height=381&amp;id=u3ede46a3&amp;originHeight=476&amp;originWidth=1091&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=295486&amp;status=done&amp;style=none&amp;taskId=ued3eb689-8ac2-45a3-b9ef-19cf61840b3&amp;title=&amp;width=872.8" alt="image.png"><br>
+上面的clear:left表示该元素的左边不能有浮动元素存在。clear:right表示该元素右边不能有浮动元素，clear:both表示该元素的左右都不能有浮动元素。<br>
+2.使用伪类元素清除：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989985378-4fde44d2-ee10-42e9-8367-6af06fe74cfd.png#averageHue=%23f6f5f4&amp;clientId=u09562b73-ac0f-4&amp;from=paste&amp;height=171&amp;id=u37b1cdc3&amp;originHeight=214&amp;originWidth=470&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=11705&amp;status=done&amp;style=none&amp;taskId=ubc4bfcc2-ac48-4a6b-853a-61e19481582&amp;title=&amp;width=376" alt="image.png"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1695989991357-02c5c0d3-447d-493c-b92b-3b99576ce4fc.png#averageHue=%23f4f3f3&amp;clientId=u09562b73-ac0f-4&amp;from=paste&amp;height=211&amp;id=ub857d9f9&amp;originHeight=264&amp;originWidth=323&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=7547&amp;status=done&amp;style=none&amp;taskId=ud2261c90-d4e4-45c6-b997-3d9b84e41ef&amp;title=&amp;width=258.4" alt="image.png"><br>
+这里的.clearfix:after::after 是 CSS 中的一种特殊选择器，它可以在选中的元素的末尾插入一个虚拟的子元素。这个虚拟的子元素可以用于添加样式、内容或进行其他操作。</p>
+<h4 id="导航栏的书写：">导航栏的书写：</h4>
+<p>给每一个导航栏设置一个index属性，然后获取所有相应的div元素，利用排他算法，想把其他设置为空，然后在设置特定的结果。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE <span class="selector-tag">html</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">html</span> lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;UTF-<span class="number">8</span>&quot;&gt;</span><br><span class="line">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; <span class="attribute">content</span>=&quot;IE=edge&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;viewport&quot; <span class="attribute">content</span>=&quot;<span class="attribute">width</span>=device-<span class="attribute">width</span>, initial-scale=<span class="number">1.0</span>&quot;&gt;</span><br><span class="line">&lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">* &#123;</span><br><span class="line"><span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.table</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">600px</span>;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">600px</span>;</span><br><span class="line"><span class="attribute">margin</span>: <span class="number">100px</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.table_title</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line"><span class="attribute">background-color</span>: <span class="number">#000</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.table_title</span> <span class="selector-tag">ul</span> &#123;</span><br><span class="line"><span class="attribute">display</span>: flex;</span><br><span class="line"><span class="attribute">text-align</span>: center;</span><br><span class="line"><span class="attribute">color</span>:<span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.table_title</span> <span class="selector-tag">ul</span> <span class="selector-tag">li</span> &#123;</span><br><span class="line"><span class="attribute">list-style</span>: none;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line"><span class="attribute">line-height</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.p1</span> <span class="selector-tag">ul</span>&#123;</span><br><span class="line">    <span class="attribute">padding-left</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">list-style</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.p1</span> <span class="selector-tag">li</span>&#123;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> dashed gray;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.hong</span> &#123;</span><br><span class="line"><span class="attribute">background-color</span>: <span class="number">#aaa</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;<span class="selector-tag">body</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">div</span> class=&quot;<span class="selector-tag">table</span>&quot;&gt;</span><br><span class="line">    &lt;<span class="selector-tag">div</span> class=&quot;table_title&quot;&gt;</span><br><span class="line">        &lt;<span class="selector-tag">ul</span>&gt;</span><br><span class="line">            &lt;<span class="selector-tag">li</span> class=&quot;hong&quot; &gt;热门排行&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">            &lt;<span class="selector-tag">li</span> &gt;美图速递&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">            &lt;<span class="selector-tag">li</span>&gt;前沿科技&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">        &lt;/<span class="selector-tag">ul</span>&gt;</span><br><span class="line">    &lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">    &lt;<span class="selector-tag">div</span> class=&quot;table_content&quot;&gt;</span><br><span class="line">        &lt;<span class="selector-tag">div</span> style=&quot;<span class="attribute">display</span>:block;&quot; class=&quot;p1&quot;&gt;</span><br><span class="line">            &lt;<span class="selector-tag">ul</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;习近平出席推进“一带一路”建设工作<span class="number">5</span>周年座谈会&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;中共时隔接近三年再修党纪条例子&amp;nbsp;这些高压线不能碰&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;全国高中<span class="number">2019</span>年秋季起分步实施新课程使用新教材&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;个税法修正草案将二申&amp;nbsp;起征点会否超<span class="number">5000</span>元?&lt;/<span class="selector-tag">li</span>&gt;    </span><br><span class="line">            &lt;/<span class="selector-tag">ul</span>&gt;</span><br><span class="line">        &lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">        &lt;<span class="selector-tag">div</span> class=&quot;p1&quot; hidden&gt;</span><br><span class="line">            &lt;<span class="selector-tag">ul</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;鹅教官,羊陪练......这所中学养的动物成了“网红”&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;最伤身体的<span class="number">10</span>个生活习惯,一定要避开&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;<span class="number">12</span>岁孩子带着父亲去西藏&amp;nbsp;吃住行自己拿主义&lt;/<span class="selector-tag">li</span>&gt;</span><br><span class="line">                &lt;<span class="selector-tag">li</span>&gt;<span class="number">16</span>岁男孩暑假干了俩月工地,练出满是肌肉,只为赚学费&lt;/<span class="selector-tag">li</span>&gt;    </span><br><span class="line">            &lt;/<span class="selector-tag">ul</span>&gt;</span><br><span class="line">        &lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">        <span class="selector-tag">var</span> lis = document<span class="selector-class">.querySelector</span>(&#x27;<span class="selector-class">.table_title</span>&#x27;)<span class="selector-class">.querySelectorAll</span>(&#x27;<span class="selector-tag">li</span>&#x27;);</span><br><span class="line">        <span class="selector-tag">var</span> divs = document<span class="selector-class">.querySelector</span>(&#x27;<span class="selector-class">.table_content</span>&#x27;)<span class="selector-class">.querySelectorAll</span>(&#x27;<span class="selector-tag">div</span>&#x27;);</span><br><span class="line">        for(<span class="selector-tag">var</span> <span class="selector-tag">i</span> = <span class="number">0</span>; <span class="selector-tag">i</span> &lt; lis<span class="selector-class">.length</span>; <span class="selector-tag">i</span>++) &#123;</span><br><span class="line">        lis<span class="selector-attr">[i]</span><span class="selector-class">.setAttribute</span>(&#x27;index&#x27;,<span class="selector-tag">i</span>);</span><br><span class="line">        lis<span class="selector-attr">[i]</span><span class="selector-class">.onmouseover</span> = function() &#123;</span><br><span class="line">        for(<span class="selector-tag">var</span> <span class="selector-tag">i</span> = <span class="number">0</span>; <span class="selector-tag">i</span> &lt; lis<span class="selector-class">.length</span>; <span class="selector-tag">i</span>++) &#123;</span><br><span class="line">        lis<span class="selector-attr">[i]</span><span class="selector-class">.className</span> = &#x27;&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="selector-tag">var</span> index = this<span class="selector-class">.getAttribute</span>(&#x27;index&#x27;);</span><br><span class="line">        this<span class="selector-class">.className</span> = &#x27;hong&#x27;;</span><br><span class="line">        for(<span class="selector-tag">var</span> <span class="selector-tag">i</span> = <span class="number">0</span>;<span class="selector-tag">i</span> &lt; divs<span class="selector-class">.length</span>; <span class="selector-tag">i</span>++)&#123;</span><br><span class="line">        divs<span class="selector-attr">[i]</span><span class="selector-class">.style</span><span class="selector-class">.display</span> = &#x27;<span class="attribute">none</span>&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        divs<span class="selector-attr">[index]</span><span class="selector-class">.style</span><span class="selector-class">.display</span> = &#x27;block&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/<span class="selector-tag">body</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">html</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>localstory:<br>
+<a target="_blank" rel="noopener" href="https://juejin.cn/post/7149380173027573767">前端本地存储之LocalStorage - 掘金</a><br>
+<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=localStorage&amp;spm=1001.2101.3001.7020">localStorage</a>存取数组和对象不像存取字符串那样，<strong>需要序列化和反序列化</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rolePower=[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>]</span><br><span class="line">存：localStorage.setItem(<span class="string">&#x27;rolePower&#x27;</span>,JSON.stringify(rolePower))</span><br><span class="line">取：JSON.parse(localStorage.getItem(<span class="string">&quot;rolePower&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> userNews=&#123;id: <span class="string">&quot;aa&quot;</span>, userId: <span class="string">&quot;1234&quot;</span>, loginName: <span class="string">&quot;test&quot;</span>, name: <span class="string">&quot;测试&quot;</span>, orgId: <span class="string">&quot;1001&quot;</span>&#125;</span><br><span class="line">存：localStorage.setItem(<span class="string">&#x27;user&#x27;</span>,JSON.stringify(userNews))</span><br><span class="line">取：JSON.parse(localStorage.getItem(<span class="string">&quot;user&quot;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/02/28/web%E5%89%8D%E7%AB%AF%EF%BC%9A/">http://www.bojiboqi.fun/2024/02/28/web%E5%89%8D%E7%AB%AF%EF%BC%9A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%89%8D%E7%AB%AF/">前端</a></div><div class="post_share"><div class="social-share" data-image="https://www.dmoe.cc/random.php?4594" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/28/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AE%EF%BC%9A/" title="苍穹外卖项目"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.dmoe.cc/random.php?8585" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">苍穹外卖项目</div></div></a></div><div class="next-post pull-right"><a href="/2024/02/28/Vue_/" title="Vue学习笔记"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.dmoe.cc/random.php?4822" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue学习笔记</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/02/28/Vue_/" title="Vue学习笔记"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.dmoe.cc/random.php?4822" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-28</div><div class="title">Vue学习笔记</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">1.VScode的使用：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90HTML%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.1.</span> <span class="toc-text">如何快速生成HTML模板</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">绘制三角形：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">2.如何在输入框前设置图片：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A1%86%E6%96%87%E6%9C%AC%E7%BC%A9%E8%BF%9B%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">输入框文本缩进的方法：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">第3次实验总结：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E5%9C%A8%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8%E7%9A%84%E5%88%97%E8%A1%A8%E9%A1%B9%E4%B8%8B%E8%BE%B9%E7%94%9F%E6%88%90%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="toc-number">4.0.0.1.</span> <span class="toc-text">1.如何在无序列表的列表项下边生成下划线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-js%E4%B8%AD%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E7%9A%84%E5%85%83%E7%B4%A0%E4%B9%9F%E5%8F%97css%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-number">4.0.0.2.</span> <span class="toc-text">2.js中动态生成的元素也受css的影响</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E8%A1%8C%E5%85%83%E7%B4%A0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">4.0.0.3.</span> <span class="toc-text">3.行内块元素，块元素，行元素的区别：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-ul%E5%85%83%E7%B4%A0%E5%92%8Cli%E5%85%83%E7%B4%A0%E4%B9%8B%E9%97%B4%E6%98%AF%E6%9C%89%E4%B8%80%E5%AE%9A%E7%9A%84%E9%97%B4%E9%9A%94%E7%9A%84%EF%BC%8C%E5%8E%BB%E6%8E%89%E4%BB%96%E4%BB%AC%E4%B9%8B%E9%97%B4%E9%97%B4%E9%9A%99%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">4.0.0.4.</span> <span class="toc-text">4.ul元素和li元素之间是有一定的间隔的，去掉他们之间间隙的方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%8E%BB%E9%99%A4%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%E4%B9%8B%E9%97%B4%E7%9A%84%E7%A9%BA%E6%A0%BC%EF%BC%9A"><span class="toc-number">4.0.0.5.</span> <span class="toc-text">5.去除行内块元素之间的空格：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS%E4%B8%AD%E7%9A%84float%E5%B1%9E%E6%80%A7%EF%BC%9A"><span class="toc-number">4.0.0.6.</span> <span class="toc-text">CSS中的float属性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%EF%BC%9A"><span class="toc-number">4.0.0.7.</span> <span class="toc-text">清除浮动：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84%E4%B9%A6%E5%86%99%EF%BC%9A"><span class="toc-number">4.0.0.8.</span> <span class="toc-text">导航栏的书写：</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-teal-alpha.vercel.app/',
+      region: 'ap-shanghai',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-teal-alpha.vercel.app/',
+      region: 'ap-shanghai',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script  src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/universe.js"></script><canvas id="universe"></canvas><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script>let tianliGPT_postSelector = '\#post \#article-container';let tianliGPT_key = '92ec679de1bc42262c48';</script><script   defer src="https://cdn1.tianli0.top/gh/zhheo/Post-Abstract-AI@0.15.2/tianli_gpt.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

@@ -1,0 +1,2832 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Redis尚硅谷课件 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="框架高级课程系列之Redis6 尚硅谷JavaEE教研组  NoSQL数据库简介  技术发展    技术的分类 1、解决功能性的问题：Java、Jsp、RDBMS、Tomcat、HTML、Linux、JDBC、SVN 2、解决扩展性的问题：Struts、Spring、SpringMVC、Hibernate、Mybatis 3、解决性能的问题：NoSQL、Java线程、Hadoop、Nginx、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis尚硅谷课件">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/02/28/%E5%B0%9A%E7%A1%85%E8%B0%B7_Redis6%E8%AF%BE%E4%BB%B6/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="框架高级课程系列之Redis6 尚硅谷JavaEE教研组  NoSQL数据库简介  技术发展    技术的分类 1、解决功能性的问题：Java、Jsp、RDBMS、Tomcat、HTML、Linux、JDBC、SVN 2、解决扩展性的问题：Struts、Spring、SpringMVC、Hibernate、Mybatis 3、解决性能的问题：NoSQL、Java线程、Hadoop、Nginx、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.dmoe.cc/random.php?4480">
+<meta property="article:published_time" content="2024-02-28T13:02:28.558Z">
+<meta property="article:modified_time" content="2024-02-28T10:44:05.344Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.dmoe.cc/random.php?4480"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/02/28/%E5%B0%9A%E7%A1%85%E8%B0%B7_Redis6%E8%AF%BE%E4%BB%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis尚硅谷课件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-02-28 18:44:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href='/css/footer.css'><link rel="stylesheet" href='/css/wave.css'><link rel="stylesheet" href='/css/universe.css'><link rel="stylesheet" href='/css/custom.css'><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/runtime.css"><link rel="stylesheet" href="/css/darkRead.css"><link rel="stylesheet" href="https://cdn1.tianli0.top/gh/zhheo/Post-Abstract-AI@0.15.2/tianli_gpt.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.dmoe.cc/random.php?4480')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis尚硅谷课件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-02-28T13:02:28.558Z" title="发表于 2024-02-28 21:02:28">2024-02-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-02-28T10:44:05.344Z" title="更新于 2024-02-28 18:44:05">2024-02-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">24.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>82分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis尚硅谷课件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"> <meta name="referrer" content="no-referrer">
+<h2 id="框架高级课程系列之Redis6">框架高级课程系列之Redis6</h2>
+<p>尚硅谷JavaEE教研组</p>
+<ol>
+<li><strong>NoSQL数据库简介</strong>
+<ol>
+<li><strong>技术发展</strong></li>
+</ol>
+</li>
+</ol>
+<p>技术的分类<br>
+1、解决功能性的问题：Java、Jsp、RDBMS、Tomcat、HTML、Linux、JDBC、SVN<br>
+2、解决扩展性的问题：Struts、Spring、SpringMVC、Hibernate、Mybatis<br>
+3、解决性能的问题：NoSQL、Java线程、Hadoop、Nginx、MQ、ElasticSearch</p>
+<pre><code>  1. **Web1.0时代**
+</code></pre>
+<p>Web1.0的时代，数据访问量很有限(数据量只是部署到一个服务器中，可是一个服务器的访问量是有上限的），用一夫当关的高性能的单点服务器可以解决大部分问题。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730024175-de0e4e42-179e-4e3b-895e-17700759e95e.png#averageHue=%23f5f5f4&amp;id=bVpXM&amp;originHeight=206&amp;originWidth=625&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **Web2.0时代**
+</code></pre>
+<p>随着Web2.0的时代的到来，用户访问量大幅度提升，同时产生了大量的用户数据。加上后来的智能移动设备的普及，所有的互联网平台都面临了巨大的性能挑战。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730024434-0ade84eb-da30-4a92-ace5-09cea2dc1024.png#averageHue=%23fbfbf9&amp;id=QgJNI&amp;originHeight=249&amp;originWidth=549&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **解决CPU及内存压力**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730024678-7d3c02dc-2b5c-41d2-b8c9-b877787a94cb.jpeg#averageHue=%23fdfdfb&amp;id=RMHWz&amp;originHeight=412&amp;originWidth=612&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **解决IO压力**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730024920-7b0502f1-7db6-46a2-b691-dde5d51cfec8.jpeg#averageHue=%23ecdac9&amp;id=iztPi&amp;originHeight=395&amp;originWidth=534&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>NoSQL数据库</strong>
+<ol>
+<li><strong>NoSQL数据库概述</strong></li>
+</ol>
+</li>
+</ol>
+<p>NoSQL(NoSQL = <strong>Not Only SQL</strong> )，意即“不仅仅是SQL”，泛指<strong>非关系型的数据库</strong>。<br>
+NoSQL 不依赖业务逻辑方式存储，而以简单的key-value模式存储。因此大大的增加了数据库的扩展能力。</p>
+<ul>
+<li>
+<p>不遵循SQL标准。</p>
+</li>
+<li>
+<p>不支持ACID。</p>
+</li>
+<li>
+<p>远超于SQL的性能。<br>
+1. **NoSQL适用场景 **</p>
+</li>
+<li>
+<p>对数据高并发的读写</p>
+</li>
+<li>
+<p>海量数据的读写</p>
+</li>
+<li>
+<p>对数据高可扩展性的<br>
+1. <strong>NoSQL不适用场景</strong></p>
+</li>
+<li>
+<p>需要事务支持</p>
+</li>
+<li>
+<p>基于sql的结构化查询存储，处理复杂的关系,需要即席查询。</p>
+</li>
+<li>
+<p><strong>（用不着sql的和用了sql也不行的情况，请考虑用NoSql）</strong><br>
+1. <strong>Memcache</strong><br>
+| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730025094-1199db9b-a0b2-4ad7-86d8-c2d6f03e7b47.jpeg#averageHue=%237a7771&amp;id=kcfXq&amp;originHeight=81&amp;originWidth=78&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""> |</p>
+</li>
+<li>
+<p>很早出现的NoSql数据库</p>
+</li>
+<li>
+<p>数据都在内存中，一般不持久化</p>
+</li>
+<li>
+<p>支持简单的key-value模式，支持类型单一</p>
+</li>
+<li>
+<p>一般是作为缓存数据库辅助持久化的数据库<br>
+|<br>
+| — | — |</p>
+<pre><code>1. **Redis**
+</code></pre>
+</li>
+</ul>
+<p>| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730025274-325bc689-39ae-48c4-b6bc-3994276b632d.jpeg#averageHue=%23583b39&amp;id=Kyfuz&amp;originHeight=58&amp;originWidth=157&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""> |</p>
+<ul>
+<li>
+<p>几乎覆盖了Memcached的绝大部分功能</p>
+</li>
+<li>
+<p>数据都在内存中，支持持久化，主要用作备份恢复</p>
+</li>
+<li>
+<p>除了支持简单的key-value模式，还支持多种数据结构的存储，比如 list、set、hash、zset等。</p>
+</li>
+<li>
+<p>一般是作为缓存数据库辅助持久化的数据库<br>
+|<br>
+| — | — |</p>
+<pre><code>1. **MongoDB**
+</code></pre>
+</li>
+</ul>
+<p>| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730025458-d1ba96a0-c4b1-4d64-8c1b-19dfaca31068.jpeg#averageHue=%23353638&amp;id=xvUtK&amp;originHeight=60&amp;originWidth=172&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+  |</p>
+<ul>
+<li>
+<p>高性能、开源、模式自由(schema  free)的<strong>文档型数据库</strong></p>
+</li>
+<li>
+<p>数据都在内存中， 如果内存不足，把不常用的数据保存到硬盘</p>
+</li>
+<li>
+<p>虽然是key-value模式，但是对value（尤其是<strong>json</strong>）提供了丰富的查询功能</p>
+</li>
+<li>
+<p>支持二进制数据及大型对象</p>
+</li>
+<li>
+<p>可以根据数据的特点<strong>替代RDBMS</strong> ，成为独立的数据库。或者配合RDBMS，存储特定的数据。<br>
+|<br>
+| — | — |</p>
+<ol>
+<li><strong>行式存储数据库（大数据时代）</strong>
+<ol>
+<li><strong>行式数据库</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730025714-33f52a5c-1350-4b6a-b103-4390136ce59a.jpeg#averageHue=%23fefefc&amp;id=aR4FU&amp;originHeight=294&amp;originWidth=614&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **列式数据库**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730025979-8afc701f-d64a-4b50-b1af-29add5d7ef85.jpeg#averageHue=%23fefefc&amp;id=To3RC&amp;originHeight=297&amp;originWidth=615&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **Hbase**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730026188-acabbd4f-c8b9-487d-a7c7-4c56f3e7ec94.jpeg#averageHue=%23e0bbb8&amp;id=p0QYN&amp;originHeight=68&amp;originWidth=197&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+HBase是<strong>Hadoop</strong>项目中的数据库。它用于需要对大量的数据进行随机、实时的读写操作的场景中。<br>
+HBase的目标就是处理数据量<strong>非常庞大</strong>的表，可以用<strong>普通的计算机</strong>处理超过<strong>10亿行数据</strong>，还可处理有数百万<strong>列</strong>元素的数据表。</p>
+<pre><code>     1. **Cassandra[kəˈsændrə]**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730026415-e41587d3-9c91-4657-a9da-ae4d12dc7b51.jpeg#averageHue=%2396be5e&amp;id=ZYRSN&amp;originHeight=79&amp;originWidth=316&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+Apache Cassandra是一款免费的开源NoSQL数据库，其设计目的在于管理由大量商用服务器构建起来的庞大集群上的<strong>海量数据集(数据量通常达到PB级别)</strong>。在众多显著特性当中，Cassandra最为卓越的长处是对写入及读取操作进行规模调整，而且其不强调主集群的设计思路能够以相对直观的方式简化各集群的创建与扩展流程。</p>
+<p>| 计算机存储单位 计算机存储单位一般用B，KB，MB，GB，TB，EB，ZB，YB，BB来表示，它们之间的关系是：<br>
+位 bit (比特)(Binary Digits)：存放一位二进制数，即 0 或 1，最小的存储单位。<br>
+字节 byte：8个二进制位为一个字节(B)，最常用的单位。<br>
+1KB (Kilobyte 千字节)=1024B，<br>
+1MB (Megabyte 兆字节 简称“兆”)=1024KB，<br>
+1GB (Gigabyte 吉字节 又称“千兆”)=1024MB，<br>
+1TB (Trillionbyte 万亿字节 太字节)=1024GB，其中1024=2^10 ( 2 的10次方)，<br>
+1PB（Petabyte 千万亿字节 拍字节）=1024TB，<br>
+1EB（Exabyte 百亿亿字节 艾字节）=1024PB，<br>
+1ZB (Zettabyte 十万亿亿字节 泽字节)= 1024 EB,<br>
+1YB (Jottabyte 一亿亿亿字节 尧字节)= 1024 ZB,<br>
+1BB (Brontobyte 一千亿亿亿字节)= 1024 YB.</p>
+<table>
+<thead>
+<tr>
+<th>注：“兆”为百万级数量单位。</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>图关系型数据库</strong></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730026617-54037f85-76e9-436a-a371-2025ee7eb66e.jpeg#averageHue=%23256d7e&amp;id=lVgOG&amp;originHeight=45&amp;originWidth=184&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+主要应用：社会关系，公共交通网络，地图及网络拓谱(n*(n-1)/2)<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730026840-d4e86748-4ccc-492d-bb02-a042f37e3178.jpeg#averageHue=%23fcfcfc&amp;id=Qe1bj&amp;originHeight=374&amp;originWidth=614&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>DB-Engines 数据库排名</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://db-engines.com/en/ranking"><strong>http://db-engines.com/en/ranking</strong></a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730027053-000a8467-9e14-4d82-9d9b-67acd902b0bf.png#averageHue=%23f4f1f1&amp;id=KR0mx&amp;originHeight=529&amp;originWidth=1030&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis概述安装</strong></li>
+</ol>
+<ul>
+<li>Redis是一个开源的key-value存储系统。</li>
+<li>和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hash（哈希类型）。</li>
+<li>这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。</li>
+<li>在此基础上，Redis支持各种不同方式的排序。</li>
+<li>与memcached一样，为了保证效率，数据都是缓存在内存中。</li>
+<li>区别的是Redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件。</li>
+<li>并且在此基础上实现了master-slave(主从)同步。
+<ol>
+<li><strong>应用场景</strong>
+<ol>
+<li><strong>配合关系型数据库做高速缓存</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>高频次，热门访问的数据，降低数据库IO</li>
+<li>分布式架构，做session共享</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730027296-d0ed1746-398d-4ad6-a069-95a13289b15e.jpeg#averageHue=%23fefefe&amp;id=ytubD&amp;originHeight=288&amp;originWidth=612&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **多样的数据结构存储持久化数据**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730027552-e85a412b-f826-4aeb-90f4-3d3938f57f33.jpeg#averageHue=%23f6e1b3&amp;id=BvZuL&amp;originHeight=259&amp;originWidth=589&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis安装</strong><br>
+| Redis官方网站 | Redis中文官方网站 |<br>
+| — | — |<br>
+| <a target="_blank" rel="noopener" href="http://redis.io"><strong>http://redis.io</strong></a> | <a target="_blank" rel="noopener" href="http://redis.cn/">http://redis.cn/</a> |</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730027790-fc5e341b-4503-46d1-be3d-25f94aa9768d.png#averageHue=%23d8d7d7&amp;id=ZUvxl&amp;originHeight=520&amp;originWidth=904&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730028065-2e2e9d14-3fa4-4681-b917-8fb752aaec0a.png#averageHue=%23e7e6e5&amp;id=cNR9K&amp;originHeight=602&amp;originWidth=868&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **安装版本**
+</code></pre>
+<ul>
+<li>6.2.1 for Linux（redis-6.2.1.tar.gz）</li>
+<li>不用考虑在windows环境下对Redis的支持</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730028304-e77217ee-2e83-47d8-b3d7-113d77246779.jpeg#averageHue=%23e3e1dc&amp;id=AXZed&amp;originHeight=62&amp;originWidth=618&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **安装步骤**
+
+     1. **准备工作：下载安装最新版的gcc编译器**
+</code></pre>
+<p>安装C 语言的编译环境<br>
+<strong>yum install centos-release-scl scl-utils-build</strong><br>
+<strong>yum install -y devtoolset-8-toolchain</strong><br>
+<strong>scl enable devtoolset-8 bash</strong><br>
+**测试 gcc版本 **<br>
+<strong>gcc --version</strong><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730028505-f0f903ef-6226-47d3-b2ca-0e33aaf8c6e4.png#averageHue=%23110d09&amp;id=l2q01&amp;originHeight=95&amp;originWidth=724&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **下载redis-6.2.1.tar.gz放/opt目录**
+     2. **解压命令：tar -zxvf redis-6.2.1.tar.gz**
+     3. **解压完成后进入目录：cd redis-6.2.1**
+     4. **在redis-6.2.1目录下再次执行make命令（只是编译好）**
+     5. **如果没有准备好C语言编译环境，make 会报错—Jemalloc/jemalloc.h：没有那个文件**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730028763-7c216a0e-fd7c-439c-b8f4-3e83a3176204.jpeg#averageHue=%230b0908&amp;id=qjmPY&amp;originHeight=235&amp;originWidth=610&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **解决方案：运行make distclean**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730029022-e087da3f-8cfa-43c0-b7ab-f21c02ebb5f6.jpeg#averageHue=%23080706&amp;id=K3tab&amp;originHeight=165&amp;originWidth=613&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **在redis-6.2.1目录下再次执行make命令（只是编译好）**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730029271-b5265504-b824-449e-b6d9-9ce0cac16298.jpeg#averageHue=%230d0a06&amp;id=ZqZ35&amp;originHeight=234&amp;originWidth=311&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **跳过make test 继续执行: make install**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730029545-606e6f99-0021-4103-a63b-19121e66c882.jpeg#averageHue=%23584f46&amp;id=KtAlt&amp;originHeight=204&amp;originWidth=382&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **安装目录：/**usr/local/bin
+</code></pre>
+<p>查看默认安装目录：<br>
+redis-benchmark:性能测试工具，可以在自己本子运行，看看自己本子性能如何<br>
+redis-check-aof：修复有问题的AOF文件，rdb和aof后面讲<br>
+redis-check-dump：修复有问题的dump.rdb文件<br>
+redis-sentinel：Redis集群使用<br>
+redis-server：Redis服务器启动命令<br>
+redis-cli：客户端，操作入口</p>
+<pre><code>  1. **前台启动（不推荐）**
+</code></pre>
+<p>前台启动，命令行窗口不能关闭，否则服务器停止<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730029828-3bb4bd46-5323-4e46-b477-60de7a51a16f.jpeg#averageHue=%23443f39&amp;id=pNpen&amp;originHeight=441&amp;originWidth=619&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **后台启动（推荐）**
+     1. **备份redis.conf**
+</code></pre>
+<p>拷贝一份redis.conf到其他目录<br>
+cp  /opt/redis-3.2.5/redis.conf  /myredis</p>
+<pre><code>     1. **后台启动设置daemonize no改成yes**
+</code></pre>
+<p>修改redis.conf(128行)文件将里面的daemonize no 改成 yes，让服务在后台启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Redis daemonize介绍</span><br><span class="line"></span><br><span class="line">1、daemonize介绍</span><br><span class="line"></span><br><span class="line">A、redis.conf配置文件中daemonize守护线程，默认是NO。</span><br><span class="line">B、daemonize是用来指定redis是否要用守护线程的方式启动。</span><br><span class="line">2、daemonize 设置yes或者no区别</span><br><span class="line"></span><br><span class="line">daemonize:yes:redis采用的是单进程多线程的模式。当redis.conf中选项</span><br><span class="line">daemonize设置成yes时，代表开启守护进程模式。在该模式下，</span><br><span class="line">redis会在后台运行，并将进程pid号写入至redis.conf选项pidfile</span><br><span class="line">设置的文件中，此时redis将一直运行，除非手动kill该进程。（有时候手动</span><br><span class="line">杀死了redis进程但是用ps -ef | grep redis 发现又以新的pid重启了，那</span><br><span class="line">可能是有父进程自动生成了redis进程。这个时候可以使用</span><br><span class="line">service redis-server stop命令关闭redis进程同时让父进程无法重启redis</span><br><span class="line">进程）。service redis-server stop命令会保存内存中的数据到磁盘上，</span><br><span class="line">然后关闭。解决无法关闭redis的方法2:</span><br><span class="line"></span><br><span class="line">daemonize:no: 当daemonize选项设置成no时，当前界面将进入redis</span><br><span class="line">的命令行界面，exit强制退出或者关闭连接工具(putty,xshell等)都</span><br><span class="line">会导致redis进程退出。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">redis中的daemonize配置为yes时，表示开启守护进程模式，redis会在后台运行，</span><br><span class="line">并将进程pid号写入至redis.conf选项pidfile设置的文件中，此时redis将一直运</span><br><span class="line">行，除非手动kill该进程</span><br><span class="line">如果你想要杀死redis进程，你可以先用ps -ef | grep redis-server命令</span><br><span class="line">找到redis的进程号，然后用sudo kill &lt;pid&gt;命令强制终止该进程</span><br><span class="line">如果你发现redis进程被重启了，可能是因为有其他的父进程在监控它，</span><br><span class="line">你可以用ps -o ppid= &lt;pid&gt;命令查看是否有父进程存在，</span><br><span class="line">如果有，你也需要杀死父进程</span><br></pre></td></tr></table></figure>
+<pre><code>     1. **Redis启动**
+</code></pre>
+<p>redis-server/myredis/redis.conf<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730030045-794a9dd4-34b6-457a-9354-349986f54973.jpeg#averageHue=%23504a41&amp;id=evehi&amp;originHeight=70&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **用客户端访问：redis-cli**
+</code></pre>
+<ol>
+<li></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730030271-7201ddb3-8d85-46f3-a8c9-cc0a74976dbd.jpeg#averageHue=%23395a32&amp;id=C6OLI&amp;originHeight=41&amp;originWidth=218&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **多个端口可以：redis-cli -p6379**
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kongzhongqijing/p/6867960.html">redis cli命令 - milkty - 博客园</a></p>
+<pre><code>     2. **测试验证： ping**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730030475-37d148f6-3826-4a8e-b952-d09b8b6404ea.jpeg#averageHue=%23635a4d&amp;id=RecC7&amp;originHeight=38&amp;originWidth=193&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **Redis关闭**
+</code></pre>
+<p>单实例关闭：redis-cli shutdown<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730030719-2395f73a-ba68-46e1-b311-07705f9fc5c5.jpeg#averageHue=%234f473f&amp;id=xhvma&amp;originHeight=68&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+也可以进入终端后再关闭<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730030957-49053f95-1d0d-40b6-ac2f-b1c8c7941dff.jpeg#averageHue=%23676054&amp;id=QlgGg&amp;originHeight=41&amp;originWidth=231&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+多实例关闭，指定端口关闭：redis-cli -p 6379 shutdown<br>
+也可以找到redis的进程号然后用kill -9 pid杀掉也可以。</p>
+<pre><code>  1. **Redis介绍相关知识**
+</code></pre>
+<p>| 端口6379从何而来<br>
+Alessia  Merz<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730031186-7ab5b215-6ce9-4ce7-abb8-d9cce1f5422e.jpeg#averageHue=%237c7362&amp;id=aDfhF&amp;originHeight=72&amp;originWidth=136&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""> | 默认16个数据库，类似数组下标从0开始，初始默认使用0号库<br>
+使用命令 select   <dbid>来切换数据库。如: select 8<br>
+统一密码管理，所有库同样密码。<br>
+dbsize查看当前数据库的key的数量<br>
+flushdb清空当前库<br>
+flushall通杀全部库 |<br>
+| — | — |</p>
+<p>Redis是单线程+多路IO复用技术<br>
+多路复用是指使用一个线程来检查多个文件描述符（Socket）的就绪状态，比如调用select和poll函数，传入多个文件描述符，如果有一个文件描述符就绪，则返回，否则阻塞直到超时。得到就绪状态后进行真正的操作可以在同一个线程里执行，也可以启动线程执行（比如使用线程池）<br>
+串行   vs   多线程+锁（memcached） vs   单线程+多路IO复用(Redis)<br>
+（与Memcache三点不同: 支持多数据类型，支持持久化，单线程+多路IO复用）<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/gif/28066124/1693730031481-b7e58f7f-b4d9-4945-9a5d-ed8c0b68742a.gif#averageHue=%23f8f6f6&amp;id=MKIQH&amp;originHeight=119&amp;originWidth=400&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693795465201-5ba384c5-5020-4e21-8c5b-8f44ace04a47.png#averageHue=%23fefdfa&amp;clientId=uab116c27-7b29-4&amp;from=paste&amp;height=306&amp;id=uef5e8a80&amp;originHeight=383&amp;originWidth=686&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=54293&amp;status=done&amp;style=none&amp;taskId=u816f3de5-a661-48c5-95b1-d89f347cf1f&amp;title=&amp;width=548.8" alt="image.png"></p>
+<ol>
+<li><strong>常用五大数据类型</strong></li>
+</ol>
+<p>哪里去获得redis常见数据类型操作命令<a target="_blank" rel="noopener" href="http://www.redis.cn/commands.html">http://www.redis.cn/commands.html</a></p>
+<ol>
+<li><strong>Redis键(key)</strong></li>
+</ol>
+<p>keys *查看当前库所有key    (匹配：keys *1)<br>
+exists key判断某个key是否存在（返回为1就存在，返回为0就不存在）<br>
+type key 查看你的key是什么类型（使用set 10 10 设置的值key仍旧是string)<br>
+del key       删除指定的key数据<br>
+unlink key   根据value选择非阻塞删除(异步删除，并不是在执行命令的时候就删除了数据）<br>
+仅将keys从keyspace元数据中删除，真正的删除会在后续异步操作。<br>
+expire key 10   10秒钟：为给定的key设置过期时间（过期的 key 会被自动删除，不再可用。）<br>
+ttl key 查看还有多少秒过期，-1表示永不过期，-2表示已过期，返回的正数表示还有多少s过期。</p>
+<p>select命令切换数据库<br>
+dbsize查看当前数据库的key的数量<br>
+flushdb清空当前库<br>
+flushall通杀全部库</p>
+<ol>
+<li><strong>Redis字符串(String)</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>String是Redis最基本的类型，你可以理解成与Memcached一模一样的类型，一个key对应一个value。<br>
+String类型是二进制安全的。意味着Redis的string可以包含任何数据。比如jpg图片或者序列化的对象。<br>
+String类型是Redis最基本的数据类型，一个Redis中字符串value最多可以是512M</p>
+<pre><code>  1. **常用命令**
+</code></pre>
+<p>set   <key><value>添加键值对<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730031776-944ce1d5-008e-44e0-8684-91a112c09a7a.png#averageHue=%230d0b0a&amp;id=JGNaN&amp;originHeight=35&amp;originWidth=972&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+*NX：当数据库中key不存在时，可以将key-value添加数据库<br>
+*XX：当数据库中key存在时，可以将key-value添加数据库，与NX参数互斥<br>
+*EX：key的超时秒数<br>
+*PX：key的超时毫秒数，与EX互斥</p>
+<p>get   <key>查询对应键值<br>
+append  <key><value>将给定的<value> 追加到原值的末尾（返回值是追加后的value字符串的长度）<br>
+strlen  <key>获得值的长度<br>
+setnx  <key><value>只有在 key 不存在时    设置 key 的值（如果key存在时，无法覆盖原来的key)</p>
+<p>incr  <key><br>
+将 key 中储存的数字值增1<br>
+只能对数字值操作，如果为空，新增值为1<br>
+decr  <key><br>
+将 key 中储存的数字值减1<br>
+只能对数字值操作，如果为空，新增值为-1<br>
+incr和decr的返回值都是加1减1的结果。<br>
+incrby / decrby  <key>&lt;步长&gt;将 key 中储存的数字值增减。自定义步长。（返回值也是增加或者减少后的值）</p>
+<p>| 原子性<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730032028-b7a90996-a232-4807-a889-8e0c4f807ed2.jpeg#averageHue=%23f4f3f2&amp;id=aBiOH&amp;originHeight=138&amp;originWidth=244&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+所谓<strong>原子</strong>操作是指不会被线程调度机制打断的操作；<br>
+这种操作一旦开始，就一直运行到结束，中间不会有任何 context switch （切换到另一个线程）。<br>
+（1）在单线程中， 能够在单条指令中完成的操作都可以认为是&quot;原子操作&quot;，因为中断只能发生于指令之间。<br>
+（2）在多线程中，不能被其它进程（线程）打断的操作就叫原子操作。<br>
+Redis单命令的原子性主要得益于Redis的单线程。<br>
+<strong>案例：</strong><br>
+java中的i++是否是原子操作？不是<strong>不是</strong></p>
+<table>
+<thead>
+<tr>
+<th>i=0;两个线程分别对i进行++100次,值是多少？不确定（2 -200）** 2~200**</th>
+</tr>
+</thead>
+</table>
+<p>mset  <key1><value1><key2><value2>  …<br>
+同时设置一个或多个 key-value对<br>
+mget  <key1><key2><key3> …<br>
+同时获取一个或多个 value<br>
+msetnx <key1><value1><key2><value2>  …<br>
+同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在。<br>
+<strong>原子性，有一个失败则都失败（添加key和value失败）</strong></p>
+<p>getrange  <key>&lt;起始位置&gt;&lt;结束位置&gt;<br>
+获得值的范围，类似java中的substring，<strong>前包，后包（其中的value的第一个值的索引是0）</strong><br>
+setrange  <key>&lt;起始位置&gt;<value><br>
+用 <value>  覆写<key>所储存的字符串值，从&lt;起始位置&gt;开始(<strong>索引从0开始</strong>)。</p>
+<p><strong>setex  <key>&lt;过期时间&gt;<value></strong><br>
+设置键值的同时，设置过期时间，单位秒。<br>
+getset <key><value><br>
+以新换旧，设置了新值同时获得旧值。（就是该命令返回值是旧key的值，同时在返回的时候覆盖key的value下次访问key的时候，value就是更改后的值了）</p>
+<pre><code>  1. **数据结构**
+</code></pre>
+<p>String的数据结构为简单动态字符串(Simple Dynamic String,缩写SDS)。是可以修改的字符串，内部结构实现上类似于Java的ArrayList，采用预分配冗余空间的方式来减少内存的频繁分配.<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730032225-8d06e5d3-1805-4a7e-b541-a20f72392afa.png#averageHue=%23fdf8f4&amp;id=zgqOF&amp;originHeight=121&amp;originWidth=666&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+如图中所示，内部为当前字符串实际分配的空间capacity一般要高于实际字符串长度len。当字符串长度小于1M时，扩容都是加倍现有的空间，如果超过1M，扩容时一次只会多扩1M的空间。需要注意的是字符串最大长度为512M。</p>
+<ol>
+<li><strong>Redis列表(List)</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>单键多值<br>
+Redis 列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。<br>
+它的底层实际是个双向链表，对两端的操作性能很高，通过索引下标的操作中间的节点性能会较差。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730032474-62d4cc76-7c20-41cb-9f95-fda5515498c1.jpeg#averageHue=%23fefefc&amp;id=ykK7q&amp;originHeight=92&amp;originWidth=614&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **常用命令**
+</code></pre>
+<p>lpush/rpush  <key><value1><value2><value3> … 从左边/右边插入一个或多个值。（这里的从左右插入数据，是后面的数据在前面的数据的左边或者右边）<br>
+lpop/rpop  <key>从左边/右边吐出一个值。值在键在，值光键亡。</p>
+<p>rpoplpush  <key1><key2>从<key1>列表右边吐出一个值，插到<key2>列表左边。</p>
+<p>lrange <key><start><stop><br>
+按照索引下标获得元素(从左到右)<br>
+lrange mylist 0 -1   0左边第一个，-1右边第一个，（0-1表示获取所有）<br>
+lindex <key><index>按照索引下标获得元素(从左到右)<br>
+llen <key>获得列表长度</p>
+<p>linsert <key>  before <value><newvalue>在<value>的后面插入<newvalue>插入值<br>
+lrem <key><n><value>从左边删除n个value(从左到右)<br>
+lset<key><index><value>将列表key下标为index的值替换成value</p>
+<pre><code>  1. **数据结构**
+</code></pre>
+<p>List的数据结构为快速链表quickList。<br>
+首先在列表元素较少的情况下会使用一块连续的内存存储，这个结构是ziplist，也即是压缩列表。<br>
+它将所有的元素紧挨着一起存储，分配的是一块连续的内存。<br>
+当数据量比较多的时候才会改成quicklist。<br>
+因为普通的链表需要的附加指针空间太大，会比较浪费空间。比如这个列表里存的只是int类型的数据，结构上还需要两个额外的指针prev和next。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730032728-a57a2672-9ab9-4127-ac84-260498627670.png#averageHue=%23f1f6fa&amp;id=gpMLd&amp;originHeight=78&amp;originWidth=748&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+Redis将链表和ziplist结合起来组成了quicklist。也就是将多个ziplist使用双向指针串起来使用。这样既满足了快速的插入删除性能，又不会出现太大的空间冗余。</p>
+<ol>
+<li><strong>Redis集合(Set)</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis set对外提供的功能与list类似是一个列表的功能，特殊之处在于set是可以<strong>自动排重</strong>的，当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是list所不能提供的。<br>
+Redis的Set是string类型的无序集合。它底层其实是一个value为null的hash表，所以添加，删除，查找的<strong>复杂度都是O(1)</strong>。<br>
+一个算法，随着数据的增加，执行时间的长短，如果是O(1)，数据增加，查找数据的时间不变</p>
+<pre><code>  1. **常用命令**
+</code></pre>
+<p>sadd <key><value1><value2> …<br>
+将一个或多个 member 元素加入到集合 key 中，已经存在的 member 元素将被忽略（返回值是添加成功的个数）<br>
+smembers <key>取出该集合的所有值。<br>
+sismember <key><value>判断集合<key>是否为含有该<value>值，有1，没有0<br>
+scard<key>返回该集合的元素个数。<br>
+srem <key><value1><value2> … 删除集合中的某个元素。（返回值是成功删除的个数）<br>
+spop <key><strong>随机从该集合中吐出一个值。（这里的吐出一个值表示从set集合删除一个数）</strong><br>
+srandmember <key><n>随机从该集合中取出n个值。不会从集合中删除 。<br>
+smove <source><destination>value把集合中一个值从一个集合移动到另一个集合<br>
+sinter <key1><key2>返回两个集合的交集元素。（但是并不会删除元素）<br>
+sunion <key1><key2>返回两个集合的并集元素。（也是一样不会删除颜色）<br>
+sdiff <key1><key2>返回两个集合的<strong>差集</strong>元素(key1中的，不包含key2中的)会改变k1中的集合。（k1的集合是查缉的元素）<br>
+sinter  sunion   sdiff 其实就是集合的运算而已。</p>
+<pre><code>  1. **数据结构**
+</code></pre>
+<p>Set数据结构是dict字典，字典是用哈希表实现的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ict 字典是指 Python 语言中的一种数据类型，它是一种可变的、无序的、可存储任意类型对象的容器。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Java中HashSet的内部实现使用的是HashMap，只不过所有的value都指向同一个对象。Redis的set结构也是一样，它的内部也使用hash结构，所有的value都指向同一个内部值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">这里所说的所有的 value 都指向同一个内部值，是指 Redis 的 set 结构中，</span><br><span class="line">每个元素的 value 都是一个特殊的常量，叫做 REDIS_SHARED_INTEGERS ，</span><br><span class="line">它是一个包含 0 到 9999 的整数数组，用于节省内存空间。</span><br><span class="line">https://redis.io/commands/set/https://www.runoob.com/redis/strings-set.html</span><br><span class="line"></span><br><span class="line">也就是说，Redis 的 set 结构中，每个元素的 key 是实际存储的字符串值，</span><br><span class="line">而每个元素的 value 都是 REDIS_SHARED_INTEGERS[0] ，这个值在内存中</span><br><span class="line">只有一份，所有的 set 元素都共享它。</span><br><span class="line">https://redis.io/commands/set/https://www.runoob.com/redis/strings-set.html</span><br><span class="line"></span><br><span class="line">这样做的好处是，Redis 可以用 hash 结构来实现 set 的功能，</span><br><span class="line">而不需要额外分配内存空间来存储每个元素的 value </span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>Redis哈希(Hash)</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis hash 是一个键值对集合。<br>
+Redis hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。<br>
+类似Java里面的Map&lt;String,Object&gt;<br>
+用户ID为查找的key，存储的value用户对象包含姓名，年龄，生日等信息，如果用普通的key/value结构来存储<br>
+主要有以下2种存储方式：</p>
+<p>| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730032990-9e5593f0-4887-4ab7-ac65-8df3fd71ea0e.jpeg#averageHue=%23fcfdf9&amp;id=K6svc&amp;originHeight=161&amp;originWidth=271&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+每次修改用户的某个属性需要，先反序列化改好后再序列化回去。开销较大。 | <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730033258-17c5c182-f458-4034-92ce-18cd2b9d6faa.jpeg#averageHue=%23ececec&amp;id=VzaaA&amp;originHeight=156&amp;originWidth=277&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+用户ID数据冗余 |<br>
+| — | — |</p>
+<p>| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730033537-c99a4769-d614-44a1-81d9-f4bc881c84ce.jpeg#averageHue=%23f8f9f5&amp;id=TC7nl&amp;originHeight=151&amp;originWidth=320&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<table>
+<thead>
+<tr>
+<th><strong>通过 key(用户ID) + field(属性标签) 就可以操作对应属性数据了，既不需要重复存储数据，也不会带来序列化和并发修改控制的问题</strong></th>
+</tr>
+</thead>
+</table>
+<pre><code>  1. **常用命令**
+</code></pre>
+<p>hset <key><field><value>:给<key>集合中的  <field>键赋值<value></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> hset user:10 id 1</span><br><span class="line">给hash中添加一个key为user，fild为id，value为1的对象.如果存储的值为中文的</span><br><span class="line">话取出会有问题的</span><br></pre></td></tr></table></figure>
+<p>hget <key1><field>:从<key1>集合<field>取出 value  eg: hget user:10 name<br>
+hmset <key1><field1><value1><field2><value2>… ：批量设置hash的值 eg:<br>
+hmset user:11 id 2 name lishi age 40<br>
+hexists<key1><field>查看哈希表 key 中，给定域 field 是否存在，存在返回1，不存在返回0。 eg: hexists user:10 id<br>
+判断user为10中是否存在id的field。<br>
+hkeys <key>列出该hash集合的所有field<br>
+hvals <key>列出该hash集合的所有value<br>
+hincrby <key><field><increment>：为哈希表 key 中的域 field 的值加上增量，返回值是fileld增加后的值。<br>
+hsetnx <key><field><value>将哈希表 key 中的域 中添加为 value的field ，当且仅当域 field 不存在时才能添加成功 .</p>
+<pre><code>  1. **数据结构**
+</code></pre>
+<p>Hash类型对应的数据结构是两种：ziplist（压缩列表），hashtable（哈希表）。当field-value长度较短且个数较少时，使用ziplist，否则使用hashtable。</p>
+<ol>
+<li>**Redis有序集合Zset(sorted set) **
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis有序集合zset与普通集合set非常相似，是一个没有重复元素的字符串集合。<br>
+不同之处是有序集合的每个成员都关联了一个<strong>评分（score）</strong>,这个评分（score）被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但是评分可以是重复了 。<br>
+因为元素是有序的, 所以你也可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。<br>
+访问有序集合的中间元素也是非常快的,因此你能够使用有序集合作为一个没有重复成员的智能列表。</p>
+<pre><code>  1. **常用命令**
+</code></pre>
+<p>zadd  <key><score1><value1><score2><value2>…<br>
+将一个或多个 member 元素及其 score 值加入到有序集 key 当中。<br>
+**zrange <key><start><stop>  [WITHSCORES]   **<br>
+返回有序集 key 中，下标在<start><stop>之间的元素<br>
+带WITHSCORES，可以让分数一起和值返回到结果集。<br>
+zrangebyscore key minmax [withscores] [limit offset count]<br>
+返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员。有序集成员按 score 值递增(从小到大)次序排列。<br>
+zrevrangebyscore key maxmin [withscores] [limit offset count]<br>
+同上，改为从大到小排列。<br>
+zincrby <key><increment><value>      为元素的score加上增量<br>
+zrem  <key><value>删除该集合下，指定值的元素<br>
+zcount <key><min><max>统计该集合，分数区间内的元素个数<br>
+zrank <key><value>返回该值在集合中的排名，从0开始。<br>
+案例：如何利用zset实现一个文章访问量的排行榜？<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730033775-1fc94010-b543-452e-87d5-6894662bf634.jpeg#averageHue=%23060605&amp;id=Oe0tL&amp;originHeight=172&amp;originWidth=451&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693831031687-92c85b21-af19-4cff-b7ed-8558e780aaf7.png#averageHue=%23323a7b&amp;clientId=u937b6ec7-0521-4&amp;from=paste&amp;height=709&amp;id=u3d405017&amp;originHeight=886&amp;originWidth=1549&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=1497218&amp;status=done&amp;style=none&amp;taskId=u997b05f6-e2cc-4eb9-b1cf-74049528801&amp;title=&amp;width=1239.2" alt="image.png"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693831423299-38eeba85-6ba5-49e0-a377-c4291397ccce.png#averageHue=%23383069&amp;clientId=u937b6ec7-0521-4&amp;from=paste&amp;height=464&amp;id=u0219068c&amp;originHeight=580&amp;originWidth=1175&amp;originalType=binary&amp;ratio=1.25&amp;rotation=0&amp;showTitle=false&amp;size=700443&amp;status=done&amp;style=none&amp;taskId=u7e67e8ec-1c7d-4a5d-8da9-990740ef1b9&amp;title=&amp;width=940" alt="image.png"></p>
+<pre><code>  1. **数据结构**
+</code></pre>
+<p>SortedSet(zset)是Redis提供的一个非常特别的数据结构，一方面它等价于Java的数据结构Map&lt;String, Double&gt;，可以给每一个元素value赋予一个权重score，另一方面它又类似于TreeSet，内部的元素会按照权重score进行排序，可以得到每个元素的名次，还可以通过score的范围来获取元素的列表。<br>
+zset底层使用了两个数据结构<br>
+（1）hash，hash的作用就是关联元素value和权重score，保障元素value的唯一性，可以通过元素value找到相应的score值。<br>
+（2）跳跃表，跳跃表的目的在于给元素value排序，根据score的范围获取元素列表。</p>
+<pre><code>  1. **跳跃表（跳表）**
+</code></pre>
+<p>1、简介<br>
+有序集合在生活中比较常见，例如根据成绩对学生排名，根据得分对玩家排名等。对于有序集合的底层实现，可以用数组、平衡树、链表等。数组不便元素的插入、删除；平衡树或红黑树虽然效率高但结构复杂；链表查询需要遍历所有效率低。Redis采用的是跳跃表。跳跃表效率堪比红黑树，实现远比红黑树简单。<br>
+2、实例<br>
+对比有序链表和跳跃表，从链表中查询出51</p>
+<ol>
+<li>有序链表</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730034017-e622ecb5-18ab-4430-aaed-bacc99ffdf92.png#averageHue=%23d5d5d4&amp;id=kTuYG&amp;originHeight=53&amp;originWidth=737&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+要查找值为51的元素，需要从第一个元素开始依次查找、比较才能找到。共需要6次比较。</p>
+<ol>
+<li>跳跃表</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730034386-79f4163c-95b0-4766-9ffa-fe70a3da037a.png#averageHue=%23e2e1e1&amp;id=OvSb1&amp;originHeight=228&amp;originWidth=778&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+从第2层开始，1节点比51节点小，向后比较。<br>
+21节点比51节点小，继续向后比较，后面就是NULL了，所以从21节点向下到第1层<br>
+在第1层，41节点比51节点小，继续向后，61节点比51节点大，所以从41向下<br>
+在第0层，51节点为要查找的节点，节点被找到，共查找4次。</p>
+<p>从此可以看出跳跃表比有序链表效率要高<br>
+<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260075092">跳跃表详解</a></p>
+<ol>
+<li><strong>Redis配置文件介绍</strong></li>
+</ol>
+<p>自定义目录：/myredis/redis.conf</p>
+<ol>
+<li>**###Units单位### **</li>
+</ol>
+<p>配置大小单位,开头定义了一些基本的度量单位，只支持bytes，不支持bit<br>
+大小写不敏感<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730034656-ba811a1d-4d97-402f-8c91-3c2edfcbc1a0.jpeg#averageHue=%23433e20&amp;id=HtasJ&amp;originHeight=297&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>###INCLUDES包含###</strong></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730035011-c2232a6e-ac70-47b4-9c82-0dde4f477c8d.jpeg#averageHue=%23121106&amp;id=VgJME&amp;originHeight=250&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+类似jsp中的include，多实例的情况可以把公用的配置文件提取出来</p>
+<ol>
+<li><strong>###网络相关配置 ###</strong>
+<ol>
+<li><strong>bind</strong></li>
+</ol>
+</li>
+</ol>
+<p>默认情况bind=127.0.0.1只能接受本机的访问请求<br>
+不写的情况下，无限制接受任何ip地址的访问<br>
+生产环境肯定要写你应用服务器的地址；服务器是需要远程访问的，所以需要将其注释掉<br>
+如果开启了protected-mode，那么在没有设定bind ip且没有设密码的情况下，Redis只允许接受本机的响应<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730035267-6c663b0c-3c59-45f4-90ab-3ce0f7fee46d.jpeg#averageHue=%23121105&amp;id=HCbik&amp;originHeight=324&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+保存配置，停止服务，重启启动查看进程，不再是本机访问了。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730035537-13ecade4-af50-4ba3-bffc-6db989132305.jpeg#averageHue=%230e0b0a&amp;id=bF83z&amp;originHeight=115&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **protected-mode**
+</code></pre>
+<p>将本机访问保护模式设置no<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730035811-d33ade2e-e632-42e6-983a-0cda31729d0b.jpeg#averageHue=%23141408&amp;id=iWb21&amp;originHeight=282&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **Port**
+</code></pre>
+<p>端口号，默认 6379<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730036042-accb83bb-44e4-4823-914f-5ce7a9d5b7d0.jpeg#averageHue=%2319190c&amp;id=AFndT&amp;originHeight=49&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **tcp-backlog**
+</code></pre>
+<p>设置tcp的backlog，backlog其实是一个连接队列，backlog队列总和=未完成三次握手队列 + 已经完成三次握手队列。<br>
+在高并发环境下你需要一个高backlog值来避免慢客户端连接问题。<br>
+注意Linux内核会将这个值减小到/proc/sys/net/core/somaxconn的值（128），所以需要确认增大/proc/sys/net/core/somaxconn和/proc/sys/net/ipv4/tcp_max_syn_backlog（128）两个值来达到想要的效果<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730036258-460d724a-fdc6-44f4-ae8e-bf1cb61d6206.jpeg#averageHue=%23181709&amp;id=mzQHJ&amp;originHeight=123&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **timeout**
+</code></pre>
+<p>一个空闲的客户端维持多少秒会关闭，0表示关闭该功能。即永不关闭。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730036579-56d82572-9069-4270-a220-c1ae349220e7.jpeg#averageHue=%233f3918&amp;id=uJCD5&amp;originHeight=172&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **tcp-keepalive**
+</code></pre>
+<p>对访问客户端的一种心跳检测，每个n秒检测一次。<br>
+单位为秒，如果设置为0，则不会进行Keepalive检测，建议设置成60<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730036855-e756b5c6-337a-46c7-9e45-437a9e839122.jpeg#averageHue=%233b3616&amp;id=oa00J&amp;originHeight=238&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>###GENERAL通用###</strong>
+<ol>
+<li><strong>daemonize</strong></li>
+</ol>
+</li>
+</ol>
+<p>是否为后台进程，设置为yes<br>
+守护进程，后台启动<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730037109-0c0be9df-1f8a-415e-b6cf-a29983811cec.jpeg#averageHue=%231b1b0d&amp;id=vJVEz&amp;originHeight=47&amp;originWidth=607&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **pidfile**
+</code></pre>
+<p>存放pid文件的位置，每个实例会产生一个不同的pid文件<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730037384-bb32e365-75ec-4f41-b5c5-95960eabde47.jpeg#averageHue=%23171709&amp;id=FE36Z&amp;originHeight=151&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **loglevel **
+</code></pre>
+<p>指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为<strong>notice</strong><br>
+四个级别根据使用阶段来选择，生产环境选择notice 或者warning<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730037735-a056dc8c-7e81-4f07-898b-7821baff9e59.jpeg#averageHue=%2319190a&amp;id=ABUFP&amp;originHeight=112&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **logfile **
+</code></pre>
+<p>日志文件名称<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730037986-95002380-8b6a-4856-915c-e7439c59cbd2.jpeg#averageHue=%230d0e04&amp;id=ZZEqN&amp;originHeight=66&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **databases 16 **
+</code></pre>
+<p>设定库的数量 默认16，默认数据库为0，可以使用SELECT <dbid>命令在连接上指定数据库id<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730038238-3a52dc70-2dc6-46cd-aff3-15695bf3bb31.jpeg#averageHue=%231b1a0e&amp;id=NAV13&amp;originHeight=60&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>###SECURITY安全###</strong>
+<ol>
+<li><strong>设置密码</strong></li>
+</ol>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730038485-b721f0bf-38ca-4a40-9eaf-56f55f1e7ad1.jpeg#averageHue=%23161507&amp;id=YZ4fD&amp;originHeight=206&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+访问密码的查看、设置和取消<br>
+在命令中设置密码，只是临时的。重启redis服务器，密码就还原了。<br>
+永久设置，需要再配置文件中进行设置。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730038741-02fe699c-751b-4a4e-938f-7d1d4b4daf9e.jpeg#averageHue=%23f8f3f3&amp;id=G7UGU&amp;originHeight=356&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>#### LIMITS限制 ###</strong>
+<ol>
+<li><strong>maxclients</strong></li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>设置redis同时可以与多少个客户端进行连接。</li>
+<li>默认情况下为10000个客户端。</li>
+<li>如果达到了此限制，redis则会拒绝新的连接请求，并且向这些连接请求方发出“max number of clients reached”以作回应。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730039000-f90e6ed1-eba5-4226-b9b5-50017f44ffda.jpeg#averageHue=%23111107&amp;id=oWW5t&amp;originHeight=151&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **maxmemory **
+</code></pre>
+<ul>
+<li>建议<strong>必须设置</strong>，否则，将内存占满，造成服务器宕机</li>
+<li>设置redis可以使用的内存量。一旦到达内存使用上限，redis将会试图移除内部数据，移除规则可以通过maxmemory-policy来指定。</li>
+<li>如果redis无法根据移除规则来移除内存中的数据，或者设置了“不允许移除”，那么redis则会针对那些需要申请内存的指令返回错误信息，比如SET、LPUSH等。</li>
+<li>但是对于无内存申请的指令，仍然会正常响应，比如GET等。如果你的redis是主redis（说明你的redis有从redis），那么在设置内存使用上限时，需要在系统中留出一些内存空间给同步队列缓存，只有在你设置的是“不移除”的情况下，才不用考虑这个因素。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730039266-f1e3c844-46e9-49db-9ba6-c739649153f3.jpeg#averageHue=%23070802&amp;id=jGg2L&amp;originHeight=350&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **maxmemory-policy**
+</code></pre>
+<ul>
+<li>volatile-lru：使用LRU算法移除key，只对设置了过期时间的键；（最近最少使用）</li>
+<li>allkeys-lru：在所有集合key中，使用LRU算法移除key</li>
+<li>volatile-random：在过期集合中移除随机的key，只对设置了过期时间的键</li>
+<li>allkeys-random：在所有集合key中，移除随机的key</li>
+<li>volatile-ttl：移除那些TTL值最小的key，即那些最近要过期的key</li>
+<li>noeviction：不进行移除。针对写操作，只是返回错误信息</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730039585-06e1a32b-282f-424b-91e0-51c8e44825d2.jpeg#averageHue=%23181707&amp;id=BQlIS&amp;originHeight=348&amp;originWidth=616&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **maxmemory-samples**
+</code></pre>
+<ul>
+<li>设置样本数量，LRU算法和最小TTL算法都并非是精确的算法，而是估算值，所以你可以设置样本的大小，redis默认会检查这么多个key并选择其中LRU的那个。</li>
+<li>一般设置3到7的数字，数值越小样本越不准确，但性能消耗越小。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730039834-216147c3-2b02-488c-8c31-e35b22d07085.jpeg#averageHue=%23131206&amp;id=tHMcu&amp;originHeight=153&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis的发布和订阅</strong>
+<ol>
+<li><strong>什么是发布和订阅</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis 发布订阅 (pub/sub) 是一种消息通信模式：发送者 (pub) 发送消息，订阅者 (sub) 接收消息。<br>
+Redis 客户端可以订阅任意数量的频道。</p>
+<ol>
+<li><strong>Redis的发布和订阅</strong></li>
+</ol>
+<p>1、客户端可以订阅频道如下图<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730040062-c5a4d2ce-fa30-4c07-ad84-6ce4421511db.png#averageHue=%23e7ebd9&amp;id=jba6O&amp;originHeight=214&amp;originWidth=516&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+2、当给这个频道发布消息后，消息就会发送给订阅的客户端<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730040377-91b7001c-de87-47f5-9971-e1b500f6feaf.png#averageHue=%23eaeae9&amp;id=CEjqK&amp;originHeight=303&amp;originWidth=471&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>发布订阅命令行实现</strong></li>
+<li>打开一个客户端订阅channel1</li>
+</ol>
+<p>SUBSCRIBE channel1<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730040629-5d1e893c-fb8a-4320-8280-7284fb8dedac.png#averageHue=%230c0a09&amp;id=wW3l8&amp;originHeight=154&amp;originWidth=541&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+2、打开另一个客户端，给channel1发布消息hello<br>
+publish channel1 hello<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730040869-9547417c-700c-4bef-9c9d-c650dab1b686.png#averageHue=%23110f0d&amp;id=bv7O0&amp;originHeight=50&amp;originWidth=495&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+返回的1是订阅者数量<br>
+3、打开第一个客户端可以看到发送的消息<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730041137-08dbd908-930c-46bc-892d-c3975a44515b.png#averageHue=%230a0807&amp;id=Opd93&amp;originHeight=227&amp;originWidth=552&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+注：发布的消息没有持久化，如果在订阅的客户端收不到hello，只能收到订阅后发布的消息</p>
+<ol>
+<li><strong>Redis新数据类型</strong>
+<ol>
+<li><strong>Bitmaps</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>现代计算机用二进制（位） 作为信息的基础单位， 1个字节等于8位， 例如“abc”字符串是由3个字节组成， 但实际在计算机存储时将其用二进制表示， “abc”分别对应的ASCII码分别是97、 98、 99， 对应的二进制分别是01100001、 01100010和01100011，如下图<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730041380-1e9c0ca4-5e84-47b2-9984-4647f3a6b1a1.png#averageHue=%23e9e9e9&amp;id=uehK8&amp;originHeight=115&amp;originWidth=628&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+合理地使用操作位能够有效地提高内存使用率和开发效率。<br>
+Redis提供了Bitmaps这个“数据类型”可以实现对位的操作：</p>
+<ol>
+<li>Bitmaps本身不是一种数据类型， 实际上它就是字符串（key-value） ， 但是它可以对字符串的位进行操作。</li>
+<li>Bitmaps单独提供了一套命令， 所以在Redis中使用Bitmaps和使用字符串的方法不太相同。 可以把Bitmaps想象成一个以位为单位的数组， 数组的每个单元只能存储0和1， 数组的下标在Bitmaps中叫做偏移量。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730041676-b07a50a5-97e1-453e-9c45-420743a1144d.png#averageHue=%23cdcccc&amp;id=DojKK&amp;originHeight=81&amp;originWidth=822&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **命令**
+</code></pre>
+<p>1、setbit<br>
+（1）格式<br>
+setbit<key><offset><value>设置Bitmaps中某个偏移量的值（0或1）<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730041887-6e6d1411-b201-4d9c-8da2-5e2e7512b457.png#averageHue=%23110f0d&amp;id=za5A6&amp;originHeight=37&amp;originWidth=519&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+*offset:偏移量从0开始<br>
+（2）实例<br>
+每个独立用户是否访问过网站存放在Bitmaps中， 将访问的用户记做1， 没有访问的用户记做0， 用偏移量作为用户的id。<br>
+设置键的第offset个位的值（从0算起） ， 假设现在有20个用户，userid=1， 6， 11， 15， 19的用户对网站进行了访问， 那么当前Bitmaps初始化结果如图<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730042156-2c62c32d-62a3-45f7-854d-3bf1cf1e489f.png#averageHue=%23ececec&amp;id=KepT0&amp;originHeight=135&amp;originWidth=646&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+unique:users:20201106代表2020-11-06这天的独立访问用户的Bitmaps<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730042383-9e87289b-c3fe-4884-bc89-37897d0108fe.png#averageHue=%23100e0c&amp;id=k5Jkg&amp;originHeight=251&amp;originWidth=652&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+注：<br>
+很多应用的用户id以一个指定数字（例如10000） 开头， 直接将用户id和Bitmaps的偏移量对应势必会造成一定的浪费， 通常的做法是每次做setbit操作时将用户id减去这个指定数字。<br>
+在第一次初始化Bitmaps时， 假如偏移量非常大， 那么整个初始化过程执行会比较慢， 可能会造成Redis的阻塞。<br>
+2、getbit<br>
+（1）格式<br>
+getbit<key><offset>获取Bitmaps中某个偏移量的值<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730042647-7b0094f9-0323-4d9a-a8be-ca2552194b79.png#averageHue=%23100e0c&amp;id=ogPG6&amp;originHeight=35&amp;originWidth=444&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+获取键的第offset位的值（从0开始算）<br>
+（2）实例<br>
+获取id=8的用户是否在2020-11-06这天访问过， 返回0说明没有访问过：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730042882-62c46e10-5689-4e65-856e-a6b2ac7468be.png#averageHue=%23100e0c&amp;id=lo73f&amp;originHeight=154&amp;originWidth=633&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+注：因为100根本不存在，所以也是返回0<br>
+3、bitcount<br>
+统计<strong>字符串</strong>被设置为1的bit数。一般情况下，给定的整个字符串都会被进行计数，通过指定额外的 start 或 end 参数，可以让计数只在特定的位上进行。start 和 end 参数的设置，都可以使用负数值：比如 -1 表示最后一个位，而 -2 表示倒数第二个位，start、end 是指bit组的字节的下标数，二者皆包含。<br>
+（1）格式<br>
+bitcount<key>[start end] 统计字符串从start字节到end字节比特值为1的数量<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730043084-62a931d2-c5e0-4b31-b14a-cfe895317f1e.png#averageHue=%2315120f&amp;id=nw0n4&amp;originHeight=29&amp;originWidth=526&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+计算2022-11-06这天的独立访问用户数量<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730043338-e4615ff4-d54b-4821-b778-1a9bd1824324.png#averageHue=%230c0a07&amp;id=rcLg5&amp;originHeight=62&amp;originWidth=657&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+start和end代表起始和结束字节数， 下面操作计算用户id在第1个字节到第3个字节之间的独立访问用户数， 对应的用户id是11， 15， 19。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730043539-b573ced4-e2ab-463b-831e-c17c49ba60a6.png#averageHue=%23100d0c&amp;id=VstjJ&amp;originHeight=51&amp;originWidth=662&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+举例： K1 【01000001 01000000  00000000 00100001】，对应【0，1，2，3】<br>
+bitcount K1 1 2  ： 统计下标1、2字节组中bit=1的个数，即01000000  00000000<br>
+–》bitcount K1 1 2 　　--》1<br>
+bitcount K1 1 3  ： 统计下标1、2字节组中bit=1的个数，即01000000  00000000 00100001<br>
+–》bitcount K1 1 3　　--》3<br>
+bitcount K1 0 -2  ： 统计下标0到下标倒数第2，字节组中bit=1的个数，即01000001  01000000   00000000<br>
+–》bitcount K1 0 -2　　--》3<br>
+注意：redis的setbit设置或清除的是bit位置，而bitcount计算的是byte位置。<br>
+4、bitop<br>
+(1)格式<br>
+bitop  and(or/not/xor) <destkey> [key…]<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730043743-ba80e6ed-b5da-4394-9bcf-19467d02a666.png#averageHue=%2313100e&amp;id=j9TK6&amp;originHeight=29&amp;originWidth=691&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+bitop是一个复合操作， 它可以做多个Bitmaps的and（交集） 、 or（并集） 、 not（非） 、 xor（异或） 操作并将结果保存在destkey中。<br>
+(2)实例<br>
+2020-11-04 日访问网站的userid=1,2,5,9。<br>
+setbit unique:users:20201104 1 1<br>
+setbit unique:users:20201104 2 1<br>
+setbit unique:users:20201104 5 1<br>
+setbit unique:users:20201104 9 1<br>
+2020-11-03 日访问网站的userid=0,1,4,9。<br>
+setbit unique:users:20201103 0 1<br>
+setbit unique:users:20201103 1 1<br>
+setbit unique:users:20201103 4 1<br>
+setbit unique:users:20201103 9 1<br>
+计算出两天都访问过网站的用户数量<br>
+bitop and unique:users:and:20201104_03<br>
+unique:users:20201103unique:users:20201104<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730043980-be07c887-3214-4b9d-87c3-d4df59d7233c.png#averageHue=%230a0907&amp;id=seAnr&amp;originHeight=129&amp;originWidth=1181&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+bitop and操作返回值是位串中为1的个数。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730044227-82e0367b-be06-4164-88df-f1f6713b6fc5.png#averageHue=%23f0efef&amp;id=fiQAN&amp;originHeight=394&amp;originWidth=617&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+计算出任意一天都访问过网站的用户数量（例如月活跃就是类似这种） ， 可以使用or求并集<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730044526-f201de03-2143-4c20-9153-9d6aa4f54b63.png#averageHue=%230a0807&amp;id=pl4Ku&amp;originHeight=126&amp;originWidth=1183&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **Bitmaps与set对比**
+</code></pre>
+<p>假设网站有1亿用户， 每天独立访问的用户有5千万， 如果每天用集合类型和Bitmaps分别存储活跃用户可以得到表</p>
+<table>
+<thead>
+<tr>
+<th>set和Bitmaps存储一天活跃用户对比</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>类型</td>
+<td>每个用户id占用空间</td>
+<td>需要存储的用户量</td>
+<td>全部内存量</td>
+</tr>
+<tr>
+<td>集合</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>类型</td>
+<td>64位</td>
+<td>50000000</td>
+<td>64位*50000000 = 400MB</td>
+</tr>
+<tr>
+<td>Bitmaps</td>
+<td>1位</td>
+<td>100000000</td>
+<td>1位*100000000 = 12.5MB</td>
+</tr>
+</tbody>
+</table>
+<p>很明显， 这种情况下使用Bitmaps能节省很多的内存空间， 尤其是随着时间推移节省的内存还是非常可观的</p>
+<table>
+<thead>
+<tr>
+<th>set和Bitmaps存储独立用户空间对比</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据类型</td>
+<td>一天</td>
+<td>一个月</td>
+<td>一年</td>
+</tr>
+<tr>
+<td>集合类型</td>
+<td>400MB</td>
+<td>12GB</td>
+<td>144GB</td>
+</tr>
+<tr>
+<td>Bitmaps</td>
+<td>12.5MB</td>
+<td>375MB</td>
+<td>4.5GB</td>
+</tr>
+</tbody>
+</table>
+<p>但Bitmaps并不是万金油， 假如该网站每天的独立访问用户很少， 例如只有10万（大量的僵尸用户） ， 那么两者的对比如下表所示， 很显然， 这时候使用Bitmaps就不太合适了， 因为基本上大部分位都是0。</p>
+<table>
+<thead>
+<tr>
+<th>set和Bitmaps存储一天活跃用户对比（独立用户比较少）</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据类型</td>
+<td>每个userid占用空间</td>
+<td>需要存储的用户量</td>
+<td>全部内存量</td>
+</tr>
+<tr>
+<td>集合类型</td>
+<td>64位</td>
+<td>100000</td>
+<td>64位*100000 = 800KB</td>
+</tr>
+<tr>
+<td>Bitmaps</td>
+<td>1位</td>
+<td>100000000</td>
+<td>1位*100000000 = 12.5MB</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>HyperLogLog</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>在工作当中，我们经常会遇到与统计相关的功能需求，比如统计网站PV（PageView页面访问量）,可以使用Redis的incr、incrby轻松实现。<br>
+但像UV（UniqueVisitor，独立访客）、独立IP数、搜索记录数等需要去重和计数的问题如何解决？这种求集合中不重复元素个数的问题称为基数问题。<br>
+解决基数问题有很多种方案：<br>
+（1）数据存储在MySQL表中，使用distinct count计算不重复个数<br>
+（2）使用Redis提供的hash、set、bitmaps等数据结构来处理<br>
+以上的方案结果精确，但随着数据不断增加，导致占用空间越来越大，对于非常大的数据集是不切实际的。<br>
+能否能够降低一定的精度来平衡存储空间？Redis推出了HyperLogLog<br>
+Redis HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定的、并且是很小的。<br>
+在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。<br>
+但是，因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以 HyperLogLog 不能像集合那样，返回输入的各个元素。<br>
+什么是基数?<br>
+比如数据集 {1, 3, 5, 7, 5, 7, 8}， 那么这个数据集的基数集为 {1, 3, 5 ,7, 8}, 基数(不重复元素)为5。 基数估计就是在误差可接受的范围内，快速计算基数。</p>
+<pre><code>  1. **命令**
+</code></pre>
+<p>1、pfadd<br>
+（1）格式<br>
+pfadd <key>&lt; element&gt; [element …]   添加指定元素到 HyperLogLog 中<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730044807-6a71eed0-0b1f-44a4-839b-e33e56882e07.png#averageHue=%23100d0c&amp;id=Yw5RO&amp;originHeight=31&amp;originWidth=620&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730045083-57372cbe-5fc9-467d-b162-15c621ebaf03.png#averageHue=%23100d0c&amp;id=RDA2W&amp;originHeight=177&amp;originWidth=447&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+将所有元素添加到指定HyperLogLog数据结构中。如果执行命令后HLL估计的近似基数发生变化，则返回1，否则返回0。<br>
+2、pfcount<br>
+（1）格式<br>
+pfcount<key> [key …] 计算HLL的近似基数，可以计算多个HLL，比如用HLL存储每天的UV，计算一周的UV可以使用7天的UV合并计算即可<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730045284-0ea0a0a4-29f5-4d7a-a2d1-e1d0ff413a83.png#averageHue=%23100e0c&amp;id=ymRaK&amp;originHeight=32&amp;originWidth=482&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730045569-ff64944a-93ae-4f3e-b189-25091586aa3a.png#averageHue=%230f0d0b&amp;id=tIUfy&amp;originHeight=375&amp;originWidth=473&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+3、pfmerge<br>
+（1）格式<br>
+pfmerge<destkey><sourcekey> [sourcekey …]  将一个或多个HLL合并后的结果存储在另一个HLL中，比如每月活跃用户可以使用每天的活跃用户来合并计算可得<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730045959-ae3fb38f-f426-41e2-9abd-33317a976419.png#averageHue=%23151210&amp;id=bQZBn&amp;originHeight=27&amp;originWidth=744&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730046204-9eef0e6b-7a15-410d-83bd-65d4a7d7e358.png#averageHue=%230d0b09&amp;id=KDaCu&amp;originHeight=182&amp;originWidth=495&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Geospatial</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis 3.2 中增加了对GEO类型的支持。GEO，Geographic，地理信息的缩写。该类型，就是元素的2维坐标，在地图上就是经纬度。redis基于该类型，提供了经纬度设置，查询，范围查询，距离查询，经纬度Hash等常见操作。</p>
+<pre><code>  1. **命令**
+</code></pre>
+<p>1、geoadd<br>
+（1）格式<br>
+geoadd<key>&lt; longitude&gt;<latitude><member> [longitude latitude member…]   添加地理位置（经度，纬度，名称）<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730046502-25494722-7483-4493-8757-95fb5196cbc5.png#averageHue=%230b0806&amp;id=aAHRQ&amp;originHeight=30&amp;originWidth=754&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+geoadd china:city 121.47 31.23 shanghai<br>
+geoadd china:city 106.50 29.53 chongqing 114.05 22.52 shenzhen 116.38 39.90 beijing<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730046771-cd8f0b9f-c7ec-4cf4-b994-023b74e0753d.png#averageHue=%23070503&amp;id=mzQwF&amp;originHeight=96&amp;originWidth=898&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+两极无法直接添加，一般会下载城市数据，直接通过 Java 程序一次性导入。<br>
+有效的经度从 -180 度到 180 度。有效的纬度从 -85.05112878 度到 85.05112878 度。<br>
+当坐标位置超出指定范围时，该命令将会返回一个错误。<br>
+已经添加的数据，是无法再次往里面添加的。<br>
+2、geopos<br>
+（1）格式<br>
+geopos  <key><member> [member…]  获得指定地区的坐标值<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730047046-9212fba5-b8c3-4ec3-8dd7-ff0823d9c79c.png#averageHue=%230d0a07&amp;id=ujxFG&amp;originHeight=27&amp;originWidth=464&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730047304-a8479a43-fdca-4b12-92a1-683084423427.png#averageHue=%23120e0a&amp;id=N5gjj&amp;originHeight=61&amp;originWidth=423&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+3、geodist<br>
+（1）格式<br>
+geodist<key><member1><member2>  [m|km|ft|mi ]  获取两个位置之间的直线距离<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730047526-463fa02f-03df-488e-93ed-16c6ff5a7bdb.png#averageHue=%230c0906&amp;id=LaFSb&amp;originHeight=28&amp;originWidth=564&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）实例<br>
+获取两个位置之间的直线距离<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730047763-e55e7def-edf0-4318-8b5d-4bfb091fa53d.png#averageHue=%23090704&amp;id=OwVHS&amp;originHeight=50&amp;originWidth=557&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+单位：<br>
+m 表示单位为米[默认值]。<br>
+km 表示单位为千米。<br>
+mi 表示单位为英里。<br>
+ft 表示单位为英尺。<br>
+如果用户没有显式地指定单位参数， 那么 GEODIST 默认使用米作为单位<br>
+4、georadius<br>
+（1）格式<br>
+georadius<key>&lt; longitude&gt;<latitude>radius  m|km|ft|mi   以给定的经纬度为中心，找出某一半径内的元素<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730048028-db65bfe1-ddcd-4996-a673-88e25f0bfb7d.png#averageHue=%230d0a07&amp;id=giAcC&amp;originHeight=26&amp;originWidth=671&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+经度 纬度 距离 单位<br>
+（2）实例<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730048304-448a2baf-96e7-44ec-a154-990d2526f401.png#averageHue=%23090604&amp;id=iFc6n&amp;originHeight=60&amp;originWidth=519&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis_Jedis_测试</strong>
+<ol>
+<li><strong>Jedis所需要的jar包</strong><br>
+| &lt;<strong>dependency</strong>&gt;<br>
+&lt;<strong>groupId</strong>&gt;redis.clients&lt;/<strong>groupId</strong>&gt;<br>
+&lt;<strong>artifactId</strong>&gt;jedis&lt;/<strong>artifactId</strong>&gt;<br>
+&lt;<strong>version</strong>&gt;3.2.0&lt;/<strong>version</strong>&gt;<br>
+&lt;/<strong>dependency</strong>&gt; |<br>
+| — |</li>
+</ol>
+</li>
+</ol>
+<p>什么是Jedis?<br>
+Jedis是redis的java客户端，集成了Redis的命令操作，提供连接池操作。</p>
+<ol>
+<li><strong>连接Redis注意事项</strong></li>
+</ol>
+<p>禁用Linux的防火墙：Linux(CentOS7)里执行命令<br>
+**systemctl stop/disable firewalld.service   **<br>
+redis.conf中注释掉bind 127.0.0.1 ,然后 protected-mode no<br>
+1.查看redis进程的命令： ps -ef | grep redis。<br>
+2.关于prptected-mode no的解释</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">protected-mode no 是一个用于关闭 Redis 的保护模式的配置选项。</span><br><span class="line">保护模式是 Redis 3.2 版本后引入的一种安全机制，</span><br><span class="line">它的目的是防止 Redis 实例被外部网络访问和利用。https://www.jianshu.com/p/ddd19ec819dchttps://blog.csdn.net/zzhongcy/article/details/123653851</span><br><span class="line"></span><br><span class="line">当保护模式开启时，如果 Redis 实例没有指定绑定地址（bind）</span><br><span class="line">或者没有设置访问密码（requirepass），那么它只接受来自本地回环地址</span><br><span class="line">（127.0.0.1 或者 ::1）和 Unix 域套接字的连接请求。这样可以避免 </span><br><span class="line">Redis 实例被暴露在公网上，造成数据泄露或者被恶意攻击。https://www.jianshu.com/p/ddd19ec819dchttps://blog.csdn.net/zzhongcy/article/details/123653851</span><br><span class="line"></span><br><span class="line">如果你想让 Redis 实例能够接受来自外部网络的连接请求</span><br><span class="line">，你可以采用以下几种方法之一：</span><br><span class="line"></span><br><span class="line">•  关闭保护模式，将 protected-mode no 设置为 no ，然后重启服务器。</span><br><span class="line">但是这样做需要确保 Redis 实例不会被公网访问，否则会有安全风险。https://www.jianshu.com/p/ddd19ec819dchttps://blog.csdn.net/zzhongcy/article/details/123653851</span><br><span class="line"></span><br><span class="line">•  开启保护模式，但是指定绑定地址（bind），让 Redis 实例只监听特定</span><br><span class="line">的网络接口。例如，如果你想让 Redis 实例只监听 192.168.1.100 这个地址，你可以在配置文件中设置 bind 192.168.1.100 ，然后重启服务器。https://www.jianshu.com/p/ddd19ec819dchttps://blog.csdn.net/zzhongcy/article/details/123653851</span><br><span class="line"></span><br><span class="line">•  开启保护模式，但是设置访问密码（requirepass），让 Redis 实例要</span><br><span class="line">求客户端提供密码才能连接。例如，如果你想让 Redis 实例的密码为 mypass </span><br><span class="line">，你可以在配置文件中设置 requirepass mypass ，然后重启服务器。</span><br><span class="line">https://www.jianshu.com/p/ddd19ec819dchttps://blog.csdn.net/zzhongcy/article/details/123653851</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">命令ps -ef中，选项-ef是两个单独的选项-e和-f的组合。</span><br><span class="line"></span><br><span class="line">-e选项：它表示显示所有进程，而不仅仅是当前用户的进程。它会列出所有</span><br><span class="line">正在运行的进程，包括系统进程和其他用户的进程。</span><br><span class="line"></span><br><span class="line">-f选项：它表示以全格式显示进程信息。它会显示更详细的信息，如进</span><br><span class="line">程的PID（进程ID）、PPID（父进程ID）、CPU使用情况、内存使用情况等。</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p><strong>Jedis常用操作</strong></p>
+<ol>
+<li><strong>创建动态的工程</strong></li>
+<li><strong>创建测试程序</strong><br>
+| package com.atguigu.jedis;<br>
+import redis.clients.jedis.Jedis;<br>
+public class Demo01 {<br>
+public static void main(String[] args) {<br>
+Jedis jedis = new Jedis(“192.168.137.3”,6379);//注意这里连接的是redis-server<br>
+而不是redis-sentinel<br>
+String pong = jedis.ping();<br>
+System.out.println(“连接成功：”+pong);<br>
+jedis.close();<br>
+}<br>
+} |<br>
+| — |</li>
+</ol>
+</li>
+<li>
+<p><strong>测试相关数据类型</strong></p>
+<ol>
+<li>
+<p><strong>Jedis-API:    Key</strong><br>
+| jedis.<strong>set</strong>(“k1”, “v1”);<br>
+jedis.set(“k2”, “v2”);<br>
+jedis.set(“k3”, “v3”);<br>
+Set<String> keys = jedis.<strong>keys</strong>(“*”);<br>
+System.out.println(keys.size());<br>
+for (String key : keys) {<br>
+System.out.println(key);<br>
+}<br>
+System.out.println(jedis.<strong>exists</strong>(“k1”));<br>
+System.out.println(jedis.<strong>ttl</strong>(“k1”));<br>
+System.out.println(jedis.<strong>get</strong>(“k1”)); |<br>
+| — |</p>
+</li>
+<li>
+<p><strong>Jedis-API:    String</strong><br>
+| jedis.<strong>mset</strong>(“str1”,“v1”,“str2”,“v2”,“str3”,“v3”);<br>
+System.<em>out</em>.println(jedis.<strong>mget</strong>(“str1”,“str2”,“str3”)); |<br>
+| — |</p>
+</li>
+<li>
+<p><strong>Jedis-API:    List</strong><br>
+| List<String> list = jedis.<strong>lrange</strong>(“mylist”,0,-1);<br>
+for (String element : list) {<br>
+System.out.println(element);<br>
+} |<br>
+| — |</p>
+</li>
+<li>
+<p><strong>Jedis-API:    set</strong><br>
+| jedis.sadd(“orders”, “order01”);<br>
+jedis.sadd(“orders”, “order02”);<br>
+jedis.sadd(“orders”, “order03”);<br>
+jedis.sadd(“orders”, “order04”);<br>
+Set<String> smembers = jedis.<strong>smembers</strong>(“orders”);<br>
+for (String order : smembers) {<br>
+System.out.println(order);<br>
+}<br>
+jedis.<strong>srem</strong>(“orders”, “order02”); |<br>
+| — |</p>
+</li>
+<li>
+<p><strong>Jedis-API:    hash</strong><br>
+| jedis.<strong>hset</strong>(“hash1”,“userName”,“lisi”);<br>
+System.out.println(jedis.<strong>hget</strong>(“hash1”,“userName”));<br>
+Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();<br>
+map.put(“telphone”,“13810169999”);<br>
+map.put(“address”,“atguigu”);<br>
+map.put(“<a href="mailto:email%22,%22abc@163.com">email&quot;,&quot;abc@163.com</a>”);<br>
+jedis.<strong>hmset</strong>(“hash2”,map);<br>
+List<String> result = jedis.<strong>hmget</strong>(“hash2”, “telphone”,“email”);<br>
+for (String element : result) {<br>
+System.out.println(element);<br>
+} |<br>
+| — |</p>
+</li>
+<li>
+<p><strong>Jedis-API:    zset</strong><br>
+| jedis.<strong>zadd</strong>(“zset01”, 100d, “z3”);<br>
+jedis.zadd(“zset01”, 90d, “l4”);<br>
+jedis.zadd(“zset01”, 80d, “w5”);<br>
+jedis.zadd(“zset01”, 70d, “z6”);</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>Set<String> zrange = jedis.<strong>zrange</strong>(“zset01”, 0, -1);<br>
+for (String e : zrange) {<br>
+System.out.println(e);</p>
+<table>
+<thead>
+<tr>
+<th>}</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>Redis_Jedis_实例</strong>
+<ol>
+<li><strong>完成一个手机验证码功能</strong></li>
+</ol>
+</li>
+</ol>
+<p>要求：<br>
+1、输入手机号，点击发送后随机生成6位数字码，2分钟有效<br>
+2、输入验证码，点击验证，返回成功或失败<br>
+3、每个手机号每天只能输入3次<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730048567-6aa26936-21dc-4110-8bba-d0bea1ab89f0.jpeg#averageHue=%23eae8e0&amp;id=sLE5A&amp;originHeight=165&amp;originWidth=516&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis与Spring Boot整合</strong></li>
+</ol>
+<p>Spring Boot整合Redis非常简单，只需要按如下步骤整合即可</p>
+<ol>
+<li>
+<p><strong>整合步骤</strong></p>
+</li>
+<li>
+<p>在pom.xml文件中引入redis相关依赖<br>
+| <em><!-- redis --></em>&lt;<strong>dependency</strong>&gt;<br>
+&lt;<strong>groupId</strong>&gt;org.springframework.boot&lt;/<strong>groupId</strong>&gt;<br>
+&lt;<strong>artifactId</strong>&gt;spring-boot-starter-data-redis&lt;/<strong>artifactId</strong>&gt;<br>
+&lt;/<strong>dependency</strong>&gt;<br>
+<em><!-- spring2.X集成redis所需common-pool2--></em>&lt;<strong>dependency</strong>&gt;<br>
+&lt;<strong>groupId</strong>&gt;org.apache.commons&lt;/<strong>groupId</strong>&gt;<br>
+&lt;<strong>artifactId</strong>&gt;commons-pool2&lt;/<strong>artifactId</strong>&gt;<br>
+&lt;<strong>version</strong>&gt;2.6.0&lt;/<strong>version</strong>&gt;<br>
+&lt;/<strong>dependency</strong>&gt; |<br>
+| — |</p>
+</li>
+<li>
+<p>application.properties配置redis配置<br>
+| #Redis服务器地址<br>
+spring.data.redis.host=8.130.50.249<br>
+#Redis服务器连接端口<br>
+spring.data.redis.port=**6379<br>
+**#Redis数据库索引（默认为0）<br>
+spring.data.redis.database= **0<br>
+**#连接超时时间（毫秒）<br>
+spring.data.redis.timeout=1800000<br>
+#连接池最大连接数（使用负值表示没有限制）<br>
+spring.data.redis.jedis.pool.max-active=**20<br>
+**#最大阻塞等待时间(负数表示没限制)<br>
+spring.data.redis.jedis.pool.max-wait=-1<br>
+#连接池中的最大空闲连接<br>
+spring.data.redis.jedis.pool.max-idle=**5<br>
+**#连接池中的最小空闲连接<br>
+spring.data.redis.jedis.pool.min-idle=<strong>0</strong> |<br>
+| — |</p>
+</li>
+<li>
+<p>添加redis配置类<br>
+| @EnableCaching<br>
+@Configuration<br>
+**public class **RedisConfig **extends **CachingConfigurerSupport {</p>
+<p>@Bean<br>
+**public **RedisTemplate&lt;String, Object&gt; redisTemplate(RedisConnectionFactory factory) {<br>
+RedisTemplate&lt;String, Object&gt; template = **new **RedisTemplate&lt;&gt;();<br>
+RedisSerializer<String> redisSerializer = <strong>new <strong>StringRedisSerializer();<br>
+Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = <strong>new <strong>Jackson2JsonRedisSerializer(Object.<strong>class</strong>);<br>
+ObjectMapper om = <strong>new <strong>ObjectMapper();<br>
+om.setVisibility(PropertyAccessor.</strong><em>ALL</em></strong>, JsonAutoDetect.Visibility.</strong><em>ANY</em></strong>);<br>
+om.enableDefaultTyping(ObjectMapper.DefaultTyping.</strong><em>NON_FINAL</em></strong>);<br>
+jackson2JsonRedisSerializer.setObjectMapper(om);<br>
+template.setConnectionFactory(factory);_//key序列化方式<br>
+<em>template.setKeySerializer(redisSerializer);</em>//value序列化<br>
+<em>template.setValueSerializer(jackson2JsonRedisSerializer);</em>//value hashmap序列化<br>
+_template.setHashValueSerializer(jackson2JsonRedisSerializer);<br>
+**return **template;<br>
+}</p>
+<p>@Bean<br>
+**public **CacheManager cacheManager(RedisConnectionFactory factory) {<br>
+RedisSerializer<String> redisSerializer = <strong>new <strong>StringRedisSerializer();<br>
+Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = <strong>new <strong>Jackson2JsonRedisSerializer(Object.<strong>class</strong>);_//解决查询缓存转换异常的问题<br>
+_ObjectMapper om = <strong>new <strong>ObjectMapper();<br>
+om.setVisibility(PropertyAccessor.</strong><em>ALL</em></strong>, JsonAutoDetect.Visibility.</strong><em>ANY</em></strong>);<br>
+om.enableDefaultTyping(ObjectMapper.DefaultTyping.</strong><em>NON_FINAL</em></strong>);<br>
+jackson2JsonRedisSerializer.setObjectMapper(om);_// 配置序列化（解决乱码的问题）,过期时间600秒<br>
+_RedisCacheConfiguration config = RedisCacheConfiguration.<em>defaultCacheConfig</em>()<br>
+.entryTtl(Duration.<em>ofSeconds</em>(600))<br>
+.serializeKeysWith(RedisSerializationContext.SerializationPair.<em>fromSerializer</em>(redisSerializer))<br>
+.serializeValuesWith(RedisSerializationContext.SerializationPair.<em>fromSerializer</em>(jackson2JsonRedisSerializer))<br>
+.disableCachingNullValues();<br>
+RedisCacheManager cacheManager = RedisCacheManager.<em>builder</em>(factory)<br>
+.cacheDefaults(config)<br>
+.build();<br>
+**return **cacheManager;<br>
+}<br>
+} |<br>
+| — |<br>
+|  |<br>
+|  |</p>
+</li>
+</ol>
+<p>4、测试一下<br>
+RedisTestController中添加测试方法</p>
+<p>| @RestController<br>
+@RequestMapping(<strong>“/redisTest”</strong>)<br>
+<strong>public class <strong>RedisTestController {<br>
+@Autowired<br>
+<strong>private <strong>RedisTemplate <strong>redisTemplate</strong>;<br>
+@GetMapping<br>
+<strong>public <strong>String testRedis() {<br>
+_//设置值到redis<br>
+_<strong>redisTemplate</strong>.opsForValue().set(</strong>“name”</strong>,</strong>“lucy”</strong>);<br>
+_//从redis获取值<br>
+_String name = (String)<strong>redisTemplate</strong>.opsForValue().get(</strong>“name”</strong>);<br>
+**return **name;<br>
+}</p>
+<table>
+<thead>
+<tr>
+<th>}</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>Redis_事务_锁机制_秒杀</strong>
+<ol>
+<li><strong>Redis的事务定义</strong></li>
+</ol>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730048825-54893261-bf10-4de3-a66c-f7b8b69c7a63.jpeg#averageHue=%23e0dfdb&amp;id=jmvjN&amp;originHeight=66&amp;originWidth=625&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+Redis事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。<br>
+Redis事务的主要作用就是串联多个命令防止别的命令插队。</p>
+<ol>
+<li><strong>Multi、Exec、discard</strong></li>
+</ol>
+<p>从输入Multi命令开始，输入的命令都会依次进入命令队列中，但不会执行，直到输入Exec后，Redis会将之前的命令队列中的命令依次执行。<br>
+组队的过程中可以通过discard来放弃组队。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730049147-dc3307d8-1793-4200-9f46-8d71c8175710.png#averageHue=%23fdfbfb&amp;id=ITVQ2&amp;originHeight=309&amp;originWidth=693&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<strong>案例：</strong></p>
+<p>| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730049420-5fee2564-1c4f-4b27-9f0d-5081fa588321.jpeg#averageHue=%23615c55&amp;id=u9oHB&amp;originHeight=117&amp;originWidth=159&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>组队成功，提交成功</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730049688-69b9a09e-c48f-48d0-95d8-2f3368017f39.jpeg#averageHue=%23060605&amp;id=PqyhT&amp;originHeight=122&amp;originWidth=389&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></td>
+</tr>
+<tr>
+<td>组队阶段报错，提交失败</td>
+</tr>
+<tr>
+<td><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730049917-4a5ea3be-4561-417e-8316-cd2266f3a8b2.jpeg#averageHue=%23080707&amp;id=BLVOz&amp;originHeight=152&amp;originWidth=330&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></td>
+</tr>
+<tr>
+<td>组队成功，提交有成功有失败情况</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>事务的错误处理</strong></li>
+</ol>
+<p>组队中某个命令出现了报告错误，执行时整个的所有队列都会被取消。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730050175-662baba3-e42b-4d7e-97a5-fbaf395b7141.jpeg#averageHue=%23f6f5f5&amp;id=tNetC&amp;originHeight=270&amp;originWidth=617&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+如果执行阶段某个命令报出了错误，则只有报错的命令不会被执行，而其他的命令都会执行，不会回滚。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730050447-d9680bf2-fda6-4551-b0eb-ba707f216ac3.jpeg#averageHue=%23ebebe3&amp;id=JAArc&amp;originHeight=269&amp;originWidth=614&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>为什么要做成事务</strong></li>
+</ol>
+<p>想想一个场景：有很多人有你的账户,同时去参加双十一抢购</p>
+<ol>
+<li><strong>事务冲突的问题</strong>
+<ol>
+<li><strong>例子</strong></li>
+</ol>
+</li>
+</ol>
+<p>一个请求想给金额减8000<br>
+一个请求想给金额减5000<br>
+一个请求想给金额减1000<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730050721-2562fa91-e6be-4801-bec9-b54b906cddf4.jpeg#averageHue=%23fac47d&amp;id=oYHnE&amp;originHeight=215&amp;originWidth=616&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **悲观锁**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730050986-995b2faa-d872-406f-9ba7-cdca0f1a0d29.jpeg#averageHue=%23f1c084&amp;id=w0mhj&amp;originHeight=169&amp;originWidth=613&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<strong>悲观锁(Pessimistic Lock)</strong>, 顾名思义，就是很悲观，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会block直到它拿到锁。<strong>传统的关系型数据库里边就用到了很多这种锁机制</strong>，比如<strong>行锁</strong>，<strong>表锁</strong>等，<strong>读锁</strong>，<strong>写锁</strong>等，都是在做操作之前先上锁。</p>
+<pre><code>  1. **乐观锁**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730051248-472694bb-fce1-419f-b8b8-ee0b46349fac.jpeg#averageHue=%23f9e5d3&amp;id=pMR6f&amp;originHeight=195&amp;originWidth=613&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+**乐观锁(Optimistic Lock), **顾名思义，就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制。<strong>乐观锁适用于多读的应用类型，这样可以提高吞吐量</strong>。Redis就是利用这种check-and-set机制实现事务的。</p>
+<pre><code>  1. **WATCH key [key ...]**
+</code></pre>
+<p>在执行multi之前，先执行watch key1 [key2],可以监视一个(或多个) key ，如果在事务<strong>执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断。</strong><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730051584-c6030859-5595-4dd5-af27-cd9f93ef166e.jpeg#averageHue=%23f5edec&amp;id=jXO1L&amp;originHeight=180&amp;originWidth=314&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **unwatch**
+</code></pre>
+<p>取消 WATCH 命令对所有 key 的监视。<br>
+如果在执行 WATCH 命令之后，EXEC 命令或DISCARD 命令先被执行了的话，那么就不需要再执行UNWATCH 了。<br>
+<a target="_blank" rel="noopener" href="http://doc.redisfans.com/transaction/exec.html">http://doc.redisfans.com/transaction/exec.html</a></p>
+<ol>
+<li><strong>Redis事务三特性</strong></li>
+</ol>
+<ul>
+<li>单独的隔离操作
+<ul>
+<li>事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
+</ul>
+</li>
+<li>没有隔离级别的概念
+<ul>
+<li>队列中的命令没有提交之前都不会实际被执行，因为事务提交前任何指令都不会被实际执行</li>
+</ul>
+</li>
+<li>不保证原子性
+<ul>
+<li>事务中如果有一条命令执行失败，其后的命令仍然会被执行，没有回滚</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>Redis_事务_秒杀案例</strong>
+<ol>
+<li><strong>解决计数器和人员记录的事务操作</strong></li>
+</ol>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730051888-55bb4789-36fb-4865-ac03-920446cb6b8d.jpeg#averageHue=%23fdfefd&amp;id=cx1Bh&amp;originHeight=189&amp;originWidth=614&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis事务–秒杀并发模拟</strong></li>
+</ol>
+<p>使用工具ab模拟测试<br>
+CentOS6 默认安装<br>
+CentOS7需要手动安装</p>
+<pre><code>  1. **联网：yum install httpd-tools**
+  2. **无网络**
+</code></pre>
+<p>（1） 进入cd  /run/media/root/CentOS 7 x86_64/Packages（路径跟centos6不同）<br>
+（2） 顺序安装<br>
+apr-1.4.8-3.el7.x86_64.rpm<br>
+apr-util-1.5.2-6.el7.x86_64.rpm<br>
+httpd-tools-2.4.6-67.el7.centos.x86_64.rpm</p>
+<pre><code>  1. **测试及结果**
+     1. **通过ab测试**
+</code></pre>
+<p>vim postfile 模拟表单提交参数,以&amp;符号结尾;存放当前目录。<br>
+内容：prodid=0101&amp;<br>
+ab -n 2000 -c 200 -k -p ~/postfile -T application/x-www-form-urlencoded <a target="_blank" rel="noopener" href="http://192.168.2.115:8081/Seckill/doseckill">http://192.168.2.115:8081/Seckill/doseckill</a></p>
+<pre><code>     1. **超卖**
+</code></pre>
+<p>| <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730052159-72c632b8-c258-476c-ab16-ba02e679e609.jpeg#averageHue=%23efefe9&amp;id=e0BcE&amp;originHeight=320&amp;originWidth=117&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""> | <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730052444-7f1821af-9326-4c5b-8ff9-3a55c795e243.jpeg#averageHue=%230e0908&amp;id=RzNKd&amp;originHeight=138&amp;originWidth=360&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+  |<br>
+| — | — |</p>
+<ol>
+<li><strong>超卖问题</strong></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730052742-4e563233-bb89-48ce-9b0d-a6d4836dd0f9.jpeg#averageHue=%23f8e5db&amp;id=VNTTo&amp;originHeight=348&amp;originWidth=547&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>利用乐观锁淘汰用户，解决超卖问题。</strong></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730053044-acd5fa54-be05-4269-b369-47acf2f2a3e9.jpeg#averageHue=%23f6ddd3&amp;id=wpIeY&amp;originHeight=289&amp;originWidth=613&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<p>| //增加乐观锁<br>
+jedis.watch(qtkey);</p>
+<p><a target="_blank" rel="noopener" href="//3.xn--fcr37t4sc0rk">//3.判断库存</a><br>
+String qtkeystr = jedis.get(qtkey);<br>
+if(qtkeystr==null || “”.equals(qtkeystr.trim())) {<br>
+System.out.println(“未初始化库存”);<br>
+jedis.close();<br>
+return false ;<br>
+}</p>
+<p>int qt = Integer.parseInt(qtkeystr);<br>
+if(qt&lt;=0) {<br>
+System.err.println(“已经秒光”);<br>
+jedis.close();<br>
+return false;<br>
+}</p>
+<p>//增加事务<br>
+Transaction <strong>multi</strong> = jedis.multi();</p>
+<p><a target="_blank" rel="noopener" href="//4.xn--z8q55u3pai4f">//4.减少库存</a><br>
+<a target="_blank" rel="noopener" href="//jedis.decr">//jedis.decr</a>(qtkey);<br>
+<strong>multi</strong>.decr(qtkey);</p>
+<p><a target="_blank" rel="noopener" href="//5.xn--gmqv8g">//5.加人</a><br>
+<a target="_blank" rel="noopener" href="//jedis.sadd">//jedis.sadd</a>(usrkey, uid);<br>
+<strong>multi</strong>.sadd(usrkey, uid);</p>
+<p>//执行事务<br>
+List<Object> list = <strong>multi</strong>.exec();</p>
+<p>//判断事务提交是否失败<br>
+if(list==null || list.size()==0) {<br>
+System.out.println(“秒杀失败”);<br>
+jedis.close();<br>
+return false;<br>
+}<br>
+System.err.print<strong>ln(&quot;秒杀成</strong>功&quot;);<br>
+jedis.close(); | <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730053362-ccd953c7-236d-448b-8ad2-5a5b050b2997.jpeg#averageHue=%23080606&amp;id=Rhbmv&amp;originHeight=311&amp;originWidth=331&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730053594-7a639b97-8a83-49f7-9005-c3a535b71ec4.jpeg#averageHue=%23e6e4dd&amp;id=jeZiO&amp;originHeight=319&amp;originWidth=127&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""> |<br>
+| — | — |</p>
+<ol>
+<li><strong>继续增加并发测试</strong>
+<ol>
+<li><strong>连接有限制</strong></li>
+</ol>
+</li>
+</ol>
+<p>ab -n 2000 -c 200 -k -p postfile -T ‘application/x-www-form-urlencoded’ <a target="_blank" rel="noopener" href="http://192.168.140.1:8080/seckill/doseckill">http://192.168.140.1:8080/seckill/doseckill</a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730053896-5957fed5-aab7-4802-bbbb-f886c8d8c83e.jpeg#averageHue=%230f0c0c&amp;id=oPqVJ&amp;originHeight=83&amp;originWidth=626&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+增加-r参数，-r   Don’t exit on socket receive errors.<br>
+**ab -n 2000 -c 100 -r -p postfile -T ‘application/x-www-form-urlencoded’ **<a target="_blank" rel="noopener" href="http://192.168.140.1:8080/seckill/doseckill"><strong>http://192.168.140.1:8080/seckill/doseckill</strong></a></p>
+<pre><code>  1. **已经秒光，可是还有库存**
+</code></pre>
+<p>ab -n 2000 -c 100 -p postfile -T ‘application/x-www-form-urlencoded’ <a target="_blank" rel="noopener" href="http://192.168.137.1:8080/seckill/doseckill">http://192.168.137.1:8080/seckill/doseckill</a><br>
+已经秒光，可是还有库存。原因，就是乐观锁导致很多请求都失败。先点的没秒到，后点的可能秒到了。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730054113-9d5a6de0-5d17-45bd-97b9-874049d61baf.jpeg#averageHue=%23797269&amp;id=d14LS&amp;originHeight=108&amp;originWidth=302&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **连接超时，通过连接池解决**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730054288-27c5b05f-a94c-4b63-a525-e6d16c0375a3.jpeg#averageHue=%2393bbe1&amp;id=VLdEy&amp;originHeight=86&amp;originWidth=619&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **连接池**
+</code></pre>
+<p>节省每次连接redis服务带来的消耗，把连接好的实例反复利用。<br>
+通过参数管理连接的行为<br>
+代码见项目中</p>
+<ul>
+<li>链接池参数
+<ul>
+<li>MaxTotal：控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；如果赋值为-1，则表示不限制；如果pool已经分配了MaxTotal个jedis实例，则此时pool的状态为exhausted。</li>
+<li>maxIdle：控制一个pool最多有多少个状态为idle(空闲)的jedis实例；</li>
+<li>MaxWaitMillis：表示当borrow一个jedis实例时，最大的等待毫秒数，如果超过等待时间，则直接抛JedisConnectionException；</li>
+<li>testOnBorrow：获得一个jedis实例的时候是否检查连接可用性（ping()）；如果为true，则得到的jedis实例均是可用的；</li>
+</ul>
+<ol>
+<li><strong>解决库存遗留问题</strong>
+<ol>
+<li><strong>LUA脚本</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730054477-cae19266-6238-4723-8a4c-c28305a736d8.jpeg#averageHue=%23e8e9e7&amp;id=D7HPy&amp;originHeight=129&amp;originWidth=138&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+Lua 是一个小巧的<a target="_blank" rel="noopener" href="http://baike.baidu.com/item/%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80">脚本语言</a>，Lua脚本可以很容易的被C/C++ 代码调用，也可以反过来调用C/C++的函数，Lua并没有提供强大的库，一个完整的Lua解释器不过200k，所以Lua不适合作为开发独立应用程序的语言，而是作为嵌入式脚本语言。<br>
+很多应用程序、游戏使用LUA作为自己的嵌入式脚本语言，以此来实现可配置性、可扩展性。<br>
+这其中包括魔兽争霸地图、魔兽世界、博德之门、愤怒的小鸟等众多游戏插件或外挂。<br>
+<a target="_blank" rel="noopener" href="https://www.w3cschool.cn/lua/">https://www.w3cschool.cn/lua/</a></p>
+<pre><code>  1. **LUA脚本在Redis中的优势**
+</code></pre>
+<p>将复杂的或者多步的redis操作，写为一个脚本，一次提交给redis执行，减少反复连接redis的次数。提升性能。<br>
+LUA脚本是类似redis事务，有一定的原子性，不会被其他命令插队，可以完成一些redis事务性的操作。<br>
+但是注意redis的lua脚本功能，只有在Redis 2.6以上的版本才可以使用。<br>
+利用lua脚本淘汰用户，解决超卖问题。<br>
+redis 2.6版本以后，通过lua脚本解决<strong>争抢问题</strong>，实际上是<strong>redis 利用其单线程的特性，用任务队列的方式解决多任务并发问题</strong>。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730054720-4b5108cf-836f-454d-8d3a-5e6610f33167.jpeg#averageHue=%23fae0be&amp;id=Iy2sW&amp;originHeight=225&amp;originWidth=600&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis_事务_秒杀案例_代码</strong>
+<ol>
+<li><strong>项目结构</strong></li>
+</ol>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730054907-f204ef93-9675-4e13-97f0-f9c305933a1f.png#averageHue=%23faf7f2&amp;id=clsqt&amp;originHeight=209&amp;originWidth=215&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **第一版：简单版 **
+</code></pre>
+<p>老师点10次，正常秒杀<br>
+同学一起点试一试，秒杀也是正常的。这是因为还达不到并发的效果。<br>
+使用工具ab模拟并发测试，会出现超卖情况。查看库存会出现负数。</p>
+<pre><code>  1. **第二版：加事务-乐观锁(解决超卖),但出现遗留库存和连接超时**
+  2. **第三版：连接池解决超时问题 **
+  3. **第四版：解决库存依赖问题，LUA脚本**
+</code></pre>
+<p>| local userid=KEYS[1];<br>
+local prodid=KEYS[2];<br>
+local qtkey=“sk:”…prodid…“:qt”;<br>
+local usersKey=“sk:”…prodid.&quot;:usr’;<br>
+local userExists=redis.call(“sismember”,usersKey,userid);<br>
+if tonumber(userExists)==1 then<br>
+return 2;<br>
+end<br>
+local num= redis.call(“get” ,qtkey);<br>
+if tonumber(num)&lt;=0 then<br>
+return 0;<br>
+else<br>
+redis.call(“decr”,qtkey);<br>
+redis.call(“sadd”,usersKey,userid);<br>
+end</p>
+<table>
+<thead>
+<tr>
+<th>return 1;</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>Redis持久化之RDB</strong>
+<ol>
+<li><strong>总体介绍</strong></li>
+</ol>
+</li>
+</ol>
+<p>官网介绍：<a target="_blank" rel="noopener" href="http://www.redis.io">http://www.redis.io</a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730055181-21b42629-abdb-408d-8139-72b3db4826e7.jpeg#averageHue=%23dddcd8&amp;id=LuJfp&amp;originHeight=240&amp;originWidth=612&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+Redis 提供了2个不同形式的持久化方式。</p>
+<ul>
+<li>RDB（Redis DataBase）</li>
+<li>AOF（Append Of File）
+<ol>
+<li><strong>RDB（Redis DataBase）</strong>
+<ol>
+<li><strong>官网介绍</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730055430-a04d534c-6813-404e-afa9-ad374a47ae7f.jpeg#averageHue=%23e1dfdc&amp;id=L2nnI&amp;originHeight=389&amp;originWidth=606&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **是什么**
+</code></pre>
+<p>在指定的时间间隔内将内存中的数据集快照写入磁盘， 也就是行话讲的Snapshot快照，它恢复时是将快照文件直接读到内存里</p>
+<pre><code>  1. **备份是如何执行的**
+</code></pre>
+<p>Redis会单独创建（fork）一个子进程来进行持久化，会先将数据写入到 一个临时文件中，待持久化过程都结束了，再用这个临时文件替换上次持久化好的文件。 整个过程中，主进程是不进行任何IO操作的，这就确保了极高的性能 如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的高效。<strong>RDB的缺点是最后一次持久化后的数据可能丢失</strong>。</p>
+<pre><code>  1. **Fork**
+</code></pre>
+<ul>
+<li>
+<p>Fork的作用是复制一个与当前进程一样的进程。新进程的所有数据（变量、环境变量、程序计数器等） 数值都和原进程一致，但是是一个全新的进程，并作为原进程的子进程</p>
+</li>
+<li>
+<p>在Linux程序中，fork()会产生一个和父进程完全相同的子进程，但子进程在此后多会exec系统调用，出于效率考虑，Linux中引入了“<strong>写时复制技术</strong>”</p>
+</li>
+<li>
+<p><strong>一般情况父进程和子进程会共用同一段物理内存</strong>，只有进程空间的各段的内容要发生变化时，才会将父进程的内容复制一份给子进程。</p>
+<pre><code>1. **RDB持久化流程**
+</code></pre>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730055601-d03945eb-508f-499e-acde-dd485a30138d.png#averageHue=%23eeeded&amp;id=mZlnw&amp;originHeight=330&amp;originWidth=475&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **dump.rdb文件**
+</code></pre>
+<p>在redis.conf中配置文件名称，默认为dump.rdb<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730055806-a8519103-df9a-4e33-98b1-320aca70fbcd.png#averageHue=%23160606&amp;id=F2yMJ&amp;originHeight=84&amp;originWidth=473&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **配置位置**
+</code></pre>
+<p>rdb文件的保存路径，也可以修改。默认为Redis启动时命令行所在的目录下<br>
+dir “/myredis/”<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730056042-a0f2e26f-c64f-4e30-b801-e772b0abaf58.png#averageHue=%230b0808&amp;id=LxeNT&amp;originHeight=200&amp;originWidth=719&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **如何触发RDB快照；保持策略**
+     1. **配置文件中默认的快照配置**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730056324-6811ad3a-8f85-4229-9f2b-a4345a12125f.png#averageHue=%23160808&amp;id=ikta5&amp;originHeight=220&amp;originWidth=699&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **命令save VS bgsave**
+</code></pre>
+<p>save ：save时只管保存，其它不管，全部阻塞。手动保存。不建议。<br>
+<strong>bgsave：Redis会在后台异步进行快照操作， 快照同时还可以响应客户端请求。</strong><br>
+可以通过lastsave 命令获取最后一次成功执行快照的时间</p>
+<pre><code>     1. **flushall命令**
+</code></pre>
+<p>执行flushall命令，也会产生dump.rdb文件，但里面是空的，无意义</p>
+<pre><code>     1. **###SNAPSHOTTING快照###**
+     2. **Save**
+</code></pre>
+<p>格式：save 秒钟 写操作次数<br>
+RDB是整个内存的压缩过的Snapshot，RDB的数据结构，可以配置复合的快照触发条件，<br>
+<strong>默认是1分钟内改了1万次，或5分钟内改了10次，或15分钟内改了1次。</strong><br>
+禁用<br>
+不设置save指令，或者给save传入空字符串</p>
+<pre><code>     1. **stop-writes-on-bgsave-error**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730056566-b7477281-0ae2-4042-ae1d-7fb4ad566669.png#averageHue=%23130a0a&amp;id=uEi7h&amp;originHeight=134&amp;originWidth=725&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+当Redis无法写入磁盘的话，直接关掉Redis的写操作。推荐yes.</p>
+<pre><code>     1. **rdbcompression 压缩文件**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730056786-cf02a974-a051-438d-b27e-6c6acbc7b15e.png#averageHue=%23120c0c&amp;id=AnH3A&amp;originHeight=129&amp;originWidth=724&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+对于存储到磁盘中的快照，可以设置是否进行压缩存储。如果是的话，redis会采用LZF算法进行压缩。<br>
+如果你不想消耗CPU来进行压缩的话，可以设置为关闭此功能。推荐yes.</p>
+<pre><code>     1. **rdbchecksum 检查完整性**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730057060-2dd5e796-841a-4e7a-8f95-8fbf34cc5eda.png#averageHue=%230e0707&amp;id=vfML2&amp;originHeight=105&amp;originWidth=724&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+在存储快照后，还可以让redis使用CRC64算法来进行数据校验，<br>
+但是这样做会增加大约10%的性能消耗，如果希望获取到最大的性能提升，可以关闭此功能<br>
+推荐yes.</p>
+<pre><code>     1. **rdb的备份**
+</code></pre>
+<p>先通过config get dir  查询rdb文件的目录<br>
+将*.rdb的文件拷贝到别的地方<br>
+rdb的恢复</p>
+<pre><code>  - 关闭Redis
+  - 先把备份的文件拷贝到工作目录下 cp dump2.rdb dump.rdb
+  - 启动Redis, 备份数据会直接加载
+  1. **优势**
+</code></pre>
+<ul>
+<li>适合大规模的数据恢复</li>
+<li>对数据完整性和一致性要求不高更适合使用</li>
+<li>节省磁盘空间</li>
+<li>恢复速度快</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730057328-1a1bd3cf-aa53-4fa3-99a7-8766afb7f633.jpeg#averageHue=%23a6d477&amp;id=bdgqK&amp;originHeight=202&amp;originWidth=479&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **劣势**
+</code></pre>
+<ul>
+<li>Fork的时候，内存中的数据被克隆了一份，大致2倍的膨胀性需要考虑</li>
+<li>虽然Redis在fork时使用了<strong>写时拷贝技术</strong>,但是如果数据庞大时还是比较消耗性能。</li>
+<li>在备份周期在一定间隔时间做一次备份，所以如果Redis意外down掉的话，就会丢失最后一次快照后的所有修改。<br>
+1. <strong>如何停止</strong></li>
+</ul>
+<p>动态停止RDB：redis-cli config set save “”#save后给空值，表示禁用保存策略</p>
+<pre><code>  1. **小总结**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730057646-f8b197f6-79c1-4fc4-acc6-f7bec75f94eb.jpeg#averageHue=%23f9f9f9&amp;id=Dm0u6&amp;originHeight=403&amp;originWidth=613&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis持久化之AOF</strong>
+<ol>
+<li><strong>AOF（Append Only File）</strong>
+<ol>
+<li><strong>是什么</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>以<strong>日志</strong>的形式来记录每个写操作（增量保存），将Redis执行过的所有写指令记录下来(<strong>读操作不记录</strong>)， <strong>只许追加文件但不可以改写文件</strong>，redis启动之初会读取该文件重新构建数据，换言之，redis 重启的话就根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作</p>
+<pre><code>  1. **AOF持久化流程**
+</code></pre>
+<p>（1）客户端的请求写命令会被append追加到AOF缓冲区内；<br>
+（2）AOF缓冲区根据AOF持久化策略[always,everysec,no]将操作sync同步到磁盘的AOF文件中；<br>
+（3）AOF文件大小超过重写策略或手动重写时，会对AOF文件rewrite重写，压缩AOF文件容量；<br>
+（4）Redis服务重启时，会重新load加载AOF文件中的写操作达到数据恢复的目的；<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730057886-6d5c494b-e7a7-4115-9575-2e78ef90c48d.png#averageHue=%23edecec&amp;id=DNPfE&amp;originHeight=383&amp;originWidth=233&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **AOF默认不开启**
+</code></pre>
+<p>可以在redis.conf中配置文件名称，默认为 appendonly.aof<br>
+AOF文件的保存路径，同RDB的路径一致。</p>
+<pre><code>  1. **AOF和RDB同时开启，redis听谁的？**
+</code></pre>
+<p>AOF和RDB同时开启，系统默认取AOF的数据（数据不会存在丢失）</p>
+<pre><code>  1. **AOF启动/修复/恢复**
+</code></pre>
+<ul>
+<li>AOF的备份机制和性能虽然和RDB不同, 但是备份和恢复的操作同RDB一样，都是拷贝备份文件，需要恢复时再拷贝到Redis工作目录下，启动系统即加载。</li>
+<li>正常恢复</li>
+<li>修改默认的appendonly no，改为yes</li>
+<li>将有数据的aof文件复制一份保存到对应目录(查看目录：config get dir)</li>
+<li>恢复：重启redis然后重新加载</li>
+<li>异常恢复</li>
+<li>修改默认的appendonly no，改为yes</li>
+<li>如遇到<strong>AOF文件损坏</strong>，通过/usr/local/bin/<strong>redis-check-aof–fix appendonly.aof</strong>进行恢复</li>
+<li>备份被写坏的AOF文件</li>
+<li>恢复：重启redis，然后重新加载<br>
+1. <strong>AOF同步频率设置</strong></li>
+</ul>
+<p>appendfsync always<br>
+始终同步，每次Redis的写入都会立刻记入日志；性能较差但数据完整性比较好<br>
+appendfsync everysec<br>
+每秒同步，每秒记入日志一次，如果宕机，本秒的数据可能丢失。<br>
+appendfsync no<br>
+redis不主动进行同步，把同步时机交给操作系统。</p>
+<pre><code>  1. **Rewrite压缩**
+</code></pre>
+<p>1是什么：<br>
+AOF采用文件追加方式，文件会越来越大为避免出现此种情况，新增了重写机制, 当AOF文件的大小超过所设定的阈值时，Redis就会启动AOF文件的内容压缩， 只保留可以恢复数据的最小指令集.可以使用命令bgrewriteaof<br>
+2重写原理，如何实现重写<br>
+AOF文件持续增长而过大时，会fork出一条新进程来将文件重写(也是先写临时文件最后再rename)，redis4.0版本后的重写，是指上就是把rdb 的快照，以二级制的形式附在新的aof头部，作为已有的历史数据，替换掉原来的流水账操作。<br>
+no-appendfsync-on-rewrite：<br>
+如果 no-appendfsync-on-rewrite=yes ,不写入aof文件只写入缓存，用户请求不会阻塞，但是在这段时间如果宕机会丢失这段时间的缓存数据。（降低数据安全性，提高性能）<br>
+如果 no-appendfsync-on-rewrite=no,  还是会把数据往磁盘里刷，但是遇到重写操作，可能会发生阻塞。（数据安全，但是性能降低）<br>
+触发机制，何时重写<br>
+Redis会记录上次重写时的AOF大小，默认配置是当AOF文件大小是上次rewrite后大小的一倍且文件大于64M时触发<br>
+重写虽然可以节约大量磁盘空间，减少恢复时间。但是每次重写还是有一定的负担的，因此设定Redis要满足一定条件才会进行重写。<br>
+auto-aof-rewrite-percentage：设置重写的基准值，文件达到100%时开始重写（文件是原来重写后文件的2倍时触发）<br>
+auto-aof-rewrite-min-size：设置重写的基准值，最小文件64MB。达到这个值开始重写。<br>
+例如：文件达到70MB开始重写，降到50MB，下次什么时候开始重写？100MB<br>
+系统载入时或者上次重写完毕时，Redis会记录此时AOF大小，设为base_size,<br>
+如果Redis的AOF当前大小&gt;= base_size +base_size*100% (默认)且当前大小&gt;=64mb(默认)的情况下，Redis会对AOF进行重写。<br>
+3、重写流程<br>
+（1）bgrewriteaof触发重写，判断是否当前有bgsave或bgrewriteaof在运行，如果有，则等待该命令结束后再继续执行。<br>
+（2）主进程fork出子进程执行重写操作，保证主进程不会阻塞。<br>
+（3）子进程遍历redis内存中数据到临时文件，客户端的写请求同时写入aof_buf缓冲区和aof_rewrite_buf重写缓冲区保证原AOF文件完整以及新AOF文件生成期间的新的数据修改动作不会丢失。<br>
+（4）1).子进程写完新的AOF文件后，向主进程发信号，父进程更新统计信息。2).主进程把aof_rewrite_buf中的数据写入到新的AOF文件。<br>
+（5）使用新的AOF文件覆盖旧的AOF文件，完成AOF重写。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730058156-e7a60505-1151-4537-8a78-0ea8a294fccd.png#averageHue=%23f6f6f6&amp;id=DnxVL&amp;originHeight=638&amp;originWidth=701&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **优势**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730058439-66ee9250-8f65-48b6-bc41-58850a528e74.jpeg#averageHue=%23cad496&amp;id=f4Efc&amp;originHeight=106&amp;originWidth=536&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ul>
+<li>备份机制更稳健，丢失数据概率更低。</li>
+<li>可读的日志文本，通过操作AOF稳健，可以处理误操作。<br>
+1. <strong>劣势</strong></li>
+<li>比起RDB占用更多的磁盘空间。</li>
+<li>恢复备份速度要慢。</li>
+<li>每次读写都同步的话，有一定的性能压力。</li>
+<li>存在个别Bug，造成恢复不能。<br>
+1. **  小总结**</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730058786-ed4e3683-45aa-4285-8764-3d48c440bd73.jpeg#averageHue=%23faf9f8&amp;id=yjMkA&amp;originHeight=326&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>总结(Which one)</strong>
+<ol>
+<li><strong>用哪个好</strong></li>
+</ol>
+</li>
+</ol>
+<p>官方推荐两个都启用。<br>
+如果对数据不敏感，可以选单独用RDB。<br>
+不建议单独用 AOF，因为可能会出现Bug。<br>
+如果只是做纯内存缓存，可以都不用。</p>
+<pre><code>  1. **官网建议**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730059011-3a34fc84-6548-4124-8b48-303d3df871d0.jpeg#averageHue=%23faf9f9&amp;id=MvDwj&amp;originHeight=341&amp;originWidth=610&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ul>
+<li>RDB持久化方式能够在指定的时间间隔能对你的数据进行快照存储</li>
+<li>AOF持久化方式记录每次对服务器写的操作,当服务器重启的时候会重新执行这些命令来恢复原始的数据,AOF命令以redis协议追加保存每次写的操作到文件末尾.</li>
+<li>Redis还能对AOF文件进行后台重写,使得AOF文件的体积不至于过大</li>
+<li>只做缓存：如果你只希望你的数据在服务器运行的时候存在,你也可以不使用任何持久化方式.</li>
+<li>同时开启两种持久化方式</li>
+<li>在这种情况下,当redis重启的时候会优先载入AOF文件来恢复原始的数据, 因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整.</li>
+<li>RDB的数据不实时，同时使用两者时服务器重启也只会找AOF文件。那要不要只使用AOF呢？</li>
+<li>建议不要，因为RDB更适合用于备份数据库(AOF在不断变化不好备份)， 快速重启，而且不会有AOF可能潜在的bug，留着作为一个万一的手段。</li>
+<li>性能建议<br>
+| 因为RDB文件只用作后备用途，建议只在Slave上持久化RDB文件，而且只要15分钟备份一次就够了，只保留save 900 1这条规则。</li>
+</ul>
+<p>如果使用AOF，好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了。<br>
+代价,一是带来了持续的IO，二是AOF rewrite的最后将rewrite过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。<br>
+只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上。</p>
+<table>
+<thead>
+<tr>
+<th>默认超过原大小100%大小时重写可以改到适当的数值。</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>Redis_主从复制</strong>
+<ol>
+<li><strong>是什么</strong></li>
+</ol>
+</li>
+</ol>
+<p>主机数据更新后根据配置和策略， 自动同步到备机的master/slaver机制，<strong>Master以写为主，Slave以读为主</strong></p>
+<ol>
+<li><strong>能干嘛</strong></li>
+</ol>
+<ul>
+<li>读写分离，性能扩展</li>
+<li>容灾快速恢复</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730059288-8136969e-2728-44c0-92f1-403eaab1bc16.jpeg#averageHue=%23fefcf2&amp;id=KK85J&amp;originHeight=206&amp;originWidth=324&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>怎么玩：主从复制</strong></li>
+</ol>
+<p>拷贝多个redis.conf文件include(写绝对路径)<br>
+开启daemonize yes<br>
+Pid文件名字pidfile<br>
+指定端口port<br>
+Log文件名字<br>
+dump.rdb名字dbfilename<br>
+Appendonly 关掉或者换名字</p>
+<pre><code>  1. **新建redis6379.conf，填写以下内容**
+</code></pre>
+<p>include /myredis/redis.conf<br>
+pidfile /var/run/redis_6379.pid<br>
+port 6379<br>
+dbfilename dump6379.rdb<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730059500-a043faca-b0c8-4ca1-bea2-ca501c4ee043.jpeg#averageHue=%23686259&amp;id=b4oWf&amp;originHeight=70&amp;originWidth=265&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **新建redis6380.conf，填写以下内容**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730059753-1adb8e30-94f0-436c-85a5-5267413c6a65.jpeg#averageHue=%23696359&amp;id=Q5Svi&amp;originHeight=76&amp;originWidth=273&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **新建redis6381.conf，填写以下内容**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730060016-2ceaeb23-5896-4990-848e-f5bfdfae8f67.jpeg#averageHue=%23827b73&amp;id=wdYqu&amp;originHeight=79&amp;originWidth=270&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+slave-priority 10<br>
+设置从机的优先级，值越小，优先级越高，用于选举主机时使用。默认100</p>
+<pre><code>  1. **启动三台redis服务器**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730060260-b04a3052-e6b0-487b-aec1-3a3290ccc001.jpeg#averageHue=%239a9589&amp;id=yy6Ru&amp;originHeight=68&amp;originWidth=428&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **查看系统进程，看看三台服务器是否启动**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730060610-89904f51-3b40-46ca-848b-6a81c80c9cda.jpeg#averageHue=%235e5951&amp;id=U3EWV&amp;originHeight=100&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **查看三台主机运行情况**
+</code></pre>
+<p>info replication<br>
+打印主从复制的相关信息</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730060901-a0b333aa-8379-4a88-a487-9ec66fbc18bd.jpeg#averageHue=%235a5853&amp;id=dElMA&amp;originHeight=180&amp;originWidth=612&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **配从(库)不配主(库) **
+</code></pre>
+<p>slaveof  <ip><port><br>
+成为某个实例的从服务器<br>
+1、在6380和6381上执行: slaveof 127.0.0.1 6379<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730061199-cc3e0dca-3cc4-4183-bec2-31ac0c33d1d7.jpeg#averageHue=%231f1d1d&amp;id=yKo9V&amp;originHeight=191&amp;originWidth=611&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+2、在主机上写，在从机上可以读取数据<br>
+在从机上写数据报错<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730061424-10f974eb-e268-4ed3-970a-58624217171e.jpeg#averageHue=%23625b51&amp;id=NxioL&amp;originHeight=38&amp;originWidth=513&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+3、主机挂掉，重启就行，一切如初<br>
+4、从机重启需重设：slaveof 127.0.0.1 6379<br>
+可以将配置增加到文件中。永久生效。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730061676-2e200633-8bbd-4339-8cfa-12e606c17002.jpeg#averageHue=%230b0a09&amp;id=SapCx&amp;originHeight=248&amp;originWidth=538&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>常用3招</strong>
+<ol>
+<li><strong>一主二仆</strong></li>
+</ol>
+</li>
+</ol>
+<p>切入点问题？slave1、slave2是从头开始复制还是从切入点开始复制?比如从k4进来，那之前的k1,k2,k3是否也可以复制？<br>
+从机是否可以写？set可否？<br>
+主机shutdown后情况如何？从机是上位还是原地待命？<br>
+主机又回来了后，主机新增记录，从机还能否顺利复制？<br>
+其中一台从机down后情况如何？依照原有它能跟上大部队吗？</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730061938-227d99d9-6b81-481e-863e-528691c14421.jpeg#averageHue=%23fbfbf8&amp;id=xOZvU&amp;originHeight=109&amp;originWidth=284&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **薪火相传**
+</code></pre>
+<p>上一个Slave可以是下一个slave的Master，Slave同样可以接收其他 slaves的连接和同步请求，那么该slave作为了链条中下一个的master, 可以有效减轻master的写压力,去中心化降低风险。<br>
+用 slaveof  <ip><port><br>
+中途变更转向:会清除之前的数据，重新建立拷贝最新的<br>
+风险是一旦某个slave宕机，后面的slave都没法备份<br>
+主机挂了，从机还是从机，无法写数据了<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730062220-2562dda9-6423-4298-81e7-2579ef008c95.jpeg#averageHue=%23fafaf7&amp;id=I2xJV&amp;originHeight=89&amp;originWidth=407&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730062487-6c6e8c25-d0b8-446f-bcdc-36fab2a44a0e.jpeg#averageHue=%23191616&amp;id=R9Lra&amp;originHeight=153&amp;originWidth=625&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **反客为主**
+</code></pre>
+<p>当一个master宕机后，后面的slave可以立刻升为master，其后面的slave不用做任何修改。<br>
+用 slaveof  no one  将从机变为主机。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730062734-bb999b61-30d6-4f9b-8428-f7718dd62b06.jpeg#averageHue=%237c766e&amp;id=DfAOO&amp;originHeight=145&amp;originWidth=616&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>复制原理</strong></li>
+</ol>
+<ul>
+<li>Slave启动成功连接到master后会发送一个sync命令</li>
+<li>Master接到命令启动后台的存盘进程，同时收集所有接收到的用于修改数据集命令， 在后台进程执行完毕之后，master将传送整个数据文件到slave,以完成一次完全同步</li>
+<li>全量复制：而slave服务在接收到数据库文件数据后，将其存盘并加载到内存中。</li>
+<li>增量复制：Master继续将新的所有收集到的修改命令依次传给slave,完成同步</li>
+<li>但是只要是重新连接master,一次完全同步（全量复制)将被自动执行</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730062965-da099463-4551-4b5f-948b-90d3dd45f71c.jpeg#averageHue=%23fbfbf9&amp;id=iFoVd&amp;originHeight=157&amp;originWidth=397&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>哨兵模式(sentinel)</strong>
+<ol>
+<li><strong>是什么</strong></li>
+</ol>
+</li>
+</ol>
+<p><strong>反客为主的自动版</strong>，能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730063255-4b1a1df6-440e-404a-9038-9dcd704a13f8.jpeg#averageHue=%23fdfdfa&amp;id=yTMO9&amp;originHeight=200&amp;originWidth=305&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **怎么玩(使用步骤)**
+     1. **调整为一主二仆模式，6379带着6380、6381**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730063529-6128db26-5298-4980-bb0b-aa20b60715d1.jpeg#averageHue=%231e1c1b&amp;id=O9Zhq&amp;originHeight=192&amp;originWidth=615&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **自定义的/myredis目录下新建sentinel.conf文件，名字绝不能错**
+     2. **配置哨兵,填写内容**
+</code></pre>
+<p>sentinel monitor mymaster 127.0.0.1 6379 1<br>
+其中mymaster为监控对象起的服务器名称， 1 为至少有多少个哨兵同意迁移的数量。</p>
+<pre><code>     1. **启动哨兵**
+</code></pre>
+<p>/usr/local/bin<br>
+redis做压测可以用自带的redis-benchmark工具<br>
+执行redis-sentinel  /myredis/sentinel.conf<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730063836-22f7cd8d-4279-494b-8bdb-60758c46aa30.jpeg#averageHue=%230a0605&amp;id=K9J6x&amp;originHeight=517&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **当主机挂掉，从机选举中产生新的主机**
+</code></pre>
+<p>(大概10秒左右可以看到哨兵窗口日志，切换了新的主机)<br>
+哪个从机会被选举为主机呢？根据优先级别：slave-priority<br>
+原主机重启后会变为从机。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730064132-98b85c71-677b-42f0-8e44-79623a2d24c9.jpeg#averageHue=%235a564f&amp;id=pV7en&amp;originHeight=496&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>     1. **复制延时**
+</code></pre>
+<p>由于所有的写操作都是先在Master上操作，然后同步更新到Slave上，所以从Master同步到Slave机器有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，Slave机器数量的增加也会使这个问题更加严重。</p>
+<pre><code>  1. **故障恢复**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730064417-c797bdf6-42f1-4a57-9584-25f699de26fe.jpeg#averageHue=%23ececec&amp;id=LHDIf&amp;originHeight=301&amp;originWidth=553&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+优先级在redis.conf中默认：slave-priority 100，值越小优先级越高<br>
+偏移量是指获得原主机数据最全的<br>
+每个redis实例启动后都会随机生成一个40位的runid</p>
+<pre><code>  1. **主从复制**
+</code></pre>
+<p>| **private static **JedisSentinelPool <em>jedisSentinelPool</em>=<strong>null</strong>;<br>
+**public static  **Jedis getJedisFromSentinel(){<strong>if</strong>(<em>jedisSentinelPool</em>==<strong>null</strong>){<br>
+Set<String> sentinelSet=<strong>new <strong>HashSet&lt;&gt;();<br>
+sentinelSet.add(</strong>“192.168.11.103:26379”</strong>);</p>
+<pre><code>        JedisPoolConfig jedisPoolConfig =**new **JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(10); _//最大可用连接数_jedisPoolConfig.setMaxIdle(5); _//最大闲置连接数_jedisPoolConfig.setMinIdle(5); _//最小闲置连接数_jedisPoolConfig.setBlockWhenExhausted(**true**); _//连接耗尽是否等待_jedisPoolConfig.setMaxWaitMillis(2000); _//等待时间_jedisPoolConfig.setTestOnBorrow(**true**); _//取连接的时候进行一下测试 ping pong
+</code></pre>
+<p>jedisSentinelPool_=<strong>new <strong>JedisSentinelPool(</strong>“mymaster”</strong>,sentinelSet,jedisPoolConfig);**return **<em>jedisSentinelPool</em>.getResource();<br>
+}<strong>else</strong>{**return **<em>jedisSentinelPool</em>.getResource();<br>
+}</p>
+<table>
+<thead>
+<tr>
+<th>}</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>Redis集群</strong>
+<ol>
+<li><strong>问题</strong></li>
+</ol>
+</li>
+</ol>
+<p>容量不够，redis如何进行扩容？<br>
+并发写操作， redis如何分摊？<br>
+另外，主从模式，薪火相传模式，主机宕机，导致ip地址发生变化，应用程序中配置需要修改对应的主机地址、端口等信息。<br>
+之前通过代理主机来解决，但是redis3.0中提供了解决方案。就是无中心化集群配置。</p>
+<ol>
+<li><strong>什么是集群</strong></li>
+</ol>
+<p>Redis 集群实现了对Redis的水平扩容，即启动N个redis节点，将整个数据库分布存储在这N个节点中，每个节点存储总数据的1/N。<br>
+Redis 集群通过分区（partition）来提供一定程度的可用性（availability）： 即使集群中有一部分节点失效或者无法进行通讯， 集群也可以继续处理命令请求。</p>
+<ol>
+<li><strong>删除持久化数据</strong></li>
+</ol>
+<p>将rdb,aof文件都删除掉。</p>
+<ol>
+<li><strong>制作6个实例，6379,6380,6381,6389,6390,6391</strong>
+<ol>
+<li><strong>配置基本信息</strong></li>
+</ol>
+</li>
+</ol>
+<p>开启daemonize yes<br>
+Pid文件名字<br>
+指定端口<br>
+Log文件名字<br>
+Dump.rdb名字<br>
+Appendonly 关掉或者换名字</p>
+<pre><code>  1. **redis cluster配置修改**
+</code></pre>
+<p>cluster-enabled yes    打开集群模式<br>
+cluster-config-file nodes-6379.conf  设定节点配置文件名<br>
+cluster-node-timeout 15000   设定节点失联时间，超过该时间（毫秒），集群自动进行主从切换。</p>
+<p>| include /home/bigdata/redis.conf<br>
+port 6379<br>
+pidfile “/var/run/redis_6379.pid”<br>
+dbfilename “dump6379.rdb”<br>
+dir “/home/bigdata/redis_cluster”<br>
+logfile “/home/bigdata/redis_cluster/redis_err_6379.log”<br>
+cluster-enabled yes<br>
+cluster-config-file nodes-6379.conf</p>
+<table>
+<thead>
+<tr>
+<th>cluster-node-timeout 15000</th>
+</tr>
+</thead>
+</table>
+<pre><code>  1. **修改好redis6379.conf文件，拷贝多个redis.conf文件**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730064711-25ff6879-8c94-4ff2-912e-19dc08501733.jpeg#averageHue=%2352524a&amp;id=uCbvU&amp;originHeight=122&amp;originWidth=146&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **使用查找替换修改另外5个文件**
+</code></pre>
+<p>例如：:%s/6379/6380</p>
+<pre><code>  1. **启动6个redis服务**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730065009-ba59696d-4822-48c4-93e0-816f06495ae3.jpeg#averageHue=%2358534d&amp;id=aum7N&amp;originHeight=390&amp;originWidth=576&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>将六个节点合成一个集群</strong></li>
+</ol>
+<p>组合之前，请确保所有redis实例启动后，nodes-xxxx.conf文件都生成正常。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730065368-75e6de27-eeb8-4e87-a5ab-aad76a30ab41.jpeg#averageHue=%239a9488&amp;id=LnPSN&amp;originHeight=325&amp;originWidth=551&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ul>
+<li>合体：</li>
+</ul>
+<p>cd  /opt/redis-6.2.1/src</p>
+<table>
+<thead>
+<tr>
+<th>redis-cli --cluster create --cluster-replicas 1 192.168.11.101:6379 192.168.11.101:6380 192.168.11.101:6381 192.168.11.101:6389 192.168.11.101:6390 192.168.11.101:6391</th>
+</tr>
+</thead>
+</table>
+<p>此处不要用127.0.0.1， 请用真实IP地址<br>
+–replicas 1 采用最简单的方式配置集群，一台主机，一台从机，正好三组。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730065713-2362c661-8190-45e5-af40-b67d53a1a702.jpeg#averageHue=%23090505&amp;id=BB1yK&amp;originHeight=229&amp;originWidth=613&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730066034-314aefd9-6dbd-44ce-aaaa-235bdb11969b.jpeg#averageHue=%23656059&amp;id=upEEw&amp;originHeight=400&amp;originWidth=453&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ul>
+<li>普通方式登录</li>
+</ul>
+<p>可能直接进入读主机，存储数据时，会出现MOVED重定向操作。所以，应该以集群方式登录。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730066308-ffcffe03-91f5-486f-a8d4-ab6fd5acd1e3.jpeg#averageHue=%2390887c&amp;id=cKQ0P&amp;originHeight=96&amp;originWidth=352&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>-c 采用集群策略连接，设置数据会自动切换到相应的写主机</strong></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730066592-57524d74-ea9c-4c77-a0be-922f9b6fa646.jpeg#averageHue=%23110908&amp;id=HUIXr&amp;originHeight=136&amp;originWidth=545&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>通过 cluster nodes 命令查看集群信息</strong></li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730067892-bcf1e26e-d09d-49e7-ab1d-30c7e1bcd569.jpeg#averageHue=%23373734&amp;id=ZEIAM&amp;originHeight=70&amp;originWidth=619&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>redis cluster 如何分配这六个节点?</strong></li>
+</ol>
+<p>一个集群至少要有三个主节点。<br>
+选项 --cluster-replicas 1 表示我们希望为集群中的每个主节点创建一个从节点。<br>
+分配原则尽量保证每个主数据库运行在不同的IP地址，每个从库和主库不在一个IP地址上。</p>
+<ol>
+<li><strong>什么是slots</strong></li>
+</ol>
+<p><strong>[OK] All nodes agree about slots configuration.</strong><br>
+<strong>&gt;&gt;&gt; Check for open slots…</strong><br>
+<strong>&gt;&gt;&gt; Check slots coverage…</strong><br>
+<strong>[OK] All 16384 slots covered.</strong><br>
+一个 Redis 集群包含 16384 个插槽（hash slot）， 数据库中的每个键都属于这 16384 个插槽的其中一个，<br>
+集群使用公式 CRC16(key) % 16384 来计算键 key 属于哪个槽， 其中 CRC16(key) 语句用于计算键 key 的 CRC16 校验和 。<br>
+集群中的每个节点负责处理一部分插槽。 举个例子， 如果一个集群可以有主节点， 其中：<br>
+节点 A 负责处理 0 号至 5460 号插槽。<br>
+节点 B 负责处理 5461 号至 10922 号插槽。<br>
+节点 C 负责处理 10923 号至 16383 号插槽。</p>
+<ol>
+<li><strong>在集群中录入值</strong></li>
+</ol>
+<p>在redis-cli每次录入、查询键值，redis都会计算出该key应该送往的插槽，如果不是该客户端对应服务器的插槽，redis会报错，并告知应前往的redis实例地址和端口。<br>
+redis-cli客户端提供了 –c 参数实现自动重定向。<br>
+如 redis-cli  -c –p 6379 登入后，再录入、查询键值对可以自动重定向。<br>
+不在一个slot下的键值，是不能使用mget,mset等多键操作。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730068169-f49380f0-681e-41d7-8b82-32c7a26bc5f6.jpeg#averageHue=%235d5850&amp;id=ovTRs&amp;originHeight=38&amp;originWidth=477&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+可以通过{}来定义组的概念，从而使key中{}内相同内容的键值对放到一个slot中去。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730068454-8358ba48-2f36-4d66-8cb6-1c760ec33013.jpeg#averageHue=%23635d54&amp;id=tiyJ9&amp;originHeight=51&amp;originWidth=477&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>查询集群中的值</strong></li>
+</ol>
+<p>CLUSTER GETKEYSINSLOT <slot><count> 返回 count 个 slot 槽中的键。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730068715-d5089a9d-586c-4755-85ab-2f07e10e337e.jpeg#averageHue=%230b0a09&amp;id=trh58&amp;originHeight=159&amp;originWidth=458&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>故障恢复</strong></li>
+</ol>
+<p>如果主节点下线？从节点能否自动升为主节点？注意：<strong>15秒超时</strong><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730069111-379b6de7-4859-4afe-b479-807245c3400a.jpeg#averageHue=%233e3e3b&amp;id=nO7l1&amp;originHeight=69&amp;originWidth=612&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+主节点恢复后，主从关系会如何？主节点回来变成从机。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/28066124/1693730069586-dc99921d-5a48-491a-bb57-67c66f78919f.jpeg#averageHue=%233c3c39&amp;id=E6CJd&amp;originHeight=69&amp;originWidth=611&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+如果所有某一段插槽的主从节点都宕掉，redis服务是否还能继续?<br>
+如果某一段插槽的主从都挂掉，而cluster-require-full-coverage 为yes ，那么 ，整个集群都挂掉<br>
+如果某一段插槽的主从都挂掉，而cluster-require-full-coverage 为no ，那么，该插槽数据全都不能使用，也无法存储。<br>
+redis.conf中的参数  cluster-require-full-coverage</p>
+<ol>
+<li><strong>集群的Jedis开发</strong></li>
+</ol>
+<p>即使连接的不是主机，集群会自动切换主机存储。主机写，从机读。<br>
+无中心化主从集群。无论从哪台主机写的数据，其他主机上都能读到数据。</p>
+<p>| public class JedisClusterTest {<br>
+public static void main(String[] args) { <br>
+Set<HostAndPort>set =new HashSet<HostAndPort>();<br>
+set.add(new HostAndPort(“192.168.31.211”,6379));<br>
+JedisCluster jedisCluster=new JedisCluster(set);<br>
+jedisCluster.set(“k1”, “v1”);<br>
+System.<em>out.println(jedisCluster.get(“k1”));</em><br>
+}</p>
+<table>
+<thead>
+<tr>
+<th>}</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><strong>Redis 集群提供了以下好处</strong></li>
+</ol>
+<p>实现扩容<br>
+分摊压力<br>
+无中心配置相对简单</p>
+<ol>
+<li><strong>Redis 集群的不足</strong></li>
+</ol>
+<p>多键操作是不被支持的<br>
+多键的Redis事务是不被支持的。lua脚本不被支持<br>
+由于集群方案出现较晚，很多公司已经采用了其他的集群方案，而代理或者客户端分片的方案想要迁移至redis cluster，需要整体迁移而不是逐步过渡，复杂度较大。</p>
+<ol>
+<li><strong>Redis应用问题解决</strong>
+<ol>
+<li><strong>缓存穿透</strong>
+<ol>
+<li><strong>问题描述</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到，请求都会压到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730069953-275cddcd-e44c-40e5-9b9f-d46ded46ad78.png#averageHue=%23faf4f3&amp;id=TrOEm&amp;originHeight=329&amp;originWidth=677&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **解决方案**
+</code></pre>
+<p>一个一定不存在缓存及查询不到的数据，由于缓存是不命中时被动写的，并且出于容错考虑，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到存储层去查询，失去了缓存的意义。<br>
+解决方案：</p>
+<ol>
+<li>**对空值缓存：**如果一个查询返回的数据为空（不管是数据是否不存在），我们仍然把这个空结果（null）进行缓存，设置空结果的过期时间会很短，最长不超过五分钟</li>
+<li><strong>设置可访问的名单（白名单）：</strong></li>
+</ol>
+<p>使用bitmaps类型定义一个可以访问的名单，名单id作为bitmaps的偏移量，每次访问和bitmap里面的id进行比较，如果访问id不在bitmaps里面，进行拦截，不允许访问。</p>
+<ol>
+<li><strong>采用布隆过滤器</strong>：(布隆过滤器（Bloom Filter）是1970年由布隆提出的。它实际上是一个很长的二进制向量(位图)和一系列随机映射函数（哈希函数）。</li>
+</ol>
+<p>布隆过滤器可以用于检索一个元素是否在一个集合中。它的优点是空间效率和查询时间都远远超过一般的算法，缺点是有一定的误识别率和删除困难。)<br>
+将所有可能存在的数据哈希到一个足够大的bitmaps中，一个一定不存在的数据会被 这个bitmaps拦截掉，从而避免了对底层存储系统的查询压力。</p>
+<ol>
+<li>**进行实时监控：**当发现Redis的命中率开始急速降低，需要排查访问对象和访问的数据，和运维人员配合，可以设置黑名单限制服务
+<ol>
+<li><strong>缓存击穿</strong>
+<ol>
+<li><strong>问题描述</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730070215-e34d05fd-bf8e-40e6-af86-88ae9eb44e95.png#averageHue=%23faf6f5&amp;id=xAfbW&amp;originHeight=343&amp;originWidth=723&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **解决方案**
+</code></pre>
+<p>key可能会在某些时间点被超高并发地访问，是一种非常“热点”的数据。这个时候，需要考虑一个问题：缓存被“击穿”的问题。<br>
+解决问题：<br>
+**（1）预先设置热门数据：**在redis高峰访问之前，把一些热门数据提前存入到redis里面，加大这些热门数据key的时长<br>
+**（2）实时调整：**现场监控哪些数据热门，实时调整key的过期时长<br>
+<strong>（3）使用锁：</strong></p>
+<ol>
+<li>就是在缓存失效的时候（判断拿出来的值为空），不是立即去load db。</li>
+<li>先使用缓存工具的某些带成功操作返回值的操作（比如Redis的SETNX）去set一个mutex key</li>
+<li>当操作返回成功时，再进行load db的操作，并回设缓存,最后删除mutex key；</li>
+<li>当操作返回失败，证明有线程在load db，当前线程睡眠一段时间再重试整个get缓存的方法。</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730070470-f8183b79-bf14-4a22-9fbc-3cc4835cb2af.png#averageHue=%23fbfbfb&amp;id=VBlaP&amp;originHeight=411&amp;originWidth=448&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>缓存雪崩</strong>
+<ol>
+<li><strong>问题描述</strong></li>
+</ol>
+</li>
+</ol>
+<p>key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮。<br>
+缓存雪崩与缓存击穿的区别在于这里针对很多key缓存，前者则是某一个key<br>
+正常访问<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730070765-88efeeb3-4ea4-4960-ae38-84aa60eb556d.png#averageHue=%23faf8f7&amp;id=LHa9y&amp;originHeight=484&amp;originWidth=826&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+缓存失效瞬间<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730071077-28e3b97a-2cdc-4f8a-a415-8e0ec739bfbe.png#averageHue=%23faf8f7&amp;id=qyRBl&amp;originHeight=473&amp;originWidth=826&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  1. **解决方案**
+</code></pre>
+<p>缓存失效时的雪崩效应对底层系统的冲击非常可怕！<br>
+解决方案：</p>
+<ol>
+<li>**构建多级缓存架构：**nginx缓存 + redis缓存 +其他缓存（ehcache等）</li>
+<li><strong>使用锁或队列：</strong></li>
+</ol>
+<p>用加锁或者队列的方式保证来保证不会有大量的线程对数据库一次性进行读写，从而避免失效时大量的并发请求落到底层存储系统上。不适用高并发情况</p>
+<ol>
+<li><strong>设置过期标志更新缓存：</strong></li>
+</ol>
+<p>记录缓存数据是否过期（设置提前量），如果过期会触发通知另外的线程在后台去更新实际key的缓存。</p>
+<ol>
+<li><strong>将缓存失效时间分散开：</strong></li>
+</ol>
+<p>比如我们可以在原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。</p>
+<ol>
+<li><strong>分布式锁</strong>
+<ol>
+<li><strong>问题描述</strong></li>
+</ol>
+</li>
+</ol>
+<p>随着业务发展的需要，原单体单机部署的系统被演化成分布式集群系统后，由于分布式系统多线程、多进程并且分布在不同机器上，这将使原单机部署情况下的并发控制锁策略失效，单纯的Java API并不能提供分布式锁的能力。为了解决这个问题就需要一种跨JVM的互斥机制来控制共享资源的访问，这就是分布式锁要解决的问题！<br>
+分布式锁主流的实现方案：</p>
+<ol>
+<li>
+<p>基于数据库实现分布式锁</p>
+</li>
+<li>
+<p>基于缓存（Redis等）</p>
+</li>
+<li>
+<p>基于Zookeeper<br>
+每一种分布式锁解决方案都有各自的优缺点：</p>
+</li>
+<li>
+<p>性能：redis最高</p>
+</li>
+<li>
+<p>可靠性：zookeeper最高<br>
+这里，我们就基于redis实现分布式锁。</p>
+<ol>
+<li><strong>解决方案：使用redis实现分布式锁</strong></li>
+</ol>
+</li>
+</ol>
+<p>redis:命令</p>
+<h1>set sku:1:info “OK” NX PX 10000</h1>
+<p>EX second ：设置键的过期时间为 second 秒。 SET key value EX second 效果等同于 SETEX key second value 。<br>
+PX millisecond ：设置键的过期时间为 millisecond 毫秒。 SET key value PX millisecond 效果等同于 PSETEX key millisecond value 。<br>
+NX ：只在键不存在时，才对键进行设置操作。 SET key value NX 效果等同于 SETNX key value 。<br>
+XX ：只在键已经存在时，才对键进行设置操作。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730071356-417caa2a-c06b-40b6-a1a1-57e0999e745e.png#averageHue=%23f7ebda&amp;id=QibzD&amp;originHeight=413&amp;originWidth=516&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li>
+<p>多个客户端同时获取锁（setnx）</p>
+</li>
+<li>
+<p>获取成功，执行业务逻辑{从db获取数据，放入缓存}，执行完成释放锁（del）</p>
+</li>
+<li>
+<p>其他客户端等待重试</p>
+<ol>
+<li><strong>编写代码</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis: set num 0</p>
+<p>| @GetMapping(<strong>“testLock”</strong>)<strong>public void <strong>testLock(){<br>
+_//1获取锁，setne<br>
+_Boolean lock = <strong>redisTemplate</strong>.opsForValue().setIfAbsent(</strong>“lock”</strong>, <strong>“111”</strong>);<br>
+_//2获取锁成功、查询num的值<br>
+_<strong>if</strong>(lock){<br>
+Object value = <strong>redisTemplate</strong>.opsForValue().get(<strong>“num”</strong>);<br>
+_//2.1判断num为空return<br>
+_<strong>if</strong>(StringUtils.<em>isEmpty</em>(value)){<br>
+<strong>return</strong>;<br>
+}<br>
+_//2.2有值就转成成int<br>
+_<strong>int <strong>num = Integer.<em>parseInt</em>(value+</strong>“”</strong>);<br>
+_//2.3把redis的num加1<br>
+_<strong>redisTemplate</strong>.opsForValue().set(<strong>“num”</strong>, ++num);<br>
+_//2.4释放锁，del<br>
+_<strong>redisTemplate</strong>.delete(<strong>“lock”</strong>);</p>
+<pre><code>&#125;**else**&#123;
+    _//3获取锁失败、每隔0.1秒再获取
+    _**try **&#123;
+        Thread._sleep_(100);
+        testLock();
+    &#125; **catch **(InterruptedException e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>}</th>
+</tr>
+</thead>
+</table>
+<p>重启，服务集群，通过网关压力测试：<br>
+ab -n 1000 -c 100 <a target="_blank" rel="noopener" href="http://192.168.140.1:8080/test/testLock">http://192.168.140.1:8080/test/testLock</a><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730071601-fe3ab0bd-e460-4b8b-849a-182bb9e26043.png#averageHue=%23080604&amp;id=gLlai&amp;originHeight=339&amp;originWidth=675&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+查看redis中num的值：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730071805-569a0a60-558e-439f-bb0f-003547344d5b.png#averageHue=%23070503&amp;id=cqeJ7&amp;originHeight=79&amp;originWidth=254&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+基本实现。<br>
+问题：setnx刚好获取到锁，业务逻辑出现异常，导致锁无法释放<br>
+解决：设置过期时间，自动释放锁。</p>
+<pre><code>  1. **优化之设置锁的过期时间**
+</code></pre>
+<p>设置过期时间有两种方式：</p>
+<ol>
+<li>首先想到通过expire设置过期时间（缺乏原子性：如果在setnx和expire之间出现异常，锁也无法释放）</li>
+<li>在set时指定过期时间（推荐）<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730072097-a77ddcab-ed0e-4a5b-b5f2-4c8880d8f329.png#averageHue=%23e5ba99&amp;id=Rzw5k&amp;originHeight=469&amp;originWidth=535&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+设置过期时间：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730072368-07cc7a51-aa40-4613-9e55-361b8f4a67f5.png#averageHue=%23f9f9f9&amp;id=dn0YL&amp;originHeight=366&amp;originWidth=938&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+压力测试肯定也没有问题。自行测试<br>
+问题：可能会释放其他服务器的锁。</li>
+</ol>
+<p>场景：如果业务逻辑的执行时间是7s。执行流程如下</p>
+<ol>
+<li>index1业务逻辑没执行完，3秒后锁被自动释放。</li>
+<li>index2获取到锁，执行业务逻辑，3秒后锁被自动释放。</li>
+<li>index3获取到锁，执行业务逻辑</li>
+<li>index1业务逻辑执行完成，开始调用del释放锁，这时释放的是index3的锁，导致index3的业务只执行1s就被别人释放。</li>
+</ol>
+<p>最终等于没锁的情况。</p>
+<p>解决：setnx获取锁时，设置一个指定的唯一值（例如：uuid）；释放前获取这个值，判断是否自己的锁</p>
+<pre><code>  1. **优化之UUID防误删**
+</code></pre>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730072580-28c79e0f-3450-45e9-82d6-fa412efc8ee4.png#averageHue=%23eac79d&amp;id=OZwju&amp;originHeight=477&amp;originWidth=535&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730072856-6390182a-5813-4629-a70c-f663a2a33437.png#averageHue=%23fcf5f3&amp;id=Z1TwL&amp;originHeight=464&amp;originWidth=682&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<p>问题：删除操作缺乏原子性。<br>
+场景：</p>
+<ol>
+<li>index1执行删除时，查询到的lock值确实和uuid相等</li>
+</ol>
+<p>uuid=v1<br>
+set(lock,uuid)；<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730073160-2aaca9d4-f781-484d-ba52-a8ff40078ed7.png#averageHue=%23d6c0a0&amp;id=ufXoz&amp;originHeight=28&amp;originWidth=590&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li>index1执行删除前，lock刚好过期时间已到，被redis自动释放</li>
+</ol>
+<p>在redis中没有了lock，没有了锁。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730073432-cd41f3c8-78eb-4eb5-a00b-364c584de07b.png#averageHue=%23d5cca5&amp;id=z7cRe&amp;originHeight=24&amp;originWidth=379&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li>index2获取了lock</li>
+</ol>
+<p>index2线程获取到了cpu的资源，开始执行方法<br>
+uuid=v2<br>
+set(lock,uuid)；</p>
+<ol>
+<li>index1执行删除，此时会把index2的lock删除</li>
+</ol>
+<p>index1 因为已经在方法中了，所以不需要重新上锁。index1有执行的权限。index1已经比较完成了，这个时候，开始执行<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730073672-4a90d87b-fc4d-4c89-bcfb-94163aed807f.png#averageHue=%23d5cca5&amp;id=v1xgD&amp;originHeight=24&amp;originWidth=379&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+删除的index2的锁！</p>
+<pre><code>  1. **优化之LUA脚本保证删除的原子性**
+</code></pre>
+<p>| @GetMapping(<strong>“testLockLua”</strong>)**public void **testLockLua() {_    //1 声明一个uuid ,将做为一个value 放入我们的key所对应的值中<br>
+_String uuid = UUID.<em>randomUUID</em>().toString();<br>
+_//2 定义一个锁：lua 脚本可以使用同一把锁，来实现删除！<br>
+_String skuId = <strong>“25”</strong>; _// 访问skuId 为25号的商品 100008348542<br>
+_String locKey = **“lock:” **+ skuId; _// 锁住的是每个商品的数据</p>
+<pre><code>// 3 获取锁
+_Boolean lock = **redisTemplate**.opsForValue().setIfAbsent(locKey, uuid, 3, TimeUnit.**_SECONDS_**);
+
+_// 第一种： lock 与过期时间中间不写任何的代码。
+// redisTemplate.expire(&quot;lock&quot;,10, TimeUnit.SECONDS);//设置过期时间
+// 如果true
+_**if **(lock) &#123;
+    _// 执行的业务逻辑开始
+    // 获取缓存中的num 数据
+    _Object value = **redisTemplate**.opsForValue().get(**&quot;num&quot;**);
+    _// 如果是空直接返回
+    _**if **(StringUtils._isEmpty_(value)) &#123;
+        **return**;
+    &#125;
+    _// 不是空 如果说在这出现了异常！ 那么delete 就删除失败！ 也就是说锁永远存在！
+    _**int **num = Integer._parseInt_(value + **&quot;&quot;**);
+    _// 使num 每次+1 放入缓存
+    _**redisTemplate**.opsForValue().set(**&quot;num&quot;**, String._valueOf_(++num));
+    _/*使用lua脚本来锁*/
+    // 定义lua 脚本
+    _String script = **&quot;if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end&quot;**;
+    _// 使用redis执行lua执行
+    _DefaultRedisScript&lt;Long&gt; redisScript = **new **DefaultRedisScript&lt;&gt;();
+    redisScript.setScriptText(script);
+    _// 设置一下返回值类型 为Long
+    // 因为删除判断的时候，返回的0,给其封装为数据类型。如果不封装那么默认返回String 类型，
+    // 那么返回字符串与0 会有发生错误。
+    _redisScript.setResultType(Long.**class**);
+    _// 第一个要是script 脚本 ，第二个需要判断的key，第三个就是key所对应的值。
+    _**redisTemplate**.execute(redisScript, Arrays._asList_(locKey), uuid);
+&#125; **else **&#123;
+    _// 其他线程等待
+    _**try **&#123;
+        _// 睡眠
+        _Thread._sleep_(1000);
+        _// 睡醒了之后，调用方法。
+        _testLockLua();
+    &#125; **catch **(InterruptedException e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>}</th>
+</tr>
+</thead>
+</table>
+<p>Lua 脚本详解：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730073899-6d3141e9-8519-4cdb-8541-2dd6e8bdc18d.png#averageHue=%23fdfcfb&amp;id=ETVfk&amp;originHeight=480&amp;originWidth=1028&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+项目中正确使用：</p>
+<p>|</p>
+<ol>
+<li>定义key，key应该是为每个sku定义的，也就是每个sku有一把锁。</li>
+</ol>
+<p>String locKey =<strong>“lock:”</strong>+skuId; <em>// 锁住的是每个商品的数据</em></p>
+<table>
+<thead>
+<tr>
+<th>Boolean lock = <strong>redisTemplate</strong>.opsForValue().setIfAbsent(locKey, uuid,3,TimeUnit.<strong><em>SECONDS</em></strong>);</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730074191-2c9f99ec-d32f-48b3-b315-1ff9b4ca3aaf.png#averageHue=%23fcf8f6&amp;id=zrxML&amp;originHeight=403&amp;originWidth=1234&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></td>
+</tr>
+</tbody>
+</table>
+<pre><code>  1. **总结**
+</code></pre>
+<p>1、加锁</p>
+<p>| _// 1. 从redis中获取锁,set k1 v1 px 20000 nx_String uuid = UUID.<em>randomUUID</em>().toString();<br>
+Boolean lock = <strong>this</strong>.<strong>redisTemplate</strong>.opsForValue()<br>
+.setIfAbsent(<strong>“lock”</strong>, uuid, 2, TimeUnit.<strong><em>SECONDS</em></strong>); |<br>
+| — |</p>
+<ol>
+<li>
+<p>使用lua释放锁<br>
+| <em>// 2. 释放锁 del_String script = <strong>“if redis.call(‘get’, KEYS[1]) == ARGV[1] then return redis.call(‘del’, KEYS[1]) else return 0 end”</strong>;</em>// 设置lua脚本返回的数据类型_DefaultRedisScript<Long> redisScript = <strong>new <strong>DefaultRedisScript&lt;&gt;();_// 设置lua脚本返回类型为Long_redisScript.setResultType(Long.<strong>class</strong>);<br>
+redisScript.setScriptText(script);<strong>redisTemplate</strong>.execute(redisScript, Arrays.<em>asList</em>(</strong>“lock”</strong>),uuid); |<br>
+| — |</p>
+</li>
+<li>
+<p>重试<br>
+| Thread.<em>sleep</em>(500);<br>
+testLock(); |<br>
+| — |</p>
+</li>
+</ol>
+<p>为了确保分布式锁可用，我们至少要确保锁的实现同时<strong>满足以下四个条件</strong>：</p>
+<ul>
+<li>互斥性。在任意时刻，只有一个客户端能持有锁。</li>
+<li>不会发生死锁。即使有一个客户端在持有锁的期间崩溃而没有主动解锁，也能保证后续其他客户端能加锁。</li>
+<li>解铃还须系铃人。加锁和解锁必须是同一个客户端，客户端自己不能把别人加的锁给解了。</li>
+<li>加锁和解锁必须具有原子性。</li>
+</ul>
+<ol>
+<li><strong>Redis6.0新功能</strong>
+<ol>
+<li><strong>ACL</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>Redis ACL是Access Control List（访问控制列表）的缩写，该功能允许根据可以执行的命令和可以访问的键来限制某些连接。<br>
+在Redis 5版本之前，Redis 安全规则只有密码控制 还有通过rename 来调整高危命令比如 flushdb ， KEYS* ， shutdown 等。Redis 6 则提供ACL的功能对用户进行更细粒度的权限控制 ：<br>
+（1）接入权限:用户名和密码<br>
+（2）可以执行的命令<br>
+（3）可以操作的 KEY<br>
+参考官网：<a target="_blank" rel="noopener" href="https://redis.io/topics/acl">https://redis.io/topics/acl</a></p>
+<pre><code>  1. **命令**
+</code></pre>
+<p>1、使用acl list命令展现用户权限列表<br>
+（1）数据说明<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730074431-05b634e8-61c0-434c-a443-98aa75f7c092.png#averageHue=%23b0adab&amp;id=FB9YM&amp;originHeight=179&amp;originWidth=554&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+2、使用acl cat命令<br>
+（1）查看添加权限指令类别<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730074718-a4d67980-3dbd-460a-b8bc-5cf765f8f8b4.png#averageHue=%230a0705&amp;id=WeuV7&amp;originHeight=353&amp;originWidth=201&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+（2）加参数类型名可以查看类型下具体命令<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730074979-70b85580-5a5c-4cdd-b862-5e4e55a68541.png#averageHue=%23070503&amp;id=ixrMP&amp;originHeight=336&amp;originWidth=257&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+3、使用acl whoami命令查看当前用户<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730075281-c2b829f3-ef21-4de1-b410-f92965d4e1b1.png#averageHue=%230f0b08&amp;id=TpN1o&amp;originHeight=34&amp;originWidth=212&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+4、使用aclsetuser命令创建和编辑用户ACL<br>
+（1）ACL规则<br>
+下面是有效ACL规则的列表。某些规则只是用于激活或删除标志，或对用户ACL执行给定更改的单个单词。其他规则是字符前缀，它们与命令或类别名称、键模式等连接在一起。</p>
+<table>
+<thead>
+<tr>
+<th>ACL规则</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>参数</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>启动和禁用用户</td>
+<td><strong>on</strong></td>
+<td>激活某用户账号</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>off</strong></td>
+<td>禁用某用户账号。注意，已验证的连接仍然可以工作。如果默认用户被标记为off，则新连接将在未进行身份验证的情况下启动，并要求用户使用AUTH选项发送AUTH或HELLO，以便以某种方式进行身份验证。</td>
+</tr>
+<tr>
+<td>权限的添加删除</td>
+<td><strong>+<command></strong></td>
+<td>将指令添加到用户可以调用的指令列表中</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>-<command></strong></td>
+<td>从用户可执行指令列表移除指令</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>+@<category></strong></td>
+<td>添加该类别中用户要调用的所有指令，有效类别为@admin、@set、@sortedset…等，通过调用ACL CAT命令查看完整列表。特殊类别@all表示所有命令，包括当前存在于服务器中的命令，以及将来将通过模块加载的命令。</td>
+</tr>
+<tr>
+<td></td>
+<td>-@<actegory></td>
+<td>从用户可调用指令中移除类别</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>allcommands</strong></td>
+<td>+@all的别名</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>nocommand</strong></td>
+<td>-@all的别名</td>
+</tr>
+<tr>
+<td>可操作键的添加或删除</td>
+<td><strong>~<pattern></strong></td>
+<td>添加可作为用户可操作的键的模式。例如~*允许所有的键</td>
+</tr>
+</tbody>
+</table>
+<p>（2）通过命令创建新用户默认权限<br>
+acl setuser user1<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730075555-fb2539f0-9a30-41cf-a945-db4f7b570a59.png#averageHue=%230c0906&amp;id=hG7rS&amp;originHeight=82&amp;originWidth=295&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+在上面的示例中，我根本没有指定任何规则。如果用户不存在，这将使用just created的默认属性来创建用户。如果用户已经存在，则上面的命令将不执行任何操作。<br>
+（3）设置有用户名、密码、ACL权限、并启用的用户<br>
+acl setuser user2 on &gt;password ~cached:* +get<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730075866-dd1a0cfb-2d9d-4c28-9b53-ed1a51a031b1.png#averageHue=%23090604&amp;id=R4oZ1&amp;originHeight=127&amp;originWidth=669&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+(4)切换用户，验证权限<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730076093-e51c4181-36eb-4d57-9f5a-f0eafdd9b50d.png#averageHue=%23070503&amp;id=yITh8&amp;originHeight=242&amp;originWidth=673&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>IO多线程</strong>
+<ol>
+<li><strong>简介</strong></li>
+</ol>
+</li>
+</ol>
+<p>Redis6终于支撑多线程了，告别单线程了吗？<br>
+IO多线程其实指<strong>客户端交互部分</strong>的<strong>网络IO</strong>交互处理模块<strong>多线程</strong>，而非<strong>执行命令多线程</strong>。Redis6执行命令依然是单线程。</p>
+<pre><code>  1. **原理架构**
+</code></pre>
+<p>Redis 6 加入多线程,但跟 Memcached 这种从 IO处理到数据访问多线程的实现模式有些差异。Redis 的多线程部分只是用来处理网络数据的读写和协议解析，执行命令仍然是单线程。之所以这么设计是不想因为多线程而变得复杂，需要去控制 key、lua、事务，LPUSH/LPOP 等等的并发问题。整体的设计大体如下:<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730076372-2cc09b37-398c-4e0c-87c5-b4aca4d719ba.png#averageHue=%2397a72b&amp;id=zmIJm&amp;originHeight=411&amp;originWidth=656&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+另外，多线程IO默认也是不开启的，需要再配置文件中配置<br>
+io-threads-do-reads  yes<br>
+io-threads 4</p>
+<ol>
+<li><strong>工具支持 Cluster</strong></li>
+</ol>
+<p>之前老版Redis想要搭集群需要单独安装ruby环境，Redis 5 将 redis-trib.rb 的功能集成到 redis-cli 。另外官方 redis-benchmark 工具开始支持 cluster 模式了，通过多线程的方式对多个分片进行压测。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/28066124/1693730076655-3a897056-f7ac-4c50-bd1b-ce082189a699.png#averageHue=%230d0a07&amp;id=Phaot&amp;originHeight=290&amp;originWidth=673&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ol>
+<li><strong>Redis新功能持续关注</strong></li>
+</ol>
+<p>Redis6新功能还有：<br>
+1、RESP3新的 Redis 通信协议：优化服务端与客户端之间通信<br>
+2、Client side caching客户端缓存：基于 RESP3 协议实现的客户端缓存功能。为了进一步提升缓存的性能，将客户端经常访问的数据cache到客户端。减少TCP网络交互。<br>
+3、Proxy集群代理模式：Proxy 功能，让 Cluster 拥有像单实例一样的接入方式，降低大家使用cluster的门槛。不过需要注意的是代理不改变 Cluster 的功能限制，不支持的命令还是不会支持，比如跨 slot 的多Key操作。<br>
+4、Modules API<br>
+Redis 6中模块API开发进展非常大，因为Redis Labs为了开发复杂的功能，从一开始就用上Redis模块。Redis可以变成一个框架，利用Modules来构建不同系统，而不需要从头开始写然后还要BSD许可。Redis一开始就是一个向编写各种系统开放的平台。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/02/28/%E5%B0%9A%E7%A1%85%E8%B0%B7_Redis6%E8%AF%BE%E4%BB%B6/">http://www.bojiboqi.fun/2024/02/28/%E5%B0%9A%E7%A1%85%E8%B0%B7_Redis6%E8%AF%BE%E4%BB%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/redis/">redis</a></div><div class="post_share"><div class="social-share" data-image="https://www.dmoe.cc/random.php?4480" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/02/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9A/" title="设计模式总结"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.dmoe.cc/random.php?2931" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">设计模式总结</div></div></a></div><div class="next-post pull-right"><a href="/2024/02/28/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%84%E4%B8%80%EF%BC%9A/" title="软件体系实验结构一："><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.dmoe.cc/random.php?9191" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">软件体系实验结构一：</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/02/28/Redis%E5%AD%A6%E4%B9%A0%EF%BC%9A/" title="Redis学习："><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.dmoe.cc/random.php?7519" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-28</div><div class="title">Redis学习：</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E9%AB%98%E7%BA%A7%E8%AF%BE%E7%A8%8B%E7%B3%BB%E5%88%97%E4%B9%8BRedis6"><span class="toc-number">1.</span> <span class="toc-text">框架高级课程系列之Redis6</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number"></span> <span class="toc-text">set sku:1:info “OK” NX PX 10000</span></a></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-teal-alpha.vercel.app/',
+      region: 'ap-shanghai',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-teal-alpha.vercel.app/',
+      region: 'ap-shanghai',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script  src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/universe.js"></script><canvas id="universe"></canvas><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script>let tianliGPT_postSelector = '\#post \#article-container';let tianliGPT_key = '92ec679de1bc42262c48';</script><script   defer src="https://cdn1.tianli0.top/gh/zhheo/Post-Abstract-AI@0.15.2/tianli_gpt.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
