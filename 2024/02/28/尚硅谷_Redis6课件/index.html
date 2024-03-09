@@ -2727,7 +2727,7 @@ Redis 6中模块API开发进展非常大，因为Redis Labs为了开发复杂的
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
       }
@@ -2744,7 +2744,7 @@ Redis 6中模块API开发进展非常大，因为Redis Labs为了开发复杂的
     if(!countELement) return
     twikoo.getCommentsCount({
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       urls: [window.location.pathname],
       includeReply: false
     }).then(res => {

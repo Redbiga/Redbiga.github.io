@@ -244,7 +244,7 @@ git origin main：切换到本地的main分支然后寻找本地的origin/main�
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
       }
@@ -261,7 +261,7 @@ git origin main：切换到本地的main分支然后寻找本地的origin/main�
     if(!countELement) return
     twikoo.getCommentsCount({
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       urls: [window.location.pathname],
       includeReply: false
     }).then(res => {

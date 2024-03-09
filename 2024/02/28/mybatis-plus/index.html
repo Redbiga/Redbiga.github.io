@@ -932,7 +932,7 @@ PageQuery是前端提交的查询参数，一般包含四个属性：</p>
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
       }
@@ -949,7 +949,7 @@ PageQuery是前端提交的查询参数，一般包含四个属性：</p>
     if(!countELement) return
     twikoo.getCommentsCount({
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       urls: [window.location.pathname],
       includeReply: false
     }).then(res => {

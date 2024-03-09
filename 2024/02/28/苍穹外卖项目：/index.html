@@ -435,7 +435,7 @@ springTask:<br>
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
       }
@@ -452,7 +452,7 @@ springTask:<br>
     if(!countELement) return
     twikoo.getCommentsCount({
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       urls: [window.location.pathname],
       includeReply: false
     }).then(res => {

@@ -459,7 +459,7 @@ A. 计算机辅助静态分析是软件测试方法中的静态测试方法之�
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
       }
@@ -476,7 +476,7 @@ A. 计算机辅助静态分析是软件测试方法中的静态测试方法之�
     if(!countELement) return
     twikoo.getCommentsCount({
       envId: 'https://twik.bojiboqi.fun/',
-      region: 'ap-shanghai',
+      region: '',
       urls: [window.location.pathname],
       includeReply: false
     }).then(res => {
