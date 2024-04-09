@@ -1,0 +1,438 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Jenkins | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="工作必用的Jenkins Jenkins是一个可扩展的自动化服务器，Jenkins 可以作为一个简单的 CI 服务器使用，或者成为任何项目的持续交付中心。 CI&#x2F;CD  图0 CI&#x2F;CD概念图 通过上面这张图可以分三部分来理解CI&#x2F;CD  第一部分  先看看软件开发生命周期（SDLC）和CI&#x2F;CD是如何结合的。软件开发一般包含几个重要的阶段：开发（Develop），测试（Test），部署（Depl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/09/Jenkins/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="工作必用的Jenkins Jenkins是一个可扩展的自动化服务器，Jenkins 可以作为一个简单的 CI 服务器使用，或者成为任何项目的持续交付中心。 CI&#x2F;CD  图0 CI&#x2F;CD概念图 通过上面这张图可以分三部分来理解CI&#x2F;CD  第一部分  先看看软件开发生命周期（SDLC）和CI&#x2F;CD是如何结合的。软件开发一般包含几个重要的阶段：开发（Develop），测试（Test），部署（Depl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-31-38.webp">
+<meta property="article:published_time" content="2024-04-09T02:35:11.510Z">
+<meta property="article:modified_time" content="2024-04-09T04:01:55.088Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="流水线">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-31-38.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/09/Jenkins/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Jenkins',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-09 12:01:55'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/photo_2024-02-28_19-31-38.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/photo_2024-02-28_19-31-38.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Jenkins</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-09T02:35:11.510Z" title="发表于 2024-04-09 10:35:11">2024-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-09T04:01:55.088Z" title="更新于 2024-04-09 12:01:55">2024-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Jenkins"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="工作必用的Jenkins"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E5%B7%A5%E4%BD%9C%E5%BF%85%E7%94%A8%E7%9A%84jenkins">工作必用的Jenkins</a></h2>
+<p>Jenkins是一个可扩展的自动化服务器，Jenkins 可以作为一个简单的 CI 服务器使用，或者成为任何项目的持续交付中心。</p>
+<h2 id="CI-CD"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#ci-cd">CI/CD</a></h2>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/jpeg/28066124/1711200964289-e3f4c130-1b4e-4d35-bf04-dafaab23c1b4.jpeg#averageHue=%23e2dcd9&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u99283e89&amp;originHeight=1852&amp;originWidth=1840&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=492444&amp;status=done&amp;style=none&amp;taskId=u8b03434e-453d-4dbd-95c5-cb3ffc9248c&amp;title=" alt="image.jpg"><br>
+图0 CI/CD概念图<br>
+通过上面这张图可以分三部分来理解CI/CD</p>
+<ul>
+<li><strong>第一部分</strong></li>
+</ul>
+<p>先看看软件开发生命周期（SDLC）和CI/CD是如何结合的。软件开发一般包含几个重要的阶段：开发（Develop），测试（Test），部署（Deploy），维护（Maintain）。CI/CD可以将上述的流程流程串联一起来形成一个自动化的闭环，使得每次发布都更快更可靠。</p>
+<ul>
+<li><strong>第二部分</strong></li>
+</ul>
+<p>Continuous Integration(CI) 持续集成会不断的监听仓库并且执行构建测试确保最后合并到发布分支是没问题的。这样可以提早的发现问题，而不是累计了多次提交等合并到发布分支的时候才发现问题，这样回滚的时候会比较麻烦。<br>
+Continuous Delivery(CD) 持续交付主要是在部署方面的自动化，它也会运行一些测试，每次发布分支有更新CD就会把CI构建好的代码部署到生产上。</p>
+<ul>
+<li><strong>第三部分</strong></li>
+</ul>
+<p>总结一下整体的流程可以有如下步骤</p>
+<ul>
+<li>开发者提交代码到参考</li>
+<li>CI 服务器检测到代码更新触发构建</li>
+<li>构建好代码并且测试</li>
+<li>生成测试结果报告</li>
+<li>部署打包的代码到模拟环境</li>
+<li>后续可能会有模拟环境的测试</li>
+<li>最后发布到生成环境</li>
+</ul>
+<p>那CI/CD是如何工作的呢？它其实不神秘，你把它看成一个软件（Jenkins），它可以运行在你的电脑上也可以单独运行在服务器上。它首先会监听你的代码仓库，每次有代码提交到仓库上它就会开始运转第一部分的流程图，先是把代码拉取下来在本地编译（Jenkins所在的机器）和测试(<br>
+测试环境)。然后用前端的自动化测试模拟用户点击（e2e<br>
+test），这步通过后就可以部署到模拟环境（Staging）或者生成环境（Production）。如果出现了问题就会通知开发者，开发者根据报错日志修改bug并且提交代码，接着又重复上述的流程。</p>
+<h2 id="Jenkins安装"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#jenkins%E5%AE%89%E8%A3%85">Jenkins安装</a></h2>
+<p>本教程以windows为例安装jenkins，其他系统请参照官方文档。</p>
+<ul>
+<li>第一步<br>
+在<a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/installing/windows/">官网open in new window</a><br>
+下载<a target="_blank" rel="noopener" href="https://www.jenkins.io/download/#downloading-jenkins">安装包open in new window</a></li>
+</ul>
+<p>打开安装包链接出现图1网页，再点击Windows即可下载。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200955181-f8ab0a64-830a-4e0a-80ec-1b7537f0dfee.png#averageHue=%23cda87a&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u004815f8&amp;originHeight=1359&amp;originWidth=2140&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=236704&amp;status=done&amp;style=none&amp;taskId=u64bc6cd7-5448-4102-bca7-642d1dc1b7e&amp;title=" alt="image.jpg"><br>
+图1 下载Jenkins Windows安装包</p>
+<ul>
+<li>第二步</li>
+</ul>
+<p>按照提示走到这边。在这边输入你windows的用户名和密码。然后点击验证凭证。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200940974-f281e743-a830-4e48-b782-ffd6dcc61657.png#averageHue=%23eeedec&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ue1b90c28&amp;originHeight=481&amp;originWidth=616&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=27099&amp;status=done&amp;style=none&amp;taskId=u2a66fe1b-10fe-475f-8aea-7f8a17c0269&amp;title=" alt="image.jpg"><br>
+图2 以本地用户运行<br>
+如果出错请按照以下步骤添加权限</p>
+<ol>
+<li>打开开始，输入<code>本地安全策略</code></li>
+<li>展开<code>本地策略</code>并点击右侧的<code>用户权限分配</code></li>
+<li>在右侧面板中找到<code>作为服务登录</code>，右键-&gt;属性</li>
+<li>点击<code>添加用户或组</code></li>
+<li>在输入框内输入你的Windows用户名，然后点击<code>检查名称</code>再点击确定。</li>
+</ol>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200964723-edfa0492-ff36-4335-b814-76381b6f45b6.png#averageHue=%23cad4b8&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u7f5f5f37&amp;originHeight=1376&amp;originWidth=2156&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=488294&amp;status=done&amp;style=none&amp;taskId=ua01b06a7-7e35-4a8e-81f1-c5871c90594&amp;title=" alt="image.jpg"><br>
+图3 为用户添加作为服务登录权限</p>
+<ul>
+<li>第三步</li>
+</ul>
+<p>在选择好端口和jdk路径后就安装结束了。安装成功后在任务管理器的服务中可以看见Jenkins服务<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200961367-0af0f32e-40d7-42aa-abf0-7b5c7b18a72e.png#averageHue=%23f2f4ef&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u6f9851b2&amp;originHeight=708&amp;originWidth=906&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=403944&amp;status=done&amp;style=none&amp;taskId=ufb4bf9ef-4e2d-443f-86b9-dc9391c9b22&amp;title=" alt="image.jpg"><br>
+图4 安装成功查看Jenkins服务</p>
+<ul>
+<li>第四步</li>
+</ul>
+<p>在浏览器中打开<code>http://localhost:8080</code>，如果你是安装时选择的端口号不是8080那替换成你选择的端口。打开后出现图5页面，根据红色的提示路径获取初始密码（图6）<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200955940-9dcb7c91-d8e0-404d-9ab2-2ca476087851.png#averageHue=%23fbfbfa&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ua15a7260&amp;originHeight=719&amp;originWidth=1040&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=200633&amp;status=done&amp;style=none&amp;taskId=u3764b1a4-4dac-4fb3-a251-dd62002017f&amp;title=" alt="image.jpg"><br>
+图5 输入初始密码<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200958737-8f958827-2794-4294-bf2e-deac3208e83c.png#averageHue=%23f0eee9&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u1f4d8ef4&amp;originHeight=136&amp;originWidth=793&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=59405&amp;status=done&amp;style=none&amp;taskId=uedab8f86-70bc-426f-b183-e03d8c3cf77&amp;title=" alt="image.jpg"><br>
+图6 初始密码</p>
+<ul>
+<li>第五步</li>
+</ul>
+<p>安装推荐的插件，并且创建一个用户。</p>
+<h2 id="博客CI-CD案例"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E5%8D%9A%E5%AE%A2ci-cd%E6%A1%88%E4%BE%8B">博客CI/CD案例</a></h2>
+<p>以前我每次写完博客需要自己编译打包部署。有时候部署完后发现格式或者内容出了一些问题又要重新打包部署，每次重复的干这些事显然是很枯燥无味的。使用Jenkins编写pipeline就可以帮助我完成这些重复的工作。</p>
+<h3 id="安装插件"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6">安装插件</a></h3>
+<p>除了安装推荐的插件之外还需要安装下面两个插件</p>
+<ul>
+<li><code>Publish Over SSH</code> 用于发送构建好的文件到服务器</li>
+<li><code>NodeJS Plugin</code> 管理不同版本的Node.js</li>
+</ul>
+<h3 id="配置"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E9%85%8D%E7%BD%AE">配置</a></h3>
+<ul>
+<li><strong>配置服务器信息</strong></li>
+</ul>
+<p><code>Dashboard-&gt; Manage Jenkins-&gt; System -&gt; Publish over SSH -&gt; 新增SSH Server</code><br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200961975-92ff62f4-6137-4057-93e5-ebc06fe1a673.png#averageHue=%23fefefe&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u659fe612&amp;originHeight=1738&amp;originWidth=3128&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=69051&amp;status=done&amp;style=none&amp;taskId=u41d6a2b1-5996-42a7-9a0b-52e7fc84b63&amp;title=" alt="image.jpg"><br>
+图7 配置服务信息</p>
+<ul>
+<li><strong>配置Node.js</strong></li>
+</ul>
+<p><code>Dashboard-&gt; Manage Jenkins-&gt; Tools -&gt; NodeJS -&gt; 新增NodeJS</code><br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200961594-2cfcf239-5c6a-4a9a-89c3-bee59628b2a2.png#averageHue=%23fefefe&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=udef54ced&amp;originHeight=854&amp;originWidth=3132&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=37257&amp;status=done&amp;style=none&amp;taskId=u453c0bc5-3f6a-474f-8dad-7409973e4e4&amp;title=" alt="image.jpg"><br>
+图8 nodejs配置</p>
+<h3 id="新建Pipeline项目"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E6%96%B0%E5%BB%BApipeline%E9%A1%B9%E7%9B%AE">新建Pipeline项目</a></h3>
+<p><code>Dashboard -&gt; 新建Item -&gt; Pipeline</code><br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200966478-8f86ac69-e010-4217-b80e-a7bee036dec8.png#averageHue=%23f0f2eb&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u63888522&amp;originHeight=1514&amp;originWidth=2637&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=154138&amp;status=done&amp;style=none&amp;taskId=u71f8df5c-7e2f-4a9b-81d5-84057ec6893&amp;title=" alt="image.jpg"><br>
+图9 新建pipeline项目</p>
+<h3 id="编写Pipeline"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E7%BC%96%E5%86%99pipeline">编写Pipeline</a></h3>
+<p><code>Dashboard -&gt; qifan-blog(你的项目) -&gt; 配置</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    // 选择node 16</span><br><span class="line">    tools &#123;</span><br><span class="line">      nodejs &#x27;node 16&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">   // 将整个构建部署分成三个阶段，整个分成几个阶段没有一个标准，全部合成一个阶段也可以。</span><br><span class="line">   // 分成多个阶段的好处的优点有 1. 逻辑清晰 2. 对于大项目如果其中某个阶段失败了，下次可以从失败的地方再运行。已经成功的阶段就不需要运行了。可以节省时间。3. 方便统计每个阶段的运行时间，好定位问题。</span><br><span class="line">    stages &#123;</span><br><span class="line">        // 从git参考获取代码</span><br><span class="line">        stage(&#x27;Git Checkout&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">              // 从github获取代码，这边使用的是你本机的git。相当于你自己执行了git clone https://github.com/qifan777/qifan-blog-vuepress2.git</span><br><span class="line">              // git checkout master</span><br><span class="line">              git branch: &#x27;master&#x27;, url: &#x27;https://github.com/qifan777/qifan-blog-vuepress2.git&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 获取代码后在node16上构建博客代码</span><br><span class="line">        stage(&#x27;Build&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                bat &quot;node -v&quot;</span><br><span class="line">                bat &quot;npm install&quot;</span><br><span class="line">                bat &quot;npm run docs:build&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 将构建好的博客上传到服务器上</span><br><span class="line">        stage(&#x27;SSH Punlisher&#x27;) &#123;</span><br><span class="line">            steps&#123;</span><br><span class="line">                sshPublisher(publishers: [sshPublisherDesc(configName: &#x27;centos7&#x27;,</span><br><span class="line">                 transfers: [sshTransfer( execCommand: &#x27;nginx -s reopen&#x27;,</span><br><span class="line">                 remoteDirectory: &#x27;/www/server/nginx/html/blog&#x27;,</span><br><span class="line">                 removePrefix: &#x27;docs/.vuepress/dist&#x27;,</span><br><span class="line">                  sourceFiles: &#x27;docs/.vuepress/dist/**&#x27;)])])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>点击保存</p>
+<h3 id="构建Pipeline"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E6%9E%84%E5%BB%BApipeline">构建Pipeline</a></h3>
+<p><code>Dashboard -&gt; qifan-blog(你的项目) -&gt; Build Now</code><br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200966871-ae540fd7-cbfa-401a-80af-2806383c9c18.png#averageHue=%23edecec&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ue5eb761f&amp;originHeight=1472&amp;originWidth=2444&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=191201&amp;status=done&amp;style=none&amp;taskId=ue7860b34-718a-4f8b-ad95-c8817cf8fab&amp;title=" alt="image.jpg"><br>
+图10 查看构建详情</p>
+<h2 id="Pipeline介绍"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#pipeline%E4%BB%8B%E7%BB%8D">Pipeline介绍</a></h2>
+<h3 id="概念介绍"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D">概念介绍</a></h3>
+<p>pipeline流水线以<code>pipeline &#123;&#125;</code>开始，<code>pipeline&#123;&#125;</code>下可以包含<code>Sections</code>,<code>Steps</code>,<code>Directives</code>, 赋值语句。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200964589-1cfa7a39-025c-42b5-8076-4832f60a21bb.png#averageHue=%23f9f6f6&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u8f6205ac&amp;originHeight=1002&amp;originWidth=475&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=48602&amp;status=done&amp;style=none&amp;taskId=u5c2d3e2a-0b02-4336-be86-f840065a504&amp;title=" alt="image.jpg"><br>
+图11 pipeline基本概念<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200967801-70fc5714-a8c5-4554-9d1a-5e30414455e9.png#averageHue=%23f7f7f7&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ue0592dd7&amp;originHeight=499&amp;originWidth=1322&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=119443&amp;status=done&amp;style=none&amp;taskId=u91c36a04-ef0c-409e-a13e-5f5321f7c8e&amp;title=" alt="image.jpg"><br>
+图12 pipeline结构图<br>
+通过上面的例子相信大家对pipeline有了初步的了解。<br>
+我们看图11中pipeline启动的方式可以是监听git仓库，每次git仓库有代码推送就会自动启动pipeline。前面的例子中我们是手动点击<code>Build Now</code><br>
+启动Pipeline的。<br>
+在观察图中有多个Stage，对照我们之前写的例子其中有<code>Git Checkout</code>,<code>Build</code>和<code>SSH Punlisher</code><br>
+三个Stage。Stage的作用就是将整个构建部署流程从逻辑上划分成多个阶段。<br>
+每个阶段（Stage）中又可以添加<code>Steps</code>，在<code>Steps</code>下可以添加<code>Directives</code>。我们看一下之前例子中的<code>Build</code>阶段，该阶段下有一个<br>
+<code>Steps</code>其中包含了三条<code>Directives</code>。在同一个<code>Steps</code>下的指令是可以共享局部变量，比如你可以在<code>Steps</code>中顶一个变量<code>def count=1</code>，下面的指令都可以使用count变量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">steps &#123;</span><br><span class="line">    bat &quot;node -v&quot;</span><br><span class="line">    bat &quot;npm install&quot;</span><br><span class="line">    bat &quot;npm run docs:build&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="如何编写Pipeline"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/jenkins/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99pipeline">如何编写Pipeline</a></h3>
+<p>一般分如下几个步骤</p>
+<ol>
+<li>确定Pipeline运行的<code>agent（机器/环境）</code></li>
+</ol>
+<p>如果是本机直接填写<code>agent: any</code>，还可以运行在docker，其他服务器，k8s上。可以参考官方文档中的<code>agent</code>参数。</p>
+<ol>
+<li>配置需要工具</li>
+</ol>
+<p>如果你安装了git，maven插件，下面你tools你也可以添加。其他的工具也可以在插件市场中找到，安装完插件配置工具的版本，然后在<code>tools&#123;&#125;</code><br>
+中选择相应的版本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tools &#123;</span><br><span class="line">    nodejs &#x27;node 16&#x27;</span><br><span class="line">    git &#x27;配置的git版本&#x27;</span><br><span class="line">    maven &#x27;配置的maven版本&#x27;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>划分stage</li>
+</ol>
+<p>参考我写的例子</p>
+<ol>
+<li>在每个stage中使用指令(Directives)</li>
+</ol>
+<p>编写指令的时候，如果你不知道如何使用指令可以参考这个指令生成器和片段生成器。<br>
+指令生成器生成（Declarative Directive<br>
+Generator）的是官方提供的语法，片段生成器可以生成你下载的插件指令。比如之前写的例子中<code>tools</code>,<code>bat</code><br>
+就是官方的指令，<code>git</code>,<code>sshPublisher</code>就是我安装的插件提供的指令。<br>
+<code>Dashboard -&gt; qifan-blog(你的项目) -&gt; 流水线语法 -&gt; Declarative Directive Generator</code><br>
+<code>Dashboard -&gt; qifan-blog(你的项目) -&gt; 流水线语法 -&gt; 片段生成器</code></p>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/09/Jenkins/">http://www.bojiboqi.fun/2024/04/09/Jenkins/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B5%81%E6%B0%B4%E7%BA%BF/">流水线</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/photo_2024-02-28_19-31-38.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/09/HTTP%E5%90%84%E7%A7%8D%E5%8F%82%E6%95%B0%E5%8F%91%E9%80%81/" title="HTTP各种参数发送"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-47-02.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">HTTP各种参数发送</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/09/Spring%20%E7%8A%B6%E6%80%81%E6%9C%BA/" title="Spring 状态机"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-48-38.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring 状态机</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/09/Jenkis%E5%85%A5%E9%97%A8%EF%BC%9A/" title="Jenkis入门："><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-54-32.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">Jenkis入门：</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%BF%85%E7%94%A8%E7%9A%84Jenkins"><span class="toc-number">1.</span> <span class="toc-text">工作必用的Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CI-CD"><span class="toc-number">2.</span> <span class="toc-text">CI&#x2F;CD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">Jenkins安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2CI-CD%E6%A1%88%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">博客CI&#x2F;CD案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">安装插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BAPipeline%E9%A1%B9%E7%9B%AE"><span class="toc-number">4.3.</span> <span class="toc-text">新建Pipeline项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99Pipeline"><span class="toc-number">4.4.</span> <span class="toc-text">编写Pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAPipeline"><span class="toc-number">4.5.</span> <span class="toc-text">构建Pipeline</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipeline%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.</span> <span class="toc-text">Pipeline介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.1.</span> <span class="toc-text">概念介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99Pipeline"><span class="toc-number">5.2.</span> <span class="toc-text">如何编写Pipeline</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

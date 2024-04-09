@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>IDEA——强大的Shell工具 _ 起凡Code闲聊 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="IDEA——强大的Shell工具 SSH 在使用Shell工具时最常用的是SSH输入命令操控远程服务器。在idea中使用SSH也是很简单的事情。 settings -&gt; tools -&gt; ssh congratulations  图1 配置SSH alt+f12打开命令行，在右上角的下拉框中选择上面配置好的SSH会话。之后直接在命令行中就可以向服务器发送命令了。  图2 命令行连接SS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA——强大的Shell工具 _ 起凡Code闲聊">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/09/IDEA%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84Shell%E5%B7%A5%E5%85%B7%20_%20%E8%B5%B7%E5%87%A1Code%E9%97%B2%E8%81%8A/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="IDEA——强大的Shell工具 SSH 在使用Shell工具时最常用的是SSH输入命令操控远程服务器。在idea中使用SSH也是很简单的事情。 settings -&gt; tools -&gt; ssh congratulations  图1 配置SSH alt+f12打开命令行，在右上角的下拉框中选择上面配置好的SSH会话。之后直接在命令行中就可以向服务器发送命令了。  图2 命令行连接SS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_174358_731.webp">
+<meta property="article:published_time" content="2024-04-09T02:35:35.728Z">
+<meta property="article:modified_time" content="2024-04-09T04:01:10.889Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="IDEA使用技巧">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_174358_731.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/09/IDEA%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84Shell%E5%B7%A5%E5%85%B7%20_%20%E8%B5%B7%E5%87%A1Code%E9%97%B2%E8%81%8A/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'IDEA——强大的Shell工具 _ 起凡Code闲聊',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-09 12:01:10'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_174358_731.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_174358_731.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">IDEA——强大的Shell工具 _ 起凡Code闲聊</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-09T02:35:35.728Z" title="发表于 2024-04-09 10:35:35">2024-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-09T04:01:10.889Z" title="更新于 2024-04-09 12:01:10">2024-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/">工具技巧</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">753</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="IDEA——强大的Shell工具 _ 起凡Code闲聊"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="IDEA——强大的Shell工具"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#idea%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84shell%E5%B7%A5%E5%85%B7">IDEA——强大的Shell工具</a></h2>
+<h2 id="SSH"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#ssh">SSH</a></h2>
+<p>在使用Shell工具时最常用的是SSH输入命令操控远程服务器。在idea中使用SSH也是很简单的事情。<br>
+settings -&gt; tools -&gt; ssh congratulations<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200444092-d31ed8af-489b-47d3-b332-e4f5c0c4ff2a.png#averageHue=%23303642&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=uc06bc0bc&amp;originHeight=1368&amp;originWidth=1737&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=106558&amp;status=done&amp;style=none&amp;taskId=u6222ac4e-37a3-40e4-b358-349d571c406&amp;title=" alt="image.jpg"><br>
+图1 配置SSH<br>
+alt+f12打开命令行，在右上角的下拉框中选择上面配置好的SSH会话。之后直接在命令行中就可以向服务器发送命令了。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200445054-f98de21b-c19f-4143-9d62-26f3a5f36d40.png#averageHue=%23292f39&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ucdccc968&amp;originHeight=710&amp;originWidth=2045&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=108446&amp;status=done&amp;style=none&amp;taskId=uc159be0e-0381-440d-bdab-f7abe09d057&amp;title=" alt="image.jpg"><br>
+图2 命令行连接SSH</p>
+<h2 id="SFTP"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#sftp">SFTP</a></h2>
+<p>在控制远程服务器时除了发送命令行，自然少不了互传文件，文件预览编辑的功能。幸运的是强大的idea也有这个功能<br>
+settings -&gt; deployment。点击左上角的➕添加sftp服务器，可以从之前已经配置的ssh session中选择。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200445565-ed4bd1cd-ec90-42e6-bc1c-a6a8232dc5b9.png#averageHue=%232a213a&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ub9e08990&amp;originHeight=1374&amp;originWidth=1737&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=116747&amp;status=done&amp;style=none&amp;taskId=uacd57d48-57e5-4899-a395-1c652f21eb8&amp;title=" alt="image.jpg"><br>
+图3 配置sftp<br>
+默认情况下idea没有显示远程sftp服务器的菜单，需要手动打开。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200440533-b6f192ee-e4f6-4eeb-9fcb-b2fa9d443595.png#averageHue=%2325313e&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u1e64f9c2&amp;originHeight=295&amp;originWidth=1320&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=34025&amp;status=done&amp;style=none&amp;taskId=u2144afe8-5779-4811-8a7f-37472c7d4a3&amp;title=" alt="image.jpg"><br>
+图4 显示sftp服务器<br>
+在右侧的菜单栏中打开sftp服务器列表，选择已经配置好的sftp服务器，确认后下面就可以显示服务器内的文件了，可以编辑，可以下载，可以拖动本地文件到远程文件夹。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200445577-5860e013-36da-4f20-aff2-75c997a1efa9.png#averageHue=%232f3541&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ub2c51c20&amp;originHeight=1363&amp;originWidth=1378&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=83086&amp;status=done&amp;style=none&amp;taskId=u2e83857c-6cd5-42cf-b2a1-a8a05cea61a&amp;title=" alt="image.jpg"><br>
+图5 显示sftp服务器</p>
+<h2 id="Database"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#database">Database</a></h2>
+<p>作为一名软件开发程序员，经常需要远程查看服务器上的数据库。所以除了shell工具之外还需准备数据库连接工具。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200452635-ceb0d2ec-8895-4457-b47f-d55d58b2728c.png#averageHue=%23231f31&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u9e38bb1b&amp;originHeight=1792&amp;originWidth=1817&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=217891&amp;status=done&amp;style=none&amp;taskId=ud1d95faf-0f24-4856-9ba8-6ba31a44a8e&amp;title=" alt="image.jpg"><br>
+图6 选择数据库<br>
+在ssh/ssl页签中选择已经配置好的ssh。之后切换到general页签输入数据库的账号密码，记住不需要修改host。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200452205-a92e2a22-b57f-48fe-a18b-1d753aaead6a.png#averageHue=%232b223b&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ua8de8ef3&amp;originHeight=1413&amp;originWidth=1608&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=140371&amp;status=done&amp;style=none&amp;taskId=u741879d9-ae95-43b1-b3e3-7870a20a694&amp;title=" alt="image.jpg"><br>
+图7 连接数据库<br>
+连接数据库后你使用这</p>
+<ul>
+<li>数据库迁移<br>
+在服务器上部署新项目的时候需要在服务器上新建数据库，然后把本地的表迁移到服务器上，在idea中就可以实现这个操作。</li>
+<li>结构对比<br>
+如果你在本地的数据库修改了某个字段，然后想同步到服务器上，idea的数据库/表结构对比非常好用。</li>
+<li>数据导出导入</li>
+</ul>
+<h2 id="部署"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#%E9%83%A8%E7%BD%B2">部署</a></h2>
+<p>settings -&gt; deployment<br>
+将本地编译后的文件映射到服务器的目录。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200452772-784385c2-1712-453a-b75a-56b4bf2eead5.png#averageHue=%23303743&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u51f0a5e3&amp;originHeight=1368&amp;originWidth=1737&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=137589&amp;status=done&amp;style=none&amp;taskId=u5c591b0d-2eac-4460-a4fb-3aeb09864b9&amp;title=" alt="image.jpg"><br>
+图8 映射路径<br>
+在本地映射到服务器的文件上右键，上传。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200456855-2afac325-7156-46ee-a496-582039c0ea18.png#averageHue=%23303743&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=u1553bad8&amp;originHeight=1604&amp;originWidth=1697&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=295895&amp;status=done&amp;style=none&amp;taskId=u0ef2f737-ad1b-49fc-8054-6029390d2ae&amp;title=" alt="image.jpg"><br>
+图9 上传本地文件</p>
+<h2 id="远程命令"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4">远程命令</a></h2>
+<p>在部署完之后一般需要执行命令或者脚本，这边我演示将远程服务器的nginx命令映射到idea里面。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200456288-fbf0568e-ac38-48c6-ae73-a6b16e9c9aff.png#averageHue=%232f3540&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ua1c92c49&amp;originHeight=1484&amp;originWidth=2473&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=242455&amp;status=done&amp;style=none&amp;taskId=u83105ccb-0443-4bb9-8e93-b54932ffb23&amp;title=" alt="image.jpg"><br>
+图10 配置远程命令<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200457522-fce2451a-4784-4fe0-8550-77c9ef2ac85f.png#averageHue=%232e333f&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=uaa36be3f&amp;originHeight=1062&amp;originWidth=1301&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=148006&amp;status=done&amp;style=none&amp;taskId=u1ffa4828-9490-484e-9e7d-b29492ac378&amp;title=" alt="image.jpg"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200455683-8adcd995-214f-4e9d-8016-d9b0365db690.png#averageHue=%23333b4b&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=uf2546ec1&amp;originHeight=282&amp;originWidth=552&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=12384&amp;status=done&amp;style=none&amp;taskId=uda6f5759-8c7e-4d8f-9cc2-2ff56f12afe&amp;title=" alt="image.jpg"><br>
+图11 执行远程命令</p>
+<h2 id="远程执行"><a target="_blank" rel="noopener" href="https://www.jarcheng.top/blog/tools/idea/shell.html#%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C">远程执行</a></h2>
+<p>如果大家有做过支付功能可以知道它必须用于公网ip，我们在本地调试不了支付功能（除非内网穿透），只能将应用打包放到服务器上运行。这样做每次修改代码都需要重新打包部署很费时间。这个远程执行的功能就很好用了，可以直接指定你的应用运行机器。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1711200457671-6fe69fca-0025-4572-b33a-137aaf7e7a01.png#averageHue=%232b223a&amp;clientId=ufce4c12c-3e7f-4&amp;from=paste&amp;id=ub8efdfe9&amp;originHeight=1413&amp;originWidth=1608&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=148427&amp;status=done&amp;style=none&amp;taskId=ua2eaeb4f-f4f9-47d8-b53d-ad7c422119a&amp;title=" alt="image.jpg"><br>
+图12 远程运行应用</p>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/09/IDEA%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84Shell%E5%B7%A5%E5%85%B7%20_%20%E8%B5%B7%E5%87%A1Code%E9%97%B2%E8%81%8A/">http://www.bojiboqi.fun/2024/04/09/IDEA%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84Shell%E5%B7%A5%E5%85%B7%20_%20%E8%B5%B7%E5%87%A1Code%E9%97%B2%E8%81%8A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/IDEA%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">IDEA使用技巧</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_174358_731.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/09/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" title="Docker私有仓库"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_162335_137.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Docker私有仓库</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/09/HTTP%E5%90%84%E7%A7%8D%E5%8F%82%E6%95%B0%E5%8F%91%E9%80%81/" title="HTTP各种参数发送"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-47-02.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">HTTP各种参数发送</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IDEA%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84Shell%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">IDEA——强大的Shell工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH"><span class="toc-number">2.</span> <span class="toc-text">SSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SFTP"><span class="toc-number">3.</span> <span class="toc-text">SFTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database"><span class="toc-number">4.</span> <span class="toc-text">Database</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2"><span class="toc-number">5.</span> <span class="toc-text">部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">远程命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C"><span class="toc-number">7.</span> <span class="toc-text">远程执行</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

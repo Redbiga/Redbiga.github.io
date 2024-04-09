@@ -2,7 +2,205 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.bojiboqi.fun/2024/02/28/%E8%AF%AD%E9%9B%80%E5%AF%BC%E5%87%BAmd%E6%96%87%E6%A1%A3%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E5%88%B0hexo%E4%B8%8A%EF%BC%9A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/2024/02/28/javaWeb%EF%BC%9A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Jenkins/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Spring%20%E7%8A%B6%E6%80%81%E6%9C%BA/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Gradle%20%E8%AF%A6%E7%BB%86%E6%89%8B%E5%86%8C/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/%E9%AB%98%E5%B9%B6%E5%8F%91Nginx%E9%83%A8%E7%BD%B2/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/02/28/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AE%EF%BC%9A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/%E5%B9%82%E7%AD%89/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/%E5%88%86%E5%B8%83%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA%EF%BC%9A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/SpringBoot%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0%E3%80%81%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0%E3%80%81%E5%A4%A7%E6%96%87%E4%BB%B6/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Spring%20%E7%8A%B6%E6%80%81%E6%9C%BA%E5%AE%9E%E6%88%98/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Spring%20Batch/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Netty_/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/02/28/mybatis-plus/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/JMS/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/IDEA%E2%80%94%E2%80%94%E5%BC%BA%E5%A4%A7%E7%9A%84Shell%E5%B7%A5%E5%85%B7%20_%20%E8%B5%B7%E5%87%A1Code%E9%97%B2%E8%81%8A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/HTTP%E5%90%84%E7%A7%8D%E5%8F%82%E6%95%B0%E5%8F%91%E9%80%81/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/02/28/Docker%E5%AD%A6%E4%B9%A0%EF%BC%9A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Nginx%20%E2%80%94%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Jenkis%E5%85%A5%E9%97%A8%EF%BC%9A/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/%E6%B7%B1%E5%85%A5Quartz/</loc>
+    
+    <lastmod>2024-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/2024/04/09/Quartz%E5%9F%BA%E7%A1%80/</loc>
     
     <lastmod>2024-04-09</lastmod>
     
@@ -228,15 +426,6 @@
   
   <url>
     <loc>http://www.bojiboqi.fun/2024/02/28/Linux%E5%AD%A6%E4%B9%A0%E6%89%8E%E8%AE%B0%EF%BC%9A/</loc>
-    
-    <lastmod>2024-03-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.bojiboqi.fun/2024/02/28/%E8%AF%AD%E9%9B%80%E5%AF%BC%E5%87%BAmd%E6%96%87%E6%A1%A3%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E5%88%B0hexo%E4%B8%8A%EF%BC%9A/</loc>
     
     <lastmod>2024-03-09</lastmod>
     
@@ -576,7 +765,49 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/Docker/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/IDEA/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/gradle/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/IDEA%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/Java%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/%E6%B5%81%E6%B0%B4%E7%BA%BF/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -590,7 +821,35 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/Netty/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/rabbits/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/Nginx/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/test/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/redis/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -611,7 +870,21 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/redis/</loc>
+    <loc>http://www.bojiboqi.fun/tags/ssm/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/Spring/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/spring/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -632,35 +905,7 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/%E9%9B%B6%E6%95%A3%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://www.bojiboqi.fun/tags/git/</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.bojiboqi.fun/tags/hexo/</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.bojiboqi.fun/tags/JS/</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.bojiboqi.fun/tags/ssm/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -674,7 +919,7 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/spring/</loc>
+    <loc>http://www.bojiboqi.fun/tags/JS/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -702,6 +947,20 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/hexo/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -723,7 +982,7 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>http://www.bojiboqi.fun/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -737,13 +996,6 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
-    <lastmod>2024-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://www.bojiboqi.fun/tags/%E5%AD%A6%E6%A0%A1%E8%AF%BE%E7%A8%8B/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -751,7 +1003,14 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</loc>
+    <loc>http://www.bojiboqi.fun/tags/%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -765,7 +1024,21 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/tags/uml/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/tags/nginx/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -788,7 +1061,42 @@
   </url>
   
   <url>
+    <loc>http://www.bojiboqi.fun/categories/Docker/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/categories/web/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.bojiboqi.fun/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/categories/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/categories/Java/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/categories/%E8%BF%90%E7%BB%B4/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -809,7 +1117,7 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/categories/web/</loc>
+    <loc>http://www.bojiboqi.fun/categories/test/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -817,6 +1125,13 @@
   
   <url>
     <loc>http://www.bojiboqi.fun/categories/springboot2/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/categories/Springboot2/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -837,14 +1152,14 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/categories/%E5%85%AB%E8%82%A1%E6%96%87/</loc>
+    <loc>http://www.bojiboqi.fun/categories/mybatis/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/categories/mybatis/</loc>
+    <loc>http://www.bojiboqi.fun/categories/%E5%85%AB%E8%82%A1%E6%96%87/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -872,7 +1187,7 @@
   </url>
   
   <url>
-    <loc>http://www.bojiboqi.fun/categories/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/</loc>
+    <loc>http://www.bojiboqi.fun/categories/%E5%88%86%E5%B8%83%E5%BC%8F/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -880,6 +1195,13 @@
   
   <url>
     <loc>http://www.bojiboqi.fun/categories/springSecurity/</loc>
+    <lastmod>2024-04-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.bojiboqi.fun/categories/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2024-04-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

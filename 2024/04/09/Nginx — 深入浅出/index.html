@@ -1,0 +1,1076 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Nginx — 深入浅出 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="Nginx是目前负载均衡技术中的主流方案， 【更新记录】 引言 早期的业务都是基于单体节点部署，由于前期访问流量不大，因此单体结构也可满足需求，但随着业务增长，流量也越来越大，那么最终单台服务器受到的访问压力也会逐步增高。时间一长，单台服务器性能无法跟上业务增长，就会造成线上频繁宕机的现象发生，最终导致系统瘫痪无法继续处理用户的请求。 从上面的描述中，主要存在两个问题： ① 单体结构的部署方式无法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx — 深入浅出">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/09/Nginx%20%E2%80%94%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="Nginx是目前负载均衡技术中的主流方案， 【更新记录】 引言 早期的业务都是基于单体节点部署，由于前期访问流量不大，因此单体结构也可满足需求，但随着业务增长，流量也越来越大，那么最终单台服务器受到的访问压力也会逐步增高。时间一长，单台服务器性能无法跟上业务增长，就会造成线上频繁宕机的现象发生，最终导致系统瘫痪无法继续处理用户的请求。 从上面的描述中，主要存在两个问题： ① 单体结构的部署方式无法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_205017_751.webp">
+<meta property="article:published_time" content="2024-04-09T02:38:48.391Z">
+<meta property="article:modified_time" content="2024-04-09T04:00:54.982Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_205017_751.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/09/Nginx%20%E2%80%94%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Nginx — 深入浅出',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-09 12:00:54'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_205017_751.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">42</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_205017_751.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Nginx — 深入浅出</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-09T02:38:48.391Z" title="发表于 2024-04-09 10:38:48">2024-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-09T04:00:54.982Z" title="更新于 2024-04-09 12:00:54">2024-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">19.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>69分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Nginx — 深入浅出"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Nginx是目前负载均衡技术中的主流方案，<br>
+【更新记录】</p>
+<h1>引言</h1>
+<p>早期的业务都是基于单体节点部署，由于前期访问流量不大，因此单体结构也可满足需求，但随着业务增长，流量也越来越大，那么最终单台服务器受到的访问压力也会逐步增高。时间一长，单台服务器性能无法跟上业务增长，就会造成线上频繁宕机的现象发生，最终导致系统瘫痪无法继续处理用户的请求。<br>
+从上面的描述中，主要存在两个问题：<br>
+① 单体结构的部署方式无法承载日益增长的业务流量。<br>
+② 当后端节点宕机后，整个系统会陷入瘫痪，导致整个项目不可用。<br>
+因此在这种背景下，引入负载均衡技术可带来的收益：</p>
+<ul>
+<li><strong>「系统的高可用」</strong>： 当某个节点宕机后可以迅速将流量转移至其他节点。</li>
+<li><strong>「系统的高性能」</strong>： 多台服务器共同对外提供服务，为整个系统提供了更高规模的吞吐。</li>
+<li><strong>「系统的拓展性」</strong>： 当业务再次出现增长或萎靡时，可再加入/减少节点，灵活伸缩。</li>
+</ul>
+<p>既然引入负载均衡技术可给我们带来如此巨大的好处，那么又有那些方案可供选择呢？主要有两种负载方案，<strong>「「硬件层面与软件层面」」</strong> ，比较常用的硬件负载器有A10、F5等，但这些机器动辄大几万乃至几十万的成本，因此一般大型企业会采用该方案，如银行、国企、央企等。而成本有限，但依旧想做负载均衡的项目，那么可在软件层面实现，如典型的Nginx等，软件层的负载也是本文的重点，毕竟 Boss 们的准则之一就是：<strong>「「能靠技术实现的就尽量不花钱。」」</strong></p>
+<h1>一、性能怪兽-Nginx 概念深入浅出</h1>
+<p>Nginx是目前负载均衡技术中的主流方案，几乎绝大部分项目都会使用它，Nginx是一个轻量级的高性能HTTP反向代理服务器，同时它也是一个通用类型的代理服务器，支持绝大部分协议，如TCP、UDP、SMTP、HTTPS等。<br>
+Nginx与Redis相同，都是基于多路复用模型构建出的产物，因此它与Redis同样具备 <strong>「「资源占用少、并发支持高」」</strong> 的特点，在理论上单节点的Nginx同时支持5W并发连接，而实际生产环境中，硬件基础到位再结合简单调优后确实能达到该数值。<br>
+先来看看Nginx引入前后，客户端请求处理流程的对比：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1678293386371-7a5c2474-c6e7-4984-96d2-ecb84e4084f8.jpeg#averageHue=%23f0efef&amp;from=url&amp;id=eAb2a&amp;originHeight=567&amp;originWidth=1079&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""><br>
+原本客户端是直接请求目标服务器，由目标服务器直接完成请求处理工作，但加入Nginx后，所有的请求会先经过Nginx，再由其进行分发到具体的服务器处理，处理完成后再返回Nginx，最后由Nginx将最终的响应结果返回给客户端。<br>
+了解了Nginx的基本概念后，再来快速搭建一下环境，以及了解一些Nginx的高级特性，如动静分离、资源压缩、缓存配置、IP黑名单、高可用保障等。</p>
+<h1>二、Nginx 环境搭建</h1>
+<p>此处为语雀内容卡片，点击链接查看：<a target="_blank" rel="noopener" href="https://www.yuque.com/lzy8684/environment2linux/ergyzvvr5int0un7">https://www.yuque.com/lzy8684/environment2linux/ergyzvvr5int0un7</a></p>
+<h1>三、Nginx 反向代理-负载均衡</h1>
+<p>首先通过 SpringBoot+Freemarker 快速搭建一个 WEB 项目：springboot-web-nginx，然后在该项目中，创建一个 IndexNginxController.java 文件，逻辑如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IndexNginxController</span> &#123;  </span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;server.port&#125;&quot;)</span>  </span><br><span class="line">    <span class="keyword">private</span> String port;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/&quot;)</span>  </span><br><span class="line">    <span class="keyword">public</span> ModelAndView <span class="title function_">index</span><span class="params">()</span>&#123;  </span><br><span class="line">        <span class="type">ModelAndView</span> <span class="variable">model</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ModelAndView</span>();  </span><br><span class="line">        model.addObject(<span class="string">&quot;port&quot;</span>, port);  </span><br><span class="line">        model.setViewName(<span class="string">&quot;index&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> model;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在该 Controller 类中，存在一个成员变量：port，它的值即是从application.properties配置文件中获取server.port值。当出现访问/资源的请求时，跳转前端index页面，并将该值携带返回。<br>
+前端的 index.ftl 文件代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Nginx演示页面<span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;nginx_style.css&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>/&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;border: 2px solid red;margin: auto;width: 800px;text-align: center&quot;</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span>  <span class="attr">id</span>=<span class="string">&quot;nginx_title&quot;</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">h1</span>&gt;</span>欢迎来到熊猫高级会所，我是竹子$&#123;port&#125;号！<span class="tag">&lt;/<span class="name">h1</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从上可以看出其逻辑并不复杂，仅是从响应中获取了port输出。<br>
+OK~，前提工作准备就绪后，再简单修改一下nginx.conf的配置即可：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> nginx_boot&#123;  </span><br><span class="line">  <span class="comment"># 30s内检查心跳发送两次包，未回复就代表该机器宕机，请求分发权重比为1:2  </span></span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.0.000:8080</span> weight=<span class="number">100</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;   </span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.0.000:8090</span> weight=<span class="number">200</span> max_fails=<span class="number">2</span> fail_timeout=<span class="number">30s</span>;  </span><br><span class="line">  <span class="comment"># 这里的IP请配置成你WEB服务所在的机器IP  </span></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;  </span><br><span class="line">  <span class="section">location</span> / &#123;  </span><br><span class="line">    <span class="attribute">root</span>   html;  </span><br><span class="line">    <span class="comment"># 配置一下index的地址，最后加上index.ftl。  </span></span><br><span class="line">    <span class="attribute">index</span>  index.html index.htm index.jsp index.ftl;  </span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;  </span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;  </span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;  </span><br><span class="line">    <span class="comment"># 请求交给名为nginx_boot的upstream上  </span></span><br><span class="line">    <span class="attribute">proxy_pass</span> http://nginx_boot;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，所有的前提工作准备就绪，紧接着再启动Nginx，然后再启动两个web服务，第一个WEB服务启动时，在application.properties配置文件中，将端口号改为8080，第二个WEB服务启动时，将其端口号改为8090。<br>
+最终来看看效果：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/gif/27044221/1678108139001-8a065c93-0ada-422c-b8b4-242802206f6b.gif#from=url&amp;height=270&amp;id=qfDPm&amp;originHeight=270&amp;originWidth=1079&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=1079" alt=""><br>
+因为配置了请求分发的权重，8080、8090 的权重比为 1:2，因此请求会根据权重比均摊到每台机器，也就是 8080 一次、8090 两次、8080 一次、8090 两次…</p>
+<h2 id="Nginx请求分发原理">Nginx请求分发原理</h2>
+<p>客户端发出的请求 192.168.12.129 最终会转变为：<a target="_blank" rel="noopener" href="http://192.168.12.129:80/%EF%BC%88%E4%B8%8D%E8%BE%93%E5%85%A5%E7%AB%AF%E5%8F%A3%E5%8F%B7%EF%BC%8C%E9%BB%98%E8%AE%A4%E6%8C%87%E5%AE%9A%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%8F%B7%E4%B8%BA">http://192.168.12.129:80/（不输入端口号，默认指定的端口号为</a> 80），然后再向目标IP发起请求，流程如下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1678358302638-922778e8-267c-4d8a-b936-2c76a6f51b25.jpeg#averageHue=%23c1bfbb&amp;from=url&amp;id=Wyv9D&amp;originHeight=847&amp;originWidth=1035&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<ul>
+<li>由于 Nginx 监听了 192.168.12.129 的 80 端口，所以最终该请求会找到 Nginx 进程；</li>
+<li>Nginx 首先会根据配置的 location 规则进行匹配，根据客户端的请求路径 / ，会定位到 location /{} 规则；</li>
+<li>然后根据该 location 中配置的 proxy_pass 会再找到名为 nginx_boot 的 upstream；</li>
+<li>最后根据 upstream 中的配置信息，将请求转发到运行 WEB 服务的机器处理，由于配置了多个WEB 服务，且配置了权重值，因此 Nginx 会依次根据权重比分发请求。</li>
+</ul>
+<h1>四、Nginx 动静分离</h1>
+<h2 id="为什么需要动静分离">为什么需要动静分离</h2>
+<p>动静分离应该是听的次数较多的性能优化方案，那先思考一个问题：<strong>「「为什么需要做动静分离呢？它带来的好处是什么？」」</strong> 其实这个问题也并不难回答，当你搞懂了网站的本质后，自然就理解了动静分离的重要性。先来以淘宝为例分析看看：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1678597161520-3f4690f8-6704-4ea7-b7a4-57f8ea0c3989.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_26%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f4efed&amp;from=url&amp;height=938&amp;id=Q7tSa&amp;originHeight=938&amp;originWidth=922&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=922" alt=""><br>
+当浏览器输入www.taobao.com访问淘宝首页时，打开开发者调试工具可以很明显的看到，首页加载会出现100+的请求数，而正常项目开发时，静态资源一般会放入到resources/static/目录下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1678556588051-494c6a58-1886-4910-9436-ebcc0e0023a9.jpeg?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_18%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23cacaca&amp;from=url&amp;height=441&amp;id=ZLIdy&amp;originHeight=441&amp;originWidth=640&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=640" alt=""><br>
+在项目上线部署时，这些静态资源会一起打成包，那此时思考一个问题：<strong>「「假设淘宝也是这样干的，那么首页加载时的请求最终会去到哪儿被处理？」」</strong> 答案毋庸置疑，首页100+的所有请求都会来到部署WEB服务的机器处理，那则代表着一个客户端请求淘宝首页，就会对后端服务器造成100+的并发请求。毫无疑问，这对于后端服务器的压力是尤为巨大的。<br>
+但此时不妨分析看看，首页100+的请求中，是不是至少有60+是属于*.js、<em>.css、</em>.html、*.jpg…这类静态资源的请求呢？答案是Yes。<br>
+既然有这么多请求属于静态的，这些资源大概率情况下，长时间也不会出现变动，那为何还要让这些请求到后端再处理呢？能不能在此之前就提前处理掉？当然OK，因此经过分析之后能够明确一点：<strong>「「做了动静分离之后，至少能够让后端服务减少一半以上的并发量。」」</strong> 到此时大家应该明白了动静分离能够带来的性能收益究竟有多大。</p>
+<h2 id="动静分离的配置">动静分离的配置</h2>
+<p>OK~，搞清楚动静分离的必要性之后，如何实现动静分离呢？其实非常简单，实战看看。</p>
+<ol>
+<li>先在部署 Nginx 的机器，Nginx 目录下创建一个目录 static_resources：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> static_resources</span><br></pre></td></tr></table></figure>
+<ol>
+<li>将项目中所有的静态资源全部拷贝到该目录下，而后将项目中的静态资源移除重新打包。</li>
+<li>稍微修改一下 nginx.conf 的配置，增加一条 location 匹配规则：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ .*\.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)</span>&#123;  </span><br><span class="line">    <span class="attribute">root</span>   /soft/nginx/static_resources;  </span><br><span class="line">    <span class="attribute">expires</span> <span class="number">7d</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>location 规则解读：</strong><br>
+location ~ .*.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)</p>
+<ul>
+<li>~：代表匹配时区分大小写</li>
+<li>.*：代表任意字符都可以出现零次或多次，即资源名不限制</li>
+<li>.：代表匹配后缀分隔符.</li>
+<li>(html|…|css)：代表匹配括号里所有静态资源类型</li>
+</ul>
+<p>综上所述，简单一句话概述：该配置表示匹配以.html~.css为后缀的所有资源请求。<br>
+然后照常启动nginx和移除了静态资源的WEB服务，你会发现原本的样式、js效果、图片等依旧有效，如下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1678596416896-38dadb7c-57a8-4f46-97d6-0b174b4508e4.jpeg?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_18%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f7f7f5&amp;from=url&amp;height=327&amp;id=Ct4yN&amp;originHeight=327&amp;originWidth=640&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=640" alt=""><br>
+其中static目录下的nginx_style.css文件已被移除，但效果依旧存在（绿色字体+蓝色大边框)：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1678596442963-ed5f146d-322e-4424-82c2-cf30fdca3c76.jpeg?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_18%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23e4e9db&amp;from=url&amp;height=160&amp;id=VzqII&amp;originHeight=160&amp;originWidth=640&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=640" alt=""><br>
+<strong>最后提一嘴，也可以将静态资源上传到文件服务器中，然后location中配置一个新的upstream指向。</strong></p>
+<h1>五、Nginx 资源压缩</h1>
+<p>建立在动静分离的基础之上，如果一个静态资源的 Size 越小，那么自然传输速度会更快，同时也会更节省带宽，因此我们在部署项目时，也可以通过 Nginx 对于静态资源实现压缩传输，一方面可以节省带宽资源，第二方面也可以加快响应速度并提升系统整体吞吐。<br>
+在 Nginx 也提供了三个支持资源压缩的模块 ngx_http_gzip_module、ngx_http_gzip_static_module、ngx_http_gunzip_module，其中 ngx_http_gzip_module 属于内置模块，代表着可以直接使用该模块下的一些压缩指令，后续的资源压缩操作都基于该模块，先来看看压缩配置的一些参数/指令：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1678621460970-391c2c37-98c8-4b8f-86b2-f12ca512b0ad.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_19%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23eeeeee&amp;from=url&amp;height=471&amp;id=TFPpF&amp;originHeight=471&amp;originWidth=659&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=659" alt=""><br>
+了解了Nginx中的基本压缩配置后，接下来可以在Nginx中简单配置一下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">    <span class="comment"># 开启压缩机制</span></span><br><span class="line">    <span class="attribute">gzip</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="comment"># 指定会被压缩的文件类型(也可自己配置其他类型)</span></span><br><span class="line">    <span class="attribute">gzip_types</span> text/plain application/javascript text/css application/xml text/javascript image/jpeg image/gif image/png;</span><br><span class="line">    <span class="comment"># 设置压缩级别，越高资源消耗越大，但压缩效果越好</span></span><br><span class="line">    <span class="attribute">gzip_comp_level</span> <span class="number">5</span>;</span><br><span class="line">    <span class="comment"># 在头部中添加Vary: Accept-Encoding（建议开启）</span></span><br><span class="line">    <span class="attribute">gzip_vary</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="comment"># 处理压缩请求的缓冲区数量和大小</span></span><br><span class="line">    <span class="attribute">gzip_buffers</span> <span class="number">16</span> <span class="number">8k</span>;</span><br><span class="line">    <span class="comment"># 对于不支持压缩功能的客户端请求不开启压缩机制</span></span><br><span class="line">    <span class="attribute">gzip_disable</span> <span class="string">&quot;MSIE [1-6]\.&quot;</span>; <span class="comment"># 低版本的IE浏览器不支持压缩</span></span><br><span class="line">    <span class="comment"># 设置压缩响应所支持的HTTP最低版本</span></span><br><span class="line">    <span class="attribute">gzip_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="comment"># 设置触发压缩的最小阈值</span></span><br><span class="line">    <span class="attribute">gzip_min_length</span> <span class="number">2k</span>;</span><br><span class="line">    <span class="comment"># 关闭对后端服务器的响应结果进行压缩</span></span><br><span class="line">    <span class="attribute">gzip_proxied</span> <span class="literal">off</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述的压缩配置中，最后一个gzip_proxied选项，可以根据系统的实际情况决定，总共存在多种选项：</p>
+<ul>
+<li>off：关闭Nginx对后台服务器的响应结果进行压缩。</li>
+<li>expired：如果响应头中包含Expires信息，则开启压缩。</li>
+<li>no-cache：如果响应头中包含Cache-Control:no-cache信息，则开启压缩。</li>
+<li>no-store：如果响应头中包含Cache-Control:no-store信息，则开启压缩。</li>
+<li>private：如果响应头中包含Cache-Control:private信息，则开启压缩。</li>
+<li>no_last_modified：如果响应头中不包含Last-Modified信息，则开启压缩。</li>
+<li>no_etag：如果响应头中不包含ETag信息，则开启压缩。</li>
+<li>auth：如果响应头中包含Authorization信息，则开启压缩。</li>
+<li>any：无条件对后端的响应结果开启压缩机制。</li>
+</ul>
+<p>OK~，简单修改好了Nginx的压缩配置后，可以在原本的index页面中引入一个jquery-3.6.0.js文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span> src=<span class="string">&quot;jquery-3.6.0.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>分别来对比下压缩前后的区别：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1678621663682-6ecdba50-06f5-4ed3-a5c0-dc15e707f1c8.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_31%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f7f7f7&amp;from=url&amp;height=464&amp;id=Gjr5f&amp;originHeight=464&amp;originWidth=1080&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=1080" alt=""><br>
+从图中可以很明显看出：</p>
+<ul>
+<li>未开启压缩机制前访问时，js 文件的原始大小为 230K，</li>
+<li>开启压缩机制后访问时：会发现文件大小从 230KB→69KB，效果立竿见影</li>
+</ul>
+<p><strong>【注意】</strong></p>
+<ol>
+<li>对于图片、视频类型的数据，会默认开启压缩机制，因此一般无需再次开启压缩。</li>
+<li>对于.js文件而言，需要指定压缩类型为application/javascript，而并非text/javascript、application/x-javascript。</li>
+</ol>
+<h1>六、Nginx 缓冲区</h1>
+<p>先来思考一个问题，接入 Nginx 的项目一般请求流程为：“客户端 → Nginx → 服务端”，在这个过程中存在两个连接：“客户端 → Nginx、Nginx → 服务端”，那么两个不同的连接速度不一致，就会影响用户的体验（比如浏览器的加载速度跟不上服务端的响应速度）。<br>
+其实也就类似电脑的内存跟不上 CPU 速度，所以对于用户造成的体验感极差，因此在CPU设计时都会加入三级高速缓冲区，用于缓解 CPU 和内存速率不一致的矛盾。在 Nginx 也同样存在缓冲区的机制，主要目的就在于：<strong>「用来解决两个连接之间速度不匹配造成的问题」</strong> ，有了缓冲后，Nginx代理可暂存后端的响应，然后按需供给数据给客户端。先来看看一些关于缓冲区的配置项：</p>
+<ul>
+<li>proxy_buffering：是否启用缓冲机制，默认为on关闭状态。</li>
+<li>client_body_buffer_size：设置缓冲客户端请求数据的内存大小。</li>
+<li>proxy_buffers：为每个请求/连接设置缓冲区的数量和大小，默认4 4k/8k。</li>
+<li>proxy_buffer_size：设置用于存储响应头的缓冲区大小。</li>
+<li>proxy_busy_buffers_size：在后端数据没有完全接收完成时，Nginx可以将busy状态的缓冲返回给客户端，该参数用来设置busy状态的buffer具体有多大，默认为proxy_buffer_size*2。</li>
+<li>proxy_temp_path：当内存缓冲区存满时，可以将数据临时存放到磁盘，该参数是设置存储缓冲数据的目录。</li>
+<li>path是临时目录的路径。
+<ul>
+<li>语法：proxy_temp_path path; path是临时目录的路径</li>
+</ul>
+</li>
+<li>proxy_temp_file_write_size：设置每次写数据到临时文件的大小限制。</li>
+<li>proxy_max_temp_file_size：设置临时的缓冲目录中允许存储的最大容量。</li>
+<li>非缓冲参数项：
+<ul>
+<li>proxy_connect_timeout：设置与后端服务器建立连接时的超时时间。</li>
+<li>proxy_read_timeout：设置从后端服务器读取响应数据的超时时间。</li>
+<li>proxy_send_timeout：设置向后端服务器传输请求数据的超时时间。</li>
+</ul>
+</li>
+</ul>
+<p>具体的nginx.conf配置如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http&#123;  </span><br><span class="line">    <span class="attribute">proxy_connect_timeout</span> <span class="number">10</span>;  </span><br><span class="line">    <span class="attribute">proxy_read_timeout</span> <span class="number">120</span>;  </span><br><span class="line">    <span class="attribute">proxy_send_timeout</span> <span class="number">10</span>;  </span><br><span class="line">    <span class="attribute">proxy_buffering</span> <span class="literal">on</span>;  </span><br><span class="line">    <span class="attribute">client_body_buffer_size</span> <span class="number">512k</span>;  </span><br><span class="line">    <span class="attribute">proxy_buffers</span> <span class="number">4</span> <span class="number">64k</span>;  </span><br><span class="line">    <span class="attribute">proxy_buffer_size</span> <span class="number">16k</span>;  </span><br><span class="line">    <span class="attribute">proxy_busy_buffers_size</span> <span class="number">128k</span>;  </span><br><span class="line">    <span class="attribute">proxy_temp_file_write_size</span> <span class="number">128k</span>;  </span><br><span class="line">    <span class="attribute">proxy_temp_path</span> /soft/nginx/temp_buffer;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述的缓冲区参数，是基于每个请求分配的空间，而并不是所有请求的共享空间。当然，具体的参数值还需要根据业务去决定，要综合考虑机器的内存以及每个请求的平均数据大小。<br>
+<strong>【注意】</strong><br>
+使用缓冲也可以减少即时传输带来的带宽消耗。</p>
+<h1>七、Nginx 缓存机制</h1>
+<p><strong>对于性能优化而言，缓存是一种能够大幅度提升性能的方案</strong>，因此几乎可以在各处都能看见缓存，如客户端缓存、代理缓存、服务器缓存等等，Nginx 的缓存则属于代理缓存的一种。<br>
+对于整个系统而言，加入缓存带来的优势额外明显：</p>
+<ul>
+<li>减少了再次向后端或文件服务器请求资源的带宽消耗。</li>
+<li>降低了下游服务器的访问压力，提升系统整体吞吐。</li>
+<li>缩短了响应时间，提升了加载速度，打开页面的速度更快。</li>
+</ul>
+<p>那么在 Nginx 中，又该如何配置代理缓存呢？先来看看缓存相关的配置项：</p>
+<h2 id="「proxy-cache-path」：代理缓存的路径">「proxy_cache_path」：代理缓存的路径</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_path</span> path [levels=levels] [use_temp_path=<span class="literal">on</span>|<span class="literal">off</span>] keys_zone=name:size [inactive=time] [max_size=size] [manager_files=number] [manager_sleep=time] [manager_threshold=time] [loader_files=number] [loader_sleep=time] [loader_threshold=time] [purger=<span class="literal">on</span>|<span class="literal">off</span>] [purger_files=number] [purger_sleep=time] [purger_threshold=time];</span><br></pre></td></tr></table></figure>
+<p><strong>【参数解析】</strong></p>
+<ul>
+<li>path：缓存的路径地址。</li>
+<li>levels：缓存存储的层次结构，最多允许三层目录。</li>
+<li>use_temp_path：是否使用临时目录。</li>
+<li>keys_zone：指定一个共享内存空间来存储热点Key(1M可存储8000个Key)。</li>
+<li>inactive：设置缓存多长时间未被访问后删除（默认是十分钟）。</li>
+<li>max_size：允许缓存的最大存储空间，超出后会基于LRU算法移除缓存，Nginx会创建一个Cache manager的进程移除数据，也可以通过purge方式。</li>
+<li>manager_files：manager进程每次移除缓存文件数量的上限。</li>
+<li>manager_sleep：manager进程每次移除缓存文件的时间上限。</li>
+<li>manager_threshold：manager进程每次移除缓存后的间隔时间。</li>
+<li>loader_files：重启Nginx载入缓存时，每次加载的个数，默认100。</li>
+<li>loader_sleep：每次载入时，允许的最大时间上限，默认200ms。</li>
+<li>loader_threshold：一次载入后，停顿的时间间隔，默认50ms。</li>
+<li>purger：是否开启purge方式移除数据。</li>
+<li>purger_files：每次移除缓存文件时的数量。</li>
+<li>purger_sleep：每次移除时，允许消耗的最大时间。</li>
+<li>purger_threshold：每次移除完成后，停顿的间隔时间。</li>
+</ul>
+<hr>
+<h2 id="「proxy-cache」：开启或关闭代理缓存，开启时需要指定一个共享内存区域">「proxy_cache」：开启或关闭代理缓存，开启时需要指定一个共享内存区域</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache</span> zone | <span class="literal">off</span>;</span><br></pre></td></tr></table></figure>
+<p>zone 为内存区域的名称，即上面中 keys_zone 设置的名称。</p>
+<hr>
+<h2 id="「proxy-cache-key」：定义如何生成缓存的键">「proxy_cache_key」：定义如何生成缓存的键</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_key</span> string;</span><br></pre></td></tr></table></figure>
+<p>string 为生成 Key 的规则，如 $scheme$proxy_host$request_uri。</p>
+<hr>
+<h2 id="「proxy-cache-valid」：缓存生效的状态码与过期时间">「proxy_cache_valid」：缓存生效的状态码与过期时间</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_valid</span> [code ...] time;</span><br></pre></td></tr></table></figure>
+<p>code 为状态码，time 为有效时间，可以根据状态码设置不同的缓存时间。<br>
+例如：proxy_cache_valid 200 302 30m;</p>
+<hr>
+<h2 id="「proxy-cache-min-uses」：设置资源被请求多少次后被缓存">「proxy_cache_min_uses」：设置资源被请求多少次后被缓存</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_min_uses</span> number;</span><br></pre></td></tr></table></figure>
+<p>number 为次数，默认为 1。</p>
+<hr>
+<h2 id="「proxy-cache-use-stale」：当后端出现异常时，是否允许Nginx返回缓存作为响应">「proxy_cache_use_stale」：当后端出现异常时，是否允许Nginx返回缓存作为响应</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_use_stale</span> <span class="literal">error</span>;</span><br></pre></td></tr></table></figure>
+<p>error 为错误类型，可配置 timeout|invalid_header|updating|http_500…。</p>
+<hr>
+<h2 id="「proxy-cache-lock」：对于相同的请求，是否开启锁机制，只允许一个请求发往后端">「proxy_cache_lock」：对于相同的请求，是否开启锁机制，只允许一个请求发往后端</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_lock</span> <span class="literal">on</span> | <span class="literal">off</span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>「proxy_cache_lock_timeout」</strong>：配置锁超时机制，超出规定时间后会释放请求</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_lock_timeout</span> time;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="「proxy-cache-methods」：设置对于那些HTTP方法开启缓存">「proxy_cache_methods」：设置对于那些HTTP方法开启缓存</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_methods</span> method;</span><br></pre></td></tr></table></figure>
+<p>method 为请求方法类型，如GET、HEAD等。</p>
+<hr>
+<h2 id="「proxy-no-cache」：定义不存储缓存的条件，符合时不会保存">「proxy_no_cache」：定义不存储缓存的条件，符合时不会保存</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_no_cache</span> string...;</span><br></pre></td></tr></table></figure>
+<p>string 为条件，例如$cookie_nocache $arg_nocache $arg_comment;</p>
+<hr>
+<h2 id="「proxy-cache-bypass」：定义不读取缓存的条件，符合时不会从缓存中读取">「proxy_cache_bypass」：定义不读取缓存的条件，符合时不会从缓存中读取</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_bypass</span> string...;</span><br></pre></td></tr></table></figure>
+<p>和上面 proxy_no_cache 的配置方法类似。</p>
+<hr>
+<h2 id="「add-header」：往响应头中添加字段信息">「add_header」：往响应头中添加字段信息</h2>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">add_header</span> fieldName fieldValue;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="「-upstream-cache-status」：记录了缓存是否命中的信息，存在多种情况：">「$upstream_cache_status」：记录了缓存是否命中的信息，存在多种情况：</h2>
+<ul>
+<li>MISS：请求未命中缓存。</li>
+<li>HIT：请求命中缓存。</li>
+<li>EXPIRED：请求命中缓存但缓存已过期。</li>
+<li>STALE：请求命中了陈旧缓存。</li>
+<li>REVALIDDATED：Nginx验证陈旧缓存依然有效。</li>
+<li>UPDATING：命中的缓存内容陈旧，但正在更新缓存。</li>
+<li>BYPASS：响应结果是从原始服务器获取的。</li>
+</ul>
+<p><strong>【注意】</strong><br>
+这个和之前的不同，之前的都是参数项，这个是一个Nginx内置变量。</p>
+<hr>
+<p>以上均为 nginx 中的缓存配置项，接着下面来配置一下 nginx 代理缓存：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">http&#123;  </span><br><span class="line">    <span class="comment"># 设置缓存的目录，并且内存中缓存区名为hot_cache，大小为128m，  </span></span><br><span class="line">    <span class="comment"># 三天未被访问过的缓存自动清楚，磁盘中缓存的最大容量为2GB。  </span></span><br><span class="line">    <span class="attribute">proxy_cache_path</span> /soft/nginx/cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=hot_cache:<span class="number">128m</span> inactive=<span class="number">3d</span> max_size=<span class="number">2g</span>;  </span><br><span class="line">      </span><br><span class="line">    server&#123;  </span><br><span class="line">        <span class="section">location</span> / &#123;  </span><br><span class="line">            <span class="comment"># 使用名为nginx_cache的缓存空间  </span></span><br><span class="line">            <span class="attribute">proxy_cache</span> hot_cache;  </span><br><span class="line">            <span class="comment"># 对于200、206、304、301、302状态码的数据缓存1天  </span></span><br><span class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">206</span> <span class="number">304</span> <span class="number">301</span> <span class="number">302</span> <span class="number">1d</span>;  </span><br><span class="line">            <span class="comment"># 对于其他状态的数据缓存30分钟  </span></span><br><span class="line">            <span class="attribute">proxy_cache_valid</span> any <span class="number">30m</span>;  </span><br><span class="line">            <span class="comment"># 定义生成缓存键的规则（请求的url+参数作为key）  </span></span><br><span class="line">            <span class="attribute">proxy_cache_key</span> <span class="variable">$host</span><span class="variable">$uri</span><span class="variable">$is_args</span><span class="variable">$args</span>;  </span><br><span class="line">            <span class="comment"># 资源至少被重复访问三次后再加入缓存  </span></span><br><span class="line">            <span class="attribute">proxy_cache_min_uses</span> <span class="number">3</span>;  </span><br><span class="line">            <span class="comment"># 出现重复请求时，只让一个去后端读数据，其他的从缓存中读取  </span></span><br><span class="line">            <span class="attribute">proxy_cache_lock</span> <span class="literal">on</span>;  </span><br><span class="line">            <span class="comment"># 上面的锁超时时间为3s，超过3s未获取数据，其他请求直接去后端  </span></span><br><span class="line">            <span class="attribute">proxy_cache_lock_timeout</span> <span class="number">3s</span>;  </span><br><span class="line">            <span class="comment"># 对于请求参数或cookie中声明了不缓存的数据，不再加入缓存  </span></span><br><span class="line">            <span class="attribute">proxy_no_cache</span> <span class="variable">$cookie_nocache</span> <span class="variable">$arg_nocache</span> <span class="variable">$arg_comment</span>;  </span><br><span class="line">            <span class="comment"># 在响应头中添加一个缓存是否命中的状态（便于调试）  </span></span><br><span class="line">            <span class="attribute">add_header</span> Cache-status <span class="variable">$upstream_cache_status</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果如下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1684828191137-40109b9b-fe74-4244-9e16-e85a45de6416.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_31%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f9f8f8&amp;from=url&amp;height=398&amp;id=Clkyx&amp;originHeight=398&amp;originWidth=1080&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=1080" alt=""><br>
+第一次访问时，因为还没有请求过资源，所以缓存中没有数据，因此没有命中缓存。第二、三次，依旧没有命中缓存，直至第四次时才显示命中，这是为什么呢？因为在前面的缓存配置中，我们配置了加入缓存的最低条件为：<strong>「「资源至少要被请求三次以上才会加入缓存。」」</strong> 这样可以避免很多无效缓存占用空间。</p>
+<h2 id="缓存清理">缓存清理</h2>
+<p>当缓存过多时，如果不及时清理会导致磁盘空间被“吃光”，因此我们需要一套完善的缓存清理机制去删除缓存，在之前的proxy_cache_path参数中有purger相关的选项，开启后可以帮我们自动清理缓存，但遗憾的是：** purger系列参数只有商业版的NginxPlus才能使用，因此需要付费才可使用。**<br>
+不过天无绝人之路，我们可以通过强大的第三方模块ngx_cache_purge来替代，先来安装一下该插件：</p>
+<ol>
+<li>首先去到 Nginx 的安装目录下，创建一个 cache_purge 目录：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># mkdir cache_purge &amp;&amp; cd cache_purge</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>通过 wget 指令从 github 上拉取安装包的压缩文件并解压：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># wget https://github.com/FRiCKLE/ngx_cache_purge/archive/2.3.tar.gz  </span></span><br><span class="line">[root@localhost]<span class="comment"># tar -xvzf 2.3.tar.gz</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>再次去到之前 Nginx 的解压目录下：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># cd /soft/nginx/nginx1.21.6</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>重新构建一次 Nginx，通过 --add-module 的指令添加刚刚的第三方模块：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># ./configure --prefix=/soft/nginx/ --add-module=/soft/nginx/cache_purge/ngx_cache_purge-2.3/</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>重新根据刚刚构建的 Nginx，再次编译一下，<strong>「但切记不要make install」</strong> ：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># make</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>删除之前 Nginx 的启动文件，不放心的也可以移动到其他位置：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># rm -rf /soft/nginx/sbin/nginx</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>从生成的 objs 目录中，重新复制一个 Nginx 的启动文件到原来的位置：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># cp objs/nginx /soft/nginx/sbin/nginx</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>至此，第三方缓存清除模块 ngx_cache_purge 就安装完成了，接下来稍微修改一下 nginx.conf 配置，再添加一条 location 规则：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ /purge(/.*)</span> &#123;  </span><br><span class="line">  <span class="comment"># 配置可以执行清除操作的IP（线上可以配置成内网机器）  </span></span><br><span class="line">  <span class="comment"># allow 127.0.0.1; # 代表本机  </span></span><br><span class="line">  <span class="attribute">allow</span> all; <span class="comment"># 代表允许任意IP清除缓存  </span></span><br><span class="line">  <span class="attribute">proxy_cache_purge</span> <span class="variable">$host</span><span class="variable">$1</span><span class="variable">$is_args</span><span class="variable">$args</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后再重启 Nginx ，接下来即可通过 <a target="_blank" rel="noopener" href="http://xxx/purge/xx">http://xxx/purge/xx</a> 的方式清除缓存。</p>
+<h1>八、Nginx 实现 IP 黑白名单</h1>
+<p>有时候往往有些需求，可能某些接口只能开放给对应的合作商，或者购买/接入 API 的合作伙伴，那么此时就需要实现类似于** IP 白名单**的功能。而有时候有些恶意攻击者或爬虫程序，被识别后需要禁止其再次访问网站，因此也需要实现 <strong>IP 黑名单</strong>。那么这些功能无需交由后端实现，可直接在 Nginx中处理。<br>
+Nginx做黑白名单机制，主要是通过allow、deny配置项来实现：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">allow</span> xxx.xxx.xxx.xxx; <span class="comment"># 允许指定的IP访问，可以用于实现白名单。  </span></span><br><span class="line"><span class="attribute">deny</span> xxx.xxx.xxx.xxx; <span class="comment"># 禁止指定的IP访问，可以用于实现黑名单。</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>要同时屏蔽/开放多个IP访问时，如果所有IP全部写在nginx.conf文件中定然是不显示的，这种方式比较冗余，那么可以新建两个文件BlocksIP.conf、WhiteIP.conf：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------黑名单：BlocksIP.conf---------  </span></span><br><span class="line"><span class="attribute">deny</span> <span class="number">192.177.12.222</span>; <span class="comment"># 屏蔽192.177.12.222访问  </span></span><br><span class="line"><span class="attribute">deny</span> <span class="number">192.177.44.201</span>; <span class="comment"># 屏蔽192.177.44.201访问  </span></span><br><span class="line"><span class="attribute">deny</span> <span class="number">127.0.0.0</span>/<span class="number">8</span>; <span class="comment"># 屏蔽127.0.0.1到127.255.255.254网段中的所有IP访问</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------白名单：WhiteIP.conf---------  </span></span><br><span class="line"><span class="attribute">allow</span> <span class="number">192.177.12.222</span>; <span class="comment"># 允许192.177.12.222访问  </span></span><br><span class="line"><span class="attribute">allow</span> <span class="number">192.177.44.201</span>; <span class="comment"># 允许192.177.44.201访问  </span></span><br><span class="line"><span class="attribute">allow</span> <span class="number">127.45.0.0</span>/<span class="number">16</span>; <span class="comment"># 允许127.45.0.1到127.45.255.254网段中的所有IP访问  </span></span><br><span class="line"><span class="attribute">deny</span> all; <span class="comment"># 除开上述IP外，其他IP全部禁止访问</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>分别将要禁止/开放的IP添加到对应的文件后，可以再将这两个文件在nginx.conf中导入：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">http&#123;  </span><br><span class="line">    <span class="comment"># 屏蔽该文件中的所有IP  </span></span><br><span class="line">    <span class="attribute">include</span> /soft/nginx/IP/BlocksIP.conf;   </span><br><span class="line">    server&#123;  </span><br><span class="line">        <span class="section">location</span> xxx &#123;  </span><br><span class="line">            <span class="comment"># 某一系列接口只开放给白名单中的IP  </span></span><br><span class="line">            <span class="attribute">include</span> /soft/nginx/IP/blockip.conf;   </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于文件具体在哪儿导入，这个也并非随意的，如果要整站屏蔽/开放就在http中导入，如果只需要一个域名下屏蔽/开放就在sever中导入，如果只需要针对于某一系列接口屏蔽/开放IP，那么就在location中导入。<br>
+当然，上述只是最简单的 IP 黑/白名单实现方式，同时也可以通过 ngx_http_geo_module、ngx_http_geo_module 第三方库去实现（这种方式可以按地区、国家进行屏蔽，并且提供了IP库）。</p>
+<h1>九、Nginx 跨域配置</h1>
+<p>跨域问题在之前的单体架构开发中，其实是比较少见的问题，除非是需要接入第三方 SDK 时，才需要处理此问题。但随着现在前后端分离、分布式架构的流行，跨域问题也成为了每个Java开发必须要懂得解决的一个问题。</p>
+<h2 id="跨域问题产生的原因">跨域问题产生的原因</h2>
+<p>产生跨域问题的主要原因就在于 <strong>「同源策略」</strong> ，为了保证用户信息安全，防止恶意网站窃取数据，同源策略是必须的，否则cookie可以共享。由于http无状态协议通常会借助cookie来实现有状态的信息记录，例如用户的身份/密码等，因此一旦cookie被共享，那么会导致用户的身份信息被盗取。<br>
+同源策略主要是指三点相同，<strong>「「协议+域名+端口」」</strong> 相同的两个请求，则可以被看做是同源的，但如果其中任意一点存在不同，则代表是两个不同源的请求，同源策略会限制了不同源之间的资源交互。</p>
+<h2 id="Nginx解决跨域问题">Nginx解决跨域问题</h2>
+<p>弄明白了跨域问题的产生原因，接下来看看 Nginx 中又该如何解决跨域呢？其实比较简单，在 nginx.conf 中稍微添加一点配置即可：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> / &#123;  </span><br><span class="line">    <span class="comment"># 允许跨域的请求，可以自定义变量$http_origin，*表示所有  </span></span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span> *;  </span><br><span class="line">    <span class="comment"># 允许携带cookie请求  </span></span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Credentials&#x27;</span> <span class="string">&#x27;true&#x27;</span>;  </span><br><span class="line">    <span class="comment"># 允许跨域请求的方法：GET,POST,OPTIONS,PUT  </span></span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Methods&#x27;</span> <span class="string">&#x27;GET,POST,OPTIONS,PUT&#x27;</span>;  </span><br><span class="line">    <span class="comment"># 允许请求时携带的头部信息，*表示所有  </span></span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Headers&#x27;</span> *;  </span><br><span class="line">    <span class="comment"># 允许发送按段获取资源的请求  </span></span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Expose-Headers&#x27;</span> <span class="string">&#x27;Content-Length,Content-Range&#x27;</span>;  </span><br><span class="line">    <span class="comment"># 一定要有！！！否则Post请求无法进行跨域！  </span></span><br><span class="line">    <span class="comment"># 在发送Post跨域请求前，会以Options方式发送预检请求，服务器接受时才会正式请求  </span></span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$request_method</span> = <span class="string">&#x27;OPTIONS&#x27;</span>) &#123;  </span><br><span class="line">        <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Max-Age&#x27;</span> <span class="number">1728000</span>;  </span><br><span class="line">        <span class="attribute">add_header</span> <span class="string">&#x27;Content-Type&#x27;</span> <span class="string">&#x27;text/plain; charset=utf-8&#x27;</span>;  </span><br><span class="line">        <span class="attribute">add_header</span> <span class="string">&#x27;Content-Length&#x27;</span> <span class="number">0</span>;  </span><br><span class="line">        <span class="comment"># 对于Options方式的请求返回204，表示接受跨域请求  </span></span><br><span class="line">        <span class="attribute">return</span> <span class="number">204</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 nginx.conf 文件加上如上配置后，跨域请求即可生效了。<br>
+但如果后端是采用分布式架构开发的，有时候RPC调用也需要解决跨域问题，不然也同样会出现无法跨域请求的异常，因此可以在你的后端项目中，通过继承 HandlerInterceptorAdapter 类、实现 WebMvcConfigurer 接口、添加 @CrossOrgin 注解的方式实现接口之间的跨域配置。</p>
+<h1>十、Nginx 防盗链设计</h1>
+<p>首先了解一下何谓盗链：<strong>「「盗链即是指外部网站引入当前网站的资源对外展示」」</strong> ，来举个简单的例子理解：<br>
+好比壁纸网站 X 站、Y 站，X 站是一点点去购买版权、签约作者的方式，从而积累了海量的壁纸素材，但 Y 站由于资金等各方面的原因，就直接通过 <img src= "/images/1.webp" data-lazy-src="X站/xxx.jpg" /> 这种方式照搬了 X 站的所有壁纸资源，继而提供给用户下载。<br>
+那么如果我们自己是这个X站的 Boss，心中必然不爽，那么此时又该如何屏蔽这类问题呢？那么接下来要叙说的**「「防盗链」」** 登场了！<br>
+Nginx 的防盗链机制实现，跟一个头部字段：Referer 有关，该字段主要描述了当前请求是从哪儿发出的，那么在 Nginx 中就可获取该值，然后判断是否为本站的资源引用请求，如果不是则不允许访问。Nginx 中存在一个配置项为 valid_referers，正好可以满足前面的需求，语法如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">valid_referers</span> <span class="literal">none</span> | <span class="literal">blocked</span> | server_names | string ...;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>none：表示接受没有 Referer 字段的 HTTP 请求访问。</li>
+<li>blocked：表示允许 http:// 或 https// 以外的请求访问。</li>
+<li>server_names：资源的白名单，这里可以指定允许访问的域名。</li>
+<li>string：可自定义字符串，支配通配符、正则表达式写法。</li>
+</ul>
+<p>简单了解语法后，接下来的实现如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在动静分离的location中开启防盗链机制  </span></span><br><span class="line"><span class="section">location</span> <span class="regexp">~ .*\.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)</span>&#123;  </span><br><span class="line">    <span class="comment"># 最后面的值在上线前可配置为允许的域名地址  </span></span><br><span class="line">    <span class="attribute">valid_referers</span> <span class="literal">blocked</span> <span class="number">192.168.12.129</span>;  </span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$invalid_referer</span>) &#123;  </span><br><span class="line">        <span class="comment"># 可以配置成返回一张禁止盗取的图片  </span></span><br><span class="line">        <span class="comment"># rewrite   ^/ http://xx.xx.com/NO.jpg;  </span></span><br><span class="line">        <span class="comment"># 也可直接返回403  </span></span><br><span class="line">        <span class="attribute">return</span>   <span class="number">403</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="attribute">root</span>   /soft/nginx/static_resources;  </span><br><span class="line">    <span class="attribute">expires</span> <span class="number">7d</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据上述中的内容配置后，就已经通过 Nginx 实现了最基本的防盗链机制，最后只需要额外重启一下就好啦！当然，对于防盗链机制实现这块，也有专门的第三方模块 ngx_http_accesskey_module实现了更为完善的设计，感兴趣的小伙伴可以自行去看看。<br>
+PS：防盗链机制也无法解决爬虫伪造 referers 信息的这种方式抓取数据。</p>
+<h1>十一、Nginx 大文件传输配置</h1>
+<p>在某些业务场景中需要传输一些大文件，但大文件传输时往往都会会出现一些Bug，比如文件超出限制、文件传输过程中请求超时等，那么此时就可以在Nginx稍微做一些配置，先来了解一些关于大文件传输时可能会用的配置项：</p>
+<table>
+<thead>
+<tr>
+<th><strong>配置项</strong></th>
+<th><strong>释义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>client_max_body_size</td>
+<td>设置请求体允许的最大体积</td>
+</tr>
+<tr>
+<td>client_header_timeout</td>
+<td>等待客户端发送一个请求头的超时时间</td>
+</tr>
+<tr>
+<td>client_body_timeout</td>
+<td>设置读取请求体的超时时间</td>
+</tr>
+<tr>
+<td>proxy_read_timeout</td>
+<td>设置请求被后端服务器读取时，Nginx 等待的最长时间</td>
+</tr>
+<tr>
+<td>proxy_send_timeout</td>
+<td>设置后端向 Nginx 返回响应时的超时时间</td>
+</tr>
+</tbody>
+</table>
+<p>在传输大文件时，client_max_body_size、client_header_timeout、proxy_read_timeout、proxy_send_timeout这四个参数值都可以根据自己项目的实际情况来配置。<br>
+上述配置仅是作为代理层需要配置的，因为最终客户端传输文件还是直接与后端进行交互，这里只是把作为网关层的Nginx配置调高一点，调到能够“容纳大文件”传输的程度。当然，Nginx 中也可以作为文件服务器使用，但需要用到一个专门的第三方模块nginx-upload-module，如果项目中文件上传的作用处不多，那么建议可以通过Nginx 搭建，毕竟可以节省一台文件服务器资源。但如若文件上传/下载较为频繁，那么还是建议额外搭建文件服务器，并将上传/下载功能交由后端处理。</p>
+<h1>十二、Nginx 配置 SSL 证书</h1>
+<p>随着越来越多的网站接入 HTTPS，因此 Nginx 中仅配置 HTTP 还不够，往往还需要监听 443 端口的请求，HTTPS 为了确保通信安全，所以服务端需配置对应的数字证书，当项目使用Nginx 作为网关时，那么证书在 Nginx 中也需要配置。<br>
+<strong>接下来简单聊一下关于SSL证书配置过程</strong>：</p>
+<ol>
+<li>先去 CA 机构或从云控制台中申请对应的 SSL 证书，审核通过后下载 Nginx 版本的证书。</li>
+<li>下载数字证书后，完整的文件总共有三个：.crt、.key、.pem：
+<ul>
+<li>.crt：数字证书文件，.crt 是.pem 的拓展文件，因此有些人下载后可能没有。</li>
+<li>.key：服务器的私钥文件，及非对称加密的私钥，用于解密公钥传输的数据。</li>
+<li>.pem：Base64-encoded 编码格式的源证书文本文件，可自行根需求修改拓展名。</li>
+</ul>
+</li>
+<li>在 Nginx 目录下新建 certificate 目录，并将下载好的证书/私钥等文件上传至该目录。</li>
+<li>最后修改一下nginx.conf文件即可，如下：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ----------HTTPS配置-----------  </span></span><br><span class="line"><span class="section">server</span> &#123;  </span><br><span class="line">    <span class="comment"># 监听HTTPS默认的443端口  </span></span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span>;  </span><br><span class="line">    <span class="comment"># 配置自己项目的域名  </span></span><br><span class="line">    <span class="attribute">server_name</span> www.xxx.com;  </span><br><span class="line">    <span class="comment"># 打开SSL加密传输  </span></span><br><span class="line">    <span class="attribute">ssl</span> <span class="literal">on</span>;  </span><br><span class="line">    <span class="comment"># 输入域名后，首页文件所在的目录  </span></span><br><span class="line">    <span class="attribute">root</span> html;  </span><br><span class="line">    <span class="comment"># 配置首页的文件名  </span></span><br><span class="line">    <span class="attribute">index</span> index.html index.htm index.jsp index.ftl;  </span><br><span class="line">    <span class="comment"># 配置自己下载的数字证书  </span></span><br><span class="line">    <span class="attribute">ssl_certificate</span>  certificate/xxx.pem;  </span><br><span class="line">    <span class="comment"># 配置自己下载的服务器私钥  </span></span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> certificate/xxx.key;  </span><br><span class="line">    <span class="comment"># 停止通信时，加密会话的有效期，在该时间段内不需要重新交换密钥  </span></span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">5m</span>;  </span><br><span class="line">    <span class="comment"># TLS握手时，服务器采用的密码套件  </span></span><br><span class="line">    <span class="attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  </span><br><span class="line">    <span class="comment"># 服务器支持的TLS版本  </span></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;  </span><br><span class="line">    <span class="comment"># 开启由服务器决定采用的密码套件  </span></span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="section">location</span> / &#123;  </span><br><span class="line">        ....  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># ---------HTTP请求转HTTPS-------------  </span></span><br><span class="line"><span class="section">server</span> &#123;  </span><br><span class="line">    <span class="comment"># 监听HTTP默认的80端口  </span></span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;  </span><br><span class="line">    <span class="comment"># 如果80端口出现访问该域名的请求  </span></span><br><span class="line">    <span class="attribute">server_name</span> www.xxx.com;  </span><br><span class="line">    <span class="comment"># 将请求改写为HTTPS（这里写你配置了HTTPS的域名）  </span></span><br><span class="line">    <span class="attribute">rewrite</span><span class="regexp"> ^(.*)$</span> https://www.xxx.com;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>OK~，根据如上配置了 Nginx 后，你的网站即可通过 https:// 的方式访问，并且当客户端使用http:// 的方式访问时，会自动将其改写为 HTTPS 请求。</p>
+<h1>十三、Nginx 配置 websocket 连接</h1>
+<h2 id="1、WebSocket-是什么？">1、WebSocket 是什么？</h2>
+<p>WebSocket 是一种在客户端与服务器端之间保持TCP长连接的网络协议，这样它们就可以随时进行信息交换。通过WebSocket，<strong>服务器可以直接向客户端发送数据</strong>，<strong>而无须客户端周期性的请求服务器</strong>，以动态更新数据内容。<br>
+<strong>webSocket 与 HTTP 请求的区别：</strong><br>
+为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器端发起一个 HTTP 请求，这个请求稍有些不同，它包含了一些附加头信息，其中附加头信息Upgrade: WebSocket表明这是一个申请协议升级的 HTTP请求。<br>
+服务器端解析这些附加的头信息，然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且<strong>这个链接会持续存在直到客户端或者服务器端的某一方主动的关闭链接</strong>。</p>
+<hr>
+<ol>
+<li>客户端发送的内容：</li>
+</ol>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/chat</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>server.example.com</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>WebSocket</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Sec-WebSocket-Key</span><span class="punctuation">: </span>dGhlIHNhbXBsZSBub25jZQ==</span><br><span class="line"><span class="attribute">Origin</span><span class="punctuation">: </span>http://example.com</span><br><span class="line"><span class="attribute">Sec-WebSocket-Protocol</span><span class="punctuation">: </span>chat, superchat</span><br><span class="line"><span class="attribute">Sec-WebSocket-Version</span><span class="punctuation">: </span>13</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Upgrade: WebSocket：表示这是一个特殊的 HTTP 请求，客户端和服务器端的通讯协议从 HTTP 协议升级到 WebSocket 协议。</li>
+<li>Sec-WebSocket-Key：是一个Base64 encode的值，这个是浏览器随机生成，验证是否能和服务器端进行 WebSocket通信。</li>
+<li>Sec_WebSocket-Protocol：是一个用户定义的字符串，用来区分同URL下，不同的服务所需要的协议。</li>
+<li>Sec-WebSocket-Version：告诉服务器所使用的协议版本。</li>
+</ul>
+<ol>
+<li>服务器端返回的内容：</li>
+</ol>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">101</span> Switching Protocols</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>WebSocket</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Sec-WebSocket-Accept</span><span class="punctuation">: </span>s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</span><br><span class="line"><span class="attribute">Sec-WebSocket-Protocol</span><span class="punctuation">: </span>chat</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Sec-WebSocket-Accept：表示经过服务器确认，并且加密过后的 Sec-WebSocket-Key。用来证明客户端和服务器之间能进行通信了。</li>
+</ul>
+<p><strong>WebSocket 的作用</strong></p>
+<ul>
+<li>WebSocket 是一种在客户端与服务器端之间保持TCP长连接的网络协议。</li>
+<li>WebSocket 解决了客户端与服务器端双向通信问题。</li>
+<li>WebSocket 适用的应用场景，需要提供多个用户相互交流的功能，或者需要展示经常变动的数据，例如: 社交类应用、股票类应用、在线教育类应用，等应用场景。</li>
+</ul>
+<h2 id="2、Websocket-解决了什么问题？">2、Websocket 解决了什么问题？</h2>
+<p>在2005年以前如果想要在一个页面显示显示不同的内容，或者说页面内跳转，只能是通过点击然后路由跳转，在ajax诞生之后网页开始变得动态了。但是所有的 HTTP通信还都是由客户端控制的，这就要需要“<strong>定期轮询</strong>”与服务器端进行通信。</p>
+<ul>
+<li>ajax轮询: 浏览器在特定的时间给服务器发送请求，查看服务器是否有信息数据，</li>
+</ul>
+<p>**但是 ajax轮询 这种方式增加了网络开销与服务器端资源消耗，是一种低效的实时交互方案。**还有一点就是客户端总是主动的，服务器端总是被动的接收请求并响应数据。<br>
+<strong>WebSocket 解决的问题</strong></p>
+<ol>
+<li>持久性连接</li>
+</ol>
+<p>JavaScript 调用浏览器的 API 发出一个 WebSocket 请求至服务器，经过三次握手后与服务器建立了TCP连接。为什么要建立持久性连接（<strong>非 http keep-alive</strong>）呢？这是因为 <strong>HTTP 协议是无状态的</strong>（连接断开之后就不知道刚才的客户端是谁了）。<br>
+<strong>WebSocket 解决了 HTTP 的无状态特性，在你关闭链接之前，服务器端会一直知道你的信息。</strong></p>
+<ol>
+<li>双向通信</li>
+</ol>
+<p>当使用 WebSocket时，服务端就能够主动推送数据给客户端啦。</p>
+<h2 id="3、websocket-在-nginx-原理">3、websocket 在 nginx 原理</h2>
+<ol>
+<li>wss 协议实际是 websocket + ssl，就是在 websocket 协议技术上加入 ssl 层，类似于 https（类似于 http + SSL）。</li>
+<li>利用 nginx 代理 wss（通讯原理及流程）</li>
+</ol>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1682580307649-0df0f848-81db-420e-bafa-720be7181e62.jpeg#from=url&amp;id=Sb8Gd&amp;originHeight=146&amp;originWidth=992&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt=""></p>
+<pre><code>  - 客户端发起 wss 连接连到 nginx
+  - nginx 将 wss 协议的数据转换成 ws 协议数据并转发到 Workerman的websocket协议端口
+  - Workerman 收到数据后做业务逻辑处理
+  - Workerman 给客户端发送消息时，则是相反的过程，数据经过nginx/转换成wss协议然后发给客户端
+</code></pre>
+<ol>
+<li>HTTP 的 Upgrade 协议头机制用于将连接从 HTTP 连接升级到 WebSocket 连接，Upgrade 机制使用了 Upgrade 协议头和 Connection 协议头；为了让 Nginx 可以将来自客户端的Upgrade 请求发送到后端服务器，Upgrade 和 Connection 的头信息必须被显式的设置。如下代码所示：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line"><span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;		<span class="comment"># 升级协议头 -&gt; websocket</span></span><br><span class="line"><span class="attribute">proxy_set_header</span> Connection <span class="string">&quot;upgrade&quot;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="4、Nginx-配置-Websocket">4、Nginx 配置 Websocket</h2>
+<p>修改 nginx 配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>在 http 内对应的 server 添加如下内容：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">	   <span class="attribute">listen</span>       <span class="number">8681</span>;</span><br><span class="line">     <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">	   <span class="section">location</span> / &#123;</span><br><span class="line">	   	  <span class="attribute">root</span>   /usr/local/wtkj/community/web/dist;</span><br><span class="line">	   	  <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	   &#125;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> /community/ &#123;</span><br><span class="line">  		  <span class="attribute">proxy_pass</span> http://127.0.0.1:8680/community/;	<span class="comment"># 路径：http:// + 地址+端口 + 访问路径</span></span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> X-Forwarded-For    <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line">	   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     <span class="comment"># 以下配置针对 websocket (添加如下内容)</span></span><br><span class="line">	   <span class="section">location</span><span class="regexp"> ^~/community/push/</span> &#123;</span><br><span class="line">  		  <span class="attribute">proxy_pass</span> http://127.0.0.1:8680/community/push/;	<span class="comment"># 路径：http:// + 地址+端口 + 访问路径</span></span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> X-Forwarded-For    <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">36000s</span>;</span><br><span class="line">        <span class="attribute">proxy_send_timeout</span> <span class="number">36000s</span>;</span><br><span class="line">    		<span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">  		  <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;		<span class="comment"># 升级协议头 -&gt; websocket</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">&quot;upgrade&quot;</span>;</span><br><span class="line">	   &#125;</span><br><span class="line">	   </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>分析</strong></p>
+<ul>
+<li>listen 8681：表示 nginx 的监听端口</li>
+<li>proxt_http_version 1.1：表示反向代理发送的 HTTP 协议的版本是 1.1，HTTP1.1 支持长连接</li>
+<li>proxy_pass <a target="_blank" rel="noopener" href="http://127.0.0.1:8680/community/push/%EF%BC%9A%E8%A1%A8%E7%A4%BA%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84uri%EF%BC%8C%E8%BF%99%E9%87%8C%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%8F%98%E9%87%8F">http://127.0.0.1:8680/community/push/：表示反向代理的uri，这里可以使用负载均衡变量</a></li>
+<li>proxy_redirect off; 表示不要替换路径，其实这里如果是/则有没有都没关系，因为default也是将路径替换到proxy_pass的后边</li>
+<li>proxy_set_header：表示设置请求头</li>
+<li>proxy_set_header X-Real-IP $remote_addr; 表示传递时来源的ip还是现在的客户端的ip</li>
+<li>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 表示X-Forwarded-For头不发生改变</li>
+<li>proxy_set_header Host $http_host：表示传递时请求头不变， $http_host 是 nginx 内置变量，表示的是当前的请求头，</li>
+<li>proxy_read_timeout 3600s； 表的两次请求之间的间隔超过 3600s 后才关闭这个连接，默认的60s，自动关闭的元凶</li>
+<li>proxy_set_header Upgrade $http_upgrade：表示设置Upgrade不变</li>
+<li>proxy_set_header Connection “upgrade”：表示如果 $http_upgrade为upgrade，则请求为upgrade(websocket)，如果不是，就关闭连接<br>
+若是实际使用的websocket地址后面还有路径，比如实际地址是这样的，访问地址是 <a target="_blank" rel="noopener" href="http://www.a.com">http://www.a.com</a>，实际会转发给ws://127.0.0.1:8094/ws</li>
+</ul>
+<p><strong>添加如下三行，才能在后台中拿到真实的 ip 地址</strong><br>
+proxy_set_header Host $host;<br>
+proxy_set_header X-Real_IP $remote_addr;<br>
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>
+<strong>【升级协议头为 websocket】</strong><br>
+proxy_set_header Upgrade $http_upgrade;	# 升级协议头 -&gt; websocket<br>
+proxy_set_header Connection “upgrade”;<br>
+proxy_read_timeout;：表明连接成功以后等待服务器响应的时候，如果不配置默认为60s；<br>
+proxy_http_version 1.1; ：表明使用http版本为1.1<br>
+如果没写如下语句，则会报 EOFException 错误：<br>
+proxy_read_timeout 36000s;<br>
+proxy_send_timeout 36000s;<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1682330489045-56813d68-d0a3-4c1d-b570-cc62dc283b75.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_39%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=524&amp;id=XVOfh&amp;originHeight=524&amp;originWidth=1382&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=1382" alt=""></p>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.manongjc.com/detail/54-oqsvuzvebgunhqk.html">如何为Nginx配置 WebSocket? - 码农教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiedy001/p/16347379.html">Nginx配置WebSocket - 谢端阳 - 博客园</a></li>
+</ul>
+<h1>十四、Nginx 的高可用</h1>
+<p>线上如果采用单个节点的方式部署Nginx，难免会出现天灾人祸，比如系统异常、程序宕机、服务器断电、机房爆炸、地球毁灭…哈哈哈，夸张了。但实际生产环境中确实存在隐患问题，由于Nginx作为整个系统的网关层接入外部流量，所以一旦Nginx宕机，最终就会导致整个系统不可用，这无疑对于用户的体验感是极差的，因此也得保障Nginx高可用的特性。<br>
+接下来则会通过 keepalived 的 VIP 机制，实现 Nginx 的高可用。VIP 并不是只会员的意思，而是指 Virtual IP，即<strong>虚拟IP</strong>。<br>
+keepalived 在之前单体架构开发时，是一个用的较为频繁的高可用技术，比如 MySQL、Redis、MQ、Proxy、Tomcat 等各处都会通过 keepalived 提供的 VIP 机制，实现单节点应用的高可用。</p>
+<h2 id="Keepalived-重启脚本-双机热备搭建">Keepalived + 重启脚本 + 双机热备搭建</h2>
+<ol>
+<li>首先创建一个对应的目录并下载 keepalived 到 Linux 中并解压：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.创建目录并进入目录</span></span><br><span class="line">[root@localhost]<span class="comment"># mkdir /soft/keepalived &amp;&amp; cd /soft/keepalived</span></span><br><span class="line"><span class="comment"># 2.下载 keepalived 压缩包</span></span><br><span class="line">[root@localhost]<span class="comment"># wget https://www.keepalived.org/software/keepalived-2.2.4.tar.gz</span></span><br><span class="line"><span class="comment"># 3.解压压缩包</span></span><br><span class="line">[root@localhost]<span class="comment"># tar -zxvf keepalived-2.2.4.tar.gz</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>进入解压后的 keepalived 目录并构建安装环境，然后编译并安装：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># cd keepalived-2.2.4  </span></span><br><span class="line">[root@localhost]<span class="comment"># ./configure --prefix=/soft/keepalived/  </span></span><br><span class="line">[root@localhost]<span class="comment"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>进入安装目录的 /soft/keepalived/etc/keepalived/ 并编辑配置文件：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># cd /soft/keepalived/etc/keepalived/  </span></span><br><span class="line">[root@localhost]<span class="comment"># vi keepalived.conf</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>编辑主机的 keepalived.conf 核心配置文件，如下：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">global_defs</span> &#123;  </span><br><span class="line">  <span class="comment"># 自带的邮件提醒服务，建议用独立的监控或第三方SMTP，也可选择配置邮件发送。  </span></span><br><span class="line">  <span class="section">notification_email</span> &#123;  </span><br><span class="line">    root@<span class="attribute">localhost</span>  </span><br><span class="line">  &#125;  </span><br><span class="line">  notification_email_from root<span class="variable">@localhost</span>  </span><br><span class="line">    smtp_server localhost  </span><br><span class="line">    smtp_connect_timeout <span class="number">30</span>  </span><br><span class="line">    <span class="comment"># 高可用集群主机身份标识(集群中主机身份标识名称不能重复，建议配置成本机IP)  </span></span><br><span class="line">    router_id <span class="number">192.168.12.129</span>   </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 定时运行的脚本文件配置  </span></span><br><span class="line">vrrp_script check_nginx_pid_restart &#123;  </span><br><span class="line">  <span class="comment"># 之前编写的nginx重启脚本的所在位置  </span></span><br><span class="line">  <span class="attribute">script</span> <span class="string">&quot;/soft/scripts/keepalived/check_nginx_pid_restart.sh&quot;</span>   </span><br><span class="line">    <span class="comment"># 每间隔3秒执行一次  </span></span><br><span class="line">    interval <span class="number">3</span>  </span><br><span class="line">    <span class="comment"># 如果脚本中的条件成立，重启一次则权重-20  </span></span><br><span class="line">    weight -<span class="number">20</span>  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义虚拟路由，VI_1为虚拟路由的标示符（可自定义名称）  </span></span><br><span class="line">vrrp_instance VI_1 &#123;  </span><br><span class="line">  <span class="comment"># 当前节点的身份标识：用来决定主从（MASTER为主机，BACKUP为从机）  </span></span><br><span class="line">  <span class="attribute">state</span> MASTER  </span><br><span class="line">    <span class="comment"># 绑定虚拟IP的网络接口，根据自己的机器的网卡配置  </span></span><br><span class="line">    interface ens33   </span><br><span class="line">    <span class="comment"># 虚拟路由的ID号，主从两个节点设置必须一样  </span></span><br><span class="line">    virtual_router_id <span class="number">121</span>  </span><br><span class="line">    <span class="comment"># 填写本机IP  </span></span><br><span class="line">    mcast_src_ip <span class="number">192.168.12.129</span>  </span><br><span class="line">    <span class="comment"># 节点权重优先级，主节点要比从节点优先级高  </span></span><br><span class="line">    priority <span class="number">100</span>  </span><br><span class="line">    <span class="comment"># 优先级高的设置nopreempt，解决异常恢复后再次抢占造成的脑裂问题  </span></span><br><span class="line">    nopreempt  </span><br><span class="line">    <span class="comment"># 组播信息发送间隔，两个节点设置必须一样，默认1s（类似于心跳检测）  </span></span><br><span class="line">    advert_int <span class="number">1</span>  </span><br><span class="line">    authentication &#123;  </span><br><span class="line">    <span class="attribute">auth_type</span> PASS  </span><br><span class="line">      auth_pass <span class="number">1111</span>  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment"># 将track_script块加入instance配置块  </span></span><br><span class="line">  track_script &#123;  </span><br><span class="line">    <span class="comment"># 执行Nginx监控的脚本  </span></span><br><span class="line">    <span class="attribute">check_nginx_pid_restart</span>  </span><br><span class="line">  &#125;  </span><br><span class="line"></span><br><span class="line">  virtual_ipaddress &#123;  </span><br><span class="line">    <span class="comment"># 虚拟IP(VIP)，也可扩展，可配置多个。  </span></span><br><span class="line">    192.168.12.111  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>克隆一台之前的虚拟机作为从（备）机，编辑从机的 keepalived.conf 文件，如下：</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">global_defs</span> &#123;  </span><br><span class="line">    <span class="comment"># 自带的邮件提醒服务，建议用独立的监控或第三方SMTP，也可选择配置邮件发送。  </span></span><br><span class="line">    <span class="section">notification_email</span> &#123;  </span><br><span class="line">        root@<span class="attribute">localhost</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">    notification_email_from root<span class="variable">@localhost</span>  </span><br><span class="line">    smtp_server localhost  </span><br><span class="line">    smtp_connect_timeout <span class="number">30</span>  </span><br><span class="line">    <span class="comment"># 高可用集群主机身份标识(集群中主机身份标识名称不能重复，建议配置成本机IP)  </span></span><br><span class="line"> router_id <span class="number">192.168.12.130</span>   </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 定时运行的脚本文件配置  </span></span><br><span class="line">vrrp_script check_nginx_pid_restart &#123;  </span><br><span class="line">    <span class="comment"># 之前编写的nginx重启脚本的所在位置  </span></span><br><span class="line"> <span class="attribute">script</span> <span class="string">&quot;/soft/scripts/keepalived/check_nginx_pid_restart.sh&quot;</span>   </span><br><span class="line">    <span class="comment"># 每间隔3秒执行一次  </span></span><br><span class="line"> interval <span class="number">3</span>  </span><br><span class="line">    <span class="comment"># 如果脚本中的条件成立，重启一次则权重-20  </span></span><br><span class="line"> weight -<span class="number">20</span>  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="comment"># 定义虚拟路由，VI_1为虚拟路由的标示符（可自定义名称）  </span></span><br><span class="line">vrrp_instance VI_1 &#123;  </span><br><span class="line">    <span class="comment"># 当前节点的身份标识：用来决定主从（MASTER为主机，BACKUP为从机）  </span></span><br><span class="line"> <span class="attribute">state</span> BACKUP  </span><br><span class="line">    <span class="comment"># 绑定虚拟IP的网络接口，根据自己的机器的网卡配置  </span></span><br><span class="line"> interface ens33   </span><br><span class="line">    <span class="comment"># 虚拟路由的ID号，主从两个节点设置必须一样  </span></span><br><span class="line"> virtual_router_id <span class="number">121</span>  </span><br><span class="line">    <span class="comment"># 填写本机IP  </span></span><br><span class="line"> mcast_src_ip <span class="number">192.168.12.130</span>  </span><br><span class="line">    <span class="comment"># 节点权重优先级，主节点要比从节点优先级高  </span></span><br><span class="line"> priority <span class="number">90</span>  </span><br><span class="line">    <span class="comment"># 优先级高的设置nopreempt，解决异常恢复后再次抢占造成的脑裂问题  </span></span><br><span class="line"> nopreempt  </span><br><span class="line">    <span class="comment"># 组播信息发送间隔，两个节点设置必须一样，默认1s（类似于心跳检测）  </span></span><br><span class="line"> advert_int <span class="number">1</span>  </span><br><span class="line">    authentication &#123;  </span><br><span class="line">        <span class="attribute">auth_type</span> PASS  </span><br><span class="line">        auth_pass <span class="number">1111</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment"># 将track_script块加入instance配置块  </span></span><br><span class="line">    track_script &#123;  </span><br><span class="line">        <span class="comment"># 执行Nginx监控的脚本  </span></span><br><span class="line">  <span class="attribute">check_nginx_pid_restart</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    virtual_ipaddress &#123;  </span><br><span class="line">        <span class="comment"># 虚拟IP(VIP)，也可扩展，可配置多个。  </span></span><br><span class="line">  192.168.12.111  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>新建 scripts 目录并编写 Nginx 的重启脚本，check_nginx_pid_restart.sh：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># mkdir /soft/scripts /soft/scripts/keepalived  </span></span><br><span class="line">[root@localhost]<span class="comment"># touch /soft/scripts/keepalived/check_nginx_pid_restart.sh  </span></span><br><span class="line">[root@localhost]<span class="comment"># vi /soft/scripts/keepalived/check_nginx_pid_restart.sh  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#!/bin/sh  </span></span><br><span class="line"><span class="comment"># 通过ps指令查询后台的nginx进程数，并将其保存在变量nginx_number中  </span></span><br><span class="line">nginx_number=`ps -C nginx --no-header | <span class="built_in">wc</span> -l`  </span><br><span class="line"><span class="comment"># 判断后台是否还有Nginx进程在运行  </span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$nginx_number</span> -eq 0 ];<span class="keyword">then</span>  </span><br><span class="line">    <span class="comment"># 如果后台查询不到`Nginx`进程存在，则执行重启指令  </span></span><br><span class="line">    /soft/nginx/sbin/nginx -c /soft/nginx/conf/nginx.conf  </span><br><span class="line">    <span class="comment"># 重启后等待1s后，再次查询后台进程数  </span></span><br><span class="line">    <span class="built_in">sleep</span> 1  </span><br><span class="line">    <span class="comment"># 如果重启后依旧无法查询到nginx进程  </span></span><br><span class="line">    <span class="keyword">if</span> [ `ps -C nginx --no-header | <span class="built_in">wc</span> -l` -eq 0 ];<span class="keyword">then</span>  </span><br><span class="line">        <span class="comment"># 将keepalived主机下线，将虚拟IP漂移给从机，从机上线接管Nginx服务  </span></span><br><span class="line">        systemctl stop keepalived.service  </span><br><span class="line">    <span class="keyword">fi</span>  </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>编写的脚本文件需要更改编码格式，并赋予执行权限，否则可能执行失败：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># vi /soft/scripts/keepalived/check_nginx_pid_restart.sh  </span></span><br><span class="line">  </span><br><span class="line">:<span class="built_in">set</span> fileformat=unix <span class="comment"># 在vi命令里面执行，修改编码格式  </span></span><br><span class="line">:<span class="built_in">set</span> ff <span class="comment"># 查看修改后的编码格式  </span></span><br><span class="line">  </span><br><span class="line">[root@localhost]<span class="comment"># chmod +x /soft/scripts/keepalived/check_nginx_pid_restart.sh</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>由于安装 keepalived 时，是自定义的安装位置，因此需要拷贝一些文件到系统目录中：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># mkdir /etc/keepalived/  </span></span><br><span class="line">[root@localhost]<span class="comment"># cp /soft/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/  </span></span><br><span class="line">[root@localhost]<span class="comment"># cp /soft/keepalived/keepalived-2.2.4/keepalived/etc/init.d/keepalived /etc/init.d/  </span></span><br><span class="line">[root@localhost]<span class="comment"># cp /soft/keepalived/etc/sysconfig/keepalived /etc/sysconfig/</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>将 keepalived 加入系统服务并设置开启自启动，然后测试启动是否正常：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]# chkconfig keepalived on  </span><br><span class="line">[root@localhost]# systemctl daemon-reload  </span><br><span class="line">[root@localhost]# systemctl enable keepalived.service  </span><br><span class="line">[root@localhost]# systemctl start keepalived.service</span><br></pre></td></tr></table></figure>
+<p>其他命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">disable</span> keepalived.service <span class="comment"># 禁止开机自动启动  </span></span><br><span class="line">systemctl restart keepalived.service <span class="comment"># 重启keepalived  </span></span><br><span class="line">systemctl stop keepalived.service <span class="comment"># 停止keepalived  </span></span><br><span class="line"><span class="built_in">tail</span> -f /var/log/messages <span class="comment"># 查看keepalived运行时日志</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>最后测试一下 VIP 是否生效，通过查看本机是否成功挂载虚拟IP：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]<span class="comment"># ip addr</span></span><br></pre></td></tr></table></figure>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/jpeg/27044221/1681055258296-af9414a3-855e-41d3-a520-4db42863045f.jpeg?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_18%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=261&amp;id=QM1kY&amp;originHeight=261&amp;originWidth=640&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=640" alt=""><br>
+从上图中可以明显看见虚拟IP已经成功挂载，但另外一台机器192.168.12.130并不会挂载这个虚拟IP，只有当主机下线后，作为从机的192.168.12.130才会上线，接替VIP。最后测试一下外网是否可以正常与VIP通信，即在Windows中直接ping VIP：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1681055349238-3325b74e-aa46-424f-b77c-b0178fdb9c7a.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_17%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=318&amp;id=V41qM&amp;originHeight=318&amp;originWidth=583&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=583" alt=""><br>
+外部通过VIP通信时，也可以正常Ping通，代表虚拟IP配置成功。</p>
+<h2 id="Nginx-高可用性测试">Nginx 高可用性测试</h2>
+<p>经过上述步骤后，keepalived 的 VIP 机制已经搭建成功，在上个阶段中主要做了几件事：</p>
+<ul>
+<li>一、为部署 Nginx 的机器挂载了 VIP。</li>
+<li>二、通过 keepalived 搭建了主从双机热备。</li>
+<li>三、通过 keepalived 实现了 Nginx 宕机重启。</li>
+</ul>
+<p>由于前面没有域名的原因，因此最初 server_name 配置的是当前机器的 IP，所以需稍微更改一下 nginx.conf 的配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">sever</span> &#123;  </span><br><span class="line">    <span class="attribute">listen</span>    <span class="number">80</span>;  </span><br><span class="line">    <span class="comment"># 这里从机器的本地IP改为虚拟IP  </span></span><br><span class="line"> 		<span class="attribute">server_name</span> <span class="number">192.168.12.111</span>;  </span><br><span class="line"> 		<span class="comment"># 如果这里配置的是域名，那么则将域名的映射配置改为虚拟IP  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后来实验一下效果：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1681055559406-aabdb7ff-696f-49a9-8990-62f2271f94bd.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_31%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=466&amp;id=zsrsx&amp;originHeight=466&amp;originWidth=1080&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=1080" alt=""><br>
+在上述过程中，首先分别启动了keepalived、nginx服务，然后通过手动停止nginx的方式模拟了Nginx宕机情况，过了片刻后再次查询后台进程，我们会发现nginx依旧存活。<br>
+从这个过程中不难发现，keepalived已经为我们实现了Nginx宕机后自动重启的功能，那么接着再模拟一下服务器出现故障时的情况：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1681316083587-45419f16-9e86-4fd7-b1ff-e64ba25b1840.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_27%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=455&amp;id=LNDDw&amp;originHeight=455&amp;originWidth=954&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=954" alt=""><br>
+在上述过程中，我们通过手动关闭 keepalived 服务模拟了机器断电、硬件损坏等情况（因为机器断电等情况= 主机中的 keepalived 进程消失），然后再次查询了一下本机的 IP 信息，很明显会看到 VIP 消失了！<br>
+现在再切换到另外一台机器：192.168.12.130来看看情况：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1681316297834-4bee2c87-7f35-42b7-b98e-4bf3f27a74bd.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_28%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=362&amp;id=DzSdm&amp;originHeight=362&amp;originWidth=970&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=970" alt=""><br>
+此刻我们会发现，在主机 192.168.12.129 宕机后，VIP自动从主机飘移到了从机 192.168.12.130 上，而此时客户端的请求就最终会来到 130 这台机器的 Nginx 上。<br>
+<strong>「「最终，利用 Keepalived 对 Nginx 做了主从热备之后，无论是遇到线上宕机还是机房断电等各类故障时，都能够确保应用系统能够为用户提供 7x24小时服务。」」</strong></p>
+<h1>十五、Nginx 性能优化</h1>
+<p>关于 Nginx 的性能优化，主要就简单说说收益最高的几个优化项，在这块就不再展开叙述了，毕竟影响性能都有多方面原因导致的，比如网络、服务器硬件、操作系统、后端服务、程序自身、数据库服务等。</p>
+<h2 id="优化一：打开长连接配置">优化一：打开长连接配置</h2>
+<p>通常 Nginx 作为代理服务，负责分发客户端的请求，那么建议开启 HTTP 长连接，用户减少握手的次数，降低服务器损耗，具体如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> xxx &#123;  </span><br><span class="line">    <span class="comment"># 长连接数  </span></span><br><span class="line">    <span class="attribute">keepalive</span> <span class="number">32</span>;  </span><br><span class="line">    <span class="comment"># 每个长连接提供的最大请求数  </span></span><br><span class="line">    <span class="attribute">keepalived_requests</span> <span class="number">100</span>;  </span><br><span class="line">    <span class="comment"># 每个长连接没有新的请求时，保持的最长时间  </span></span><br><span class="line">    <span class="attribute">keepalive_timeout</span> <span class="number">60s</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="优化二：开启零拷贝技术">优化二：开启零拷贝技术</h2>
+<p>零拷贝这个概念，在大多数性能较为不错的中间件中都有出现，例如 Kafka、Netty 等，而 Nginx 中也可以配置数据零拷贝技术，如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sendfile</span> <span class="literal">on</span>; <span class="comment"># 开启零拷贝机制</span></span><br></pre></td></tr></table></figure>
+<p>零拷贝读取机制与传统资源读取机制的区别：</p>
+<ul>
+<li>**传统方式：**硬件–&gt;内核–&gt;用户空间–&gt;程序空间–&gt;程序内核空间–&gt;网络套接字</li>
+<li>**零拷贝方式：**硬件–&gt;内核–&gt;程序内核空间–&gt;网络套接字</li>
+</ul>
+<p>从上述这个过程对比，很轻易就能看出两者之间的性能区别。</p>
+<h2 id="优化三：开启无延迟或多包共发机制">优化三：开启无延迟或多包共发机制</h2>
+<p>在Nginx中有两个较为关键的性能参数，即 tcp_nodelay、tcp_nopush，开启方式如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tcp_nodelay</span> <span class="literal">on</span>;  </span><br><span class="line"><span class="attribute">tcp_nopush</span> <span class="literal">on</span>;</span><br></pre></td></tr></table></figure>
+<p>TCP/IP 协议中默认是采用了Nagle算法的，即在网络数据传输过程中，每个数据报文并不会立马发送出去，而是会等待一段时间，将后面的几个数据包一起组合成一个数据报文发送，<strong>但这个算法虽然提高了网络吞吐量，但是实时性却降低了。</strong><br>
+<strong>tcp_nodelay 作用—实时发送</strong><br>
+因此你的项目属于交互性很强的应用，那么可以手动开启 tcp_nodelay 配置，让应用程序向内核递交的每个数据包都会立即发送出去。<strong>但这样会产生大量的 TCP 报文头，增加很大的网络开销。</strong><br>
+<strong>tcp_nopush 作用—提高吞吐量</strong><br>
+相反，有些项目的业务<strong>对数据的实时性要求并不高</strong>，<strong>追求的则是更高的吞吐</strong>，那么则可以开启 tcp_nopush 配置项，这个配置就类似于“塞子”的意思，首先将连接塞住，使得数据先不发出去，等到拔去塞子后再发出去。设置该选项后，内核会尽量把小数据包拼接成一个大的数据包（一个 MTU）再发送出去。<br>
+当然若一定时间后（一般为 200ms），内核仍然没有积累到一个 MTU 的量时，也必须发送现有的数据，否则会一直阻塞。<br>
+tcp_nodelay、tcp_nopush 两个参数是“互斥”的，如果追求响应速度的应用推荐开启 tcp_nodelay 参数，如IM、金融等类型的项目。如果追求吞吐量的应用则建议开启tcp_nopush参数，如调度系统、报表系统等。<br>
+【注意】</p>
+<ol>
+<li>tcp_nodelay 一般要建立在开启了长连接模式的情况下使用。</li>
+<li>tcp_nopush 参数是必须要开启sendfile参数才可使用的。</li>
+</ol>
+<h2 id="优化四：调整-Worker-工作进程">优化四：调整 Worker 工作进程</h2>
+<p><strong>Nginx 启动后默认只会开启一个 Worker 工作进程处理客户端请求</strong>，而我们可以根据机器的 CPU 核数开启对应数量的工作进程，以此来提升整体的并发量支持，如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自动根据CPU核心数调整Worker进程数量  </span></span><br><span class="line"><span class="attribute">worker_processes</span> auto;</span><br></pre></td></tr></table></figure>
+<p>工作进程的数量最高开到8个就OK了，8个之后就不会有再大的性能提升。<br>
+同时也可以稍微调整一下每个工作进程能够打开的文件句柄数：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每个Worker能打开的文件描述符，最少调整至1W以上，负荷较高建议2-3W  </span></span><br><span class="line"><span class="attribute">worker_rlimit_nofile</span> <span class="number">20000</span>;</span><br></pre></td></tr></table></figure>
+<p>操作系统内核（kernel）都是利用文件描述符来访问文件，无论是打开、新建、读取、写入文件时，都需要使用文件描述符来指定待操作的文件，因此该值越大，代表一个进程能够操作的文件越多（但不能超出内核限制，最多建议3.8W 左右为上限）。</p>
+<h2 id="优化五：开启CPU亲和机制">优化五：开启CPU亲和机制</h2>
+<p>对于并发编程较为熟悉的伙伴都知道，因为进程/线程数往往都会远超出系统CPU的核心数，因为操作系统执行的原理本质上是采用时间片切换机制，也就是一个CPU核心会在多个进程之间不断频繁切换，造成很大的性能损耗。<br>
+而 CPU 亲和机制则是指将每个 Ngi</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IndexNginxController</span> &#123;  </span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;server.port&#125;&quot;)</span>  </span><br><span class="line">    <span class="keyword">private</span> String port;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/&quot;)</span>  </span><br><span class="line">    <span class="keyword">public</span> ModelAndView <span class="title function_">index</span><span class="params">()</span>&#123;  </span><br><span class="line">        <span class="type">ModelAndView</span> <span class="variable">model</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ModelAndView</span>();  </span><br><span class="line">        model.addObject(<span class="string">&quot;port&quot;</span>, port);  </span><br><span class="line">        model.setViewName(<span class="string">&quot;index&quot;</span>);  </span><br><span class="line">        <span class="keyword">return</span> model;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/lzy8684/r2java/nginx#GzGjG">引言</a>nx 的工作进程，绑定在固定的CPU核心上，从而减小CPU切换带来的时间开销和资源损耗，开启方式如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">worker_cpu_affinity</span> auto;</span><br></pre></td></tr></table></figure>
+<h2 id="优化六：开启epoll模型及调整并发连接数">优化六：开启epoll模型及调整并发连接数</h2>
+<p>在最开始就提到过：<strong>Nginx、Redis 都是基于多路复用模型去实现的程序</strong>，但最初版的多路复用模型select/poll最大只能监听 1024 个连接，而 epoll 则属于 select/poll 接口的增强版，因此采用该模型能够大程度上提升单个Worker 的性能，如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">events</span> &#123;  </span><br><span class="line">    <span class="comment"># 使用epoll网络模型  </span></span><br><span class="line">    <span class="attribute">use</span> <span class="literal">epoll</span>;  </span><br><span class="line">    <span class="comment"># 调整每个Worker能够处理的连接数上限  </span></span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">10240</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>十六、隐藏 Nginx 版本号及 Nginx 信息</h1>
+<p><strong>我们使用 Nginx 进行代理时，所有的网络请求都是通过 Nginx 进行分发。而只要是软件那么都会有漏洞。</strong><br>
+Nginx 也再所难免会有一些漏洞，而 Nginx 也在不断进行版本迭代，那么我们就需要在对外提供访问服务的时候，避免外界获取到我们 Nginx 的版本。<strong>从而减少部分因为版本暴露而出现的攻击风险。</strong>（及时升级最新版本，安全性会更高。）<br>
+<strong>【示例】</strong><br>
+默认情况下，如果外部用户，访问了一个不存在的资源时，就会返回404错误，出现如下图所示图片：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1684461248649-776bb012-c4e0-4705-9a37-c95d9dd34689.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_20%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=204&amp;id=kPW1G&amp;originHeight=204&amp;originWidth=694&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=694" alt=""><br>
+或者，我们在请求的网页中的 url 中的请求信息中的Response Headers也可以看到 nginx 的版本信息。<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1684460773607-765e359d-7694-4253-aac5-6331b76f0bff.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_16%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=295&amp;id=chDlu&amp;originHeight=295&amp;originWidth=578&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=578" alt=""><br>
+以上信息提示对于开发人员来说是有用的、是友好的，但是从信息安全的角度来说，却是一个信息暴露风险。<br>
+如果暴露版本信息，黑客可以通过此版本信息获取对应版本存在的漏洞，从而对服务器进行攻击。<br>
+<strong>攻击的最开始往往就是信息的收集与探测，因此从安全的角度来说、个人建议隐藏 nginx 的版本号信息。</strong></p>
+<h2 id="隐藏-Nginx-版本号信息">隐藏 Nginx 版本号信息</h2>
+<ol>
+<li>修改 nginx 配置信息nginx.conf文件</li>
+<li>在http {} 或者 server {} 段中添加如下一行信息即可</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">server_tokens</span> <span class="literal">off</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>【说明与建议】</strong></p>
+<ul>
+<li>建议在 http 段中添加上面配置信息，这样针对所有的 server 段都是有效的。</li>
+<li>若在 server 段中添加上面配置，仅对当前 server 段有效，若其他 server 段需要隐藏 nginx 版本号，需要单独配置。</li>
+</ul>
+<h2 id="隐藏-Nginx-相关信息">隐藏 Nginx 相关信息</h2>
+<h1>十七、Nginx 配置 Index of / 索引页（文件目录）</h1>
+<p>我们在下载一些软件的时候，若通常需要下载更多其他的版本，此时往往会进入一个如下的文件目录页面：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1688453008142-a98c05fb-c984-4bcd-8111-4005ce52028f.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_16%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=461&amp;id=lA1SR&amp;originHeight=461&amp;originWidth=555&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=555" alt=""><br>
+该页面能够很好的提供需要对外展示的文件、安装包等文件供客户进行下载。<br>
+<strong>接下来简单聊一下关于使用 nginx 配置 Index of / 索引页 过程</strong>：</p>
+<ol>
+<li>修改 nginx.conf配置文件，开启目录浏览功能autoindex</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">1234</span>;</span><br><span class="line">    <span class="attribute">client_max_body_size</span> <span class="number">100m</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   D:/web/nginxDownload;        <span class="comment"># 指定实际目录绝对路径；   </span></span><br><span class="line">        <span class="attribute">autoindex</span> <span class="literal">on</span>;                       <span class="comment"># 开启目录浏览功能；   </span></span><br><span class="line">        <span class="attribute">autoindex_exact_size</span> <span class="literal">off</span>;           <span class="comment"># 关闭详细文件大小统计，让文件大小显示MB，GB单位，默认为b；（若开启，文件大小将会以 b 为单位进行显示）</span></span><br><span class="line">        <span class="attribute">autoindex_localtime</span> <span class="literal">on</span>;             <span class="comment"># 开启以服务器本地时区显示文件修改日期！ </span></span><br><span class="line">        <span class="attribute">charset</span> gbk;   </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>指定目录文件夹内的内容如下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1688455035888-dceb1034-a7a9-416e-940c-5c9ea0508fa0.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_20%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=210&amp;id=naQxv&amp;originHeight=210&amp;originWidth=713&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=713" alt=""></p>
+<ol>
+<li>运行对应页面，测试是否配置成功，出现如下页面表示配置成功：</li>
+</ol>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1688454917710-89c8a192-b8ba-4065-9592-7377f7813b1b.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_17%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=273&amp;id=h5fJ5&amp;originHeight=273&amp;originWidth=584&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=584" alt=""></p>
+<h1>十八、Nginx 配置文件讲解</h1>
+<p>nginx 的配置，一共可以分为三大部分配置。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 其中#注释掉的可以在需要的时候开启并修改，没有注释掉的（除了下面location示例）不要删掉，基本都是必须的配置项。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###############################第一部分 全局配置############################</span></span><br><span class="line"><span class="comment">#user  nobody;                        指定启动进程的用户，默认不用指定即可。</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log;           配置日志输出，虽然叫error_log但是可以定义输出的级别，默认不写是ERROR级别</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  notice;   </span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  info;</span></span><br><span class="line"><span class="comment">#pid        logs/nginx.pid;           记录pid的文件，默认就是放到这个位置，可以修改。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只启动一个进程，nginx是多进程单线程模型，但是使用了epoll sendfile 非阻塞io</span></span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###############################第二部分 event配置############################</span></span><br><span class="line"><span class="comment">#主要是网络连接相关的配置</span></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">  <span class="comment"># 每个worker能连接1024个链接</span></span><br><span class="line">  <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">  <span class="comment">#use epoll; 事件驱动模型select|poll|kqueue|epoll|resig</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###############################第三部分 http配置############################</span></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">include</span>       mime.types;  <span class="comment">#文件扩展名与文件类型映射表</span></span><br><span class="line">  <span class="attribute">default_type</span>  text/html;   <span class="comment">#默认的返回类型，可以在server.location里面改</span></span><br><span class="line">  <span class="attribute">sendfile</span>        <span class="literal">on</span>;        <span class="comment">#开启sendfile系统调用</span></span><br><span class="line">  <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;     <span class="comment">#连接超时时间65s</span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="comment"># 下面展示多个demo，demo之间互相没有依赖关系，可以单独配置来进行测试。</span></span><br><span class="line">    <span class="comment"># 其中demo1到demo6 是nginx相关的。</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">############### demo1 展示location路径的不同写法优先级 ###############</span></span><br><span class="line">    <span class="comment"># =最高优先级 表示路径完全等于，可以匹配/demo1/a/b的请求</span></span><br><span class="line">    <span class="section">location</span> =/demo1/a/b &#123;</span><br><span class="line">      <span class="attribute">echo</span> <span class="string">&quot;=/demo1/a/b&quot;</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment"># ^~第二高  表示startsWith，可以匹配/demo1/a/b/c和/demo1/abc请求</span></span><br><span class="line">    <span class="section">location</span><span class="regexp"> ^~/demo1/a</span> &#123;</span><br><span class="line">      <span class="attribute">echo</span> <span class="string">&quot;^~/demo1/a&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># ~等四个符号第三高  表示正则，如果要用&#123;&#125;是特殊符号，需要整个加引号，建议直接加双引号，防止出错，可以匹配/demo1/bcd</span></span><br><span class="line">    <span class="comment"># 其他三个：~*不区分大小写正则，!~正则不匹配的，!~*不分大小写的正则不匹配</span></span><br><span class="line">    <span class="section">location</span> <span class="string">&quot;~/demo1/\w&#123;3&#125;$&quot;</span> &#123;</span><br><span class="line">      <span class="attribute">echo</span> <span class="string">&quot;regex&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># 最低 没有前置符号 /demo1 /demo111 /demo1/b/c 不符合上面三种，就会匹配到这</span></span><br><span class="line">    <span class="section">location</span> /demo1&#123;</span><br><span class="line">      <span class="attribute">echo</span> <span class="string">&quot;/demo1&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">############### demo2 展示serve静态文件夹 ###############</span></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">       <span class="attribute">root</span>   html;                 <span class="comment"># root就是根目录是当前html目录</span></span><br><span class="line">       <span class="attribute">index</span>  index.html index.htm; <span class="comment"># index表示默认不写的时候转到的文件</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  	<span class="comment"># root 作用：当访问 localhost/dist 时，实际访问的文件是 /usr/lzy/dist，而非 /usr/lzy，当 /usr/lzy/dist 文件夹不存在时，则会报错 404</span></span><br><span class="line">    <span class="section">location</span> /dist &#123;</span><br><span class="line">       <span class="attribute">root</span>   /usr/lzy;                 </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># alias 作用：当访问 localhost/dist 时，实际访问的文件是 /usr/lzy 里的文件，nginx会自动去 /usr/lzy 目录下找文件</span></span><br><span class="line">    <span class="section">location</span> /dist &#123;</span><br><span class="line">       <span class="attribute">alias</span>   /usr/lzy;                 </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">############## demo3 指定错误文件 ###############</span></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="section">location</span> = /50x.html &#123;</span><br><span class="line">       <span class="attribute">root</span>   html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">############# demo4 rewrite重写url rewrite也可以是server级别 ####################</span></span><br><span class="line">    <span class="section">location</span> /demo4 &#123;</span><br><span class="line">      <span class="comment"># 一般放到最后一行</span></span><br><span class="line">      <span class="attribute">rewrite</span><span class="regexp"> ^/(.*)</span> /<span class="variable">$1</span>/api <span class="literal">permanent</span>; <span class="comment"># permanent301, redirect302, break不在匹配后面rewrite规则，last继续向下匹配。</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="section">location</span> /demo4/api &#123;</span><br><span class="line">      <span class="attribute">echo</span> <span class="string">&quot;/demo4/api&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">############# demo5 demo6 proxy_pass反向代理 ####################</span></span><br><span class="line">    <span class="comment"># /demo5 =&gt; baidu.com/demo5</span></span><br><span class="line">    <span class="comment"># /demo5/a/b =&gt; baidu.com/demo5/a/b</span></span><br><span class="line">    <span class="section">location</span> /demo5 &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span>  https://www.baidu.com;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># /demo6 =&gt; baidu.com</span></span><br><span class="line">    <span class="comment"># /demo6/a/b =&gt; baidu.com/a/b</span></span><br><span class="line">    <span class="section">location</span> /demo6 &#123;</span><br><span class="line">      <span class="comment"># proxy_set_header Host $http_host; 如果有请求头改动的需求可以搜索proxy_set_header去了解</span></span><br><span class="line">      <span class="attribute">proxy_pass</span>  https://www.baidu.com/;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 下面demo7到demo11是openresty lua的一些配置demo</span></span><br><span class="line">  <span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">81</span>;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">############# demo7 init_by_lua_block 用来加载经常用到的库 或者 用来对多进程shared变量赋值 ####################</span></span><br><span class="line">    <span class="section">init_by_lua_block</span> &#123;</span><br><span class="line">      <span class="attribute">cjson</span> = require(<span class="string">&quot;cjson&quot;</span>)       --后续的lua流程中可以直接使用cjson</span><br><span class="line">      local myname = ngx.shared.<span class="literal">info</span> --可以认为是静态变量，通过<span class="literal">info</span>:get获取变量值</span><br><span class="line">      <span class="literal">info</span>:set(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;frank&quot;</span>)</span><br><span class="line">      <span class="literal">info</span>:set(<span class="string">&quot;age&quot;</span>, <span class="number">77</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">############# demo8 demo9 rewrite_by_lua_block 配合ngx.redirect用来替换rewrite指令 ####################</span></span><br><span class="line">    <span class="comment"># 注意rewrite_by_lua和因为作用阶段是nginx原生rewrite之后，所以容易和原生一起用的时候出错，最好的方式就是只用lua的不要用nginx的了。</span></span><br><span class="line">    location /demo8 &#123;</span><br><span class="line">      <span class="attribute">set</span> <span class="variable">$a</span> <span class="number">1</span>;</span><br><span class="line">      <span class="attribute">set</span> <span class="variable">$b</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">      <span class="section">rewrite_by_lua_block</span> &#123;</span><br><span class="line">        ngx.var.<span class="attribute">b</span> = tonumber(ngx.var.a) + <span class="number">1</span></span><br><span class="line">        if tonumber(ngx.var.b) == <span class="number">2</span> then</span><br><span class="line">          return ngx.<span class="literal">redirect</span>(<span class="string">&quot;/demo9&quot;</span>) --默认是<span class="number">302</span>，如果要<span class="number">301</span>或<span class="number">307</span>可以再加一个第二参数即可</span><br><span class="line">        end</span><br><span class="line">      &#125;</span><br><span class="line">      echo <span class="string">&quot;demo8&quot;</span>; <span class="comment"># 注意echo是content阶段的，rewrite阶段重定向了请求，就走不到这里了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="section">location</span> /demo9 &#123;</span><br><span class="line">      <span class="attribute">echo</span> <span class="string">&quot;demo9&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">############# demo10 access_by_lua_block 用来做一些加载内容前的准备工作例如访问redis看看用户身份是不是合法 ip是不是合法等 ####################</span></span><br><span class="line">    <span class="section">location</span> /demo10 &#123;</span><br><span class="line">      <span class="section">access_by_lua_block</span> &#123;</span><br><span class="line">        <span class="attribute">local</span> res = ngx.location.capture(<span class="string">&quot;/auth&quot;</span>) -- ngx.location.capture是作为客户端发起http请求拿到结果</span><br><span class="line">        if res.status == ngx.HTTP_OK then</span><br><span class="line">          return  -- 正常return就能走到content阶段</span><br><span class="line">        end</span><br><span class="line">        if res.status == ngx.HTTP_FORBIDDEN then</span><br><span class="line">          ngx.exit(res.status) -- exit + 状态码 就直接返回状态码了</span><br><span class="line">        end</span><br><span class="line">        ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)</span><br><span class="line">      &#125;</span><br><span class="line">      echo <span class="string">&quot;demo10&quot;</span>; <span class="comment"># 如果合法的话就返回demo10字样</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="section">location</span> /auth &#123;</span><br><span class="line">      <span class="attribute">return</span> <span class="number">200</span>; <span class="comment"># 换成403 or 500试试</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">############# demo10 content_by_lua_block 用来作为content阶段的脚本，一般测试用的多 ####################</span></span><br><span class="line">    <span class="comment">#不要和 echo proxy_pass等content阶段指令一起用</span></span><br><span class="line">    <span class="section">location</span> /demo10 &#123;</span><br><span class="line">      content_by_lua_block&#123;</span><br><span class="line">        ngx.say(&quot;/demo10&quot;);</span><br><span class="line">        ngx.say(&quot;/demo11&quot;); -- 和外部用俩echo效果类似。ngx.<span class="attribute">say</span> ngx.print区别是前者会多个回车在最后</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment"># echo &quot;echo10&quot;;   如果外面用了echo，则只有echo的效果</span></span><br><span class="line">      <span class="comment"># proxy_pass http://www.baidu.com; 如果外面用了proxy_pass也是只有proxy_pass效果了，因为都是content阶段，content只能一个生效。</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">############# demo11 rewrite_by_lua与proxy_pass配合 根据参数进行转发 ####################</span></span><br><span class="line">    location /demo11 &#123;</span><br><span class="line">		  <span class="attribute">default_type</span> text/html;</span><br><span class="line">			<span class="attribute">set</span> <span class="variable">$proxy</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">      <span class="attribute">rewrite_by_lua</span> <span class="string">&#x27;            # 千万别用content，因为content和proxy_pass阶段犯冲</span></span><br><span class="line"><span class="string">				local h = ngx.var.host    # 这里从host中提出第一个.之前的部分看是不是a来决定转发到哪</span></span><br><span class="line"><span class="string">				local dot = h:find(&quot;%.&quot;)</span></span><br><span class="line"><span class="string">				local prefix = h:sub(1,dot-1)</span></span><br><span class="line"><span class="string">				if prefix == &quot;a&quot; then</span></span><br><span class="line"><span class="string">					ngx.var.proxy=&quot;127.0.0.1:3000&quot;</span></span><br><span class="line"><span class="string">				else</span></span><br><span class="line"><span class="string">					ngx.var.proxy=&quot;127.0.0.1:5500&quot;</span></span><br><span class="line"><span class="string">				end</span></span><br><span class="line"><span class="string">      &#x27;</span>;</span><br><span class="line">			<span class="attribute">proxy_pass</span> http://<span class="variable">$proxy</span><span class="variable">$uri</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>【重点讲解】</strong><br>
+<strong>location 路径的不同写法优先级：</strong></p>
+<ol>
+<li>最高优先级=：表示路径完全等于</li>
+<li>第二高^~：表示startsWith，可以匹配/demo1/a/b/c和/demo1/abc请求</li>
+<li>第三高~、~<em>、!~、!~</em>：等四个符号
+<ul>
+<li>~：正则匹配，表示正则，如果要用{}是特殊符号，需要整个加引号，建议直接加双引号，防止出错，可以匹配/demo1/bcd</li>
+<li>~*：不区分大小写正则，</li>
+<li>!~：正则不匹配的，</li>
+<li>!~*：不分大小写的正则不匹配</li>
+</ul>
+</li>
+<li>最低没有前置符号： /demo1 /demo111 /demo1/b/c 不符合上面三种，就会匹配到这</li>
+</ol>
+<p><strong>root 与 alias 的区别用法：</strong><br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2023/png/27044221/1688462119705-804dad71-1a71-4f6f-a952-428057f0a3cd.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_10%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=215&amp;id=Kert9&amp;originHeight=215&amp;originWidth=228&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=228" alt=""></p>
+<ul>
+<li>root作用：当访问 127.0.0.1/dist目录下的文件时，nginx会自动去/usr/lzy/dist目录下找文件</li>
+<li>alias作用：当访问 127.0.0.1/dist目录下的文件时，nginx会自动去/usr/lzy目录下找文件</li>
+</ul>
+<p><strong>因此，当使用</strong>root<strong>后 nginx 会自动将这个路径放到 root 路径的后面去找对应的资源，由于大部分人对root与alias的作用用法不熟悉，访问对应地址时经常会遇到 404报错异常</strong></p>
+<h1>Nginx 常用命令</h1>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">===== 执行nginx =====</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.相对路径执行（nginx/sbin目录下）</span></span><br><span class="line">./nginx</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.绝对路径执行</span></span><br><span class="line">/usr/local/nginx/sbin/nginx</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">===== 重新加载nginx =====</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">===== 停止nginx服务 =====</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.相对路径</span></span><br><span class="line">./nginx -s stop</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.绝对路径</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -s stop</span><br></pre></td></tr></table></figure>
+<h2 id="1-启动-nginx-服务">1. 启动 nginx 服务</h2>
+<p><strong>（1）nginx 命令全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -c /usr/local/nginx/conf/nginx.con</span><br></pre></td></tr></table></figure>
+<p><strong>-c</strong>：指定运行nginx系统的自定义配置文件（若不加该参数，默认使用自定义配置文件，一般位于/usr/local/conf/nginx.conf，具体以实际情况为准）<br>
+<strong>（2）nginx 命令非全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.相对路径执行（nginx/sbin目录下）</span></span><br><span class="line">./nginx</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.绝对路径执行</span></span><br><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<h2 id="2-停止-nginx-服务">2. 停止 nginx 服务</h2>
+<p><strong>（1）nginx 命令全局可用</strong><br>
+<strong>（2）nginx 命令非全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.相对路径</span></span><br><span class="line">./nginx -s stop</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.绝对路径</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -s stop</span><br></pre></td></tr></table></figure>
+<p>【nginx 的停止种类】</p>
+<ul>
+<li>stop：快速关闭</li>
+<li>quit：安全关闭</li>
+</ul>
+<p>quit 信号，通知 nginx 等待 worker 进程处理完当前的请求后退出（相比较于 stop，quit 是完整有序的进行停止 nginx，并保存相关信息）</p>
+<ul>
+<li>reopen：重新打开一个log文件，主要用于日志切割</li>
+</ul>
+<h2 id="3-重载配置">3. 重载配置</h2>
+<p>reload：重载配置文件<br>
+reload信号，通知nginx重新载入配置文件nginx.conf。 除了使用reload外，nginx只会在启动时载入一次配置文件，之后对配置文件的修改不会实时对已经运行的nginx进程生效。<br>
+<strong>（1）nginx 命令全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<p><strong>（2）nginx 命令非全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">===== 重新加载nginx =====</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<p><strong>【reload 实现原理】</strong><br>
+当运行reload命令时，master 进程会尝试读取配置文件：</p>
+<ul>
+<li><strong>如果配置文件没有问题</strong></li>
+</ul>
+<p>master 进程会启动新的 worker 进程来运行新的配置文件并开始处理新请求，同时会通知老的 worker 进程不再继续接收、处理新的请求，并在处理完当前任务后退出。</p>
+<ul>
+<li><strong>如果配置文件存在问题不能执行</strong></li>
+</ul>
+<p>master 进程会回退老配置文件继续工作，不会导致 nginx 进程整个异常退出。</p>
+<h2 id="4-验证配置">4. 验证配置</h2>
+<p><strong>【为什么要验证配置呢？】</strong><br>
+试想一个场景，线上nginx系统正在正常运行。<br>
+现因某种原因，需重新加载一下配置文件，但是，在加载之前，你不确定刚编辑完成的配置文件是否正确（例如：语法等等规范性）<br>
+只有配置文件语法等等正确，加载后才会被系统重新读取并利用，否则，系统会回退原配置文件继续运行！！<br>
+因此，在加载配置文件之前，最好先验证一下配置文件的正确性。这样可以确保加载更有把握，更稳妥。<br>
+<strong>（1）nginx 命令全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">验证默认配置文件</span></span><br><span class="line">nginx -t</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">验证自定义配置文件</span></span><br><span class="line">nginx -t -c /home/test/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<p><strong>（2）nginx 命令非全局可用</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">验证默认配置文件</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -t</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">验证自定义配置文件</span></span><br><span class="line">/usr/local/nginx/sbin/nginx -t -c /home/test/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<h1>nginx 的【reload】与【重启】的区别</h1>
+<p>有很多人在使用 nginx 的命令 【reload】，但却不知道其与 nginx 的 【stop -&gt; 启动】的区别。<br>
+除了 reload 其实实现了步骤 【stop】、【启动】两个步骤外，其底层实现的原理也是不一样的。<br>
+【区别】</p>
+<ul>
+<li><strong>reload</strong>：</li>
+</ul>
+<p>reload不用重启服务，直接重新加载配置文件，客户端感觉不到服务异常，平滑切换。</p>
+<ul>
+<li><strong>重启（停止-&gt;启动）</strong>：</li>
+</ul>
+<p>会停止nginx服务，在重新启动之前，整个 nginx 会关闭，停止接收所有请求，若非通过 quit 进行停止，会造成终止当前正在进行的任务。这对于那些需要不停服更新的系统来说是个弊端。<br>
+【总结】<br>
+reload 重新加载的配置，仍为启动 nginx 系统时运行的配置文件（应用场景：可能会因业务需求调整，对配置文件做修改，估需重新加载之，也称<strong>热部署</strong>）</p>
+<h1>Nginx 常规部署</h1>
+<ol>
+<li>修改 nginx 配置文件nginx.conf</li>
+</ol>
+<p>修改内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">   listen       8880;		<span class="comment">#启动后的前端访问端口	</span></span><br><span class="line">   server_name  localhost;	<span class="comment">#启动时的地址</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment"># 启动后，地址栏输入：localhost:8132 或 localhost:8132/, 默认会在html文件夹下找 index.html、index.htm文件</span></span><br><span class="line">   location / &#123;</span><br><span class="line">       root    /usr/local/zslzy/lzytest/dist;	<span class="comment"># 本地项目路径</span></span><br><span class="line">       index  index.html index.htm;				<span class="comment">#默认找的页面</span></span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="comment"># 配置代理。由于项目是在本地启动的，而我们的 request 需要请求其他ip地址。</span></span><br><span class="line">	 <span class="comment"># 如果你的 request 链接为 localhost:8880/api/login?name=12345,</span></span><br><span class="line">	 <span class="comment"># 那么下面配的就是 location /api,最终会代理到 http://192.168.0.0:80/api/login?name=12345</span></span><br><span class="line">   location /lzytest/ &#123;</span><br><span class="line">       proxy_pass http://127.0.0.1:8081/lzytest/; <span class="comment">#后端接口地址，端口号也要注意哦，不是80的记得带上端口号</span></span><br><span class="line">       proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">       proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">       proxy_set_header Host <span class="variable">$http_host</span>;</span><br><span class="line">       proxy_set_header X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="comment"># 一般前端不管用vue，还是react等框架，默认都是单页面的，如果你的项目是多页面的，则需要用到下面的配置。</span></span><br><span class="line">   <span class="comment"># 因为此时你的浏览器的url不是localhost:8880/#/login,而是 localhost:8880/a.html/#/login</span></span><br><span class="line">   <span class="comment"># 所以我们需要将路径中a.html指向具体的html文件夹中的文件，因为默认是index.html</span></span><br><span class="line">   location /a.html &#123;</span><br><span class="line">       <span class="built_in">alias</span> html;</span><br><span class="line">       index a.html;</span><br><span class="line">   &#125;</span><br><span class="line">   location /b.html&#123;</span><br><span class="line">       <span class="built_in">alias</span> html;</span><br><span class="line">       index b.html;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="注意点（后端接口配置）：">注意点（后端接口配置）：</h4>
+<p>如果你的配置出现 404 了，这个时候你可以对照检查下面的问题是不是你遇到的。</p>
+<ol>
+<li>proxy_pass 地址后面要不要加“/”,这个取决于匹配的 /api/ 作不作为你uri的一部分，如果 /api/ 是其中一部分,则不需要带上“/”；反之带上。加了“/”相当于是绝对根路径，nginx 不会把location 中匹配的路径 /api/ 带上。</li>
+</ol>
+<p>【举个例子】：</p>
+<ul>
+<li>请求地址原本是这样： <a target="_blank" rel="noopener" href="http://192.168.1.1/api/a.html;">http://192.168.1.1/api/a.html;</a></li>
+<li>如果配置是这样：proxy_pass <a target="_blank" rel="noopener" href="http://192.168.1.1/;">http://192.168.1.1/;</a>（后端接口地址）</li>
+<li>那么请求接口地址应该变成这样： <a target="_blank" rel="noopener" href="http://192.168.1.1/a.html">http://192.168.1.1/a.html</a></li>
+</ul>
+<ol>
+<li>
+<p>proxy_pass的地址记得在hosts文件做ip映射，建议直接使用域名对应的ip地址。</p>
+</li>
+<li>
+<p>location 中 ~ （区分大小写）与 ~* （不区分大小写）标识均为正则匹配。如果你不确定，请在location后面加上 location ~* /api/ { }这样的配置（目的：不区分“api”三个字母的大小写）。</p>
+</li>
+<li>
+<p>启动/停止/退出等nginx命令</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动nginx服务</span></span><br><span class="line">nginx</span><br><span class="line"><span class="comment"># 关闭nginx服务</span></span><br><span class="line">nginx -s stop</span><br><span class="line"><span class="comment"># 退出nginx服务</span></span><br><span class="line">nginx -s quit</span><br><span class="line"><span class="comment"># 重新打开nginx日志文件</span></span><br><span class="line">nginx -s reopen</span><br><span class="line"><span class="comment"># 重新加载nginx配置文件</span></span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若以上命令不存在，则去nginx根目录下的sbin文件夹下进行运行</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>检验是否配置成功</li>
+</ol>
+<p>浏览器输入对应的IP地址:端口号，配置成功进入默认页面（根据上述配置，若输入：127.0.0.1:8132 或 127.0.0.1:8132/ 则进入对应index页面）</p>
+<h1>通过 nginx 实现集群部署</h1>
+<p><strong>什么是集群部署？</strong><br>
+即存在一个前端，对应多个服务端（一个后端部署在多个服务器上）<br>
+【实现思路】通过Nginx进行后端分发，实现集群部署。</p>
+<ul>
+<li>通过一个前端一个后端进行部署，nginx部署前端，配置文件如下：</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">   <span class="attribute">listen</span>       <span class="number">8132</span>;		<span class="comment">#启动后的前端访问端口</span></span><br><span class="line">   <span class="attribute">server_name</span>  localhost;	<span class="comment">#启动时的地址</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment"># =======配置前端======</span></span><br><span class="line">   <span class="comment"># 启动后，地址栏输入：localhost:8132 或 localhost:8132/, 默认会在html文件夹下找 index.html、index.htm文件</span></span><br><span class="line">   <span class="section">location</span> / &#123;</span><br><span class="line">   		<span class="attribute">root</span>    /usr/local/hzjcy/hzqbhs;</span><br><span class="line">   		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="comment"># =======配置后端======</span></span><br><span class="line">   <span class="comment"># 配置代理。由于项目是在本地起动的，而我们的request需要请求其他ip地址。如果你的 request链接为localhost:8880/api/login?name=12345,那么下面配的就是location /api, 最终会代理到 http://192.168.0.0:80/api/login?name=12345</span></span><br><span class="line">   <span class="section">location</span> /hzqbhs/ &#123;</span><br><span class="line">    	<span class="attribute">proxy_pass</span> http://127.0.0.1:8080/hzqbhs/;	<span class="comment">#后端接口地址，端口号也要注意哦， 不是80的记得带上端口号</span></span><br><span class="line">    	<span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    	<span class="attribute">proxy_set_header</span> X-Forwarded-For    <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    	<span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    	<span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过一个前端一个后端进行集群部署，nginx部署前端，配置文件如下：</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 集群+服务端权重（weight）</span></span><br><span class="line"><span class="comment"># 权重（weight）值越大，访问率越大</span></span><br><span class="line"><span class="section">upstream</span> jiqun &#123;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.0.130:8080</span> weight=<span class="number">5</span>;		<span class="comment"># 后端服务器 1</span></span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.0.131:8080</span> weight=<span class="number">3</span>;		<span class="comment"># 后端服务器 2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span>       <span class="number">8132</span>;</span><br><span class="line">  <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">  <span class="section">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span>    /usr/local/hzjcy/hzqbhs;</span><br><span class="line">    <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="section">location</span> /hzqbhs/ &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://jiqun/hzqbhs/;	<span class="comment"># 路径：http:// + 集群名称 + 访问路径</span></span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For    <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-集群部署中的-ip-hash-机制">1. 集群部署中的 ip_hash 机制</h2>
+<p>Nginx 中的 ip_hash 技术能够将某个 ip 的请求定向到同一台后端 web 机器中,这样一来这个 ip 下的客户端和某个后端 web 机器就能建立起稳固的 session.<br>
+ip_hash 机制能够让某一客户机在相当长的一段时间内只访问固定的后端的某台真实的 web 服务器,这样会话就会得以保持,在网站页面进行 login 的时候就不会在后面的 web 服务器之间跳来跳去了，也不会出现登录一次的网站又提醒重新登录的情况<br>
+<strong>【用法】</strong></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 集群+服务端权重（weight）</span></span><br><span class="line"><span class="comment"># 权重（weight）值越大，访问率越大</span></span><br><span class="line"><span class="section">upstream</span> jiqun &#123;</span><br><span class="line">  ip_hash;</span><br><span class="line">  </span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.0.130:8080</span>;		<span class="comment"># 后端服务器 1</span></span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.0.131:8080</span>;		<span class="comment"># 后端服务器 2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span>       <span class="number">8132</span>;</span><br><span class="line">  <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">  <span class="section">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span>    /usr/local/hzjcy/hzqbhs;</span><br><span class="line">    <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="section">location</span> /hzqbhs/ &#123;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://jiqun/hzqbhs/;	<span class="comment"># 路径：http:// + 集群名称 + 访问路径</span></span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For    <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>【原理】</strong><br>
+ip_hash 是根据用户请求过来的 ip，然后映射成 hash 值，然后分配到一个特定的服务器里面；<br>
+使用 ip_hash 这种负载均衡以后，可以保证用户的每一次会话都只会发送到同一台特定的Tomcat里面，它的 session 不会跨到其他的 tomcat 里面去的；</p>
+<ol>
+<li>hash 算法原理：</li>
+</ol>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/27044221/1709287052982-f69c8be8-9513-4678-97bb-9b1327323c59.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_26%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=534&amp;id=bmeKD&amp;originHeight=534&amp;originWidth=929&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=929" alt=""><br>
+首先通过将 ip 地址映射成一个 hash 值，然后将 hash 值对 Tomcat 的数量 3 取模，得到 Tomcat 的索引 0、1、2；<br>
+比如：5%3=2，则把这个请求发送到 Tomcat3 服务器，以此类推；<br>
+这样一来，只要用户的IP不发生改变，当前用户的会话就能够一直保持；<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/27044221/1709287173992-2955f908-4e73-4289-90ec-c4ca30bbd22d.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_21%2Ctext_5bCP6buRYnXmg5E%3D%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#from=url&amp;height=398&amp;id=QW9wX&amp;originHeight=398&amp;originWidth=730&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=&amp;width=730" alt=""><br>
+nginx 的 ip_hash 算法是取 ip 地址的前三段数字进行 hash 映射，如果只有最后一段不一样，也会发送到同一个Tomcat里面</p>
+<ol>
+<li>ip_hash 算法原理：</li>
+</ol>
+<h1>Nginx 其他经典功能、问题</h1>
+<ol>
+<li>nginx 热备份（待了解）</li>
+</ol>
+<p>网友说，热备份就是平常都是请求至服务 1，如果需要更新服务 1，它会帮你转发请求到服务 2，服务 2 和服务 1 是一样的，只不过服务 2 是个备份。</p>
+<ol>
+<li>什么叫平滑加载</li>
+<li>Nginx 与 Tomcat 的区别</li>
+</ol>
+<p>此处为语雀内容卡片，点击链接查看：<a target="_blank" rel="noopener" href="https://www.yuque.com/lzy8684/eseyt5/squh1114pcay4pvs">https://www.yuque.com/lzy8684/eseyt5/squh1114pcay4pvs</a></p>
+<h1>【参考资料】</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gist.github.com/sunwu51/bf6bd40ec8e9457bad8edd50aa06881a">https://gist.github.com/sunwu51/bf6bd40ec8e9457bad8edd50aa06881a</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42584411/article/details/105428926">nginx配置文件location写了内容，但是在页面访问的时候404_蓝奕世的博客-CSDN博客</a></li>
+</ul>
+<h2 id="官方使用文档指南：">官方使用文档指南：</h2>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2023/pdf/27044221/1688537615480-41a61698-f63d-4ab9-8564-dc7d84abdb2e.pdf">NGINX Cookbook 2E Simplified Chinese Edition_CN.pdf</a></p>
+<h2 id="其他相关书籍">其他相关书籍</h2>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/pdf/27044221/1709283506618-99e6fb24-3c4b-4b42-b173-5d4ba0190392.pdf">Nginx高性能Web服务器详解.pdf</a>几乎绝大部分项目都会使用它，Nginx是一个轻量级的高性能HTTP反向代理服务器，同时它也是一个通用类型的代理服务器，支持绝大部分协议，如TCP、UDP、SMTP、HTTPS等。</p>
+<blockquote>
+<p>来自: <a target="_blank" rel="noopener" href="https://www.yuque.com/lzy8684/r2java/nginx">Nginx — 深入浅出</a></p>
+</blockquote>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/09/Nginx%20%E2%80%94%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA/">http://www.bojiboqi.fun/2024/04/09/Nginx%20%E2%80%94%20%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Nginx/">Nginx</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_205017_751.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/09/Netty_/" title="Netty_"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_10-45-40.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Netty_</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/09/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/" title="Docker私有仓库"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_162335_137.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker私有仓库</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">一、性能怪兽-Nginx 概念深入浅出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">二、Nginx 环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">三、Nginx 反向代理-负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%AF%B7%E6%B1%82%E5%88%86%E5%8F%91%E5%8E%9F%E7%90%86"><span class="toc-number">4.1.</span> <span class="toc-text">Nginx请求分发原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">四、Nginx 动静分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-number">5.1.</span> <span class="toc-text">为什么需要动静分离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">5.2.</span> <span class="toc-text">动静分离的配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">五、Nginx 资源压缩</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">六、Nginx 缓冲区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">七、Nginx 缓存机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-path%E3%80%8D%EF%BC%9A%E4%BB%A3%E7%90%86%E7%BC%93%E5%AD%98%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="toc-number">8.1.</span> <span class="toc-text">「proxy_cache_path」：代理缓存的路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache%E3%80%8D%EF%BC%9A%E5%BC%80%E5%90%AF%E6%88%96%E5%85%B3%E9%97%AD%E4%BB%A3%E7%90%86%E7%BC%93%E5%AD%98%EF%BC%8C%E5%BC%80%E5%90%AF%E6%97%B6%E9%9C%80%E8%A6%81%E6%8C%87%E5%AE%9A%E4%B8%80%E4%B8%AA%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="toc-number">8.2.</span> <span class="toc-text">「proxy_cache」：开启或关闭代理缓存，开启时需要指定一个共享内存区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-key%E3%80%8D%EF%BC%9A%E5%AE%9A%E4%B9%89%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E7%BC%93%E5%AD%98%E7%9A%84%E9%94%AE"><span class="toc-number">8.3.</span> <span class="toc-text">「proxy_cache_key」：定义如何生成缓存的键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-valid%E3%80%8D%EF%BC%9A%E7%BC%93%E5%AD%98%E7%94%9F%E6%95%88%E7%9A%84%E7%8A%B6%E6%80%81%E7%A0%81%E4%B8%8E%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="toc-number">8.4.</span> <span class="toc-text">「proxy_cache_valid」：缓存生效的状态码与过期时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-min-uses%E3%80%8D%EF%BC%9A%E8%AE%BE%E7%BD%AE%E8%B5%84%E6%BA%90%E8%A2%AB%E8%AF%B7%E6%B1%82%E5%A4%9A%E5%B0%91%E6%AC%A1%E5%90%8E%E8%A2%AB%E7%BC%93%E5%AD%98"><span class="toc-number">8.5.</span> <span class="toc-text">「proxy_cache_min_uses」：设置资源被请求多少次后被缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-use-stale%E3%80%8D%EF%BC%9A%E5%BD%93%E5%90%8E%E7%AB%AF%E5%87%BA%E7%8E%B0%E5%BC%82%E5%B8%B8%E6%97%B6%EF%BC%8C%E6%98%AF%E5%90%A6%E5%85%81%E8%AE%B8Nginx%E8%BF%94%E5%9B%9E%E7%BC%93%E5%AD%98%E4%BD%9C%E4%B8%BA%E5%93%8D%E5%BA%94"><span class="toc-number">8.6.</span> <span class="toc-text">「proxy_cache_use_stale」：当后端出现异常时，是否允许Nginx返回缓存作为响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-lock%E3%80%8D%EF%BC%9A%E5%AF%B9%E4%BA%8E%E7%9B%B8%E5%90%8C%E7%9A%84%E8%AF%B7%E6%B1%82%EF%BC%8C%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E9%94%81%E6%9C%BA%E5%88%B6%EF%BC%8C%E5%8F%AA%E5%85%81%E8%AE%B8%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82%E5%8F%91%E5%BE%80%E5%90%8E%E7%AB%AF"><span class="toc-number">8.7.</span> <span class="toc-text">「proxy_cache_lock」：对于相同的请求，是否开启锁机制，只允许一个请求发往后端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-methods%E3%80%8D%EF%BC%9A%E8%AE%BE%E7%BD%AE%E5%AF%B9%E4%BA%8E%E9%82%A3%E4%BA%9BHTTP%E6%96%B9%E6%B3%95%E5%BC%80%E5%90%AF%E7%BC%93%E5%AD%98"><span class="toc-number">8.8.</span> <span class="toc-text">「proxy_cache_methods」：设置对于那些HTTP方法开启缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-no-cache%E3%80%8D%EF%BC%9A%E5%AE%9A%E4%B9%89%E4%B8%8D%E5%AD%98%E5%82%A8%E7%BC%93%E5%AD%98%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%8C%E7%AC%A6%E5%90%88%E6%97%B6%E4%B8%8D%E4%BC%9A%E4%BF%9D%E5%AD%98"><span class="toc-number">8.9.</span> <span class="toc-text">「proxy_no_cache」：定义不存储缓存的条件，符合时不会保存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cproxy-cache-bypass%E3%80%8D%EF%BC%9A%E5%AE%9A%E4%B9%89%E4%B8%8D%E8%AF%BB%E5%8F%96%E7%BC%93%E5%AD%98%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%8C%E7%AC%A6%E5%90%88%E6%97%B6%E4%B8%8D%E4%BC%9A%E4%BB%8E%E7%BC%93%E5%AD%98%E4%B8%AD%E8%AF%BB%E5%8F%96"><span class="toc-number">8.10.</span> <span class="toc-text">「proxy_cache_bypass」：定义不读取缓存的条件，符合时不会从缓存中读取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8Cadd-header%E3%80%8D%EF%BC%9A%E5%BE%80%E5%93%8D%E5%BA%94%E5%A4%B4%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5%E4%BF%A1%E6%81%AF"><span class="toc-number">8.11.</span> <span class="toc-text">「add_header」：往响应头中添加字段信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%8C-upstream-cache-status%E3%80%8D%EF%BC%9A%E8%AE%B0%E5%BD%95%E4%BA%86%E7%BC%93%E5%AD%98%E6%98%AF%E5%90%A6%E5%91%BD%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%8C%E5%AD%98%E5%9C%A8%E5%A4%9A%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-number">8.12.</span> <span class="toc-text">「$upstream_cache_status」：记录了缓存是否命中的信息，存在多种情况：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%B8%85%E7%90%86"><span class="toc-number">8.13.</span> <span class="toc-text">缓存清理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">八、Nginx 实现 IP 黑白名单</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">九、Nginx 跨域配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">10.1.</span> <span class="toc-text">跨域问题产生的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-number">10.2.</span> <span class="toc-text">Nginx解决跨域问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">十、Nginx 防盗链设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">十一、Nginx 大文件传输配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">十二、Nginx 配置 SSL 证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text">十三、Nginx 配置 websocket 连接</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81WebSocket-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">14.1.</span> <span class="toc-text">1、WebSocket 是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81Websocket-%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">14.2.</span> <span class="toc-text">2、Websocket 解决了什么问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81websocket-%E5%9C%A8-nginx-%E5%8E%9F%E7%90%86"><span class="toc-number">14.3.</span> <span class="toc-text">3、websocket 在 nginx 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81Nginx-%E9%85%8D%E7%BD%AE-Websocket"><span class="toc-number">14.4.</span> <span class="toc-text">4、Nginx 配置 Websocket</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">十四、Nginx 的高可用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Keepalived-%E9%87%8D%E5%90%AF%E8%84%9A%E6%9C%AC-%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87%E6%90%AD%E5%BB%BA"><span class="toc-number">15.1.</span> <span class="toc-text">Keepalived + 重启脚本 + 双机热备搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-number">15.2.</span> <span class="toc-text">Nginx 高可用性测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">16.</span> <span class="toc-text">十五、Nginx 性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E4%B8%80%EF%BC%9A%E6%89%93%E5%BC%80%E9%95%BF%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE"><span class="toc-number">16.1.</span> <span class="toc-text">优化一：打开长连接配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E4%BA%8C%EF%BC%9A%E5%BC%80%E5%90%AF%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF"><span class="toc-number">16.2.</span> <span class="toc-text">优化二：开启零拷贝技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E4%B8%89%EF%BC%9A%E5%BC%80%E5%90%AF%E6%97%A0%E5%BB%B6%E8%BF%9F%E6%88%96%E5%A4%9A%E5%8C%85%E5%85%B1%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="toc-number">16.3.</span> <span class="toc-text">优化三：开启无延迟或多包共发机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%9B%9B%EF%BC%9A%E8%B0%83%E6%95%B4-Worker-%E5%B7%A5%E4%BD%9C%E8%BF%9B%E7%A8%8B"><span class="toc-number">16.4.</span> <span class="toc-text">优化四：调整 Worker 工作进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E4%BA%94%EF%BC%9A%E5%BC%80%E5%90%AFCPU%E4%BA%B2%E5%92%8C%E6%9C%BA%E5%88%B6"><span class="toc-number">16.5.</span> <span class="toc-text">优化五：开启CPU亲和机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%85%AD%EF%BC%9A%E5%BC%80%E5%90%AFepoll%E6%A8%A1%E5%9E%8B%E5%8F%8A%E8%B0%83%E6%95%B4%E5%B9%B6%E5%8F%91%E8%BF%9E%E6%8E%A5%E6%95%B0"><span class="toc-number">16.6.</span> <span class="toc-text">优化六：开启epoll模型及调整并发连接数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">17.</span> <span class="toc-text">十六、隐藏 Nginx 版本号及 Nginx 信息</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%90%E8%97%8F-Nginx-%E7%89%88%E6%9C%AC%E5%8F%B7%E4%BF%A1%E6%81%AF"><span class="toc-number">17.1.</span> <span class="toc-text">隐藏 Nginx 版本号信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%90%E8%97%8F-Nginx-%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-number">17.2.</span> <span class="toc-text">隐藏 Nginx 相关信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">18.</span> <span class="toc-text">十七、Nginx 配置 Index of &#x2F; 索引页（文件目录）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">19.</span> <span class="toc-text">十八、Nginx 配置文件讲解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">20.</span> <span class="toc-text">Nginx 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8-nginx-%E6%9C%8D%E5%8A%A1"><span class="toc-number">20.1.</span> <span class="toc-text">1. 启动 nginx 服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%81%9C%E6%AD%A2-nginx-%E6%9C%8D%E5%8A%A1"><span class="toc-number">20.2.</span> <span class="toc-text">2. 停止 nginx 服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%87%8D%E8%BD%BD%E9%85%8D%E7%BD%AE"><span class="toc-number">20.3.</span> <span class="toc-text">3. 重载配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%AA%8C%E8%AF%81%E9%85%8D%E7%BD%AE"><span class="toc-number">20.4.</span> <span class="toc-text">4. 验证配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">21.</span> <span class="toc-text">nginx 的【reload】与【重启】的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">22.</span> <span class="toc-text">Nginx 常规部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9%EF%BC%88%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3%E9%85%8D%E7%BD%AE%EF%BC%89%EF%BC%9A"><span class="toc-number">22.0.0.1.</span> <span class="toc-text">注意点（后端接口配置）：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">23.</span> <span class="toc-text">通过 nginx 实现集群部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E4%B8%AD%E7%9A%84-ip-hash-%E6%9C%BA%E5%88%B6"><span class="toc-number">23.1.</span> <span class="toc-text">1. 集群部署中的 ip_hash 机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">24.</span> <span class="toc-text">Nginx 其他经典功能、问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">25.</span> <span class="toc-text">【参考资料】</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3%E6%8C%87%E5%8D%97%EF%BC%9A"><span class="toc-number">25.1.</span> <span class="toc-text">官方使用文档指南：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D"><span class="toc-number">25.2.</span> <span class="toc-text">其他相关书籍</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
