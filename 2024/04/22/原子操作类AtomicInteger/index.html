@@ -1,0 +1,342 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>原子操作类AtomicInteger | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="为什么需要AtomicInteger原子操作类？ 对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在多线程环境下就是线程不安全的。num++解析为num&#x3D;num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。   要是换成volatile修饰count变量呢？ 顺带说下volatile关键字很重要的两个特性:1、保证变量在线程间可见，对volatil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="原子操作类AtomicInteger">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/22/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BBAtomicInteger/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="为什么需要AtomicInteger原子操作类？ 对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在多线程环境下就是线程不安全的。num++解析为num&#x3D;num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。   要是换成volatile修饰count变量呢？ 顺带说下volatile关键字很重要的两个特性:1、保证变量在线程间可见，对volatil">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_203937_199.webp">
+<meta property="article:published_time" content="2024-04-22T05:47:29.255Z">
+<meta property="article:modified_time" content="2024-04-22T23:28:13.850Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="并发">
+<meta property="article:tag" content="java基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_203937_199.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/22/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BBAtomicInteger/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '原子操作类AtomicInteger',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 07:28:13'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_203937_199.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_203937_199.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">原子操作类AtomicInteger</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T05:47:29.255Z" title="发表于 2024-04-22 13:47:29">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T23:28:13.850Z" title="更新于 2024-04-23 07:28:13">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java%E5%9F%BA%E7%A1%80/">java基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="原子操作类AtomicInteger"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a name="BLEH1"></a></p>
+<h4 id="为什么需要AtomicInteger原子操作类？">为什么需要AtomicInteger原子操作类？</h4>
+<p>对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%A4%9A%E7%BA%BF%E7%A8%8B&amp;spm=1001.2101.3001.7020">多线程</a>环境下就是线程不安全的。num++解析为num=num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。</p>
+<hr>
+<p><a name="elPnV"></a></p>
+<h4 id="要是换成volatile修饰count变量呢？">要是换成volatile修饰count变量呢？</h4>
+<p>顺带说下volatile关键字很重要的两个特性:<br />1、保证变量在线程间可见，对volatile变量所有的写操作都能立即反应到其他线程中，换句话说，volatile变量在各个线程中是一致的（得益于java内存模型—“先行发生原则”）；<br />2、禁止指令的重排序优化；<br />那么换成volatile修饰count变量后，会有什么效果呢？ 试一试:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicIntegerTest &#123;</span><br><span class="line">    private static final int THREADS_CONUT = 20;</span><br><span class="line">    public static volatile int count = 0;</span><br><span class="line">    public static void increase() &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Thread[] threads = new Thread[THREADS_CONUT];</span><br><span class="line">       for (int i = 0; i &lt; THREADS_CONUT; i++) &#123;</span><br><span class="line">            threads[i] = new Thread(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    for (int i = 0; i &lt; 1000; i++) &#123;</span><br><span class="line">                        increase();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            threads[i].start();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果似乎又失望了，测试结果和上面的一致，每次都是输出小于20000的数字。这又是为什么么？ 上面的论据是正确的，也就是上面标红的内容，但是这个论据并不能得出&quot;基于volatile变量的运算在并发下是安全的&quot;这个结论，因为核心点在于java里的运算（比如自增）并不是原子性的。</p>
+<hr>
+<p><a name="cIZ8n"></a></p>
+<h4 id="用了AtomicInteger类后会变成什么样子呢？">用了AtomicInteger类后会变成什么样子呢？</h4>
+<p>把上面的代码改造成AtomicInteger原子类型，先看看效果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line">public class AtomicIntegerTest &#123;</span><br><span class="line"></span><br><span class="line">    private static final int THREADS_COUNT = 20;</span><br><span class="line">    public static AtomicInteger count = new AtomicInteger(0);</span><br><span class="line"></span><br><span class="line">    public static void increase() &#123;</span><br><span class="line">        count.incrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Thread[] threads = new Thread[THREADS_COUNT];</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; THREADS_COUNT; i++) &#123;</span><br><span class="line">            threads[i] = new Thread(() -&gt; &#123;</span><br><span class="line">                for (int j = 0; j &lt; 1000; j++) &#123;</span><br><span class="line">                    increase();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            threads[i].start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 等待所有线程执行完毕</span><br><span class="line">        for (Thread thread : threads) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                thread.join();</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果每次都输出20000，程序输出了正确的结果，这都归功于AtomicInteger.incrementAndGet()方法的原子性。</p>
+<hr>
+<p><a name="n9NTT"></a></p>
+<h4 id="非阻塞同步">非阻塞同步</h4>
+<p>同步：多线程并发访问共享数据时，保证共享数据再同一时刻只被一个或一些线程使用。<br />我们知道，阻塞同步和非阻塞同步都是实现线程安全的两个保障手段，非阻塞同步对于阻塞同步而言主要解决了阻塞同步中线程阻塞和唤醒带来的性能问题，那什么叫做非阻塞同步呢？在并发环境下，某个线程对共享变量先进行操作，如果没有其他线程争用共享数据那操作就成功；如果存在数据的争用冲突，那就才去补偿措施，比如不断的重试机制，直到成功为止，因为这种乐观的并发策略不需要把线程挂起，也就把这种同步操作称为非阻塞同步（操作和冲突检测具备原子性）。在硬件指令集的发展驱动下，使得 “操作和冲突检测” 这种看起来需要多次操作的行为只需要一条处理器指令便可以完成，这些指令中就包括非常著名的CAS指令（Compare-And-Swap比较并交换）。《深入理解Java虚拟机第二版.周志明》第十三章中这样描述关于CAS机制:<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713597304209-edc74b6b-0b1a-4707-aacd-e3224f31d346.png#averageHue=%23eeeae5&amp;clientId=u3b21b99b-2459-4&amp;from=paste&amp;id=u8f5d8153&amp;originHeight=281&amp;originWidth=706&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=149625&amp;status=done&amp;style=none&amp;taskId=u14273ada-241d-406c-968f-14757eba0a9&amp;title=" alt="image.jpg"><br /> 图取自《深入理解Java虚拟机第二版.周志明》13.2.2 <br />所以再返回来看AtomicInteger.incrementAndGet()方法，它的时间也比较简单</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public final int incrementAndGet() &#123;</span><br><span class="line">    for (;;) &#123;</span><br><span class="line">        int current = get();</span><br><span class="line">        int next = current + 1;</span><br><span class="line">        if (compareAndSet(current, next))</span><br><span class="line">          return next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>incrementAndGet()方法在一个无限循环体内，不断尝试将一个比当前值大1的新值赋给自己，如果失败则说明在执行&quot;获取-设置&quot;操作的时已经被其它线程修改过了，于是便再次进入循环下一次操作，直到成功为止。这个便是AtomicInteger原子性的&quot;诀窍&quot;了，继续进源码看它的compareAndSet方法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public final boolean compareAndSet(int expect, int update) &#123;</span><br><span class="line">    return unsafe.compareAndSwapInt(this, valueOffset, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，compareAndSet()调用的就是Unsafe.compareAndSwapInt()方法，即Unsafe类的CAS操作。</p>
+<hr>
+<p>使用示例如下图，用于标识程序执行过程中是否发生了异常，<a target="_blank" rel="noopener" href="https://blog.csdn.net/fanrenxiang/article/details/85539918">使用quartz实现高级定制化定时任务（包含管理界面）</a>实现中:<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713597306148-a68a0625-24c5-4a2e-84f2-06437877979a.png#averageHue=%23c3e9c8&amp;clientId=u3b21b99b-2459-4&amp;from=paste&amp;id=uf31a7635&amp;originHeight=1241&amp;originWidth=1085&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=330494&amp;status=done&amp;style=none&amp;taskId=u25b663ed-5306-43ea-a7e8-8ccd9f6bca5&amp;title=" alt="image.jpg"></p>
+<hr>
+<p>2020-02-12补充如下内容：</p>
+<ul>
+<li>原子类相比于普通的锁，粒度更细、效率更高(除了高度竞争的情况下)</li>
+<li>如果对于上面的示例代码中使用了thread.yield()之类的方法不清晰的，可以直接看下面的代码压测：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicIntegerTest implements Runnable &#123;</span><br><span class="line">    static AtomicInteger atomicInteger = new AtomicInteger(0);</span><br><span class="line"></span><br><span class="line">    static int commonInteger = 0;</span><br><span class="line"></span><br><span class="line">    public void addAtomicInteger() &#123;</span><br><span class="line">        atomicInteger.getAndIncrement();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void addCommonInteger() &#123;</span><br><span class="line">       commonInteger++;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        //可以调大10000看效果更明显</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line">            addAtomicInteger();</span><br><span class="line">            addCommonInteger();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        AtomicIntegerTest atomicIntegerTest = new AtomicIntegerTest();</span><br><span class="line">        Thread thread1 = new Thread(atomicIntegerTest);</span><br><span class="line">        Thread thread2 = new Thread(atomicIntegerTest);</span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">        //join()方法是为了让main主线程等待thread1、thread2两个子线程执行完毕</span><br><span class="line">        thread1.join();</span><br><span class="line">        thread2.join();</span><br><span class="line">        System.out.println(&quot;AtomicInteger add result = &quot; + atomicInteger.get());</span><br><span class="line">        System.out.println(&quot;CommonInteger add result = &quot; + commonInteger);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>原子类一览图参考如下：</li>
+</ul>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713597303983-cd6a4ae3-2624-4c57-a081-ac733e7fc5d0.png#averageHue=%23c7e3f7&amp;clientId=u3b21b99b-2459-4&amp;from=paste&amp;height=485&amp;id=u4f221e03&amp;originHeight=485&amp;originWidth=600&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=58578&amp;status=done&amp;style=none&amp;taskId=ud27e84ac-91de-4e2c-8f24-7fc044fe253&amp;title=&amp;width=600" alt="image.jpg"></p>
+<ul>
+<li><strong>如何把普通变量升级为原子变量？主要是AtomicIntegerFieldUpdater<T>类</strong>，参考如下代码：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AtomicIntegerFieldUpdaterTest implements Runnable &#123;</span><br><span class="line">    static Goods phone;</span><br><span class="line">    static Goods computer;</span><br><span class="line">    AtomicIntegerFieldUpdater&lt;Goods&gt; atomicIntegerFieldUpdater =</span><br><span class="line"></span><br><span class="line">            AtomicIntegerFieldUpdater.newUpdater(Goods.class, &quot;price&quot;);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        for (int i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line">            phone.price++;</span><br><span class="line">            atomicIntegerFieldUpdater.getAndIncrement(computer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class Goods &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //商品定价</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        volatile int price;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        phone = new Goods();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        computer = new Goods();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        AtomicIntegerFieldUpdaterTest atomicIntegerFieldUpdaterTest = new AtomicIntegerFieldUpdaterTest();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Thread thread1 = new Thread(atomicIntegerFieldUpdaterTest);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Thread thread2 = new Thread(atomicIntegerFieldUpdaterTest);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        thread1.start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        thread2.start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //join()方法是为了让main主线程等待thread1、thread2两个子线程执行完毕</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        thread1.join();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        thread2.join();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;CommonInteger price = &quot; + phone.price);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;AtomicInteger price = &quot; + computer.price);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>在高并发情况下，LongAdder(累加器)比AtomicLong原子操作效率更高</strong>，LongAdder累加器是java8新加入的，参考以下压测代码：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * @description 压测AtomicLong的原子操作性能</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> **/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class AtomicLongTest implements Runnable &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static AtomicLong atomicLong = new AtomicLong(0);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            atomicLong.incrementAndGet();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        ExecutorService es = Executors.newFixedThreadPool(30);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        long start = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            es.submit(new AtomicLongTest());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        es.shutdown();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //保证任务全部执行完</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        while (!es.isTerminated()) &#123; &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        long end = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;AtomicLong add 耗时=&quot; + (end - start));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;AtomicLong add result=&quot; + atomicLong.get());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * @description 压测LongAdder的原子操作性能</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> **/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class LongAdderTest implements Runnable &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static LongAdder longAdder = new LongAdder();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            longAdder.increment();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        ExecutorService es = Executors.newFixedThreadPool(30);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        long start = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            es.submit(new LongAdderTest());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        es.shutdown();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //保证任务全部执行完</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        while (!es.isTerminated()) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        long end = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;LongAdder add 耗时=&quot; + (end - start));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;LongAdder add result=&quot; + longAdder.sum());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在高度并发竞争情形下，AtomicLong每次进行add都需要flush和refresh（这一块涉及到java内存模型中的工作内存和主内存的，所有变量操作只能在工作内存中进行，然后写回主内存，其它线程再次读取新值），每次add()都需要同步，在高并发时会有比较多冲突，比较耗时导致效率低；而LongAdder中每个线程会维护自己的一个计数器，在最后执行LongAdder.sum()方法时候才需要同步，把所有计数器全部加起来，不需要flush和refresh操作。</p>
+<hr>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713597303731-fffc2048-546f-4df5-a7ae-44b9c4c5df47.png#averageHue=%23659c49&amp;clientId=u3b21b99b-2459-4&amp;from=paste&amp;height=20&amp;id=u15843420&amp;originHeight=64&amp;originWidth=64&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=4845&amp;status=done&amp;style=none&amp;taskId=u5a7beeb4-8e12-48be-b8b8-06bd07bfcfa&amp;title=&amp;width=20" alt="image.jpg"> 参考资料：书籍《深入理解Java虚拟机 第二版》、慕课网实战课程《<a target="_blank" rel="noopener" href="https://coding.imooc.com/class/409.html">玩转Java并发工具，精通JUC，成为并发多面手</a>》<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713597304394-8d8ee8e6-2172-40f4-8332-6f3a51f0ab71.png#averageHue=%23659c49&amp;clientId=u3b21b99b-2459-4&amp;from=paste&amp;height=20&amp;id=ub7c161d7&amp;originHeight=64&amp;originWidth=64&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=4845&amp;status=done&amp;style=none&amp;taskId=u630a98e4-4590-4b35-993b-5321069d5af&amp;title=&amp;width=20" alt="image.jpg"> 引申阅读: <a target="_blank" rel="noopener" href="https://blog.csdn.net/fanrenxiang/article/details/85539918">使用quartz实现高级定制化定时任务（包含管理界面）</a><br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713597304208-bfe28ddc-8652-4b80-8628-37e2bb975718.png#averageHue=%23659c49&amp;clientId=u3b21b99b-2459-4&amp;from=paste&amp;height=20&amp;id=u14dfe6a4&amp;originHeight=64&amp;originWidth=64&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=4845&amp;status=done&amp;style=none&amp;taskId=ud491a55a-5289-4f22-abbb-0786ec753e8&amp;title=&amp;width=20" alt="image.jpg"> 推荐阅读:elastic search搜索引擎实战demo:<a target="_blank" rel="noopener" href="https://github.com/simonsfan/springboot-quartz-demo">https://github.com/simonsfan/springboot-quartz-demo</a>，分支:feature_es</p>
+<blockquote>
+<p>来自: <a target="_blank" rel="noopener" href="https://blog.csdn.net/fanrenxiang/article/details/80623884">原子操作类AtomicInteger详解-CSDN博客</a></p>
+</blockquote>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/22/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BBAtomicInteger/">http://www.bojiboqi.fun/2024/04/22/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BBAtomicInteger/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B9%B6%E5%8F%91/">并发</a><a class="post-meta__tags" href="/tags/java%E5%9F%BA%E7%A1%80/">java基础</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_203937_199.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84_/" title="Java虚拟机的内存结构_"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_203916_136.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java虚拟机的内存结构_</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/Java%20volatile%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/" title="Java volatile原理剖析与实例讲解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_10-45-22.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java volatile原理剖析与实例讲解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/23/CountDownLatch/" title="CountDownLatch"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204420_023.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-23</div><div class="title">CountDownLatch</div></div></a></div><div><a href="/2024/04/22/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="Java内存模型"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204302_041.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java内存模型</div></div></a></div><div><a href="/2024/04/22/Java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" title="Java线程模型"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-56-38.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java线程模型</div></div></a></div><div><a href="/2024/04/22/Java%20volatile%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/" title="Java volatile原理剖析与实例讲解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_10-45-22.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java volatile原理剖析与实例讲解</div></div></a></div><div><a href="/2024/04/22/%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E6%B3%95/" title="创建线程的七种方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204302_041.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">创建线程的七种方法</div></div></a></div><div><a href="/2024/04/22/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84_/" title="Java虚拟机的内存结构_"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_203916_136.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java虚拟机的内存结构_</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81AtomicInteger%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BB%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">为什么需要AtomicInteger原子操作类？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A6%81%E6%98%AF%E6%8D%A2%E6%88%90volatile%E4%BF%AE%E9%A5%B0count%E5%8F%98%E9%87%8F%E5%91%A2%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">要是换成volatile修饰count变量呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E4%BA%86AtomicInteger%E7%B1%BB%E5%90%8E%E4%BC%9A%E5%8F%98%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%E5%91%A2%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">用了AtomicInteger类后会变成什么样子呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%90%8C%E6%AD%A5"><span class="toc-number">4.</span> <span class="toc-text">非阻塞同步</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

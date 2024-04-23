@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>如何设计一个高并发系统？ | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言   1 页面静态化 对于高并发系统的页面功能，我们必须要做静态化设计。如果并发访问系统的用户非常多，每次用户访问页面的时候，都通过服务器动态渲染，会导致服务端承受过大的压力，而导致页面无法正常加载的情况发生。我们可以使用Freemarker或Velocity模板引擎，实现页面静态化功能。以商城官网首页为例，我们可以在Job中，每隔一段时间，查询出所有需要在首页展示的数据，汇总到一起，使用模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何设计一个高并发系统？">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/22/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%EF%BC%9F/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="前言   1 页面静态化 对于高并发系统的页面功能，我们必须要做静态化设计。如果并发访问系统的用户非常多，每次用户访问页面的时候，都通过服务器动态渲染，会导致服务端承受过大的压力，而导致页面无法正常加载的情况发生。我们可以使用Freemarker或Velocity模板引擎，实现页面静态化功能。以商城官网首页为例，我们可以在Job中，每隔一段时间，查询出所有需要在首页展示的数据，汇总到一起，使用模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-31-01.webp">
+<meta property="article:published_time" content="2024-04-22T06:34:04.286Z">
+<meta property="article:modified_time" content="2024-04-22T23:27:56.628Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="高并发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-31-01.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/22/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%EF%BC%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '如何设计一个高并发系统？',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 07:27:56'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/photo_2024-02-28_19-31-01.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/photo_2024-02-28_19-31-01.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">如何设计一个高并发系统？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T06:34:04.286Z" title="发表于 2024-04-22 14:34:04">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T23:27:56.628Z" title="更新于 2024-04-23 07:27:56">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%AB%98%E5%B9%B6%E5%8F%91/">高并发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="如何设计一个高并发系统？"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a name="P7lcA"></a></p>
+<h3 id="前言"><strong>前言</strong></h3>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845381522-18f55fda-f758-48d1-ad08-4ff7400eaba9.png#averageHue=%23fefefe&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u6565f4a5&amp;originHeight=1652&amp;originWidth=1024&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=155927&amp;status=done&amp;style=none&amp;taskId=uea1e0fe3-df65-4121-aff9-7b5a74a9fb2&amp;title=" alt="image.jpg"><br>
+<a name="c1GJ7"></a></p>
+<h3 id="1-页面静态化"><strong>1 页面静态化</strong></h3>
+<p>对于高并发系统的页面功能，我们必须要做<code>静态化</code>设计。<br />如果并发访问系统的用户非常多，每次用户访问页面的时候，都通过服务器动态渲染，会导致服务端承受过大的压力，而导致页面无法正常加载的情况发生。<br />我们可以使用<code>Freemarker</code>或<code>Velocity</code>模板引擎，实现页面静态化功能。<br />以商城官网首页为例，我们可以在<code>Job</code>中，每隔一段时间，查询出所有需要在首页展示的数据，汇总到一起，使用模板引擎生成到html文件当中。<br />然后将该<code>html</code>文件，通过<code>shell</code>脚本，自动同步到前端页面相关的服务器上。<br>
+<a name="znwQr"></a></p>
+<h3 id="2-CDN加速"><strong>2 CDN加速</strong></h3>
+<p>虽说页面静态化可以提升网站网页的访问速度，但还不够，因为用户分布在全国各地，有些人在北京，有些人在成都，有些人在深圳，地域相差很远，他们访问网站的网速各不相同。<br />如何才能让用户最快访问到活动页面呢？<br />这就需要使用CDN，它的全称是Content Delivery Network，即<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cdn?from_column=20065&amp;from=20065">内容分发网络</a>。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845388973-520096dd-18c1-4cd2-b619-ede8f2702155.png#averageHue=%23f6f5f5&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u509d2aa1&amp;originHeight=477&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=344530&amp;status=done&amp;style=none&amp;taskId=u07f49ccc-d109-4e12-882c-3710f1f870f&amp;title=" alt="image.jpg"><br />使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。<br />CDN加速的基本原理是：将网站的静态内容（如图片、CSS、JavaScript文件等）复制并存储到分布在全球各地的服务器节点上。<br />当用户请求访问网站时，CDN系统会根据用户的地理位置，自动将内容分发给离用户最近的服务器，从而实现快速访问。<br />国内常见的CDN提供商有阿里云CDN、腾讯云CDN、百度云加速等，它们提供了全球分布的节点服务器，为全球范围内的网站加速服务。<br>
+<a name="VGB46"></a></p>
+<h3 id="3-缓存"><strong>3 缓存</strong></h3>
+<p>在高并发的系统中，<code>缓存</code>可以说是必不可少的技术之一。<br />目前缓存有两种：</p>
+<ol>
+<li>基于应用服务器的内存缓存，也就是我们说的二级缓存。</li>
+<li>使用缓存中间件，比如：Redis、Memcached等，这种是分布式缓存。</li>
+</ol>
+<p>这两种缓存各有优缺点。<br />二级缓存的性能更好，但因为是基于应用服务器内存的缓存，如果系统部署到了多个服务器节点，可能会存在数据不一致的情况。<br />而Redis或Memcached虽说性能上比不上二级缓存，但它们是分布式缓存，避免多个服务器节点数据不一致的问题。<br />缓存的用法一般是这样的：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845385974-4e3595bb-c0a6-404a-8499-c239c14908d1.png#averageHue=%23fbfaf9&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ud5e28409&amp;originHeight=721&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=235755&amp;status=done&amp;style=none&amp;taskId=u1a5f1f55-2a76-458f-8a85-6fe49b9b700&amp;title=" alt="image.jpg"><br />使用缓存之后，可以减轻访问数据库的压力，显著的提升系统的性能。<br />有些业务场景，甚至会分布式缓存和二级缓存一起使用。<br />比如获取商品分类数据，流程如下：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845382632-586941b7-5056-4e06-b37a-303e27349621.png#averageHue=%23f5f4f3&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u0c4d7b99&amp;originHeight=1276&amp;originWidth=972&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=185090&amp;status=done&amp;style=none&amp;taskId=u298f555f-8b1d-4906-898f-17357f7685f&amp;title=" alt="image.jpg"><br />不过引入缓存，虽说给我们的系统性能带来了提升，但同时也给我们带来了一些新的问题，比如：《<a href="https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzkwNjMwMTgzMQ%3D%3D%26mid%3D2247493521%26idx%3D1%26sn%3Dbff84e7a819d79e4b8eb7e722e96ddfc%26chksm%3Dc0e83f79f79fb66f2e7bf03a104580b404ea0a3c977846e428f13c1f12fbad46d4d778b2da14%26token%3D902535653%26lang%3Dzh_CN%26scene%3D21%23wechat_redirect&amp;source=article&amp;objectId=2327500">数据库和缓存双向数据库一致性问题</a>》、《<a href="https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzkwNjMwMTgzMQ%3D%3D%26mid%3D2247491225%26idx%3D1%26sn%3Dbfb14f28911efaa6e3a615870fff9a5c%26chksm%3Dc0ebc671f79c4f6718a63bbec91d79a4b05e1dd2a7c00ed9bf6a9f582abd4c6e5c870148ff89%26token%3D902535653%26lang%3Dzh_CN%26scene%3D21%23wechat_redirect&amp;source=article&amp;objectId=2327500">缓存穿透、击穿和雪崩问题</a>》等。<br />我们在使用缓存时，一定要结合实际业务场景，切记不要为了缓存而缓存。<br>
+<a name="TneLN"></a></p>
+<h3 id="4-异步"><strong>4 异步</strong></h3>
+<p>有时候，我们在高并发系统当中，某些接口的业务逻辑，没必要都同步执行。<br />比如有个用户请求接口中，需要做业务操作，发站内通知，和记录操作日志。为了实现起来比较方便，通常我们会将这些逻辑放在接口中同步执行，势必会对接口性能造成一定的影响。<br />接口内部流程图如下：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845379600-a6332178-6970-428f-bcda-0832c7ea0226.png#averageHue=%23f1ecea&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u2977f963&amp;originHeight=656&amp;originWidth=308&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=29654&amp;status=done&amp;style=none&amp;taskId=ub07f53d7-a958-4d27-8f38-a022d95a162&amp;title=" alt="image.jpg"><br />这个接口表面上看起来没有问题，但如果你仔细梳理一下业务逻辑，会发现只有业务操作才是核心逻辑，其他的功能都是非核心逻辑。<br />在这里有个原则就是：核心逻辑可以同步执行，同步写库。非核心逻辑，可以异步执行，异步写库。<br />上面这个例子中，发站内通知和用户操作日志功能，对实时性要求不高，即使晚点写库，用户无非是晚点收到站内通知，或者运营晚点看到用户操作日志，对业务影响不大，所以完全可以异步处理。<br />通常异步主要有两种：多线程 和 mq。<br>
+<a name="ZWGrn"></a></p>
+<h4 id="4-1-线程池"><strong>4.1 线程池</strong></h4>
+<p>使用线程池改造之后，接口逻辑如下：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845382594-370ed86b-ebfe-4f63-a93f-3e37b2954b7f.png#averageHue=%23f8f6f5&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ufe6748cb&amp;originHeight=572&amp;originWidth=912&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=34817&amp;status=done&amp;style=none&amp;taskId=ub660f3d9-4e89-4d83-b243-8ef34b196ad&amp;title=" alt="image.jpg"><br />发站内通知和用户操作日志功能，被提交到了两个单独的线程池中。<br />这样接口中重点关注的是业务操作，把其他的逻辑交给线程异步执行，这样改造之后，让接口性能瞬间提升了。<br />但使用线程池有个小问题就是：如果服务器重启了，或者是需要被执行的功能出现异常了，无法重试，会丢数据。<br />那么这个问题该怎么办呢？<br>
+<a name="Y1j4j"></a></p>
+<h4 id="4-2-mq"><strong>4.2 mq</strong></h4>
+<p>使用mq改造之后，接口逻辑如下：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845384683-db090404-feca-4c85-a60d-a024ab5cacfe.png#averageHue=%23f7f6f5&amp;clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u0e218c9b&amp;originHeight=621&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=83775&amp;status=done&amp;style=none&amp;taskId=ude6cfe86-c575-4368-a592-438ad5673a1&amp;title=" alt="image.jpg"><br />对于发站内通知和用户操作日志功能，在接口中并没真正实现，它只发送了mq消息到mq服务器。然后由mq消费者消费消息时，才真正的执行这两个功能。<br />这样改造之后，接口性能同样提升了，因为发送mq消息速度是很快的，我们只需关注业务操作的代码即可。<br>
+<a name="DNFXM"></a></p>
+<h3 id="5-多线程处理"><strong>5 多线程处理</strong></h3>
+<p>在高并发系统当中，用户的请求量很大。<br />假如我们现在用mq处理业务逻辑。<br />一下子有大量的用户请求，产生了大量的mq消息，保存到了mq服务器。<br />而mq的消费者，消费速度很慢。<br />可能会导致大量的消息积压问题。<br />从而严重影响数据的实时性。<br />我们需要对消息的消费者做优化。<br />最快的方式是使用<code>多线程</code>消费消息，比如：改成线程池消费消息。<br />当然核心线程数、最大线程数、队列大小 和 线程回收时间，一定要做成配置的，后面可以根据实际情况动态调整。<br />这样改造之后，我们可以快速解决消息积压问题。<br />除此之外，在很多数据导入场景，用多线程导入数据，可以提升效率。</p>
+<blockquote>
+<p>温馨提醒一下：使用多线程消费消息，可能会出现消息的顺序问题。如果你的业务场景中，需要保证消息的顺序，则要用其他的方式解决问题。感兴趣的小伙伴，可以找我私聊。</p>
+</blockquote>
+<p><a name="IrQjm"></a></p>
+<h3 id="6-分库分表"><strong>6 分库分表</strong></h3>
+<p>有时候，高并发系统的吞吐量受限的不是别的，而是数据库。<br />当系统发展到一定的阶段，用户并发量大，会有大量的数据库请求，需要占用大量的数据库连接，同时会带来磁盘IO的性能瓶颈问题。<br />此外，随着用户数量越来越多，产生的数据也越来越多，一张表有可能存不下。由于数据量太大，sql语句查询数据时，即使走了索引也会非常耗时。<br />这时该怎么办呢？<br />答：需要做<code>分库分表</code>。<br />如下图所示：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845396916-5baee798-c609-4823-8b7f-653b7fd544b8.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ub9e058e3&amp;originHeight=878&amp;originWidth=1042&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=351674&amp;status=done&amp;style=none&amp;taskId=ube138651-11f9-49e6-9f16-37ac20e21ee&amp;title=" alt="image.jpg"><br />图中将用户库拆分成了三个库，每个库都包含了四张用户表。<br />如果有用户请求过来的时候，先根据用户id路由到其中一个用户库，然后再定位到某张表。<br />路由的算法挺多的：</p>
+<ul>
+<li>根据id取模，比如：id=7，有4张表，则7%4=3，模为3，路由到用户表3。</li>
+<li>给id指定一个区间范围，比如：id的值是0-10万，则数据存在用户表0，id的值是10-20万，则数据存在用户表1。</li>
+<li>一致性hash算法</li>
+</ul>
+<p>分库分表主要有两个方向：<code>垂直</code>和<code>水平</code>。<br />说实话垂直方向（即业务方向）更简单。<br />在水平方向（即数据方向）上，分库和分表的作用，其实是有区别的，不能混为一谈。</p>
+<ul>
+<li>分库：是为了解决数据库连接资源不足问题，和磁盘IO的性能瓶颈问题。</li>
+<li>分表：是为了解决单表数据量太大，sql语句查询数据时，即使走了索引也非常耗时问题。此外还可以解决消耗cpu资源问题。</li>
+<li>分库分表：可以解决 数据库连接资源不足、磁盘IO的性能瓶颈、检索数据耗时 和 消耗cpu资源等问题。</li>
+</ul>
+<p>如果在有些业务场景中，用户并发量很大，但是需要保存的数据量很少，这时可以只分库，不分表。<br />如果在有些业务场景中，用户并发量不大，但是需要保存的数量很多，这时可以只分表，不分库。<br />如果在有些业务场景中，用户并发量大，并且需要保存的数量也很多时，可以分库分表。<br />关于分库分表更详细的内容，可以看看我另一篇文章，里面讲的更深入《<a href="https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzkwNjMwMTgzMQ%3D%3D%26mid%3D2247490459%26idx%3D1%26sn%3D1e4296228c00aa4203aab481575ac916%26chksm%3Dc0ebc373f79c4a658de7ce7f0d8cf30b1f45adb346c2386321779e7cf85a757a12337d3ae233%26token%3D2041133408%26lang%3Dzh_CN%26scene%3D21%23wechat_redirect&amp;source=article&amp;objectId=2327500">阿里二面：为什么分库分表？</a>》<br>
+<a name="r28xF"></a></p>
+<h3 id="7-池化技术"><strong>7 池化技术</strong></h3>
+<p>其实不光是高并发系统，为了性能考虑，有些低并发的系统，也在使用<code>池化技术</code>，比如：数据库连接池、线程池等。<br />池化技术是<code>多例设计模式</code>的一个体现。<br />我们都知道<code>创建</code>和<code>销毁</code>数据库连接是非常耗时耗资源的操作。<br />如果每次用户请求，都需要创建一个新的数据库连接，势必会影响程序的性能。<br />为了提升性能，我们可以创建一批数据库连接，保存到内存中的某个集合中，缓存起来。<br />这样的话，如果下次有需要用数据库连接的时候，就能直接从集合中获取，不用再额外创建数据库连接，这样处理将会给我们提升系统性能。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845385015-8d0f0747-8eb3-4aa0-86d2-e9cb231a792f.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ua3fd53c3&amp;originHeight=686&amp;originWidth=830&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=125157&amp;status=done&amp;style=none&amp;taskId=u2b019e73-ace8-4bd6-b109-f20c8f52fd5&amp;title=" alt="image.jpg"><br />当然用完之后，需要及时归还。<br />目前常用的数据库连接池有：Druid、C3P0、hikari和DBCP等。<br>
+<a name="vv1Q4"></a></p>
+<h3 id="8-读写分离"><strong>8 读写分离</strong></h3>
+<p>不知道你有没有听说过<code>二八原则</code>，在一个系统当中可能有80%是读数据请求，另外20%是写数据请求。<br />不过这个比例也不是绝对的。<br />我想告诉大家的是，一般的系统读数据请求会远远大于写数据请求。<br />如果读数据请求和写数据请求，都访问同一个数据库，可能会相互抢占数据库连接，相互影响。<br />我们都知道，一个数据库的数据库连接数量是有限，是非常宝贵的资源，不能因为读数据请求，影响到写数据请求吧？<br />这就需要对数据库做<code>读写分离</code>了。<br />于是，就出现了主从读写分离架构：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845386314-3f42d421-6366-4dc6-84a6-e10ee2587d4e.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u1806c17c&amp;originHeight=323&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=103907&amp;status=done&amp;style=none&amp;taskId=u1e81d050-cc7c-411f-8ced-dbd49176a6a&amp;title=" alt="image.jpg"><br />考虑刚开始用户量还没那么大，选择的是一主一从的架构，也就是常说的一个<code>master</code>，一个<code>slave</code>。<br />所有的写数据请求，都指向主库。一旦主库写完数据之后，立马异步同步给从库。这样所有的读数据请求，就能及时从从库中获取到数据了（除非网络有延迟）。<br />但这里有个问题就是：如果用户量确实有些大，如果master挂了，升级slave为master，将所有读写请求都指向新master。<br />但此时，如果这个新master根本扛不住所有的读写请求，该怎么办？<br />这就需要一主多从的架构了：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845391373-9098e0fa-a6c6-4769-8dde-060bdde7ee02.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ufc418546&amp;originHeight=707&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=157273&amp;status=done&amp;style=none&amp;taskId=u765ea8dd-89de-4024-a19c-a7d0fc0909e&amp;title=" alt="image.jpg"><br />上图中我列的是一主两从，如果master挂了，可以选择从库1或从库2中的一个，升级为新master。假如我们在这里升级从库1为新master，则原来的从库2就变成了新master的的slave了。<br />调整之后的架构图如下：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845389553-751f093d-d5bc-4f3b-8770-1bca1755d6c4.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ub95e4de7&amp;originHeight=752&amp;originWidth=550&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=106413&amp;status=done&amp;style=none&amp;taskId=u4a2646a1-487c-4949-95af-89759321c09&amp;title=" alt="image.jpg"><br />这样就能解决上面的问题了。<br />除此之外，如果查询请求量再增大，我们还可以将架构升级为一主三从、一主四从…一主N从等。<br>
+<a name="jKDHQ"></a></p>
+<h3 id="9-索引"><strong>9 索引</strong></h3>
+<p>在高并发的系统当中，用户经常需要查询数据，对数据库增加<code>索引</code>，是必不可少的一个环节。<br />尤其是表中数据非常多时，加了索引，跟没加索引，执行同一条sql语句，查询相同的数据，耗时可能会相差N个数量级。<br />虽说索引能够提升SQL语句的查询速度，但索引也不是越多越好。<br />在insert数据时，需要给索引分配额外的资源，对insert的性能有一定的损耗。<br />我们要根据实际业务场景来决定创建哪些索引，索引少了，影响查询速度，索引多了，影响写入速度。<br />很多时候，我们需要经常对索引做优化。</p>
+<ol>
+<li>可以将多个单个索引，改成一个联合索引。</li>
+<li>删除不要索引。</li>
+<li>使用explain关键字，查询SQL语句的执行计划，看看哪些走了索引，哪些没有走索引。</li>
+<li>要注意索引失效的一些场景。</li>
+<li>必要时可以使用force index来强制查询sql走某个索引。</li>
+</ol>
+<p>如果你想进一步了解explain的详细用法，可以看看我的另一篇文章《<a href="https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzkwNjMwMTgzMQ%3D%3D%26mid%3D2247490262%26idx%3D1%26sn%3Da67f610afa984ecca130a54a3be453ab%26chksm%3Dc0ebc23ef79c4b2869dea998e413c5cbea6aeeea01ee74efc7c1a5fc228baa7beca215adf3ea%26token%3D751314179%26lang%3Dzh_CN%26scene%3D21%23wechat_redirect&amp;source=article&amp;objectId=2327500">explain | 索引优化的这把绝世好剑，你真的会用吗？</a>》。<br />如果你想进一步了解哪些情况下索引会失效，可以看看我的另一篇文章《<a href="https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzkwNjMwMTgzMQ%3D%3D%26mid%3D2247491626%26idx%3D1%26sn%3D18fc949c06f04fe8f4c29b6fc5c66f9c%26chksm%3Dc0e838c2f79fb1d45c6f9b2ab188bb4663414690bab0718a7d46beb875e6b83e5e67ec27d2ff%26token%3D902535653%26lang%3Dzh_CN%26scene%3D21%23wechat_redirect&amp;source=article&amp;objectId=2327500">聊聊索引失效的10种场景，太坑了</a>》。<br>
+<a name="LpqFR"></a></p>
+<h3 id="10-批处理"><strong>10 批处理</strong></h3>
+<p>有时候，我们需要从指定的用户集合中，查询出有哪些是在数据库中已经存在的。<br />实现代码可以这样写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;User&gt; queryUser(List&lt;User&gt; searchList) &#123;</span><br><span class="line">    if (CollectionUtils.isEmpty(searchList)) &#123;</span><br><span class="line">        return Collections.emptyList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;User&gt; result = Lists.newArrayList();</span><br><span class="line">    searchList.forEach(user -&gt; result.add(userMapper.getUserById(user.getId())));</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里如果有50个用户，则需要循环50次，去查询数据库。我们都知道，每查询一次数据库，就是一次远程调用。<br />如果查询50次数据库，就有50次远程调用，这是非常耗时的操作。<br />那么，我们如何优化呢？<br />答：<code>批处理</code>。<br />具体代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;User&gt; queryUser(List&lt;User&gt; searchList) &#123;</span><br><span class="line">    if (CollectionUtils.isEmpty(searchList)) &#123;</span><br><span class="line">        return Collections.emptyList();</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;Long&gt; ids = searchList.stream().map(User::getId).collect(Collectors.toList());</span><br><span class="line">    return userMapper.getUserByIds(ids);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>提供一个根据用户id集合<code>批量查询</code>用户的接口，只远程调用一次，就能查询出所有的数据。<br />这里有个需要注意的地方是：id集合的大小要做限制，最好一次不要请求太多的数据。要根据实际情况而定，建议控制每次请求的记录条数在500以内。<br>
+<a name="m0LXV"></a></p>
+<h3 id="11-集群"><strong>11 集群</strong></h3>
+<p>系统部署的服务器节点，可能会down机，比如：服务器的磁盘坏了，或者操作系统出现内存不足问题。<br />为了保证系统的高可用，我们需要部署多个节点，构成一个<code>集群</code>，防止因为部分服务器节点挂了，导致系统的整个服务不可用的情况发生。<br />集群有很多种：</p>
+<ol>
+<li>应用服务器集群</li>
+<li>数据库集群</li>
+<li>中间件集群</li>
+<li>文件服务器集群</li>
+</ol>
+<p>我们以中间件<code>Redis</code>为例。<br />在高并发系统中，用户的数据量非常庞大时，比如用户的缓存数据总共大小有40G，一个服务器节点只有16G的内存。<br />这样需要部署3台服务器节点。<br />该业务场景，使用普通的master/slave模式，或者使用哨兵模式都行不通。<br />40G的数据，不能只保存到一台服务器节点，需要均分到3个master服务器节点上，一个master服务器节点保存13.3G的数据。<br />当有用户请求过来的时候，先经过路由，根据用户的id或者ip，每次都访问指定的服务器节点。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845390316-6a9587c2-546e-4427-a8bf-dc79e151daae.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u9edb3f10&amp;originHeight=781&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=218688&amp;status=done&amp;style=none&amp;taskId=ucaa28eb4-295d-4d38-8150-8935d4b6e5d&amp;title=" alt="image.jpg"><br />这用就构成了一个集群。<br />但这样有风险，为了防止其中一个master服务器节点挂掉，导致部分用户的缓存访问不了，还需要对数据做备份。<br />这样每一个master，都需要有一个slave，做数据备份。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845396885-1ecd1df0-e5e0-4d53-9777-8b1747877d59.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u085aff34&amp;originHeight=959&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=337180&amp;status=done&amp;style=none&amp;taskId=ucbe2fe73-e2da-4d42-86b6-3cfd765bc47&amp;title=" alt="image.jpg"><br />如果master挂了，可以将slave升级为新的master，而不影响用户的正常使用。<br>
+<a name="K3lsP"></a></p>
+<h3 id="12-负载均衡"><strong>12 负载均衡</strong></h3>
+<p>如果我们的系统部署到了多台服务器节点。那么哪些用户的请求，访问节点a，哪些用户的请求，访问节点b，哪些用户的请求，访问节点c？<br />我们需要某种机制，将用户的请求，转发到具体的服务器节点上。<br />这就需要使用<code>负载均衡</code>机制了。<br />在linux下有<code>Nginx</code>、<code>LVS</code>、<code>Haproxy</code>等服务可以提供负载均衡服务。<br />在SpringCloud微服务架构中，大部分使用的负载均衡组件就是<code>Ribbon</code>、<code>OpenFegin</code>或<code>SpringCloud Loadbalancer</code>。<br />硬件方面，可以使用<code>F5</code>实现负载均衡。它可以基于交换机实现负载均衡，性能更好，但是价格更贵一些。<br />常用的负载均衡策略有：</p>
+<ol>
+<li><code>轮询</code>：每个请求按时间顺序逐一分配到不同的服务器节点，如果服务器节点down掉，能自动剔除。</li>
+<li><code>weight权重</code>：weight代表权重默认为1，权重越高，服务器节点被分配到的概率越大。weight和访问比率成正比，用于服务器节点性能不均的情况。</li>
+<li><code>ip hash</code>：每个请求按访问ip的hash结果分配, 这样每个访客固定访问同一个服务器节点，它是解诀Session共享的问题的解决方案之一。</li>
+<li><code>最少连接数</code>：把请求转发给连接数较少的服务器节点。轮询算法是把请求平均的转发给各个服务器节点，使它们的负载大致相同；但有些请求占用的时间很长，会导致其所在的服务器节点负载较高。这时least_conn方式就可以达到更好的负载均衡效果。</li>
+<li><code>最短响应时间</code>：按服务器节点的响应时间来分配请求，响应时间短的服务器节点优先被分配。</li>
+</ol>
+<p>当然还有其他的策略，在这里就不给大家一一介绍了。<br>
+<a name="tbxs1"></a></p>
+<h3 id="13-限流"><strong>13 限流</strong></h3>
+<p>对于高并发系统，为了保证系统的稳定性，需要对用户的请求量做<code>限流</code>。<br />特别是秒杀系统中，如果不做任何限制，绝大部分商品可能是被机器抢到，而非正常的用户，有点不太公平。<br />所以，我们有必要识别这些非法请求，做一些限制。那么，我们该如何现在这些非法请求呢？<br />目前有两种常用的限流方式：</p>
+<ul>
+<li>基于nginx限流</li>
+<li>基于redis限流<br>
+<a name="K1WBN"></a></li>
+</ul>
+<h4 id="13-1-对同一用户限流"><strong>13.1 对同一用户限流</strong></h4>
+<p>为了防止某个用户，请求接口次数过于频繁，可以只针对该用户做限制。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845391454-bf14b388-c3d1-4a90-9d03-5ee0ca4ddf8e.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u32b5b3fd&amp;originHeight=728&amp;originWidth=678&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=101315&amp;status=done&amp;style=none&amp;taskId=u606477cb-5559-4851-b217-7ee7fc8d052&amp;title=" alt="image.jpg"><br />限制同一个用户id，比如每分钟只能请求5次接口。<br>
+<a name="gT3xx"></a></p>
+<h4 id="13-2-对同一ip限流"><strong>13.2 对同一ip限流</strong></h4>
+<p>有时候只对某个用户限流是不够的，有些高手可以模拟多个用户请求，这种nginx就没法识别了。<br />这时需要加同一ip限流功能。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845392348-65514f77-9c90-4040-9d4a-419000f53998.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ubb6b8b76&amp;originHeight=724&amp;originWidth=666&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=95854&amp;status=done&amp;style=none&amp;taskId=u664d9884-9cdf-4eb3-b656-9d75772ae9d&amp;title=" alt="image.jpg"><br />限制同一个ip，比如每分钟只能请求5次接口。<br />但这种限流方式可能会有误杀的情况，比如同一个公司或网吧的出口ip是相同的，如果里面有多个正常用户同时发起请求，有些用户可能会被限制住。<br>
+<a name="SSHlH"></a></p>
+<h4 id="13-3-对接口限流"><strong>13.3 对接口限流</strong></h4>
+<p>别以为限制了用户和ip就万事大吉，有些高手甚至可以使用代理，每次都请求都换一个ip。<br />这时可以限制请求的接口总次数。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845395984-538d61ed-4783-4a28-9f01-0f3a5d6f3bee.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ude9528c9&amp;originHeight=722&amp;originWidth=666&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=98732&amp;status=done&amp;style=none&amp;taskId=u137e4c8d-4841-4352-a53e-7c5bf1e1131&amp;title=" alt="image.jpg"><br />在高并发场景下，这种限制对于系统的稳定性是非常有必要的。但可能由于有些非法请求次数太多，达到了该接口的请求上限，而影响其他的正常用户访问该接口。看起来有点得不偿失。<br>
+<a name="sLpRN"></a></p>
+<h4 id="13-4-加验证码"><strong>13.4 加验证码</strong></h4>
+<p>相对于上面三种方式，加验证码的方式可能更精准一些，同样能限制用户的访问频次，但好处是不会存在误杀的情况。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845393220-de332903-179a-4a70-aadd-a89513ab93e2.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u7228c357&amp;originHeight=842&amp;originWidth=664&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=113971&amp;status=done&amp;style=none&amp;taskId=u5dadc7dc-a246-4eac-8d91-d83323bc445&amp;title=" alt="image.jpg"><br />通常情况下，用户在请求之前，需要先输入验证码。用户发起请求之后，服务端会去校验该验证码是否正确。只有正确才允许进行下一步操作，否则直接返回，并且提示验证码错误。<br />此外，验证码一般是一次性的，同一个验证码只允许使用一次，不允许重复使用。<br />普通验证码，由于生成的数字或者图案比较简单，可能会被破解。优点是生成速度比较快，缺点是有安全隐患。<br />还有一个验证码叫做：<code>移动滑块</code>，它生成速度比较慢，但比较安全，是目前各大互联网公司的首选。<br>
+<a name="FArUN"></a></p>
+<h3 id="14-服务降级"><strong>14 服务降级</strong></h3>
+<p>前面已经说过，对于高并发系统，为了保证系统的稳定性，需要做限流。<br />但光做限流还不够。<br />我们需要合理利用服务器资源，保留核心的功能，将部分非核心的功能，我们可以选择屏蔽或者下线掉。<br />我们需要做<code>服务降级</code>。<br />我们在设计高并发系统时，可以预留一些服务降级的开关。<br />比如在秒杀系统中，核心的功能是商品的秒杀，对于商品的评论功能，可以暂时屏蔽掉。<br />在服务端的<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/tsecc?from_column=20065&amp;from=20065">分布式配置中心</a>，比如：apollo中，可以增加一个开关，配置是否展示评论功能，默认是true。<br />前端页面通过服务器的接口，获取到该配置参数。<br />如果需要暂时屏蔽商品评论功能，可以将apollo中的参数设置成false。<br />此外，我们在设计高并发系统时，还可以预留一些兜底方案。<br />比如某个分类查询接口，要从redis中获取分类数据，返回给用户。但如果那一条redis挂了，则查询数据失败。<br />这时候，我们可以增加一个兜底方案。<br />如果从redis中获取不到数据，则从apollo中获取一份默认的分类数据。<br />目前使用较多的熔断降级中间件是：<code>Hystrix</code> 和 <code>Sentinel</code>。</p>
+<ul>
+<li>Hystrix是Netflix开源的熔断降级组件。</li>
+<li>Sentinel是阿里中间件团队开源的一款不光具有熔断降级功能，同时还支持系统负载保护的组件。</li>
+</ul>
+<p>二者的区别如下图所示：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845395132-3f4e4ff8-65b5-4132-9d82-794cc5f65bd5.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=udde197a0&amp;originHeight=737&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=261256&amp;status=done&amp;style=none&amp;taskId=u566d1c3e-0c7b-431c-b2c1-bfe08c1bc18&amp;title=" alt="image.jpg"><br>
+<a name="ATSjo"></a></p>
+<h3 id="15-故障转移"><strong>15 故障转移</strong></h3>
+<p>在高并发的系统当中，同一时间有大量的用户访问系统。<br />如果某一个应用服务器节点处于假死状态，比如CPU使用率100%了，用户的请求没办法及时处理，导致大量用户出现请求超时的情况。<br />如果这种情况下，不做任何处理，可能会影响系统中部分用户的正常使用。<br />这时我们需要建立<code>故障转移</code>机制。<br />当检测到经常接口超时，或者CPU打满，或者内存溢出的情况，能够自动重启那台服务器节点上的应用。<br />在SpringCloud微服务当中，可以使用<code>Ribbon</code>做<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/clb?from_column=20065&amp;from=20065">负载均衡器</a>。<br />Ribbon是Spring Cloud中的一个负载均衡器组件，它可以检测服务的可用性，并根据一定规则将请求分发至不同的服务节点。在使用Ribbon时，需要注意以下几个方面：</p>
+<ol>
+<li>设置请求超时时间，当请求超时时，Ribbon会自动将请求转发到其他可用的服务上。</li>
+<li>设置服务的健康检查，Ribbon会自动检测服务的可用性，并将请求转发至可用的服务上。</li>
+</ol>
+<p>此外，还需要使用<code>Hystrix</code>做熔断处理。<br />Hystrix是SpringCloud中的一个熔断器组件，它可以自动地监测所有通过它调用的服务，并在服务出现故障时自动切换到备用服务。在使用Hystrix时，需要注意以下几个方面：</p>
+<ol>
+<li>设置断路器的阈值，当故障率超过一定阈值后，断路器会自动切换到备用服务上。</li>
+<li>设置服务的超时时间，如果服务在指定的时间内无法返回结果，断路器会自动切换到备用服务上。到其他的能够正常使用的服务器节点上。<br>
+<a name="qaCKi"></a></li>
+</ol>
+<h3 id="16-异地多活"><strong>16 异地多活</strong></h3>
+<p>有些高并发系统，为了保证系统的稳定性，不只部署在一个机房当中。<br />为了防止机房断电，或者某些不可逆的因素，比如：发生地震，导致机房挂了。<br />需要把系统部署到多个机房。<br />我们之前的游戏登录系统，就部署到了深圳、天津和成都，这三个机房。<br />这三个机房都有用户的流量，其中深圳机房占了40%，天津机房占了30%，成都机房占了30%。<br />如果其中的某个机房突然挂了，流量会被自动分配到另外两个机房当中，不会影响用户的正常使用。<br />这就需要使用<code>异地多活</code>架构了。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845396551-101db254-e616-44e1-a4b8-0367fe3af60f.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=ue03b5f7c&amp;originHeight=821&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=236330&amp;status=done&amp;style=none&amp;taskId=u78755f1f-4ced-4174-9c86-9f79c4e055e&amp;title=" alt="image.jpg"><br />用户请求先经过第三方的DNS服务器解析，然后该用户请求到达路由服务器，部署在云服务器上。<br />路由服务器，根据一定的算法，会将该用户请求分配到具体的机房。<br />异地多活的难度是多个机房需要做数据同步，如何保证数据的一致性？<br>
+<a name="AOOEu"></a></p>
+<h3 id="17-压测"><strong>17 压测</strong></h3>
+<p>高并发系统，在上线之前，必须要做的一件事是做<code>压力测试</code>。<br />我们先要预估一下生产环境的请求量，然后对系统做压力测试，之后评估系统需要部署多少个服务器节点。<br />比如预估有10000的qps，一个服务器节点最大支持1000pqs，这样我们需要部署10个服务器节点。<br />但假如只部署10个服务器节点，万一突增了一些新的用户请求，服务器可能会扛不住压力。<br />因此，部署的服务器节点，需要把预估用户请求量的多一些，比如：按3倍的用户请求量来计算。<br />这样我们需要部署30个服务器节点。<br />压力测试的结果跟环境有关，在dev环境或者test环境，只能压测一个大概的趋势。<br />想要更真实的数据，我们需要在pre环境，或者跟生产环境相同配置的专门的压测环境中，进行压力测试。<br />目前市面上做压力测试的工具有很多，比如开源的有：Jemter、LoaderRunnder、Locust等等。<br />收费的有：阿里自研的云压测工具PTS。<br>
+<a name="wamWq"></a></p>
+<h3 id="18-监控"><strong>18 监控</strong></h3>
+<p>为了出现系统或者SQL问题时，能够让我们及时发现，我们需要对系统做监控。<br />目前业界使用比较多的开源监控系统是：<code>Prometheus</code>。<br />它提供了 <code>监控</code> 和 <code>预警</code> 的功能。<br />架构图如下：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845396759-75cf3b5a-97a8-4163-b6e9-90d7ca0b8e06.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=u755cc14a&amp;originHeight=648&amp;originWidth=1080&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=131333&amp;status=done&amp;style=none&amp;taskId=u673e0da1-dc85-4535-9a3f-03d13efa53e&amp;title=" alt="image.jpg"><br />我们可以用它监控如下信息：</p>
+<ul>
+<li>接口响应时间</li>
+<li>调用第三方服务耗时</li>
+<li>慢查询sql耗时</li>
+<li>cpu使用情况</li>
+<li>内存使用情况</li>
+<li>磁盘使用情况</li>
+<li>数据库使用情况</li>
+</ul>
+<p>等等。。。<br />它的界面大概长这样子：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1712845397527-220b78a9-06cc-48fb-89ea-fa1c4d696c16.png#clientId=u05213f45-1bbd-4&amp;from=paste&amp;id=uf35705d6&amp;originHeight=406&amp;originWidth=778&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=86208&amp;status=done&amp;style=none&amp;taskId=u76284ef4-02a2-4033-a352-4647fa3ba36&amp;title=" alt="image.jpg"><br />可以看到mysql当前qps，活跃线程数，连接数，缓存池的大小等信息。<br />如果发现数据量连接池占用太多，对接口的性能肯定会有影响。<br />这时可能是代码中开启了连接忘了关，或者并发量太大了导致的，需要做进一步排查和系统优化。<br />截图中只是它一小部分功能，如果你想了解更多功能，可以访问Prometheus的官网：<a target="_blank" rel="noopener" href="https://prometheus.io/">https://prometheus.io/</a><br />其实，高并发的系统中，还需要考虑安全问题，比如：</p>
+<ol>
+<li>遇到用户不断变化ip刷接口怎办？</li>
+<li>遇到用户大量访问缓存中不存在的数据，导致缓存雪崩怎么办？</li>
+<li>如果用户发起ddos攻击怎么办？</li>
+<li>用户并发量突增，导致服务器扛不住了，如何动态扩容？</li>
+</ol>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/22/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%EF%BC%9F/">http://www.bojiboqi.fun/2024/04/22/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%EF%BC%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/">高并发</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/photo_2024-02-28_19-31-01.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/Caffeine%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/" title="Caffeine介绍及使用"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-55-04.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Caffeine介绍及使用</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/%E7%AC%AC%201%20%E7%AB%A0%20%E7%A0%94%E5%8F%91%E8%87%AA%E6%B5%8B%E5%9F%BA%E7%A1%80%20-%20%E3%80%8AJava%20%E7%A0%94%E5%8F%91%E8%87%AA%E6%B5%8B%E3%80%8B/" title="第 1 章 研发自测基础 - 《Java 研发自测》"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204857_906.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">第 1 章 研发自测基础 - 《Java 研发自测》</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%A1%B5%E9%9D%A2%E9%9D%99%E6%80%81%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">1 页面静态化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-CDN%E5%8A%A0%E9%80%9F"><span class="toc-number">3.</span> <span class="toc-text">2 CDN加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BC%93%E5%AD%98"><span class="toc-number">4.</span> <span class="toc-text">3 缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5"><span class="toc-number">5.</span> <span class="toc-text">4 异步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 线程池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-mq"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 mq</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">5 多线程处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8"><span class="toc-number">7.</span> <span class="toc-text">6 分库分表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%B1%A0%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-number">8.</span> <span class="toc-text">7 池化技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="toc-number">9.</span> <span class="toc-text">8 读写分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E7%B4%A2%E5%BC%95"><span class="toc-number">10.</span> <span class="toc-text">9 索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%89%B9%E5%A4%84%E7%90%86"><span class="toc-number">11.</span> <span class="toc-text">10 批处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E9%9B%86%E7%BE%A4"><span class="toc-number">12.</span> <span class="toc-text">11 集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">13.</span> <span class="toc-text">12 负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E9%99%90%E6%B5%81"><span class="toc-number">14.</span> <span class="toc-text">13 限流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#13-1-%E5%AF%B9%E5%90%8C%E4%B8%80%E7%94%A8%E6%88%B7%E9%99%90%E6%B5%81"><span class="toc-number">14.1.</span> <span class="toc-text">13.1 对同一用户限流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-2-%E5%AF%B9%E5%90%8C%E4%B8%80ip%E9%99%90%E6%B5%81"><span class="toc-number">14.2.</span> <span class="toc-text">13.2 对同一ip限流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-3-%E5%AF%B9%E6%8E%A5%E5%8F%A3%E9%99%90%E6%B5%81"><span class="toc-number">14.3.</span> <span class="toc-text">13.3 对接口限流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-4-%E5%8A%A0%E9%AA%8C%E8%AF%81%E7%A0%81"><span class="toc-number">14.4.</span> <span class="toc-text">13.4 加验证码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-number">15.</span> <span class="toc-text">14 服务降级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="toc-number">16.</span> <span class="toc-text">15 故障转移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E5%BC%82%E5%9C%B0%E5%A4%9A%E6%B4%BB"><span class="toc-number">17.</span> <span class="toc-text">16 异地多活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-%E5%8E%8B%E6%B5%8B"><span class="toc-number">18.</span> <span class="toc-text">17 压测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-%E7%9B%91%E6%8E%A7"><span class="toc-number">19.</span> <span class="toc-text">18 监控</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

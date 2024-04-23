@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【RabbitMQ】一文带你搞定RabbitMQ延迟队列 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="一、说明 在上一篇中，介绍了RabbitMQ中的死信队列是什么，何时使用以及如何使用RabbitMQ的死信队列。相信通过上一篇的学习，对于死信队列已经有了更多的了解，这一篇的内容也跟死信队列息息相关，如果你还不了解死信队列，那么建议你先进行上一篇文章的阅读。这一篇里，我们将继续介绍RabbitMQ的高级特性，通过本篇的学习，你将收获：  什么是延时队列 延时队列使用场景 RabbitMQ中的TT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【RabbitMQ】一文带你搞定RabbitMQ延迟队列">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/22/%E3%80%90RabbitMQ%E3%80%91%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E6%90%9E%E5%AE%9ARabbitMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="一、说明 在上一篇中，介绍了RabbitMQ中的死信队列是什么，何时使用以及如何使用RabbitMQ的死信队列。相信通过上一篇的学习，对于死信队列已经有了更多的了解，这一篇的内容也跟死信队列息息相关，如果你还不了解死信队列，那么建议你先进行上一篇文章的阅读。这一篇里，我们将继续介绍RabbitMQ的高级特性，通过本篇的学习，你将收获：  什么是延时队列 延时队列使用场景 RabbitMQ中的TT">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_180903_881.webp">
+<meta property="article:published_time" content="2024-04-22T06:25:31.199Z">
+<meta property="article:modified_time" content="2024-04-22T23:29:20.526Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="xss">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_180903_881.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/22/%E3%80%90RabbitMQ%E3%80%91%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E6%90%9E%E5%AE%9ARabbitMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【RabbitMQ】一文带你搞定RabbitMQ延迟队列',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 07:29:20'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_180903_881.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_180903_881.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【RabbitMQ】一文带你搞定RabbitMQ延迟队列</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T06:25:31.199Z" title="发表于 2024-04-22 14:25:31">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T23:29:20.526Z" title="更新于 2024-04-23 07:29:20">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>22分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【RabbitMQ】一文带你搞定RabbitMQ延迟队列"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a name="kMFo7"></a></p>
+<h2 id="一、说明">一、说明</h2>
+<p>在上一篇中，介绍了RabbitMQ中的死信队列是什么，何时使用以及如何使用RabbitMQ的死信队列。相信通过上一篇的学习，对于死信队列已经有了更多的了解，这一篇的内容也跟死信队列息息相关，如果你还不了解死信队列，那么建议你先进行上一篇文章的阅读。<br />这一篇里，我们将继续介绍RabbitMQ的高级特性，通过本篇的学习，你将收获：</p>
+<ol>
+<li>什么是延时队列</li>
+<li>延时队列使用场景</li>
+<li>RabbitMQ中的TTL</li>
+<li>如何利用RabbitMQ来实现延时队列<br>
+<a name="eNeer"></a></li>
+</ol>
+<h2 id="二、本文大纲">二、本文大纲</h2>
+<p>以下是本文大纲：<br /><a target="_blank" rel="noopener" href="https://i.loli.net/2019/07/28/5d3d74d99699d43032.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241491-f674df65-084b-4e62-883f-232d339be8e7.png#averageHue=%232e2635&amp;clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=u2357b6fd&amp;originHeight=630&amp;originWidth=1107&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=52266&amp;status=done&amp;style=none&amp;taskId=u6fde8eb1-889a-4e73-b4e5-f70bac57caa&amp;title=" alt="image.jpg"></a><br />本文阅读前，需要对RabbitMQ以及死信队列有一个简单的了解。<br>
+<a name="aHaIV"></a></p>
+<h2 id="三、什么是延时队列">三、什么是延时队列</h2>
+<p><code>延时队列</code>，首先，它是一种队列，队列意味着内部的元素是<code>有序</code>的，元素出队和入队是有方向性的，元素从一端进入，从另一端取出。<br />其次，<code>延时队列</code>，最重要的特性就体现在它的<code>延时</code>属性上，跟普通的队列不一样的是，<code>普通队列中的元素总是等着希望被早点取出处理，而延时队列中的元素则是希望被在指定时间得到取出和处理</code>，所以延时队列中的元素是都是带时间属性的，通常来说是需要被处理的消息或者任务。<br />简单来说，延时队列就是用来存放需要在指定时间被处理的元素的队列。<br>
+<a name="ZDpXX"></a></p>
+<h2 id="四、延时队列使用场景">四、延时队列使用场景</h2>
+<p>那么什么时候需要用延时队列呢？考虑一下以下场景：</p>
+<ol>
+<li>订单在十分钟之内未支付则自动取消。</li>
+<li>新创建的店铺，如果在十天内都没有上传过商品，则自动发送消息提醒。</li>
+<li>账单在一周内未支付，则自动结算。</li>
+<li>用户注册成功后，如果三天内没有登陆则进行短信提醒。</li>
+<li>用户发起退款，如果三天内没有得到处理则通知相关运营人员。</li>
+<li>预定会议后，需要在预定的时间点前十分钟通知各个与会人员参加会议。</li>
+</ol>
+<p>这些场景都有一个特点，需要在某个事件发生之后或者之前的指定时间点完成某一项任务，如：发生订单生成事件，在十分钟之后检查该订单支付状态，然后将未支付的订单进行关闭；发生店铺创建事件，十天后检查该店铺上新商品数，然后通知上新数为0的商户；发生账单生成事件，检查账单支付状态，然后自动结算未支付的账单；发生新用户注册事件，三天后检查新注册用户的活动数据，然后通知没有任何活动记录的用户；发生退款事件，在三天之后检查该订单是否已被处理，如仍未被处理，则发送消息给相关运营人员；发生预定会议事件，判断离会议开始是否只有十分钟了，如果是，则通知各个与会人员。<br />看起来似乎使用定时任务，一直轮询数据，每秒查一次，取出需要被处理的数据，然后处理不就完事了吗？如果数据量比较少，确实可以这样做，比如：对于“如果账单一周内未支付则进行自动结算”这样的需求，如果对于时间不是严格限制，而是宽松意义上的一周，那么每天晚上跑个定时任务检查一下所有未支付的账单，确实也是一个可行的方案。但对于数据量比较大，并且时效性较强的场景，如：“订单十分钟内未支付则关闭“，短期内未支付的订单数据可能会有很多，活动期间甚至会达到百万甚至千万级别，对这么庞大的数据量仍旧使用轮询的方式显然是不可取的，很可能在一秒内无法完成所有订单的检查，同时会给数据库带来很大压力，无法满足业务要求而且性能低下。<br />更重要的一点是，不！优！雅！<br />没错，作为一名有追求的程序员，始终应该追求更优雅的架构和更优雅的代码风格，写代码要像写诗一样优美。【滑稽】<br />这时候，延时队列就可以闪亮登场了，以上场景，正是延时队列的用武之地。<br />既然<code>延时队列</code>可以解决很多特定场景下，带时间属性的任务需求，那么如何构造一个延时队列呢？接下来，本文将介绍如何用RabbitMQ来实现延时队列。<br>
+<a name="PsAtN"></a></p>
+<h2 id="五、RabbitMQ中的TTL">五、RabbitMQ中的TTL</h2>
+<p>在介绍延时队列之前，还需要先介绍一下RabbitMQ中的一个高级特性——<code>TTL（Time To Live）</code>。<br /><code>TTL</code>是什么呢？<code>TTL</code>是RabbitMQ中一个消息或者队列的属性，表明<code>一条消息或者该队列中的所有消息的最大存活时间</code>，单位是毫秒。换句话说，如果一条消息设置了TTL属性或者进入了设置TTL属性的队列，那么这条消息如果在TTL设置的时间内没有被消费，则会成为“死信”（至于什么是死信，请翻看上一篇）。如果同时配置了队列的TTL和消息的TTL，那么较小的那个值将会被使用。<br />那么，如何设置这个TTL值呢？有两种方式，第一种是在创建队列的时候设置队列的“x-message-ttl”属性，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Object&gt; args = new HashMap&lt;String, Object&gt;();</span><br><span class="line">args.put(&quot;x-message-ttl&quot;, 6000);</span><br><span class="line">channel.queueDeclare(queueName, durable, exclusive, autoDelete, args);</span><br></pre></td></tr></table></figure>
+<p>这样所有被投递到该队列的消息都最多不会存活超过6s。</p>
+<p>另一种方式便是针对每条消息设置TTL，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder();</span><br><span class="line">builder.expiration(&quot;6000&quot;);</span><br><span class="line">AMQP.BasicProperties properties = builder.build();</span><br><span class="line">channel.basicPublish(exchangeName, routingKey, mandatory, properties, &quot;msg body&quot;.getBytes());</span><br></pre></td></tr></table></figure>
+<p>这样这条消息的过期时间也被设置成了6s。</p>
+<p>但这两种方式是有区别的，<strong>如果设置了队列的TTL属性，那么一旦消息过期，就会被队列丢弃，而第二种方式，消息即使过期，也不一定会被马上丢弃，因为消息是否过期是在即将投递到消费者之前判定的，如果当前队列有严重的消息积压情况，则已过期的消息也许还能存活较长时间。</strong></p>
+<p>另外，还需要注意的一点是，如果不设置TTL，表示消息永远不会过期，如果将TTL设置为0，则表示除非此时可以直接投递该消息到消费者，否则该消息将会被丢弃。</p>
+<p><a name="DxHx5"></a></p>
+<h2 id="六、如何利用RabbitMQ实现延时队列">六、如何利用RabbitMQ实现延时队列</h2>
+<p>前一篇里介绍了如果设置死信队列，前文中又介绍了TTL，至此，利用RabbitMQ实现延时队列的两大要素已经集齐，接下来只需要将它们进行调和，再加入一点点调味料，延时队列就可以新鲜出炉了。</p>
+<p>想想看，<code>延时队列</code>，不就是想要消息延迟多久被处理吗，TTL则刚好能让消息在延迟多久之后成为死信，另一方面，成为死信的消息都会被投递到死信队列里，这样只需要消费者一直消费死信队列里的消息就万事大吉了，因为里面的消息都是希望被立即处理的消息。<br />从下图可以大致看出消息的流向：<br /><a target="_blank" rel="noopener" href="https://i.loli.net/2019/07/28/5d3d743143ecc85643.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241662-5ba794e7-6e24-460b-8b74-6351e79ace73.png#averageHue=%23fefaf3&amp;clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=ub36cc5b0&amp;originHeight=658&amp;originWidth=1944&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=104056&amp;status=done&amp;style=none&amp;taskId=u9911246d-22bc-4ea9-9978-7af39197de7&amp;title=" alt="image.jpg"></a><br />生产者生产一条延时消息，根据需要延时时间的不同，利用不同的routingkey将消息路由到不同的延时队列，每个队列都设置了不同的TTL属性，并绑定在同一个死信交换机中，消息过期后，根据routingkey的不同，又会被路由到不同的死信队列中，消费者只需要监听对应的死信队列进行处理即可。<br />下面来看代码：<br />先声明交换机、队列以及他们的绑定关系：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RabbitMQConfig &#123;</span><br><span class="line"></span><br><span class="line">    public static final String DELAY_EXCHANGE_NAME = &quot;delay.queue.demo.business.exchange&quot;;</span><br><span class="line">    public static final String DELAY_QUEUEA_NAME = &quot;delay.queue.demo.business.queuea&quot;;</span><br><span class="line">    public static final String DELAY_QUEUEB_NAME = &quot;delay.queue.demo.business.queueb&quot;;</span><br><span class="line">    public static final String DELAY_QUEUEA_ROUTING_KEY = &quot;delay.queue.demo.business.queuea.routingkey&quot;;</span><br><span class="line">    public static final String DELAY_QUEUEB_ROUTING_KEY = &quot;delay.queue.demo.business.queueb.routingkey&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_EXCHANGE = &quot;delay.queue.demo.deadletter.exchange&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_QUEUEA_ROUTING_KEY = &quot;delay.queue.demo.deadletter.delay_10s.routingkey&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_QUEUEB_ROUTING_KEY = &quot;delay.queue.demo.deadletter.delay_60s.routingkey&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_QUEUEA_NAME = &quot;delay.queue.demo.deadletter.queuea&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_QUEUEB_NAME = &quot;delay.queue.demo.deadletter.queueb&quot;;</span><br><span class="line"></span><br><span class="line">    // 声明延时Exchange</span><br><span class="line">    @Bean(&quot;delayExchange&quot;)</span><br><span class="line">    public DirectExchange delayExchange()&#123;</span><br><span class="line">        return new DirectExchange(DELAY_EXCHANGE_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信Exchange</span><br><span class="line">    @Bean(&quot;deadLetterExchange&quot;)</span><br><span class="line">    public DirectExchange deadLetterExchange()&#123;</span><br><span class="line">        return new DirectExchange(DEAD_LETTER_EXCHANGE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明延时队列A 延时10s</span><br><span class="line">    // 并绑定到对应的死信交换机</span><br><span class="line">    @Bean(&quot;delayQueueA&quot;)</span><br><span class="line">    public Queue delayQueueA()&#123;</span><br><span class="line">        Map&lt;String, Object&gt; args = new HashMap&lt;&gt;(2);</span><br><span class="line">        // x-dead-letter-exchange    这里声明当前队列绑定的死信交换机</span><br><span class="line">        args.put(&quot;x-dead-letter-exchange&quot;, DEAD_LETTER_EXCHANGE);</span><br><span class="line">        // x-dead-letter-routing-key  这里声明当前队列的死信路由key</span><br><span class="line">        args.put(&quot;x-dead-letter-routing-key&quot;, DEAD_LETTER_QUEUEA_ROUTING_KEY);</span><br><span class="line">        // x-message-ttl  声明队列的TTL</span><br><span class="line">        args.put(&quot;x-message-ttl&quot;, 6000);</span><br><span class="line">        return QueueBuilder.durable(DELAY_QUEUEA_NAME).withArguments(args).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明延时队列B 延时 60s</span><br><span class="line">    // 并绑定到对应的死信交换机</span><br><span class="line">    @Bean(&quot;delayQueueB&quot;)</span><br><span class="line">    public Queue delayQueueB()&#123;</span><br><span class="line">        Map&lt;String, Object&gt; args = new HashMap&lt;&gt;(2);</span><br><span class="line">        // x-dead-letter-exchange    这里声明当前队列绑定的死信交换机</span><br><span class="line">        args.put(&quot;x-dead-letter-exchange&quot;, DEAD_LETTER_EXCHANGE);</span><br><span class="line">        // x-dead-letter-routing-key  这里声明当前队列的死信路由key</span><br><span class="line">        args.put(&quot;x-dead-letter-routing-key&quot;, DEAD_LETTER_QUEUEB_ROUTING_KEY);</span><br><span class="line">        // x-message-ttl  声明队列的TTL</span><br><span class="line">        args.put(&quot;x-message-ttl&quot;, 60000);</span><br><span class="line">        return QueueBuilder.durable(DELAY_QUEUEB_NAME).withArguments(args).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信队列A 用于接收延时10s处理的消息</span><br><span class="line">    @Bean(&quot;deadLetterQueueA&quot;)</span><br><span class="line">    public Queue deadLetterQueueA()&#123;</span><br><span class="line">        return new Queue(DEAD_LETTER_QUEUEA_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信队列B 用于接收延时60s处理的消息</span><br><span class="line">    @Bean(&quot;deadLetterQueueB&quot;)</span><br><span class="line">    public Queue deadLetterQueueB()&#123;</span><br><span class="line">        return new Queue(DEAD_LETTER_QUEUEB_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明延时队列A绑定关系</span><br><span class="line">    @Bean</span><br><span class="line">    public Binding delayBindingA(@Qualifier(&quot;delayQueueA&quot;) Queue queue,</span><br><span class="line">                                    @Qualifier(&quot;delayExchange&quot;) DirectExchange exchange)&#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with(DELAY_QUEUEA_ROUTING_KEY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明业务队列B绑定关系</span><br><span class="line">    @Bean</span><br><span class="line">    public Binding delayBindingB(@Qualifier(&quot;delayQueueB&quot;) Queue queue,</span><br><span class="line">                                    @Qualifier(&quot;delayExchange&quot;) DirectExchange exchange)&#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with(DELAY_QUEUEB_ROUTING_KEY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信队列A绑定关系</span><br><span class="line">    @Bean</span><br><span class="line">    public Binding deadLetterBindingA(@Qualifier(&quot;deadLetterQueueA&quot;) Queue queue,</span><br><span class="line">                                    @Qualifier(&quot;deadLetterExchange&quot;) DirectExchange exchange)&#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with(DEAD_LETTER_QUEUEA_ROUTING_KEY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信队列B绑定关系</span><br><span class="line">    @Bean</span><br><span class="line">    public Binding deadLetterBindingB(@Qualifier(&quot;deadLetterQueueB&quot;) Queue queue,</span><br><span class="line">                                      @Qualifier(&quot;deadLetterExchange&quot;) DirectExchange exchange)&#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with(DEAD_LETTER_QUEUEB_ROUTING_KEY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，创建两个消费者，分别对两个死信队列的消息进行消费：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public class DeadLetterQueueConsumer &#123;</span><br><span class="line"></span><br><span class="line">    @RabbitListener(queues = DEAD_LETTER_QUEUEA_NAME)</span><br><span class="line">    public void receiveA(Message message, Channel channel) throws IOException &#123;</span><br><span class="line">        String msg = new String(message.getBody());</span><br><span class="line">        log.info(&quot;当前时间：&#123;&#125;,死信队列A收到消息：&#123;&#125;&quot;, new Date().toString(), msg);</span><br><span class="line">        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RabbitListener(queues = DEAD_LETTER_QUEUEB_NAME)</span><br><span class="line">    public void receiveB(Message message, Channel channel) throws IOException &#123;</span><br><span class="line">        String msg = new String(message.getBody());</span><br><span class="line">        log.info(&quot;当前时间：&#123;&#125;,死信队列B收到消息：&#123;&#125;&quot;, new Date().toString(), msg);</span><br><span class="line">        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后是消息的生产者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class DelayMessageSender &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RabbitTemplate rabbitTemplate;</span><br><span class="line"></span><br><span class="line">    public void sendMsg(String msg, DelayTypeEnum type)&#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case DELAY_10s:</span><br><span class="line">                rabbitTemplate.convertAndSend(DELAY_EXCHANGE_NAME, DELAY_QUEUEA_ROUTING_KEY, msg);</span><br><span class="line">                break;</span><br><span class="line">            case DELAY_60s:</span><br><span class="line">                rabbitTemplate.convertAndSend(DELAY_EXCHANGE_NAME, DELAY_QUEUEB_ROUTING_KEY, msg);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们暴露一个web接口来生产消息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@RequestMapping(&quot;rabbitmq&quot;)</span><br><span class="line">@RestController</span><br><span class="line">public class RabbitMQMsgController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private DelayMessageSender sender;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;sendmsg&quot;)</span><br><span class="line">    public void sendMsg(String msg, Integer delayType)&#123;</span><br><span class="line">        log.info(&quot;当前时间：&#123;&#125;,收到请求，msg:&#123;&#125;,delayType:&#123;&#125;&quot;, new Date(), msg, delayType);</span><br><span class="line">        sender.sendMsg(msg, Objects.requireNonNull(DelayTypeEnum.getDelayTypeEnumByValue(delayType)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>准备就绪，启动！<br />打开rabbitMQ的<a target="_blank" rel="noopener" href="http://localhost:15672/">管理后台</a>，可以看到我们刚才创建的交换机和队列信息：<br /><a target="_blank" rel="noopener" href="https://i.loli.net/2019/07/28/5d3d54e15534398514.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241495-8156a262-bb26-4d68-948a-3145ce04b57a.png#clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=uc07de8b7&amp;originHeight=497&amp;originWidth=888&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=41290&amp;status=done&amp;style=none&amp;taskId=u8ed6e012-6728-4663-a7d4-31f6daa8503&amp;title=" alt="image.jpg"></a><br /><a target="_blank" rel="noopener" href="https://i.loli.net/2019/07/28/5d3d54e17df8183993.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241524-649ef9e3-4f99-4d83-9a4e-f9b7b017660f.png#clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=uedb4149f&amp;originHeight=535&amp;originWidth=987&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=57513&amp;status=done&amp;style=none&amp;taskId=udfbd6c28-0fc8-4303-abbe-5736857a64f&amp;title=" alt="image.jpg"></a><br /><a target="_blank" rel="noopener" href="https://i.loli.net/2019/07/28/5d3d54e16952546955.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241524-e9f7e5cf-f6af-4a6e-adf5-3eebfb07d754.png#clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=ud92a024d&amp;originHeight=669&amp;originWidth=720&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=43347&amp;status=done&amp;style=none&amp;taskId=u5f8b7b2a-b96c-4508-85fd-2ab57e5cdba&amp;title=" alt="image.jpg"></a><br />接下来，我们来发送几条消息，<a target="_blank" rel="noopener" href="http://localhost:8080/rabbitmq/sendmsg?msg=testMsg1&amp;delayType=1">http://localhost:8080/rabbitmq/sendmsg?msg=testMsg1&amp;delayType=1</a><a target="_blank" rel="noopener" href="http://localhost:8080/rabbitmq/sendmsg?msg=testMsg2&amp;delayType=2">http://localhost:8080/rabbitmq/sendmsg?msg=testMsg2&amp;delayType=2</a><br />日志如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2019-07-28 16:02:19.813  INFO 3860 --- [nio-8080-exec-9] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 16:02:19 CST 2019,收到请求，msg:testMsg1,delayType:1</span><br><span class="line">2019-07-28 16:02:19.815  INFO 3860 --- [nio-8080-exec-9] .l.DirectReplyToMessageListenerContainer : SimpleConsumer [queue=amq.rabbitmq.reply-to, consumerTag=amq.ctag-o-qPpkWIkRm73DIrOIVhig identity=766339] started</span><br><span class="line">2019-07-28 16:02:25.829  INFO 3860 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 16:02:25 CST 2019,死信队列A收到消息：testMsg1</span><br><span class="line">2019-07-28 16:02:41.326  INFO 3860 --- [nio-8080-exec-1] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 16:02:41 CST 2019,收到请求，msg:testMsg2,delayType:2</span><br><span class="line">2019-07-28 16:03:41.329  INFO 3860 --- [ntContainer#0-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 16:03:41 CST 2019,死信队列B收到消息：testMsg2</span><br></pre></td></tr></table></figure>
+<p>第一条消息在6s后变成了死信消息，然后被消费者消费掉，第二条消息在60s之后变成了死信消息，然后被消费掉，这样，一个还算ok的延时队列就打造完成了。<br />不过，等等，如果这样使用的话，岂不是每增加一个新的时间需求，就要新增一个队列，这里只有6s和60s两个时间选项，如果需要一个小时后处理，那么就需要增加TTL为一个小时的队列，如果是预定会议室然后提前通知这样的场景，岂不是要增加无数个队列才能满足需求？？<br />嗯，仔细想想，事情并不简单。<br>
+<a name="iT9ca"></a></p>
+<h2 id="七、RabbitMQ延时队列优化">七、RabbitMQ延时队列优化</h2>
+<p>显然，需要一种更通用的方案才能满足需求，那么就只能将TTL设置在消息属性里了。我们来试一试。<br />增加一个延时队列，用于接收设置为任意延时时长的消息，增加一个相应的死信队列和routingkey：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RabbitMQConfig &#123;</span><br><span class="line"></span><br><span class="line">    public static final String DELAY_EXCHANGE_NAME = &quot;delay.queue.demo.business.exchange&quot;;</span><br><span class="line">    public static final String DELAY_QUEUEC_NAME = &quot;delay.queue.demo.business.queuec&quot;;</span><br><span class="line">    public static final String DELAY_QUEUEC_ROUTING_KEY = &quot;delay.queue.demo.business.queuec.routingkey&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_EXCHANGE = &quot;delay.queue.demo.deadletter.exchange&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_QUEUEC_ROUTING_KEY = &quot;delay.queue.demo.deadletter.delay_anytime.routingkey&quot;;</span><br><span class="line">    public static final String DEAD_LETTER_QUEUEC_NAME = &quot;delay.queue.demo.deadletter.queuec&quot;;</span><br><span class="line"></span><br><span class="line">    // 声明延时Exchange</span><br><span class="line">    @Bean(&quot;delayExchange&quot;)</span><br><span class="line">    public DirectExchange delayExchange()&#123;</span><br><span class="line">        return new DirectExchange(DELAY_EXCHANGE_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信Exchange</span><br><span class="line">    @Bean(&quot;deadLetterExchange&quot;)</span><br><span class="line">    public DirectExchange deadLetterExchange()&#123;</span><br><span class="line">        return new DirectExchange(DEAD_LETTER_EXCHANGE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明延时队列C 不设置TTL</span><br><span class="line">    // 并绑定到对应的死信交换机</span><br><span class="line">    @Bean(&quot;delayQueueC&quot;)</span><br><span class="line">    public Queue delayQueueC()&#123;</span><br><span class="line">        Map&lt;String, Object&gt; args = new HashMap&lt;&gt;(3);</span><br><span class="line">        // x-dead-letter-exchange    这里声明当前队列绑定的死信交换机</span><br><span class="line">        args.put(&quot;x-dead-letter-exchange&quot;, DEAD_LETTER_EXCHANGE);</span><br><span class="line">        // x-dead-letter-routing-key  这里声明当前队列的死信路由key</span><br><span class="line">        args.put(&quot;x-dead-letter-routing-key&quot;, DEAD_LETTER_QUEUEC_ROUTING_KEY);</span><br><span class="line">        return QueueBuilder.durable(DELAY_QUEUEC_NAME).withArguments(args).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信队列C 用于接收延时任意时长处理的消息</span><br><span class="line">    @Bean(&quot;deadLetterQueueC&quot;)</span><br><span class="line">    public Queue deadLetterQueueC()&#123;</span><br><span class="line">        return new Queue(DEAD_LETTER_QUEUEC_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明延时列C绑定关系</span><br><span class="line">    @Bean</span><br><span class="line">    public Binding delayBindingC(@Qualifier(&quot;delayQueueC&quot;) Queue queue,</span><br><span class="line">                                 @Qualifier(&quot;delayExchange&quot;) DirectExchange exchange)&#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with(DELAY_QUEUEC_ROUTING_KEY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 声明死信队列C绑定关系</span><br><span class="line">    @Bean</span><br><span class="line">    public Binding deadLetterBindingC(@Qualifier(&quot;deadLetterQueueC&quot;) Queue queue,</span><br><span class="line">                                      @Qualifier(&quot;deadLetterExchange&quot;) DirectExchange exchange)&#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with(DEAD_LETTER_QUEUEC_ROUTING_KEY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>增加一个死信队列C的消费者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@RabbitListener(queues = DEAD_LETTER_QUEUEC_NAME)</span><br><span class="line">public void receiveC(Message message, Channel channel) throws IOException &#123;</span><br><span class="line">    String msg = new String(message.getBody());</span><br><span class="line">    log.info(&quot;当前时间：&#123;&#125;,死信队列C收到消息：&#123;&#125;&quot;, new Date().toString(), msg);</span><br><span class="line">    channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再次启动！然后访问：<a target="_blank" rel="noopener" href="http://localhost:8080/rabbitmq/delayMsg?msg=testMsg1delayTime=5000">http://localhost:8080/rabbitmq/delayMsg?msg=testMsg1delayTime=5000</a> 来生产消息，注意这里的单位是毫秒。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-07-28 16:45:07.033  INFO 31468 --- [nio-8080-exec-4] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 16:45:07 CST 2019,收到请求，msg:testMsg1,delayTime:5000</span><br><span class="line">2019-07-28 16:45:11.694  INFO 31468 --- [nio-8080-exec-5] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 16:45:11 CST 2019,收到请求，msg:testMsg2,delayTime:5000</span><br><span class="line">2019-07-28 16:45:12.048  INFO 31468 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 16:45:12 CST 2019,死信队列C收到消息：testMsg1</span><br><span class="line">2019-07-28 16:45:16.709  INFO 31468 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 16:45:16 CST 2019,死信队列C收到消息：testMsg2</span><br></pre></td></tr></table></figure>
+<p>看起来似乎没什么问题，但不要高兴的太早，在最开始的时候，就介绍过，如果使用在消息属性上设置TTL的方式，消息可能并不会按时“死亡“，因为RabbitMQ只会检查第一个消息是否过期，如果过期则丢到死信队列，索引如果第一个消息的延时时长很长，而第二个消息的延时时长很短，则第二个消息并不会优先得到执行。<br />实验一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-07-28 16:49:02.957  INFO 31468 --- [nio-8080-exec-8] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 16:49:02 CST 2019,收到请求，msg:longDelayedMsg,delayTime:20000</span><br><span class="line">2019-07-28 16:49:10.671  INFO 31468 --- [nio-8080-exec-9] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 16:49:10 CST 2019,收到请求，msg:shortDelayedMsg,delayTime:2000</span><br><span class="line">2019-07-28 16:49:22.969  INFO 31468 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 16:49:22 CST 2019,死信队列C收到消息：longDelayedMsg</span><br><span class="line">2019-07-28 16:49:22.970  INFO 31468 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 16:49:22 CST 2019,死信队列C收到消息：shortDelayedMsg</span><br></pre></td></tr></table></figure>
+<p>我们先发了一个延时时长为20s的消息，然后发了一个延时时长为2s的消息，结果显示，第二个消息会在等第一个消息成为死信后才会“死亡“。<br>
+<a name="u9K5k"></a></p>
+<h2 id="八、利用RabbitMQ插件实现延迟队列">八、利用RabbitMQ插件实现延迟队列</h2>
+<p>上文中提到的问题，确实是一个硬伤，如果不能实现在消息粒度上添加TTL，并使其在设置的TTL时间及时死亡，就无法设计成一个通用的延时队列。<br />那如何解决这个问题呢？不要慌，安装一个插件即可：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/community-plugins.html">https://www.rabbitmq.com/community-plugins.html</a> ，下载rabbitmq_delayed_message_exchange插件，然后解压放置到RabbitMQ的插件目录。<br />接下来，进入RabbitMQ的安装目录下的sbin目录，执行下面命令让该插件生效，然后重启RabbitMQ。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_delayed_message_exchange</span><br></pre></td></tr></table></figure>
+<p>然后，我们再声明几个Bean：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class DelayedRabbitMQConfig &#123;</span><br><span class="line">    public static final String DELAYED_QUEUE_NAME = &quot;delay.queue.demo.delay.queue&quot;;</span><br><span class="line">    public static final String DELAYED_EXCHANGE_NAME = &quot;delay.queue.demo.delay.exchange&quot;;</span><br><span class="line">    public static final String DELAYED_ROUTING_KEY = &quot;delay.queue.demo.delay.routingkey&quot;;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public Queue immediateQueue() &#123;</span><br><span class="line">        return new Queue(DELAYED_QUEUE_NAME);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public CustomExchange customExchange() &#123;</span><br><span class="line">        Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();</span><br><span class="line">        args.put(&quot;x-delayed-type&quot;, &quot;direct&quot;);</span><br><span class="line">        return new CustomExchange(DELAYED_EXCHANGE_NAME, &quot;x-delayed-message&quot;, true, false, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public Binding bindingNotify(@Qualifier(&quot;immediateQueue&quot;) Queue queue,</span><br><span class="line">                                 @Qualifier(&quot;customExchange&quot;) CustomExchange customExchange) &#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(customExchange).with(DELAYED_ROUTING_KEY).noargs();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>controller层再添加一个入口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(&quot;delayMsg2&quot;)</span><br><span class="line">public void delayMsg2(String msg, Integer delayTime) &#123;</span><br><span class="line">    log.info(&quot;当前时间：&#123;&#125;,收到请求，msg:&#123;&#125;,delayTime:&#123;&#125;&quot;, new Date(), msg, delayTime);</span><br><span class="line">    sender.sendDelayMsg(msg, delayTime);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息生产者的代码也需要修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public void sendDelayMsg(String msg, Integer delayTime) &#123;</span><br><span class="line">    rabbitTemplate.convertAndSend(DELAYED_EXCHANGE_NAME, DELAYED_ROUTING_KEY, msg, a -&gt;&#123;</span><br><span class="line">        a.getMessageProperties().setDelay(delayTime);</span><br><span class="line">        return a;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，再创建一个消费者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@RabbitListener(queues = DELAYED_QUEUE_NAME)</span><br><span class="line">public void receiveD(Message message, Channel channel) throws IOException &#123;</span><br><span class="line">    String msg = new String(message.getBody());</span><br><span class="line">    log.info(&quot;当前时间：&#123;&#125;,延时队列收到消息：&#123;&#125;&quot;, new Date().toString(), msg);</span><br><span class="line">    channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一切准备就绪，启动！然后分别访问以下链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/rabbitmq/delayMsg2?msg=msg1&amp;delayTime=20000</span><br><span class="line">http://localhost:8080/rabbitmq/delayMsg2?msg=msg2&amp;delayTime=2000</span><br></pre></td></tr></table></figure>
+<p>日志如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-07-28 17:28:13.729  INFO 25804 --- [nio-8080-exec-2] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 17:28:13 CST 2019,收到请求，msg:msg1,delayTime:20000</span><br><span class="line">2019-07-28 17:28:20.607  INFO 25804 --- [nio-8080-exec-1] c.m.d.controller.RabbitMQMsgController   : 当前时间：Sun Jul 28 17:28:20 CST 2019,收到请求，msg:msg2,delayTime:2000</span><br><span class="line">2019-07-28 17:28:22.624  INFO 25804 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 17:28:22 CST 2019,延时队列收到消息：msg2</span><br><span class="line">2019-07-28 17:28:33.751  INFO 25804 --- [ntContainer#1-1] c.m.d.mq.DeadLetterQueueConsumer         : 当前时间：Sun Jul 28 17:28:33 CST 2019,延时队列收到消息：msg1</span><br></pre></td></tr></table></figure>
+<p>第二个消息被先消费掉了，符合预期。至此，RabbitMQ实现延时队列的部分就完结了。<br>
+<a name="imdFg"></a></p>
+<h2 id="九、总结">九、总结</h2>
+<p>延时队列在需要延时处理的场景下非常有用，使用RabbitMQ来实现延时队列可以很好的利用RabbitMQ的特性，如：消息可靠发送、消息可靠投递、死信队列来保障消息至少被消费一次以及未被正确处理的消息不会被丢弃。另外，通过RabbitMQ集群的特性，可以很好的解决单点故障问题，不会因为单个节点挂掉导致延时队列不可用或者消息丢失。<br />当然，延时队列还有很多其它选择，比如利用Java的DelayQueu，利用Redis的zset，利用Quartz或者利用kafka的时间轮，这些方式各有特点，但就像炉石传说一般，这些知识就好比手里的卡牌，知道的越多，可以用的卡牌也就越多，遇到问题便能游刃有余，所以需要大量的知识储备和经验积累才能打造出更出色的卡牌组合，让自己解决问题的能力得到更好的提升。<br />但另一方面，随着时间的流逝和阅历的增长，越来越感觉到自己的能力有限，无法独自面对纷繁复杂且多变的业务需求，在很多方面需要其他人的协助才能很好的完成任务。也知道闻道有先后，术业有专攻，不会再狂妄自大，觉得自己能把所有事情都搞定，也将重心慢慢转移到研究如何有效的进行团队合作上来，我相信一个高度协调的团队永远比一个人战斗要更有价值。<br />花了一个周末的时间完成了这篇文章，文中所有的代码都上传到了github，<a target="_blank" rel="noopener" href="https://github.com/MFrank2016/delayed-queue-demo%E5%A6%82%E6%9C%89%E9%9C%80%E8%A6%81%E5%8F%AF%E4%BB%A5%E8%87%AA%E8%A1%8C%E6%9F%A5%E9%98%85%EF%BC%8C%E5%B8%8C%E6%9C%9B%E8%83%BD%E5%AF%B9%E4%BD%A0%E6%9C%89%E5%B8%AE%E5%8A%A9%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E9%94%99%E8%AF%AF%E7%9A%84%E5%9C%B0%E6%96%B9%EF%BC%8C%E6%AC%A2%E8%BF%8E%E6%8C%87%E6%AD%A3%EF%BC%8C%E4%B9%9F%E6%AC%A2%E8%BF%8E%E5%85%B3%E6%B3%A8%E6%88%91%E7%9A%84%E5%85%AC%E4%BC%97%E5%8F%B7%E8%BF%9B%E8%A1%8C%E7%95%99%E8%A8%80%E4%BA%A4%E6%B5%81%E3%80%82">https://github.com/MFrank2016/delayed-queue-demo如有需要可以自行查阅，希望能对你有帮助，如果有错误的地方，欢迎指正，也欢迎关注我的公众号进行留言交流。</a><br /><a target="_blank" rel="noopener" href="https://i.loli.net/2019/07/14/5d2af6692a8f432182.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241902-7cacdd8a-060c-4854-9150-42e6d9bea215.png#clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=u773589b0&amp;originHeight=595&amp;originWidth=597&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=84560&amp;status=done&amp;style=none&amp;taskId=ua00c1b73-14dd-416c-8b91-24812e1e8fb&amp;title=" alt="image.jpg"></a></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E4%B8%80%E8%AF%B4%E6%98%8E">一、说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E4%BA%8C%E6%9C%AC%E6%96%87%E5%A4%A7%E7%BA%B2">二、本文大纲</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E4%B8%89%E4%BB%80%E4%B9%88%E6%98%AF%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97">三、什么是延时队列</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E5%9B%9B%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">四、延时队列使用场景</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E4%BA%94rabbitmq%E4%B8%AD%E7%9A%84ttl">五、RabbitMQ中的TTL</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E5%85%AD%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8rabbitmq%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97">六、如何利用RabbitMQ实现延时队列</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E4%B8%83rabbitmq%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E4%BC%98%E5%8C%96">七、RabbitMQ延时队列优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E5%85%AB%E5%88%A9%E7%94%A8rabbitmq%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97">八、利用RabbitMQ插件实现延迟队列</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html#%E4%B9%9D%E6%80%BB%E7%BB%93">九、总结</a></li>
+</ul>
+<p><strong>EOF</strong><br /><a target="_blank" rel="noopener" href="https://pic.cnblogs.com/avatar/1043143/20180825173331.png"><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713423241931-a2d65f23-e30d-4778-b000-4151be84bf2a.png#clientId=u5fb36043-6de7-4&amp;from=paste&amp;id=u75f1766e&amp;originHeight=180&amp;originWidth=180&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=20922&amp;status=done&amp;style=none&amp;taskId=u8d926291-10c8-4898-90a5-834f495bbf8&amp;title=" alt="image.jpg"></a></p>
+<ul>
+<li><strong>本文作者：</strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank">弗兰克的猫</a></li>
+<li><strong>本文链接：</strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html">https://www.cnblogs.com/mfrank/p/11260355.html</a></li>
+<li><strong>关于博主：</strong> 终生学习，终生成长</li>
+<li><strong>版权声明：</strong> 版权归博主所有，转载请注明出处</li>
+<li><strong>声援博主：</strong> 如果您觉得文章对您有帮助，可以点击文章右下角**【推荐】**一下。</li>
+</ul>
+<blockquote>
+<p>来自: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11260355.html">【RabbitMQ】一文带你搞定RabbitMQ延迟队列 - 弗兰克的猫 - 博客园</a></p>
+</blockquote>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/22/%E3%80%90RabbitMQ%E3%80%91%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E6%90%9E%E5%AE%9ARabbitMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/">http://www.bojiboqi.fun/2024/04/22/%E3%80%90RabbitMQ%E3%80%91%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E6%90%9E%E5%AE%9ARabbitMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/xss/">xss</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_180903_881.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/RabbitMQ%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E9%A1%BA%E5%BA%8F%E6%80%A7%E3%80%90%E9%87%8D%E7%82%B9%E3%80%91-/" title="RabbitMQ如何保证消息的顺序性【重点】-"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_203909_595.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">RabbitMQ如何保证消息的顺序性【重点】-</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/%E3%80%90RabbitMQ%E3%80%91%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E6%90%9E%E5%AE%9ARabbitMQ%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97/" title="【RabbitMQ】一文带你搞定RabbitMQ死信队列"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204804_772.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【RabbitMQ】一文带你搞定RabbitMQ死信队列</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/22/Web%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E7%B3%BB%E5%88%97%E4%B9%8B%EF%BC%9AXSS%E6%94%BB%E9%98%B2%E5%8F%8AVue%E9%98%B2%E5%BE%A1/" title="Web前端安全系列之：XSS攻防及Vue防御"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_180023_522.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Web前端安全系列之：XSS攻防及Vue防御</div></div></a></div><div><a href="/2024/04/22/XSS%E7%B3%BB%E5%88%97%E4%B8%80%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AFXSS%E6%94%BB%E5%87%BB/" title="XSS系列一：什么是XSS攻击"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_202942_682.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">XSS系列一：什么是XSS攻击</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">一、说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%9C%AC%E6%96%87%E5%A4%A7%E7%BA%B2"><span class="toc-number">2.</span> <span class="toc-text">二、本文大纲</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">三、什么是延时队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">4.</span> <span class="toc-text">四、延时队列使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81RabbitMQ%E4%B8%AD%E7%9A%84TTL"><span class="toc-number">5.</span> <span class="toc-text">五、RabbitMQ中的TTL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8RabbitMQ%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97"><span class="toc-number">6.</span> <span class="toc-text">六、如何利用RabbitMQ实现延时队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81RabbitMQ%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E4%BC%98%E5%8C%96"><span class="toc-number">7.</span> <span class="toc-text">七、RabbitMQ延时队列优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%88%A9%E7%94%A8RabbitMQ%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-number">8.</span> <span class="toc-text">八、利用RabbitMQ插件实现延迟队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">九、总结</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

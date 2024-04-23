@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Spring Boot 多环境配置都 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="目录  前言 Spring Boot 自带的多环境配置  创建不同环境的配置文件 指定运行的环境   Maven 的多环境配置  创建多环境配置文件 定义激活的变量 pom 文件中定义 profiles 资源过滤 总结   总结   前言 日常开发中至少有三个环境，分别是开发环境（**dev**），测试环境（**test**），生产环境（**prod**）。不同的环境的各种配置都不相同，比如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot 多环境配置都">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/22/Spring%20Boot%20%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E9%83%BD/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="目录  前言 Spring Boot 自带的多环境配置  创建不同环境的配置文件 指定运行的环境   Maven 的多环境配置  创建多环境配置文件 定义激活的变量 pom 文件中定义 profiles 资源过滤 总结   总结   前言 日常开发中至少有三个环境，分别是开发环境（**dev**），测试环境（**test**），生产环境（**prod**）。不同的环境的各种配置都不相同，比如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_203108_228.webp">
+<meta property="article:published_time" content="2024-04-22T06:23:49.578Z">
+<meta property="article:modified_time" content="2024-04-22T23:30:42.960Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_203108_228.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/22/Spring%20Boot%20%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E9%83%BD/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Spring Boot 多环境配置都',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 07:30:42'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_203108_228.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_203108_228.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Spring Boot 多环境配置都</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T06:23:49.578Z" title="发表于 2024-04-22 14:23:49">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T23:30:42.960Z" title="更新于 2024-04-23 07:30:42">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/spring/">spring</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Spring Boot 多环境配置都"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a name="yqGFk"></a></p>
+<h3 id=""></h3>
+<p><a name="ODYr0"></a></p>
+<h3 id="目录">目录</h3>
+<ul>
+<li>前言</li>
+<li>Spring Boot 自带的多环境配置
+<ul>
+<li>创建不同环境的配置文件</li>
+<li>指定运行的环境</li>
+</ul>
+</li>
+<li>Maven 的多环境配置
+<ul>
+<li>创建多环境配置文件</li>
+<li>定义激活的变量</li>
+<li>pom 文件中定义 profiles</li>
+<li>资源过滤</li>
+<li>总结</li>
+</ul>
+</li>
+<li>总结<br>
+<a name="JVhOk"></a></li>
+</ul>
+<h2 id="前言"><strong>前言</strong></h2>
+<p>日常开发中至少有三个环境，分别是开发环境（<code>**dev**</code>），测试环境（<code>**test**</code>），生产环境（<code>**prod**</code>）。<br />不同的环境的各种配置都不相同，比如数据库，端口，<code>**IP**</code>地址等信息。<br />那么这么多环境如何区分，如何打包呢？<br />本篇文章就来介绍一下<code>**Spring Boot**</code> 中多环境如何配置，如何打包。<br>
+<a name="dwHWL"></a></p>
+<h2 id="Spring-Boot-自带的多环境配置"><strong>Spring Boot 自带的多环境配置</strong></h2>
+<p>Spring Boot 对多环境整合已经有了很好的支持，能够在打包，运行间自由切换环境。<br />那么如何配置呢？下面将会逐步介绍。<br>
+<a name="zqpIJ"></a></p>
+<h3 id="创建不同环境的配置文件">创建不同环境的配置文件</h3>
+<p>既然每个环境的配置都不相同，索性将不同环境的配置放在不同的配置文件中，因此需要创建三个不同的配置文件，分别是<code>**application-dev.properties**</code>、<code>**application-test.properties**</code>、<code>**application-prod.properties**</code>。<br /><strong>「注意」</strong>：配置文件的名称一定要是<code>**application-name.properties**</code>或者<code>**application-name.yml**</code>格式。这个<code>**name**</code>可以自定义，主要用于区分。</p>
+<blockquote>
+<p>此时整个项目中就有四个配置文件，加上<code>**application.properties**</code>。</p>
+</blockquote>
+<p><a name="V2CVw"></a></p>
+<h3 id="指定运行的环境">指定运行的环境</h3>
+<p>虽然你创建了各个环境的配置文件，但是<code>**Spring Boot**</code> 仍然不知道你要运行哪个环境，有以下两种方式指定：<br>
+<a name="pkVvW"></a></p>
+<h4 id="配置文件中指定">配置文件中指定</h4>
+<p>在<code>**application.properties**</code>或者<code>**application.yml**</code>文件中指定，内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 指定运行环境为测试环境</span><br><span class="line">spring.profiles.active=test</span><br></pre></td></tr></table></figure>
+<p>以上配置有什么作用呢？<br />如果没有指定运行的环境，<code>**Spring Boot**</code> 默认会加载<code>**application.properties**</code>文件，而这个的文件又告诉<code>**Spring Boot**</code> 去找<code>**test**</code>环境的配置文件。<br>
+<a name="lutS4"></a></p>
+<h4 id="运行-jar-的时候指定">运行 jar 的时候指定</h4>
+<p><code>**Spring Boot**</code> 内置的环境切换能够在运行<code>**Jar**</code>包的时候指定环境，命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar xxx.jar --spring.profiles.active=test</span><br></pre></td></tr></table></figure>
+<p>以上命令指定了运行的环境是<code>**test**</code>，是不是很方便呢？<br>
+<a name="GBTPC"></a></p>
+<h2 id="Maven-的多环境配置"><strong>Maven 的多环境配置</strong></h2>
+<p><code>**Maven**</code>本身也提供了对多环境的支持，不仅仅支持<code>**Spring Boot**</code>项目，只要是基于<code>**Maven**</code>的项目都可以配置。<br /><code>**Maven**</code>对于多环境的支持在功能方面更加强大，支持<code>**JDK版本**</code>、<code>**资源文件**</code>、<code>**操作系统**</code>等等因素来选择环境。<br />如何配置呢？下面逐一介绍。<br>
+<a name="Ec89N"></a></p>
+<h3 id="创建多环境配置文件">创建多环境配置文件</h3>
+<p>创建不同环境的配置文件，分别是<code>**application-dev.properties**</code>、<code>**application-test.properties**</code>、<code>**application-prod.properties**</code>。<br />加上默认的配置文件<code>**application.properties**</code>同样是四个配置文件。<br>
+<a name="NdMGo"></a></p>
+<h3 id="定义激活的变量">定义激活的变量</h3>
+<p>需要将<code>**Maven**</code>激活的环境作用于<code>**Spring Boot**</code>，实际还是利用了<code>**spring.profiles.active**</code>这个属性，只是现在这个属性的取值将是取值于<code>**Maven**</code>。配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.profiles.active=@profile.active@</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>**profile.active**</code>实际上就是一个变量，在<code>**maven**</code>打包的时候指定的<code>**-P test**</code>传入的就是值。</p>
+</blockquote>
+<p><a name="bGKzh"></a></p>
+<h3 id="pom-文件中定义-profiles">pom 文件中定义 profiles</h3>
+<p>需要在<code>**maven**</code>的<code>**pom.xml**</code>文件中定义不同环境的<code>**profile**</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--定义三种开发环境--&gt;</span><br><span class="line">    &lt;profiles&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;!--不同环境的唯一id--&gt;</span><br><span class="line">            &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line">            &lt;activation&gt;</span><br><span class="line">                &lt;!--默认激活开发环境--&gt;</span><br><span class="line">                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">            &lt;/activation&gt;</span><br><span class="line">            &lt;properties&gt;</span><br><span class="line">                &lt;!--profile.active对应application.yml中的@profile.active@--&gt;</span><br><span class="line">                &lt;profile.active&gt;dev&lt;/profile.active&gt;</span><br><span class="line">            &lt;/properties&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--测试环境--&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;id&gt;test&lt;/id&gt;</span><br><span class="line">            &lt;properties&gt;</span><br><span class="line">                &lt;profile.active&gt;test&lt;/profile.active&gt;</span><br><span class="line">            &lt;/properties&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--生产环境--&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;id&gt;prod&lt;/id&gt;</span><br><span class="line">            &lt;properties&gt;</span><br><span class="line">                &lt;profile.active&gt;prod&lt;/profile.active&gt;</span><br><span class="line">            &lt;/properties&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line">    &lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
+<p>标签<code>**&lt;profile.active&gt;**</code>正是对应着配置文件中的<code>**@profile.active@**</code>。<br /><code>**&lt;activeByDefault&gt;**</code>标签指定了默认激活的环境，则是打包的时候不指定<code>**-P**</code>选项默认选择的环境。<br />以上配置完成后，将会在IDEA的右侧<code>**Maven**</code>选项卡中出现以下内容：</p>
+<p>1<br />可以选择打包的环境，然后点击<code>**package**</code>即可。<br />或者在项目的根目录下用命令打包，不过需要使用<code>**-P**</code>指定环境，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package package -P test</span><br></pre></td></tr></table></figure>
+<p><code>**maven**</code>中的<code>**profile**</code>的激活条件还可以根据<code>**jdk**</code>、<code>**操作系统**</code>、<code>**文件存在或者缺失**</code>来激活。这些内容都是在<code>**&lt;activation&gt;**</code>标签中配置，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--activation用来指定激活方式，可以根据jdk环境，环境变量，文件的存在或缺失--&gt;</span><br><span class="line">  &lt;activation&gt;</span><br><span class="line">       &lt;!--配置默认激活--&gt;</span><br><span class="line">      &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">                </span><br><span class="line">      &lt;!--通过jdk版本--&gt;</span><br><span class="line">      &lt;!--当jdk环境版本为1.8时，此profile被激活--&gt;</span><br><span class="line">      &lt;jdk&gt;1.8&lt;/jdk&gt;</span><br><span class="line">      &lt;!--当jdk环境版本1.8或以上时，此profile被激活--&gt;</span><br><span class="line">      &lt;jdk&gt;[1.8,)&lt;/jdk&gt;</span><br><span class="line"></span><br><span class="line">      &lt;!--根据当前操作系统--&gt;</span><br><span class="line">      &lt;os&gt;</span><br><span class="line">        &lt;name&gt;Windows XP&lt;/name&gt;</span><br><span class="line">        &lt;family&gt;Windows&lt;/family&gt;</span><br><span class="line">        &lt;arch&gt;x86&lt;/arch&gt;</span><br><span class="line">        &lt;version&gt;5.1.2600&lt;/version&gt;</span><br><span class="line">      &lt;/os&gt;</span><br><span class="line">  &lt;/activation&gt;</span><br></pre></td></tr></table></figure>
+<p><a name="XcFu8"></a></p>
+<h3 id="资源过滤">资源过滤</h3>
+<p>如果你不配置这一步，将会在任何环境下打包都会带上全部的配置文件，但是我们可以配置只保留对应环境下的配置文件，这样安全性更高。<br />这一步配置很简单，只需要在<code>**pom.xml**</code>文件中指定<code>**&lt;resource&gt;**</code>过滤的条件即可，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">  &lt;resources&gt;</span><br><span class="line">  &lt;!--排除配置文件--&gt;</span><br><span class="line">    &lt;resource&gt;</span><br><span class="line">      &lt;directory&gt;src/main/resources&lt;/directory&gt;</span><br><span class="line">      &lt;!--先排除所有的配置文件--&gt;</span><br><span class="line">        &lt;excludes&gt;</span><br><span class="line">          &lt;!--使用通配符，当然可以定义多个exclude标签进行排除--&gt;</span><br><span class="line">          &lt;exclude&gt;application*.properties&lt;/exclude&gt;</span><br><span class="line">        &lt;/excludes&gt;</span><br><span class="line">    &lt;/resource&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--根据激活条件引入打包所需的配置和文件--&gt;</span><br><span class="line">    &lt;resource&gt;</span><br><span class="line">      &lt;directory&gt;src/main/resources&lt;/directory&gt;</span><br><span class="line">      &lt;!--引入所需环境的配置文件--&gt;</span><br><span class="line">      &lt;filtering&gt;true&lt;/filtering&gt;</span><br><span class="line">      &lt;includes&gt;</span><br><span class="line">        &lt;include&gt;application.yml&lt;/include&gt;</span><br><span class="line">          &lt;!--根据maven选择环境导入配置文件--&gt;</span><br><span class="line">        &lt;include&gt;application-$&#123;profile.active&#125;.yml&lt;/include&gt;</span><br><span class="line">      &lt;/includes&gt;</span><br><span class="line">    &lt;/resource&gt;</span><br><span class="line">  &lt;/resources&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure>
+<p>上述配置主要分为两个方面，第一是先排除所有配置文件，第二是根据<code>**profile.active**</code>动态的引入配置文件。<br>
+<a name="l8Nsw"></a></p>
+<h3 id="总结">总结</h3>
+<p>至此，<code>**Maven**</code>的多环境打包已经配置完成，相对来说挺简单，既可以在<code>**IDEA**</code>中选择环境打包，也同样支持命令<code>**-P**</code>指定环境打包。<br>
+<a name="rhGpK"></a></p>
+<h2 id="总结-2"><strong>总结</strong></h2>
+<p>本文介绍了Spring Boot 的两种打包方式，每种方式有各自的优缺点，你更喜欢哪种呢？</p>
+<blockquote>
+<p>源码已经上传，回复关键词<code>**多环境配置**</code>获取。</p>
+</blockquote>
+<blockquote>
+<p>来自: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Chenjiabing/p/13968781.html">嗯，挺全乎儿的，Spring Boot 多环境配置都在这里了，你喜欢哪种？ - 爱撒谎的男孩 - 博客园</a></p>
+</blockquote>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/22/Spring%20Boot%20%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E9%83%BD/">http://www.bojiboqi.fun/2024/04/22/Spring%20Boot%20%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E9%83%BD/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/spring/">spring</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_203108_228.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%88%86%E6%9E%90/" title="八大排序算法稳定性分析"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-53-46.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">八大排序算法稳定性分析</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/" title="限流算法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_161905_269.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">限流算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/09/Spring%20%E7%8A%B6%E6%80%81%E6%9C%BA/" title="Spring 状态机"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-48-38.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">Spring 状态机</div></div></a></div><div><a href="/2024/04/09/Spring%20%E7%8A%B6%E6%80%81%E6%9C%BA%E5%AE%9E%E6%88%98/" title="Spring 状态机实战"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204427_283.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">Spring 状态机实战</div></div></a></div><div><a href="/2024/04/09/SpringBoot%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0%E3%80%81%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0%E3%80%81%E5%A4%A7%E6%96%87%E4%BB%B6/" title="SpringBoot分片上传、断点续传、大文件"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_180709_311.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">SpringBoot分片上传、断点续传、大文件</div></div></a></div><div><a href="/2024/02/28/mybits/" title="mybatis总结"><img class="cover" src= "/images/1.webp" data-lazy-src="/images/default.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-28</div><div class="title">mybatis总结</div></div></a></div><div><a href="/2024/02/28/springboot2%E6%9D%82%E9%A1%B9%EF%BC%9A/" title="spring杂项"><img class="cover" src= "/images/1.webp" data-lazy-src="/images/default.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-28</div><div class="title">spring杂项</div></div></a></div><div><a href="/2024/02/28/springboot3%E7%BB%93%E5%90%88swagger3%E5%B9%B6%E5%AF%BC%E5%85%A5%E5%88%B0APIfox_/" title="spirngboot3整合swagger3"><img class="cover" src= "/images/1.webp" data-lazy-src="/images/default.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-28</div><div class="title">spirngboot3整合swagger3</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number"></span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Boot-%E8%87%AA%E5%B8%A6%E7%9A%84%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">Spring Boot 自带的多环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%8D%E5%90%8C%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">创建不同环境的配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E7%9A%84%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">指定运行的环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E6%8C%87%E5%AE%9A"><span class="toc-number">2.1.</span> <span class="toc-text">配置文件中指定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C-jar-%E7%9A%84%E6%97%B6%E5%80%99%E6%8C%87%E5%AE%9A"><span class="toc-number">2.2.</span> <span class="toc-text">运行 jar 的时候指定</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven-%E7%9A%84%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">Maven 的多环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">创建多环境配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">定义激活的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pom-%E6%96%87%E4%BB%B6%E4%B8%AD%E5%AE%9A%E4%B9%89-profiles"><span class="toc-number">3.</span> <span class="toc-text">pom 文件中定义 profiles</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%BF%87%E6%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">资源过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number"></span> <span class="toc-text">总结</span></a></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

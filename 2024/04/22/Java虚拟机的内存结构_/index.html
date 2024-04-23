@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java虚拟机的内存结构_ | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="Java内存模型对比参考：Java内存模型    文章目录      - [0、序言（运行时数据区）](https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_45393094&#x2F;article&#x2F;details&#x2F;106163605#0_15)      - [1、程序计数器（Program Counter Register）](https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_45393">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java虚拟机的内存结构_">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/22/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84_/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="Java内存模型对比参考：Java内存模型    文章目录      - [0、序言（运行时数据区）](https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_45393094&#x2F;article&#x2F;details&#x2F;106163605#0_15)      - [1、程序计数器（Program Counter Register）](https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_45393">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_203916_136.webp">
+<meta property="article:published_time" content="2024-04-22T05:51:56.273Z">
+<meta property="article:modified_time" content="2024-04-22T23:31:37.863Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="java基础">
+<meta property="article:tag" content="jvm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_203916_136.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/22/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84_/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java虚拟机的内存结构_',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 07:31:37'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_203916_136.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_203916_136.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java虚拟机的内存结构_</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T05:51:56.273Z" title="发表于 2024-04-22 13:51:56">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T23:31:37.863Z" title="更新于 2024-04-23 07:31:37">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java%E5%9F%BA%E7%A1%80/">java基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java虚拟机的内存结构_"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li><code>Java内存模型对比参考</code>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45393094/article/details/106219606">Java内存模型</a></li>
+</ul>
+<hr>
+<p><a name="gOYh9"></a></p>
+<h4 id="文章目录">文章目录</h4>
+<pre><code>     - [0、序言（运行时数据区）](https://blog.csdn.net/weixin_45393094/article/details/106163605#0_15)
+     - [1、程序计数器（Program Counter Register）](https://blog.csdn.net/weixin_45393094/article/details/106163605#1Program_Counter_Register_58)
+     - [2、虚拟机栈（Java Stack）](https://blog.csdn.net/weixin_45393094/article/details/106163605#2Java_Stack_77)
+     - [3、本地方法栈（Native Method Stack）](https://blog.csdn.net/weixin_45393094/article/details/106163605#3Native_Method_Stack_108)
+     - [4、方法区（Method Area）](https://blog.csdn.net/weixin_45393094/article/details/106163605#4Method_Area_116)
+     - [5、堆（Heap）](https://blog.csdn.net/weixin_45393094/article/details/106163605#5Heap_143)
+</code></pre>
+<hr>
+<p><a name="OyckZ"></a></p>
+<h5 id="0、序言（运行时数据区）">0、序言（运行时数据区）</h5>
+<p>JVM中的堆啊、栈啊、方法区什么的，是<strong>Java虚拟机的内存结构</strong>，Java程序启动后，会初始化这些内存的数据。<br />Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分为若干个不同的数据区域。每个区域都有各自的作用。<br />分析 <strong>JVM 内存结构</strong>，主要就是分析 JVM 运行时数据存储区域。JVM 的运行时数据区主要包括：<strong>堆</strong>、<strong>栈</strong>、<strong>方法区</strong>、<strong>程序计数器</strong>等。<br />而<strong>JVM 的优化问题</strong>主要在线程共享的数据区中：堆、方法区。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442374-9a1e94e2-7cdb-4083-a7e3-d6b4aee82f4b.png#averageHue=%23dfba74&amp;clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=487&amp;id=u91906123&amp;originHeight=623&amp;originWidth=895&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=81048&amp;status=done&amp;style=none&amp;taskId=u84df5353-9e0d-4a69-80a8-f0fa3f09d42&amp;title=&amp;width=700" alt="image.jpg"><br />内存结构就是上图中内存空间这些东西，而<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45393094/article/details/106219606">Java内存模型</a>，完全是另外的一个东西。</p>
+<hr>
+<p><strong>Java中的内存分配：</strong><br />Java程序在运行时，需要在内存中的分配空间。为了提高运算效率，就对数据进行了不同空间的划分，因为每一片区域都有特定的处理数据方式和内存管理方式。<br /><strong>具体划分为如下5个内存空间：</strong></p>
+<ul>
+<li>栈：存放局部变量</li>
+<li>堆：存放所有new出来的东西</li>
+<li>方法区：被虚拟机加载的类信息、常量、静态常量等。</li>
+<li>程序计数器(和系统相关)</li>
+<li>本地方法栈<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442299-07da1673-badd-4b4b-bd12-c3a6dc39a85b.png#averageHue=%23e8eedb&amp;clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=354&amp;id=ud9f27205&amp;originHeight=552&amp;originWidth=936&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=115800&amp;status=done&amp;style=none&amp;taskId=u0e24890e-aece-4abd-b5ec-8e517b3add7&amp;title=&amp;width=600" alt="image.jpg"></li>
+</ul>
+<hr>
+<p><a name="bOqww"></a></p>
+<h5 id="1、程序计数器（Program-Counter-Register）">1、程序计数器（Program Counter Register）</h5>
+<p>程序计数器是一块很小的内存空间，它是<strong>线程私有</strong>的，可以认作为<strong>当前线程的行号指示器</strong>。<br />一个线程的执行，是通过字节码解释器改变当前线程的计数器的值，来获取下一条需要执行的字节码指令，从而确保线程的正确执行。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442574-6b76afde-bb6c-465c-8245-b77be30dc620.png#averageHue=%232c2c24&amp;clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=325&amp;id=u1094089f&amp;originHeight=474&amp;originWidth=584&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=172218&amp;status=done&amp;style=none&amp;taskId=u446c134c-00a8-4e89-9830-a2c786a1f7e&amp;title=&amp;width=400" alt="image.jpg"></p>
+<hr>
+<p><strong>为什么需要程序计数器 ？</strong><br />我们知道对于一个处理器(如果是多核cpu那就是一核)，在一个确定的时刻都只会执行一条线程中的指令，一条线程中有多个指令，为了线程切换可以恢复到正确执行位置，每个线程都需有独立的一个程序计数器，<strong>不同线程之间的程序计数器互不影响，独立存储。</strong><br /><strong>注意</strong>：如果线程执行的是个java方法，那么计数器记录虚拟机字节码指令的地址。如果为native【底层方法】，那么计数器为空。这块内存区域是虚拟机规范中唯一没有OutOfMemoryError的区域。</p>
+<hr>
+<p><a name="UJwvP"></a></p>
+<h5 id="2、虚拟机栈（Java-Stack）">2、虚拟机栈（Java Stack）</h5>
+<p><code>又叫Java栈,就是我们平常说的栈</code><br />虚拟机栈也是线程私有的，生命周期与程序计数器相同，就是我们平时说的栈，栈描述的是Java方法执行的内存模型。<br /><code>虚拟机栈-过程详情描述</code><br />①<strong>每创建一个线程</strong>，虚拟机就会为这个线程<strong>创建一个虚拟机栈</strong>，<br />②虚拟机栈表示Java方法执行的内存模型，<strong>每调用一个方法</strong>，就会<strong>生成一个栈帧</strong>（Stack Frame）用于存储方法的本地变量表、操作栈、方法出口等信息，当这个方法执行完后，就会弹出相应的栈帧。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442421-693c3b5d-066e-4138-a850-4d943ce00c15.png#averageHue=%2387cf55&amp;clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=352&amp;id=ubf495b61&amp;originHeight=670&amp;originWidth=1141&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=205588&amp;status=done&amp;style=none&amp;taskId=uc62b78d8-b303-42b1-9b1b-a234f6504c7&amp;title=&amp;width=600" alt="image.jpg"><br />如果请求的栈的深度过大，虚拟机可能会抛出<code>StackOverflowError</code>异常，如果虚拟机的实现中允许虚拟机栈动态扩展，当内存不足以扩展栈的时候，会抛出<code>OutOfMemoryError</code>异常。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442787-e87eedc5-d904-46db-8013-ebab3c776a30.png#averageHue=%23cfcfc4&amp;clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=192&amp;id=uaeef5f51&amp;originHeight=460&amp;originWidth=478&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=234176&amp;status=done&amp;style=none&amp;taskId=u137e97d1-0b44-4fb2-aece-8e38cb834ed&amp;title=&amp;width=200" alt="image.jpg"><br /><strong>栈帧（Stack Frame）</strong><br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569443046-864bce2e-99d0-4203-b9ff-034ec84a9dc7.png#averageHue=%23d5c4a9&amp;clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=326&amp;id=u99b19238&amp;originHeight=510&amp;originWidth=940&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=309173&amp;status=done&amp;style=none&amp;taskId=u6eccf200-031a-4ca1-8fa4-808adeaa492&amp;title=&amp;width=600" alt="image.jpg"><br /><strong>栈帧分为三部分</strong>：局部变量区（Local Variables）、操作数栈（Operand Stack）和帧数据区（Frame Data）。</p>
+<ul>
+<li><strong>局部变量区（Loca Variables</strong>）：局部变量区被组织一个一个从0开始的字数组，byte、short、char在存储前被转换为int，boolean也被转换为int，0表示false，非0表示true，long和double占据两个字长。</li>
+<li><strong>操作数栈（Operand Stack）</strong>：操作数栈也被组织为一个字数组，但不同于局部变量区，它不是通过数组下标访问的，而是能过栈的Push和Pop操作，前一个操作Push进的数据可以被下一个操作Pop出来使用。</li>
+<li><strong>帧数据区</strong>（Frame Data）这部分的作用主要有三部分：
+<ul>
+<li>常量池中数据的解析</li>
+<li>方法执行完后处理方法返回，恢复调用方现场</li>
+<li>方法执行过程中抛出异常时的异常处理，存储有一个异常表，当出现异常时虚拟机查找相应的异常表看是否有对应的Catch语句，如果没有就抛出异常终止这个方法调用</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><a name="YiCx2"></a></p>
+<h5 id="3、本地方法栈（Native-Method-Stack）">3、本地方法栈（Native Method Stack）</h5>
+<p>与虚拟机栈类似，只是是执行本地方法时使用的</p>
+<ul>
+<li>(本地方法栈则为 JVM 使用到的 Native 方法服务。)</li>
+</ul>
+<hr>
+<p><a name="zySXC"></a></p>
+<h5 id="4、方法区（Method-Area）">4、方法区（Method Area）</h5>
+<p>用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译后的代码等信息。<br />方法区是线程间共享的，当两个线程同时需要加载一个类型时，只有一个类会请求ClassLoader加载，另一个线程会等待。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442782-6812898f-670f-4ea6-b458-f3ea3ec6d777.png#clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;id=ucbfa8961&amp;originHeight=325&amp;originWidth=637&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=28154&amp;status=done&amp;style=none&amp;taskId=u9cb653a8-3ac3-4fce-93c1-47aec419f28&amp;title=" alt="image.jpg"><br />小结：</p>
+<ul>
+<li><code>静态变量+常量+类信息（版本、方法、字段等）+运行时常量池存在方法区中</code></li>
+</ul>
+<hr>
+<p>拓展内容 - 常量池分类</p>
+<ul>
+<li><code>常量池大体可以分为：静态常量池，运行时常量池。</code></li>
+</ul>
+<p><strong>静态常量池</strong> 存在于class文件中，比如经常使用的javap -verbose中，常量池总是在最前面<br /><strong>运行时常量池</strong>：就是在class文件被加载进了内存之后，常量池保存在了方法区中，通常说的常量池 指的是运行时常量池。所以呢，讨论的都是运行时常量池<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569443379-6456db36-3d34-47d5-bf0c-5362af0ba03c.png#clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=274&amp;id=uc5cda111&amp;originHeight=591&amp;originWidth=863&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=116277&amp;status=done&amp;style=none&amp;taskId=uc813e951-dcfd-4a1e-aa0b-7adfbd5bd54&amp;title=&amp;width=400" alt="image.jpg"></p>
+<hr>
+<p><a name="rWsOf"></a></p>
+<h5 id="5、堆（Heap）">5、堆（Heap）</h5>
+<p><strong>虚拟机中用于存放对象与数组实例的地方</strong>，垃圾回收的主要区域就是这里（还可能有方法区）。<br />Java 中的堆是 JVM 所管理的最大的一块内存空间，<strong>主要用于存放各种类的实例对象</strong>。<br />在 Java 中，堆被划分成两个不同的区域：新生代 ( Young )、老年代 ( Old )。<br />新生代又可能分为Eden区，From Survivor区和To Survivor区，主要是为了垃圾回收。所有的<code>线程共享Java堆</code>，在这里还可以划分线程私有的缓冲区（Thread Local Allocation Buffer，TLAB）。<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569442990-f9b880d6-af94-4ab6-8d3a-e181493e4d47.png#clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=225&amp;id=u8dab0602&amp;originHeight=426&amp;originWidth=756&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=47864&amp;status=done&amp;style=none&amp;taskId=u36fa8383-08fa-408f-8bd3-da56865e1cb&amp;title=&amp;width=400" alt="image.jpg"><br />堆的大小可以通过参数 –Xms、-Xmx 来指定。<br />Java堆只要求逻辑上是连续的，在物理空间上可以不连续。</p>
+<hr>
+<p><strong>什么是新生代 ?</strong><br />新生代（Young Generation）主要是用来存放新生的对象。<br />新生代又被进一步划分为Eden区（伊甸园区）和Survivor区（幸存区，包含空间相等的S0、S1区，或者说From、To区，没有先后顺序，是Copying算法的需要）。<br />大多数情况下，java中新建的对象都是在新生代上分配的，通过Copying算法来进行分配内存和垃圾回收。<br /><strong>什么是老生代 ?</strong><br />老生代（Old Generation）主要存放应用程序中生命周期长的内存对象。<br />在新生代中经过多次垃圾回收仍然存活的对象，会被存放到老生代中。老生代通过标记/整理算法来清理无用内存。</p>
+<hr>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713569443419-00231640-bc96-4906-a818-fe3ac262bd18.png#clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=376&amp;id=u25614511&amp;originHeight=603&amp;originWidth=963&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=280337&amp;status=done&amp;style=none&amp;taskId=u7367939c-e760-4800-81c5-179ca7c8f8d&amp;title=&amp;width=600" alt="image.jpg"></p>
+<hr>
+<p><code>The best investment is to invest in yourself</code><br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/jpeg/28066124/1713569443138-1a9ce95c-29ea-44cd-9508-82109d1e6681.jpeg#clientId=u68ceb2eb-4b96-4&amp;from=paste&amp;height=300&amp;id=u4cbaa562&amp;originHeight=640&amp;originWidth=640&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=27315&amp;status=done&amp;style=none&amp;taskId=u5d87fa47-4faa-4174-9117-bd04ea4aa8c&amp;title=&amp;width=300" alt="image.jpg"><br /><code>2020.05.19 记录辰兮的第67篇博客</code></p>
+<blockquote>
+<p>来自: <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45393094/article/details/106163605">一文读懂 -Java虚拟机的内存结构（图详解）_java虚拟机内存 csdn-CSDN博客</a></p>
+</blockquote>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/22/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84_/">http://www.bojiboqi.fun/2024/04/22/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84_/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java%E5%9F%BA%E7%A1%80/">java基础</a><a class="post-meta__tags" href="/tags/jvm/">jvm</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_203916_136.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="Java内存模型"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204302_041.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java内存模型</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BBAtomicInteger/" title="原子操作类AtomicInteger"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_203937_199.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">原子操作类AtomicInteger</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/23/CountDownLatch/" title="CountDownLatch"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204420_023.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-23</div><div class="title">CountDownLatch</div></div></a></div><div><a href="/2024/04/22/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="Java内存模型"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204302_041.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java内存模型</div></div></a></div><div><a href="/2024/04/22/Java%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" title="Java线程模型"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-56-38.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java线程模型</div></div></a></div><div><a href="/2024/04/22/Java%20volatile%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E4%BE%8B%E8%AE%B2%E8%A7%A3/" title="Java volatile原理剖析与实例讲解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_10-45-22.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">Java volatile原理剖析与实例讲解</div></div></a></div><div><a href="/2024/04/22/%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E6%B3%95/" title="创建线程的七种方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204302_041.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">创建线程的七种方法</div></div></a></div><div><a href="/2024/04/22/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%E7%B1%BBAtomicInteger/" title="原子操作类AtomicInteger"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_203937_199.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">原子操作类AtomicInteger</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">文章目录</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#0%E3%80%81%E5%BA%8F%E8%A8%80%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">0、序言（运行时数据区）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%88Program-Counter-Register%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">1、程序计数器（Program Counter Register）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%EF%BC%88Java-Stack%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">2、虚拟机栈（Java Stack）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88%EF%BC%88Native-Method-Stack%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">3、本地方法栈（Native Method Stack）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4%E3%80%81%E6%96%B9%E6%B3%95%E5%8C%BA%EF%BC%88Method-Area%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">4、方法区（Method Area）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5%E3%80%81%E5%A0%86%EF%BC%88Heap%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">5、堆（Heap）</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

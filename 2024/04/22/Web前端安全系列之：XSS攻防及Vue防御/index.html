@@ -1,0 +1,425 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Web前端安全系列之：XSS攻防及Vue防御 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言 Web 安全的兴起 Web 攻击技术的发展也可以分为几个阶段。在 Web 1.0 时代，人们更多的是关注服务器端动态脚本的安全问题，比如将一个可执行脚本（俗称 webshell）上传到服务器上，从而获得权限。后续有出现了SQL注入，SQL注入的出现是Web安全史上的一个里程碑，SQL注入漏洞至今仍然是Web安全领域中的一个重要组成部分。再后续另一个里程碑的安全问题问世–XSS（跨站脚本攻击">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web前端安全系列之：XSS攻防及Vue防御">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/04/22/Web%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E7%B3%BB%E5%88%97%E4%B9%8B%EF%BC%9AXSS%E6%94%BB%E9%98%B2%E5%8F%8AVue%E9%98%B2%E5%BE%A1/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="前言 Web 安全的兴起 Web 攻击技术的发展也可以分为几个阶段。在 Web 1.0 时代，人们更多的是关注服务器端动态脚本的安全问题，比如将一个可执行脚本（俗称 webshell）上传到服务器上，从而获得权限。后续有出现了SQL注入，SQL注入的出现是Web安全史上的一个里程碑，SQL注入漏洞至今仍然是Web安全领域中的一个重要组成部分。再后续另一个里程碑的安全问题问世–XSS（跨站脚本攻击">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_180023_522.webp">
+<meta property="article:published_time" content="2024-04-22T06:28:22.096Z">
+<meta property="article:modified_time" content="2024-04-22T23:30:26.459Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="xss">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_180023_522.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/04/22/Web%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E7%B3%BB%E5%88%97%E4%B9%8B%EF%BC%9AXSS%E6%94%BB%E9%98%B2%E5%8F%8AVue%E9%98%B2%E5%BE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Web前端安全系列之：XSS攻防及Vue防御',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 07:30:26'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_180023_522.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_180023_522.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Web前端安全系列之：XSS攻防及Vue防御</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-22T06:28:22.096Z" title="发表于 2024-04-22 14:28:22">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T23:30:26.459Z" title="更新于 2024-04-23 07:30:26">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Web前端安全系列之：XSS攻防及Vue防御"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a name="ednPX"></a></p>
+<h3 id="前言-Web-安全的兴起"><a target="_blank" rel="noopener" href="https://holazero.cn/blogs/other/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/xss/">前言 Web 安全的兴起</a></h3>
+<p>Web 攻击技术的发展也可以分为几个阶段。在 <code>Web 1.0</code> 时代，人们更多的是关注<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%9C%8D%E5%8A%A1%E5%99%A8&amp;spm=1001.2101.3001.7020">服务器</a>端<br />动态脚本的安全问题，比如将一个可<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC&amp;spm=1001.2101.3001.7020">执行脚本</a>（俗称 <code>webshell</code>）上传到服务器上，从而获得权<br />限。后续有出现了<code>SQL</code>注入，<code>SQL</code>注入的出现是<code>Web</code>安全史上的一个里程碑，<code>SQL</code>注入漏洞至今仍然是<code>Web</code>安全领域中的一个重要组成部分。再后续另一个里程碑的安全问题问世–<code>XSS</code>（跨站脚本攻击）。伴随着 <code>Web 2.0</code> 的兴起，<code>XSS</code>、<code>CSRF</code> 等攻击已经变得更为强大。<code>Web</code> 攻击的思路也从服务器端转向了客户端，转向了浏览器和用户。<br /><code>Web</code> 技术发展到今天，构建出了丰富多彩的互联网。互联网业务的蓬勃发展，也催生出了<br />许多新兴的脚本语言，比如 <code>Python</code>、<code>Ruby</code>、<code>NodeJS</code> 等，敏捷开发成为互联网的主旋律。而手机技术、移动互联网的兴起，也给 <code>HTML 5</code> 带来了新的机遇和挑战。与此同时，<code>Web</code> 安全技术，也将紧跟着互联网发展的脚步，不断地演化出新的变化。<br />跨站脚本攻击（<code>XSS</code>）是客户端脚本安全中的头号大敌。<code>OWASP TOP 10</code> 威胁多次把 <code>XSS</code><br />列在榜首，该篇文章将重点介绍<code>XSS</code>的攻防问题<br>
+<a name="wsDcG"></a></p>
+<h3 id="初探XSS">初探<code>XSS</code></h3>
+<p><strong>跨站脚本攻击</strong>，英文全称是 <code>Cross Site Script</code>，本来缩写是 <code>CSS</code>，但是为了和层叠样式表（<code>Cascading Style Sheet</code>，<code>CSS</code>）有所区别，所以在安全领域叫做“<code>XSS</code>”。<br /><code>XSS</code>攻击，通常指黑客通过<code>HTML</code>注入 篡改网页，插入恶意脚本，从而在用户浏览网页时，控制用户浏览器的一种攻击行为。在这种行为最初出现之时，所有的演示案例全是跨域行为，所以叫做 “跨站脚本” 。时至今日，随着<code>Web</code>端功能的复杂化，应用化，是否跨站已经不重要了，但 <code>XSS</code>这个名字却一直保留下来。<br />随着<code>Web</code>发展迅速发展，<code>Web</code>开发已经被应用的非常广泛了，由之前的单一<code>PC</code>端扩展到现在的移动端（<code>APP</code>、<code>H5</code>），甚至包括桌面工具、设备大屏等等，所以在产生的应用场景越来越多，越来越复杂的情况下，同时大多数互联网（尤其是传统行业）的产品开发版本迭代上线时间非常短，一周一版本，两周一大版本的情况下，忽略了安全这一重要属性，一旦遭到攻击，后果将不堪设想。<br>
+<a name="VZH95"></a></p>
+<h3 id="XSS攻击类型分类"><code>XSS</code>攻击类型分类</h3>
+<p><code>XSS</code>攻击可以分为3类：反射型（非持久型）、存储型（持久型）、基于<code>DOM XSS</code>；<br>
+<a name="sjLPw"></a></p>
+<h4 id="反射型">反射型</h4>
+<ul>
+<li>【简单描述】将用户输入的存在 XSS 攻击的数据，发送给后台，后台并未对数据进行存储，也未经过任何过滤，直接返回给客户端，被浏览器渲染</li>
+<li>【具体步骤】1、构造出包含恶意代码的 url，url 指向目标网站，参数拼接恶意代码，举例如下：<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343678147-79415115-19fb-46bf-bcce-898c417e1168.png#averageHue=%23292e36&amp;clientId=u4a0d4c48-742c-4&amp;from=paste&amp;id=ub0fd354f&amp;originHeight=192&amp;originWidth=840&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=69292&amp;status=done&amp;style=none&amp;taskId=u287ccf31-ac28-4249-83ef-c1347f4f4fe&amp;title=" alt="image.png">2、诱导用户点击，点击后会向服务端发送请求，同时查询参数携带恶意代码3、服务端返回时 <strong>将恶意代码直接拼接在HTML</strong>4、客户端接收并解析执行代码时，恶意代码也被执行</li>
+<li>【特点】<strong>需要攻击者诱使用户操作</strong>：点击一个恶意链接/提交一个表单/进入一个恶意网站</li>
+<li>【常见场景】通过 URL 传递参数的场景，如 <strong>网站搜索、跳转</strong></li>
+</ul>
+<p><a name="GfhVe"></a></p>
+<h4 id="存储型">存储型</h4>
+<p>存储型 <code>XSS</code> 会把用户输入的数据“存储”在服务器端。这种 <code>XSS</code> 具有很强的稳定性。<br />比较常见的一个场景就是，黑客写下一篇包含有恶意 <code>JavaScript</code> 代码的博客文章，文章发表后，所有访问该博客文章的用户，都会在他们的浏览器中执行这段恶意的 <code>JavaScript</code> 代码。黑客把恶意的脚本保存到服务器端，所以这种 <code>XSS</code> 攻击就叫做 <strong>“存储型 <strong><code>**XSS**</code></strong>”</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 例如我们分别在网站中的输入框中输入以下信息，并保存到远程数据库 --&gt;</span><br><span class="line">&lt;img src=&quot;11&quot; onerror=&quot;console.log(window.localStorage)&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;11&quot; onerror=&quot;alert(111)&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>页面输入<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343399009-6e1c8e56-7691-448a-9506-acc7dbdea36a.png#averageHue=%23ededed&amp;clientId=u364131ef-0bd7-4&amp;from=paste&amp;id=ubea3c988&amp;originHeight=767&amp;originWidth=716&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=41926&amp;status=done&amp;style=none&amp;taskId=u43d9ccc1-73f8-4b7d-9e8a-494524337b8&amp;title=" alt="image.jpg"><br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343398965-422cf65f-4d01-4a6d-8e03-ae564e792851.png#averageHue=%23f9f9f9&amp;clientId=u364131ef-0bd7-4&amp;from=paste&amp;id=uf86a7dd3&amp;originHeight=690&amp;originWidth=700&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=38639&amp;status=done&amp;style=none&amp;taskId=u799a18e3-3cf4-4ab9-a4ff-54443219eeb&amp;title=" alt="image.jpg"><br />使用者浏览页面，分别先后触发了<code>alert</code>弹框和<code>localStorage</code>获取本地数据：<br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343399262-2869d1e6-2c10-4c42-90ee-09fe369e97e9.png#averageHue=%23fdfcfb&amp;clientId=u364131ef-0bd7-4&amp;from=paste&amp;id=u4da95710&amp;originHeight=608&amp;originWidth=1096&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=71706&amp;status=done&amp;style=none&amp;taskId=u4564a4ef-a4bc-4253-b10d-b2573ef75d8&amp;title=" alt="image.jpg"><br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343399265-f376fe25-c772-4742-97c7-95b0e48d552a.png#averageHue=%23f2eeee&amp;clientId=u364131ef-0bd7-4&amp;from=paste&amp;id=ua8b14c8d&amp;originHeight=167&amp;originWidth=1041&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=65707&amp;status=done&amp;style=none&amp;taskId=udd66dcdf-d891-4706-b82c-ad02464f406&amp;title=" alt="image.jpg"><br />以上就是一个典型的<strong>存储型</strong>攻击。<br>
+<a name="fBLpX"></a></p>
+<h4 id="基于DOM-XSS">基于<code>DOM XSS</code></h4>
+<p>实际上，这种类型的<code>XSS</code>并非按照“数据是否保存在服务器端”来划分，<code>DOM Based XSS</code>从效果上来说也是反射型<code>XSS</code>。单独划分出来，是因为<code>DOM Based XSS</code> 的形成原因比较特别，发现它的安全专家专门提出了这种类型的<code>XSS</code>。<code>DOM 型 XSS</code>跟前两种<code>XSS</code>的区别：<code>DOM 型 XSS</code>攻击中，取出和执行恶意代码由浏览器端完成，属于前端<code>JavaScript</code>自身的安全漏洞，而其他两种<code>XSS</code>都属于服务端的安全漏洞。<br />接下来我们来看一个简单的示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;title&gt;XSS攻防演练&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h3&gt;基于DOM的XSS&lt;/h3&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; id=&quot;input&quot;&gt;</span><br><span class="line">    &lt;button id=&quot;btn&quot;&gt;提交内容&lt;/button&gt;</span><br><span class="line">    &lt;div id=&quot;div&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    const input = document.getElementById(&#x27;input&#x27;);</span><br><span class="line">    const btn = document.getElementById(&#x27;btn&#x27;);</span><br><span class="line">    const div = document.getElementById(&#x27;div&#x27;);</span><br><span class="line"></span><br><span class="line">    let inputValue;</span><br><span class="line">     </span><br><span class="line">    input.addEventListener(&#x27;change&#x27;, (e) =&gt; &#123;</span><br><span class="line">        inputValue = e.target.value;</span><br><span class="line">    &#125;, false);</span><br><span class="line"></span><br><span class="line">    btn.addEventListener(&#x27;click&#x27;, () =&gt; &#123;</span><br><span class="line">        div.innerHTML = `&lt;a href=$&#123;inputValue&#125;&gt;链接地址&lt;/a&gt;`</span><br><span class="line">    &#125;, false);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>我们再页面输入框中输入以下文本<code>'' onclick=alert(/xss/)</code>，这里的<code>''</code>引号是为了关闭掉<code>href</code>属性，给它赋予了一个空值。然后点击<code>提交内容</code>按钮，则页面中的<code>&lt;div id=&quot;div&quot;&gt;&lt;/div&gt;</code>标签包含了一下<code>html</code>内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href onlick=&quot;alert(/xss/)&quot;&gt;链接地址&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343399166-6c9affa7-f367-46ac-bb26-70af74144bcd.png#averageHue=%23f4f2f1&amp;clientId=u364131ef-0bd7-4&amp;from=paste&amp;id=ub17b7a33&amp;originHeight=153&amp;originWidth=289&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=14738&amp;status=done&amp;style=none&amp;taskId=u4126065b-2657-4e6c-9412-f23105c648a&amp;title=" alt="image.jpg"><br /><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713343399448-41c73865-9e65-44c8-bcaf-f5f260ffcb62.png#averageHue=%23fdfbfb&amp;clientId=u364131ef-0bd7-4&amp;from=paste&amp;id=uae8f08a9&amp;originHeight=299&amp;originWidth=1483&amp;originalType=url&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=46584&amp;status=done&amp;style=none&amp;taskId=u390a887c-b6e0-4667-9a21-1bc818829de&amp;title=" alt="image.jpg"><br>
+<a name="bwrH9"></a></p>
+<h3 id="XSS攻击防御"><code>XSS</code>攻击防御</h3>
+<p>关于<code>XSS</code>的防御是非常复杂的，值得幸运的是现代浏览器、前端框架/库已经帮我们做了相当大的一部分工作。<br>
+<a name="wb0AQ"></a></p>
+<h4 id="HttpOnly"><code>HttpOnly</code></h4>
+<p><code>HttpOnly</code> 最早是由微软提出，并在<code>IE 6</code>中最先实现的，至今已经逐渐成为一个标准。浏览器将禁止页面的<code>JavaScript</code>访问带有<code>HttpOnly</code>属性的<code>Cookie</code>。所以我们需要在<code>http</code>的响应头<code>set-cookie</code>时设置<code>httpOnly</code>，让浏览器知道不能通过<code>document.cookie</code>的方式获取到<code>cookie</code>内容。<br />严格地说，<code>HttpOnly</code> 并非为了对抗 <code>XSS——HttpOnly</code> 解决的是<code>XSS</code>后的 <code>Cookie</code> 劫持攻击。所以说使用<code>HttpOnly</code>有助于缓解<code>XSS</code>攻击，但仍然需要其他能够解决<code>XSS</code>漏洞的方案；<br>
+<a name="HYT37"></a></p>
+<h4 id="输入检查">输入检查</h4>
+<p>对于用户的输入内容我们需要持怀疑态度。在对输入不做任何过滤检查的情况下用户可能输入任何字符串。比如我们期望输入的内容是：<code>hello word</code>, 也许我们收到的内容是<code>onclick=alert(/xss/)</code>。<br />在<code>XSS</code>的防御上，输入检查一般是检查用户输入的数据中是否包含一些特殊字符，如<code>＜、＞、’、”</code>等。如果发现存在特殊字符，则将这些字符过滤或者编码。这种输入检查的方式，可以称为<code>“XSS Filter”</code>。互联网上有很多开源的<code>“XSS Filter”</code>的实现。比如一个简单的<code>htmlencode</code>转义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const htmlEncode = function (handleString)&#123;</span><br><span class="line">    return handleString</span><br><span class="line">    .replace(/&amp;/g,&quot;&amp;amp;&quot;)</span><br><span class="line">    .replace(/&lt;/g,&quot;&amp;lt;&quot;)</span><br><span class="line">    .replace(/&gt;/g,&quot;&amp;gt;&quot;)</span><br><span class="line">    .replace(/ /g,&quot;&amp;nbsp;&quot;)</span><br><span class="line">    .replace(/\&#x27;/g,&quot;&amp;#39;&quot;)</span><br><span class="line">    .replace(/\&quot;/g,&quot;&amp;quot;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是<strong>输入检查</strong>也有弊端，比如</p>
+<ul>
+<li>攻击者绕过前端页面直接使用接口就可以提交恶意代码到远程库中。</li>
+<li>输入数据，还可能会被展示在多个地方，每个地方的语境可能各不相同，如果使用单一的替换操作，则可能会出现问题。输入检查也需要有针对性，如果我们想表达的意思是一个数小于另一个数（ <code>3 &lt; 4</code>）,前端转义后的字符就变成<code>3 &amp;lt; 4</code>，当这个值被存到远端时后，再通过<code>AJAX</code>获取使用就会造成不必要的麻烦，比如我就进行数值计算等等。<br>
+<a name="CA2ay"></a></li>
+</ul>
+<h4 id="输出检查">输出检查</h4>
+<p>一般来说，除富文本的输出外，在变量输出到<code>HTML</code>页面时，可以使用编码或转义的方式来防御<code>XSS</code>攻击。<br />XSS的本质还是一种“HTML 注入”，用户的数据被当成了HTML代码一部分来执行，从而混淆了原本的语义，产生了新的语义。<br />如同输入检查一样，我们可以对输出进行编码转义。<br>
+<a name="zYAKd"></a></p>
+<h5 id="1-在HTML中输出">1.在<code>HTML</code>中输出</h5>
+<p>比如我们的html代码中有这样一段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;$htmlVar&lt;/div&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;$htmlVar&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p>如果输出的变量没有进行安全处理，直接使用并渲染在页面中，都能导致直接产生<code>XSS</code>。最终的结果可能生成一下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;script&gt;alert(&#x27;我是一个XSS攻击者&#x27;)&lt;/script&gt;&lt;/div&gt;</span><br><span class="line">&lt;a href=&quot;#&quot;&gt;&lt;img href=&quot;&quot; onclick=&quot;alert(&#x27;我是另外一个XSS攻击者&#x27;)&quot;&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p>这个预防的方法就是对html进行转义检查<br>
+<a name="uyh2V"></a></p>
+<h5 id="2-在HTML属性中输出">2. 在<code>HTML</code>属性中输出</h5>
+<p>如果我们的html属性时动态值，那么利用属性也可以被攻击；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;testXSS&quot; data-name=&quot;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>现在往<code>data-name</code>属性中插入一段未转义的代码<code>&quot;&gt;&lt;script&gt;alert('我是一个XSS攻击者')&lt;/script&gt;&lt;&quot;</code>,结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;testXSS&quot; data-name=&quot;&quot;&gt;&lt;script&gt;alert(&#x27;我是一个XSS攻击者&#x27;)&lt;/script&gt;&lt;&quot;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p><a name="fpzM1"></a></p>
+<h5 id="3-在-script-标签中输出">3. 在<code>&lt;script&gt;</code>标签中输出</h5>
+<p>在<code>&lt;script&gt;</code>标签中输出时，首先应该确保输出的变量在引号中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    // 假设userData是攻击者注入的数据</span><br><span class="line">    let xssVar = userData;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>攻击者需要先闭合引号才能实施XSS攻击：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    // 假设userData是攻击者注入的数据</span><br><span class="line">    let xssVar = &quot;&quot;;alert(&#x27;我是一个script XSS攻击者&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><a name="UP3BO"></a></p>
+<h5 id="4-在CSS中输出">4. 在<code>CSS</code>中输出</h5>
+<p>在 <code>CSS</code> 和 <code>style</code>、<code>style attribute</code> 中形成 <code>XSS</code> 的方式非常多样化，所以，一般来说，尽可能禁止用户可控制的变量在“<code>&lt;style&gt;</code>标签”、“<code>HTML</code>标签的<code>style</code>属性”以及“<code>CSS</code> 文件”中输出。如果一定有这样的需求，则推荐使用一个关于CSS转义库。<br>
+<a name="ybkmR"></a></p>
+<h4 id="防御DOM-Based-XSS">防御<code>DOM Based XSS</code></h4>
+<p><code>DOM Based XSS</code>是一种比较特别的<code>XSS</code>漏洞，前文提到的几种防御方法都不太适用，需要特别对待。这个本质上，实际上就是网站前端JavaScript代码本身不够严谨，把不可信的数据当作代码执行了。<br />如果用 <code>Vue/React</code> 技术栈，并且不使用 <code>v-html</code>/<code>dangerouslySetInnerHTML</code>功能，就在前端<code>render</code>阶段避免<code>innerHTML</code>、<code>outerHTML</code>的 <code>XSS</code>隐患。稍后会有专门的<code>Vue</code>关于<code>XSS</code>的防御段落。<br />会触发<code>DOM Based XSS</code>的地方有很多，以下几个地方是<code>JavaScript</code>输出到<code>HTML</code>页面的必经之路。</p>
+<ul>
+<li><code>document.write()</code>;</li>
+<li><code>document.writeln()</code>;</li>
+<li><code>xxx.innerHTML()</code>;</li>
+<li><code>xxx.outerHTML()</code>;</li>
+<li><code>xxx.innerHTML.replace()</code>;</li>
+<li><code>document.attachEvent()</code>;</li>
+<li><code>window.attachEvent()</code>;</li>
+<li><code>window.location()</code>;</li>
+<li><code>window.name</code>;</li>
+</ul>
+<p>所以开发者需要重点关注这几个地方的参数是否可以被用户控制。如果项目中有用到这些的话，一定要避免在字符串中拼接不可信数据。<br>
+<a name="LCYCH"></a></p>
+<h3 id="Vue中的XSS防御"><code>Vue</code>中的<code>XSS</code>防御</h3>
+<p>如果你在项目中使用了<code>Vue</code>作为前端开发框架，恭喜你，<code>Vue</code>将为你解决绝大多数的<code>XSS</code>攻击问题，但是<code>Vue</code>不是一个预防<code>XSS</code>攻击的框架，在开发使用的时候还是有被攻击的漏洞存在；<br>
+<a name="YnI6i"></a></p>
+<h4 id="Vue中的防御措施"><code>Vue</code>中的防御措施</h4>
+<p>不论使用模板还是渲染函数，<code>Vue</code>都会将插值的内容都会自动转义。也就是说对于这份模板：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123;userData&#125;&#125;&lt;/p&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    // 从远程获取的数据</span><br><span class="line">    userData = &quot;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&quot;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>最终编译后页面显示的<code>html</code>源码内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;</span><br><span class="line">    &lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p>原因是<code>Vue</code>帮我们对数据进行了转义，因此避免了脚本注入。该转义通过诸如 textContent 的浏览器原生的 API 完成，所以除非浏览器本身存在安全漏洞，否则不会存在安全漏洞。转义后的内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;script&amp;gt;alert(&amp;quot;xss&amp;quot;)&amp;lt;/script&amp;gt;</span><br></pre></td></tr></table></figure>
+<p><a name="GDozP"></a></p>
+<h4 id="注入HTML">注入<code>HTML</code></h4>
+<p>如果你要动态注入远程的<code>HTML</code>内容，首先你应该确保这些内容是安全有效的，否则你应该采取一些防御措施，去过滤或转义掉一些危险的标签符号；例如你可以这样显示的渲染<code>HTML</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 当使用模版时 --&gt;</span><br><span class="line">&lt;div v-html=&quot;userProvidedHtml&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 当使用渲染函数时 --&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    h(&#x27;div&#x27;, &#123;</span><br><span class="line">    domProps: &#123;</span><br><span class="line">        innerHTML: this.userProvidedHtml</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;!-- 当使用JSX 的渲染函数时 --&gt;</span><br><span class="line">&lt;div domPropsInnerHTML=&#123;this.userProvidedHtml&#125;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>例如我们可以使用一个简单的方法（或者引用一个更加健壮的库/插件<a target="_blank" rel="noopener" href="https://jsxss.com/zh/index.html">XSS</a>来过滤一遍这个远程的<code>userProvidedHtml</code>数据内容，以确保安全；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 一个简单的函数，通过转义&lt;为&amp;lt以及&gt;为&amp;gt来实现防御HTML节点内容</span><br><span class="line">const escape = function(str)&#123;</span><br><span class="line">    return str.replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a name="W0wsq"></a></p>
+<h4 id="样式注入">样式注入</h4>
+<p>在使用<code>Vue</code> 要在模板内避免渲染 <code>style</code> 标签:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;&#123;&#123; userProvidedStyles &#125;&#125;&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>这是因为，一但通过<code>userProvidedStyles</code>，恶意用户仍可以提供 <code>CSS</code> 来进行“点击诈骗”，例如将链接的样式设置为一个透明的方框覆盖在“登录”按钮之上。然后再把<code> https://user-XSS-website.com/</code> 做成你的应用的登录页的样子，它们就可能获取一个用户真实的登录信息，所以Vue推荐使用<code>对象语法</code>且只允许用户提供特定的可以安全控制的<code>property</code>的值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- sanitizedUrl应为受控的地址 --&gt;</span><br><span class="line">&lt;a</span><br><span class="line">  v-bind:href=&quot;sanitizedUrl&quot;</span><br><span class="line">  v-bind:style=&quot;&#123;</span><br><span class="line">    color: userProvidedColor,</span><br><span class="line">    background: userProvidedBackground</span><br><span class="line">  &#125;&quot;</span><br><span class="line">&gt;</span><br><span class="line">  click me</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p><a name="dn9Zr"></a></p>
+<h3 id="安全问题“没有银弹”">安全问题“没有银弹”</h3>
+<blockquote>
+<p>在解决安全问题的过程中，不可能一劳永逸，也就是说“没有银弹”。</p>
+</blockquote>
+<blockquote>
+<p>一般来说，人们都会讨厌麻烦的事情，在潜意识里希望能够让麻烦越远越好。而安全，正是一件麻烦的事情，而且是无法逃避的麻烦。任何人想要一劳永逸地解决安全问题，都属于一相情愿，是“自己骗自己”，是不现实的。</p>
+</blockquote>
+<p><a name="mTvgX"></a></p>
+<h3 id="最佳实践">最佳实践</h3>
+<p>通用的规则是只要允许执行未过滤的用户提供的内容 (不论作为 <code>HTML</code>、<code>JavaScript</code> 甚至 <code>CSS</code>)，你就可能令自己处于被攻击的境地。这些建议实际上不论使用 <code>Vue</code>、<code>React</code>还是别的框架甚至不使用框架，都是成立的。<br>
+<a name="HnR8Z"></a></p>
+<h3 id="总结">总结</h3>
+<ul>
+<li>XSS有反射型，储存型，Dom的XSS攻击</li>
+<li>可以采用对script相关html元素进行转义，可以使用csp方法，让浏览器只加载信任服务器的js脚本；设置cookie的属性为HttpOnly这样就不能通过js获取到用户的cookie了</li>
+<li>用户输入检查，防止输入到有xss攻击的数据</li>
+<li>Vue中如果插入内容会自动将html的内容转义；使用v-html插入html元素的时候要注意转义；相关<a>标签时，其中的链接地址采用变量动态绑定，只有当点击的时候才进行赋值，这样就可以防止css注入了。</li>
+</ul>
+<p><a name="eLQoS"></a></p>
+<h4 id="参考文献">参考文献</h4>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%99%BD%E5%B8%BD%E5%AD%90%E8%AE%B2Web%E5%AE%89%E5%85%A8/7992696?fr=aladdin">白帽子讲Web安全</a></li>
+<li><a target="_blank" rel="noopener" href="https://vuejs.org/guide/best-practices/security.html#what-vue-does-to-protect-you">Vue官方文档</a></li>
+</ul>
+<blockquote>
+<p>来自: <a target="_blank" rel="noopener" href="https://blog.csdn.net/cheng521521/article/details/127423588">Web前端安全系列之：XSS攻防及Vue防御（万字长文）_vue xss-CSDN博客</a></p>
+</blockquote>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/04/22/Web%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E7%B3%BB%E5%88%97%E4%B9%8B%EF%BC%9AXSS%E6%94%BB%E9%98%B2%E5%8F%8AVue%E9%98%B2%E5%BE%A1/">http://www.bojiboqi.fun/2024/04/22/Web%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8%E7%B3%BB%E5%88%97%E4%B9%8B%EF%BC%9AXSS%E6%94%BB%E9%98%B2%E5%8F%8AVue%E9%98%B2%E5%BE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/xss/">xss</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_180023_522.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/XSS%E7%B3%BB%E5%88%97%E4%B8%80%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AFXSS%E6%94%BB%E5%87%BB/" title="XSS系列一：什么是XSS攻击"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_202942_682.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">XSS系列一：什么是XSS攻击</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/%E4%BB%80%E4%B9%88%E6%98%AFI_O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E5%92%8CReator/" title="什么是I_O多路复用和Reator"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_155107_486.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">什么是I_O多路复用和Reator</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/22/XSS%E7%B3%BB%E5%88%97%E4%B8%80%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AFXSS%E6%94%BB%E5%87%BB/" title="XSS系列一：什么是XSS攻击"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_202942_682.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">XSS系列一：什么是XSS攻击</div></div></a></div><div><a href="/2024/04/22/%E3%80%90RabbitMQ%E3%80%91%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E6%90%9E%E5%AE%9ARabbitMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97/" title="【RabbitMQ】一文带你搞定RabbitMQ延迟队列"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_180903_881.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">【RabbitMQ】一文带你搞定RabbitMQ延迟队列</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80-Web-%E5%AE%89%E5%85%A8%E7%9A%84%E5%85%B4%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">前言 Web 安全的兴起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%8E%A2XSS"><span class="toc-number">2.</span> <span class="toc-text">初探XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS%E6%94%BB%E5%87%BB%E7%B1%BB%E5%9E%8B%E5%88%86%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">XSS攻击类型分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">反射型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">存储型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EDOM-XSS"><span class="toc-number">3.3.</span> <span class="toc-text">基于DOM XSS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS%E6%94%BB%E5%87%BB%E9%98%B2%E5%BE%A1"><span class="toc-number">4.</span> <span class="toc-text">XSS攻击防御</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HttpOnly"><span class="toc-number">4.1.</span> <span class="toc-text">HttpOnly</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A3%80%E6%9F%A5"><span class="toc-number">4.2.</span> <span class="toc-text">输入检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A3%80%E6%9F%A5"><span class="toc-number">4.3.</span> <span class="toc-text">输出检查</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%9C%A8HTML%E4%B8%AD%E8%BE%93%E5%87%BA"><span class="toc-number">4.3.1.</span> <span class="toc-text">1.在HTML中输出</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%9C%A8HTML%E5%B1%9E%E6%80%A7%E4%B8%AD%E8%BE%93%E5%87%BA"><span class="toc-number">4.3.2.</span> <span class="toc-text">2. 在HTML属性中输出</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%9C%A8-script-%E6%A0%87%E7%AD%BE%E4%B8%AD%E8%BE%93%E5%87%BA"><span class="toc-number">4.3.3.</span> <span class="toc-text">3. 在&lt;script&gt;标签中输出</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%9C%A8CSS%E4%B8%AD%E8%BE%93%E5%87%BA"><span class="toc-number">4.3.4.</span> <span class="toc-text">4. 在CSS中输出</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1DOM-Based-XSS"><span class="toc-number">4.4.</span> <span class="toc-text">防御DOM Based XSS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E4%B8%AD%E7%9A%84XSS%E9%98%B2%E5%BE%A1"><span class="toc-number">5.</span> <span class="toc-text">Vue中的XSS防御</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue%E4%B8%AD%E7%9A%84%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD"><span class="toc-number">5.1.</span> <span class="toc-text">Vue中的防御措施</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5HTML"><span class="toc-number">5.2.</span> <span class="toc-text">注入HTML</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F%E6%B3%A8%E5%85%A5"><span class="toc-number">5.3.</span> <span class="toc-text">样式注入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E2%80%9C%E6%B2%A1%E6%9C%89%E9%93%B6%E5%BC%B9%E2%80%9D"><span class="toc-number">6.</span> <span class="toc-text">安全问题“没有银弹”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">7.</span> <span class="toc-text">最佳实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">8.1.</span> <span class="toc-text">参考文献</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
