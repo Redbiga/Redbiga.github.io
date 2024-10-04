@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java集合框架中的高阶函数 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="写在前面 随着Java 8引入了函数式接口和lambda表达式，Java 8中的集合框架（Java Collections Framework, JCF）也增加相应的接口以适应函数式编程。 本文的目标是带领大家熟悉Java 8中集合框架新增的常用接口，让我们的代码更简洁、更高级。 Java 8中的集合框架 首先，和大家从整体上了解Java集合框架。 Java集合框架，主要是由两个根接口派生出来的：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合框架中的高阶函数">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="写在前面 随着Java 8引入了函数式接口和lambda表达式，Java 8中的集合框架（Java Collections Framework, JCF）也增加相应的接口以适应函数式编程。 本文的目标是带领大家熟悉Java 8中集合框架新增的常用接口，让我们的代码更简洁、更高级。 Java 8中的集合框架 首先，和大家从整体上了解Java集合框架。 Java集合框架，主要是由两个根接口派生出来的：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_180356_329.webp">
+<meta property="article:published_time" content="2024-09-24T15:06:27.535Z">
+<meta property="article:modified_time" content="2024-09-24T15:52:48.510Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="函数式编程">
+<meta property="article:tag" content="集合">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/IMG_20240309_180356_329.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java集合框架中的高阶函数',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-24 23:52:48'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/IMG_20240309_180356_329.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">124</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/IMG_20240309_180356_329.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java集合框架中的高阶函数</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-24T15:06:27.535Z" title="发表于 2024-09-24 23:06:27">2024-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-24T15:52:48.510Z" title="更新于 2024-09-24 23:52:48">2024-09-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java集合框架中的高阶函数"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面">写在前面</h2>
+<p>随着Java 8引入了函数式接口和lambda表达式，Java 8中的集合框架（Java Collections Framework, JCF）也增加相应的接口以适应函数式编程。</p>
+<p>本文的目标是带领大家熟悉Java 8中集合框架新增的常用接口，让我们的代码更简洁、更高级。</p>
+<h2 id="Java-8中的集合框架">Java 8中的集合框架</h2>
+<p>首先，和大家从整体上了解Java集合框架。</p>
+<p>Java集合框架，主要是由两个根接口派生出来的：一个是 Collecton接口，用于存放单个元素；另一个是 Map 接口，主要用于存放键值对。</p>
+<p>Java集合框架的接口继承结构如下图：</p>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1720158393233-99521a73-45a3-4cb4-ab87-215a05828ca1.png" alt=""></p>
+<p>Java 8中，主要是Collection、List和Map三个接口新增了一些方法，部分常用的新增函数如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">接口名</th>
+<th style="text-align:left">Java8新加入的方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Collection</td>
+<td style="text-align:left">forEach(), removeIf(), stream(), parallelStream()</td>
+</tr>
+<tr>
+<td style="text-align:left">List</td>
+<td style="text-align:left">replaceAll(), sort()</td>
+</tr>
+<tr>
+<td style="text-align:left">Map</td>
+<td style="text-align:left">forEach(), replaceAll(), compute(), computeIfAbsent(), computeIfPresent(), merge()</td>
+</tr>
+</tbody>
+</table>
+<p>上述这些函数，它们都包含一个函数式接口类型的参数。这类函数有一个专门的术语：高阶函数（high order function）。</p>
+<p>高阶函数（定义）：</p>
+<blockquote>
+<p>一个函数，如果它有一个或多个参数是函数类型的，或者它的返回值是函数类型的，那么我们称这个函数为高阶函数。</p>
+</blockquote>
+<p>题外话：</p>
+<p>可以发现，这些新增的方法基本都有默认实现（default implementation），这大大减少了具体子类的负担。接口中的默认方法是Java 8的新特性，一个重要的作用就是“接口演化（interface evolution）”。举例说明，假设在Java 8之前，我们有一个类实现了Collection接口：</p>
+<p>public class Container implements Collection { … }</p>
+<p>升级到Java 8后，因为Collection中新增了方法 forEach，假设没有默认方法，之前的类 Container 将编译失败。</p>
+<h2 id="Collection中的高阶函数">Collection中的高阶函数</h2>
+<h3 id="1-forEach"><strong>1. forEach</strong></h3>
+<p>严格来说，forEach方法是定义在接口 Iterable 中的，它的方法签名和默认实现是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">default void forEach(Consumer&lt;? super T&gt; action) &#123;</span><br><span class="line">    Objects.requireNonNull(action);</span><br><span class="line">    for (T t : this) &#123;</span><br><span class="line">        action.accept(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它的作用是遍历集合中的每一个元素，然后依次对每个元素执行参数 action 指定的动作。参数 action 是一个 Consumer 类型的函数式接口，我们可以通过lambda表达式或方法引用来实现一个 Consumer 。因此，在Java 8或以后的版本中，不要用 for 语句来迭代 Collection 了，不妨使用 forEach 方法。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static void collectionForEach() &#123;</span><br><span class="line">    Collection&lt;String&gt; list = Arrays.asList(&quot;Guangdong&quot;, &quot;Zhejiang&quot;, &quot;Jiangsu&quot;);</span><br><span class="line"> </span><br><span class="line">    // for 语句</span><br><span class="line">    for (String s : list) &#123;</span><br><span class="line">        System.out.println(s);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // forEach 方法 + lambda表达式</span><br><span class="line">    list.forEach(s -&gt; System.out.println(s));</span><br><span class="line"> </span><br><span class="line">    // forEach 方法 + 方法引用</span><br><span class="line">    list.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-removeIf">2. removeIf</h3>
+<p>removeIf的方法签名为：</p>
+<p>default boolean removeIf(Predicate&lt;? super E&gt; filter) { … }</p>
+<p>removeIf的作用是遍历集合中的每一个元素，然后依次对每个元素进行指定的过滤操作。filter 参数是一个 Predicate 类型的函数式接口。</p>
+<p>示例代码如下，假定我们要过滤掉以字母 G 开头的省份：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void collectionRemoveIf() &#123;</span><br><span class="line">    List&lt;String&gt; provinces = new ArrayList&lt;&gt;(Arrays.asList(&quot;Guangdong&quot;, &quot;Jiangsu&quot;, &quot;Guangxi&quot;, &quot;Jiangxi&quot;, &quot;Shandong&quot;));</span><br><span class="line"> </span><br><span class="line">    boolean removed = provinces.removeIf(s -&gt; &#123;</span><br><span class="line">        return s.startsWith(&quot;G&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line"> </span><br><span class="line">    System.out.println(removed);</span><br><span class="line">    System.out.println(provinces);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<p>true</p>
+<p>[Jiangsu, Jiangxi, Shandong]</p>
+<h3 id="3-replaceAll">3. replaceAll</h3>
+<p>replaceAll的方法签名是：</p>
+<p>default void replaceAll(UnaryOperator<E> operator) { … }</p>
+<p>replaceAll方法的作用是对集合中的每个元素执行 operator 指定的计算，并用计算结果替换原来的元素。参数 operator 是类型为 UnaryOperator 的函数式接口，它的参数和返回值类型是相同的。</p>
+<p>示例代码如下：将所有的省份的拼音转换为大写字母</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void listReplaceAll() &#123;</span><br><span class="line">    List&lt;String&gt; provinces = Arrays.asList(&quot;Guangdong&quot;, &quot;Jiangsu&quot;, &quot;Guangxi&quot;, &quot;Jiangxi&quot;, &quot;Shandong&quot;);</span><br><span class="line">    provinces.replaceAll(s -&gt; s.toUpperCase());</span><br><span class="line">    System.out.println(provinces);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<blockquote>
+<p>[GUANGDONG, JIANGSU, GUANGXI, JIANGXI, SHANDONG]</p>
+</blockquote>
+<h3 id="4-sort">4. sort</h3>
+<p>sort的方法签名如下：</p>
+<p>default void sort(Comparator&lt;? super E&gt; c) { … }</p>
+<p>sort方法是根据比较器 c 指定的排序规则，对 List 中的元素进行排序。参数 c 的类型是Comparator，同样是一个函数式接口。</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void listSort() &#123;</span><br><span class="line">    List&lt;String&gt; list = Arrays.asList(&quot;Guangdong&quot;, &quot;Zhejiang&quot;, &quot;Jiangsu&quot;, &quot;Xizang&quot;, &quot;Fujian&quot;, &quot;Hunan&quot;, &quot;Guangxi&quot;);</span><br><span class="line"> </span><br><span class="line">    // 对省份进行排序，首先按照长度排序，如果长度一样，则按照字母顺序排序</span><br><span class="line">    list.sort((first, second) -&gt; &#123;</span><br><span class="line">        int lenDiff = first.length() - second.length();</span><br><span class="line">        return lenDiff == 0 ? first.compareTo(second) : lenDiff;</span><br><span class="line">    &#125;);</span><br><span class="line"> </span><br><span class="line">    list.forEach(s -&gt; System.out.println(s));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<p>Hunan</p>
+<p>Fujian</p>
+<p>Xizang</p>
+<p>Guangxi</p>
+<p>Jiangsu</p>
+<p>Zhejiang</p>
+<p>Guangdong</p>
+<h3 id="5-stream-和-parallelStream">5. stream 和 parallelStream</h3>
+<p>Stream是Java中函数式编程的重要组成部分，我们会在随后的文章中加以详述。</p>
+<h2 id="Map中的高阶函数">Map中的高阶函数</h2>
+<h3 id="1-forEach-2">1. forEach</h3>
+<p>和Collection类似，Map中也有forEach方法，它的方法签名和默认实现如下：</p>
+<p>default void forEach(BiConsumer&lt;? super K, ? super V&gt; action) { … }</p>
+<p>可以看到，Map的forEach方法的作用是遍历Map中所有的键值对，并执行参数 action 指定的操作。参数 action 的类型是函数式接口 BiConsumer，要求有2个参数，分别代表键值对的key和value。</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void mapForEach() &#123;</span><br><span class="line">    Map&lt;String, String&gt; cityMap = new HashMap&lt;&gt;();</span><br><span class="line">    cityMap.put(&quot;Guangdong&quot;, &quot;Guangzhou&quot;);</span><br><span class="line">    cityMap.put(&quot;Zhejiang&quot;, &quot;Hangzhou&quot;);</span><br><span class="line">    cityMap.put(&quot;Jiangsu&quot;, &quot;Nanjing&quot;);</span><br><span class="line"> </span><br><span class="line">    cityMap.forEach((key, value) -&gt; &#123;</span><br><span class="line">        System.out.println(String.format(&quot;%s 的省会是 %s&quot;, key, value));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<p>Guangdong 的省会是 Guangzhou</p>
+<p>Zhejiang 的省会是 Hangzhou</p>
+<p>Jiangsu 的省会是 Nanjing</p>
+<h3 id="2-replaceAll">2. replaceAll</h3>
+<p>Map的replaceAll的方法签名和默认实现如下：</p>
+<p>default void replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt; function) { … }</p>
+<p>和Collection的replaceAll类似，Map的replaceAll方法对Map中的每个键值对执行 operator 指定的计算，并用计算结果替换原来的value值。注意到参数 function 是一个 BiFunction，意味着需要提供这样的一个函数实现：它需要有2个参数，参数类型分别和键类型（K）和值类型（V）一一对应，并且它还需要返回一个类型为值类型（V）的返回值。</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static void mapReplaceAll() &#123;</span><br><span class="line">    Map&lt;String, String&gt; cityMap = new HashMap&lt;&gt;();</span><br><span class="line">    cityMap.put(&quot;Guangdong&quot;, &quot;Guangzhou&quot;);</span><br><span class="line">    cityMap.put(&quot;Zhejiang&quot;, &quot;Hangzhou&quot;);</span><br><span class="line">    cityMap.put(&quot;Jiangsu&quot;, &quot;Nanjing&quot;);</span><br><span class="line"></span><br><span class="line">    // 将省府的拼音转换为大写</span><br><span class="line">    cityMap.replaceAll((key, value) -&gt; &#123;</span><br><span class="line">        return value.toUpperCase();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    cityMap.forEach((key, value) -&gt; &#123;</span><br><span class="line">        System.out.println(String.format(&quot;%s 的省会大写是 %s&quot;, key, value));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<p>Guangdong 的省会大写是 GUANGZHOU</p>
+<p>Zhejiang 的省会大写是 HANGZHOU</p>
+<p>Jiangsu 的省会大写是 NANJING</p>
+<h3 id="3-compute">3. compute</h3>
+<p>compute的方法签名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">default V compute(K key,</span><br><span class="line">        BiFunction&lt;? super K, ? super V, ? extends V&gt; remappingFunction) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>compute方法的作用是将参数 remappingFunction 的计算结果关联到参数 key 上，但如果计算结果为null，则在Map中删除key的映射。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public static void mapCompute() &#123;</span><br><span class="line">    Map&lt;String, String&gt; cityMap = new HashMap&lt;&gt;();</span><br><span class="line">    cityMap.put(&quot;Guangdong&quot;, &quot;null&quot;);</span><br><span class="line">    cityMap.put(&quot;Zhejiang&quot;, &quot;Hangzhou&quot;);</span><br><span class="line">    cityMap.put(&quot;Jiangsu&quot;, &quot;null&quot;);</span><br><span class="line"> </span><br><span class="line">    // 稍显复杂的语句，先调用 forEach 遍历 cityMap 中的键，然后根据原有的键值对计算新的值</span><br><span class="line">    Set keys = new HashSet&lt;&gt;(cityMap.keySet());</span><br><span class="line">    keys.forEach(key -&gt; &#123;</span><br><span class="line">        cityMap.compute(key, (k, v) -&gt; &#123;</span><br><span class="line">            // 如果是 Guangdong，则返回 Guangzhou</span><br><span class="line">            if (&quot;Guangdong&quot;.equals(k)) &#123;</span><br><span class="line">                return &quot;Guangzhou&quot;;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            // 如果旧的键值对中，值是字符串 &quot;null&quot; ，则返回 null。</span><br><span class="line">            // 这意味着 cityMap 会删除对应的key</span><br><span class="line">            if (&quot;null&quot;.equals(v)) &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            // 否则，返回原来的 value 值</span><br><span class="line">            return v;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"> </span><br><span class="line">    cityMap.forEach((key, value) -&gt; &#123;</span><br><span class="line">        System.out.println(String.format(&quot;%s 的省会是 %s&quot;, key, value));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<p>Guangdong 的省会是 Guangzhou</p>
+<p>Zhejiang 的省会是 Hangzhou</p>
+<p>注意到，Jiangsu 已经从cityMap中被删除了。</p>
+<h3 id="4-computeIfPresent">4. computeIfPresent</h3>
+<p>computeIfPresent的方法签名和默认实现是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">default V computeIfPresent(K key,</span><br><span class="line">        BiFunction&lt;? super K, ? super V, ? extends V&gt; remappingFunction) &#123;</span><br><span class="line">    Objects.requireNonNull(remappingFunction);</span><br><span class="line">    V oldValue;</span><br><span class="line">    if ((oldValue = get(key)) != null) &#123;</span><br><span class="line">        V newValue = remappingFunction.apply(key, oldValue);</span><br><span class="line">        if (newValue != null) &#123;</span><br><span class="line">            put(key, newValue);</span><br><span class="line">            return newValue;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            remove(key);</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>computeIfPresent 的方法签名和compute一样，作用也和compute类似，但与compute不同的是，只有在Map中存在key并且对应的value非空时，才会调用参数 remappingFunction 指定的计算函数（函数编程特性之惰性求值：只有触发或满足某种条件后，才会执行函数）。如果计算结果为null，则删除key的映射，否则使用该结果替换key原来的映射。</p>
+<h3 id="5-computeIfAbsent">5. computeIfAbsent</h3>
+<p>computeIfAbsent的方法签名和默认实现是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">default V computeIfAbsent(K key,</span><br><span class="line">        Function&lt;? super K, ? extends V&gt; mappingFunction) &#123;</span><br><span class="line">    Objects.requireNonNull(mappingFunction);</span><br><span class="line">    V v;</span><br><span class="line">    if ((v = get(key)) == null) &#123;</span><br><span class="line">        V newValue;</span><br><span class="line">        if ((newValue = mappingFunction.apply(key)) != null) &#123;</span><br><span class="line">            put(key, newValue);</span><br><span class="line">            return newValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return v;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>computeIfAbsent的作用和computeIfPresent 相反，只有在Map中不存在key或对应的value为null时，才调用参数 mappingFunction 指定的计算函数（函数编程特性之惰性求值：只有触发或满足某种条件后，才会执行函数），并且当计算结果非null时，才将计算结果跟key关联。如果计算结果为null，则Map不做任何修改，不会增加新的映射关系。</p>
+<p>computeIfAbsent总是会返回操作之后Map中key对应的value，这个value可能是之前已存在的值（如果之前存在的话），也有可能是计算出来的新值。</p>
+<p>computeIfAbsent特别适合用来初始化Map。假设这么一个实践场景公司里的员工已经有一个“姓名-&gt;年龄”的Map了，我们需要根据它来构建一个“年龄-&gt;姓名列表”的新Map，此时，使用 computeIfAbsent 会使得代码简洁而有效：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public static void mapComputeIfAbsent() &#123;</span><br><span class="line">    Map&lt;String, Integer&gt; staffMap = new HashMap&lt;&gt;();</span><br><span class="line">    staffMap.put(&quot;Lilei&quot;, 24);</span><br><span class="line">    staffMap.put(&quot;Hanmeimei&quot;, 22);</span><br><span class="line">    staffMap.put(&quot;Liming&quot;, 24);</span><br><span class="line">    staffMap.put(&quot;Jim&quot;, 22);</span><br><span class="line">    staffMap.put(&quot;David&quot;, 24);</span><br><span class="line"></span><br><span class="line">    Map&lt;Integer, List&lt;String&gt;&gt; staffInvertMap = new HashMap&lt;&gt;();</span><br><span class="line">    staffMap.forEach((key, value) -&gt; &#123;</span><br><span class="line">        // 以年龄为键，构建一个新的Map</span><br><span class="line">        // 以 22 岁为例：</span><br><span class="line">        // 如果 staffInvertMap 之前不存在 22 岁对应的映射关系，</span><br><span class="line">        // 则新建一个 &quot;年龄 -&gt; ArrayList&lt;String&gt;&quot; 的映射，并且把新建的 ArrayList 返回。</span><br><span class="line">        // 如果 staffInvertMap 已经存在 22 岁对应的映射关系了，则将已存在的 ArrayList 返回。</span><br><span class="line">        List&lt;String&gt; nameList = staffInvertMap.computeIfAbsent(value, age -&gt; &#123;</span><br><span class="line">            // 对于同一个 age，这句代码只会执行一次</span><br><span class="line">            return new ArrayList&lt;&gt;();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        nameList.add(key);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    System.out.println(staffInvertMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<p>{22=[Hanmeimei, Jim], 24=[Lilei, David, Liming]}</p>
+<p>题外话：</p>
+<p>作者特别喜欢computeIfPresent和computeIfAbsent这两个函数，除了它们可以简化我们的代码外，它俩还有一个特性：在ConcurrentHashMap 中，computeIfPresent和computeIfAbsent中的系列操作具备原子性。原子性的含义，欢迎添加公众号，员说，一起讨论。</p>
+<h3 id="6-merge">6. merge</h3>
+<p>merge的方法签名和默认实现为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">default V merge(K key, V value,</span><br><span class="line">        BiFunction&lt;? super V, ? super V, ? extends V&gt; remappingFunction) &#123;</span><br><span class="line">    Objects.requireNonNull(remappingFunction);</span><br><span class="line">    Objects.requireNonNull(value);</span><br><span class="line">    V oldValue = get(key);</span><br><span class="line">    V newValue = (oldValue == null) ? value :</span><br><span class="line">               remappingFunction.apply(oldValue, value);</span><br><span class="line">    if(newValue == null) &#123;</span><br><span class="line">        remove(key);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        put(key, newValue);</span><br><span class="line">    &#125;</span><br><span class="line">    return newValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>merge方法的作用是合并key对应的旧值和新值：当Map中不存在key对应的映射或者映射值为null时，则将参数 value 关联到 key 上；否则，将旧值 oldValue 和 参数 value 作为函数 remappingFunction 的两个参数，计算得出一个新值，如果新值不为null，则将新值关联到 key 上，如果新值为null，则删除 key 对应的映射关系。</p>
+<p>一个典型的场景是针对某个用户进行备注，如果之前有过备注，则将新的备注信息加到后面，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void mapMerge() &#123;</span><br><span class="line">    Map&lt;String, String&gt; staffMap = new HashMap&lt;&gt;();</span><br><span class="line">    staffMap.put(&quot;Lilei&quot;, &quot;性别男 &quot;);</span><br><span class="line"></span><br><span class="line">    // 等价于 staffMap.merge(&quot;Lilei&quot;, &quot;年龄 24&quot;, String::concat)</span><br><span class="line">    // oldValue 即之前添加的值 “性别男 ”，value 即merge函数的第二个参数 “年龄24”</span><br><span class="line">    staffMap.merge(&quot;Lilei&quot;, &quot; 年龄24&quot;, (oldValue, value) -&gt; oldValue.concat(value));</span><br><span class="line">    staffMap.merge(&quot;Hanmeimei&quot;, &quot;年龄22&quot;, String::concat);</span><br><span class="line"></span><br><span class="line">    System.out.println(staffMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<p>{Lilei=性别男 年龄24, Hanmeimei=年龄22}</p>
+<h2 id="结语">结语</h2>
+<p>Java 8引入了函数式编程，也因此为Java中的集合框架带来了许多新的功能，使得我们能更好的进行函数式编程。</p>
+<p>作为一个优秀的Java程序员，要有意识的在实际编码中运用这些新方法，使得我们的代码更简洁更清晰。</p>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/">http://www.bojiboqi.fun/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a><a class="post-meta__tags" href="/tags/%E9%9B%86%E5%90%88/">集合</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/IMG_20240309_180356_329.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/24/Stream%E6%B5%81%20collect()%E6%96%B9%E6%B3%95/" title="Stream流 collect()方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/271.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Stream流 collect()方法</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/24/%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8method%20reference/" title="方法引用method reference"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/431.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">方法引用method reference</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/09/24/Java%208%20Optional/" title="Java 8 Optional"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-40-07.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java 8 Optional</div></div></a></div><div><a href="/2024/09/24/Java%20Consumer%E7%A4%BA%E4%BE%8B/" title="Java Consumer示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/24.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Consumer示例</div></div></a></div><div><a href="/2024/09/24/Java%20Supplier%E7%A4%BA%E4%BE%8B/" title="Java Supplier示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1593.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Supplier示例</div></div></a></div><div><a href="/2024/09/24/Stream%E4%B8%AD%E7%9A%84Pipeline%E7%90%86%E8%A7%A3/" title="Stream中的Pipeline理解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/150.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream中的Pipeline理解</div></div></a></div><div><a href="/2024/09/24/Stream%E6%B5%81%20collect()%E6%96%B9%E6%B3%95/" title="Stream流 collect()方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/271.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream流 collect()方法</div></div></a></div><div><a href="/2024/09/24/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="lambda表达式"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/421.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">lambda表达式</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-8%E4%B8%AD%E7%9A%84%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">Java 8中的集合框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Collection%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Collection中的高阶函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-forEach"><span class="toc-number">3.1.</span> <span class="toc-text">1. forEach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-removeIf"><span class="toc-number">3.2.</span> <span class="toc-text">2. removeIf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-replaceAll"><span class="toc-number">3.3.</span> <span class="toc-text">3. replaceAll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-sort"><span class="toc-number">3.4.</span> <span class="toc-text">4. sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-stream-%E5%92%8C-parallelStream"><span class="toc-number">3.5.</span> <span class="toc-text">5. stream 和 parallelStream</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">Map中的高阶函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-forEach-2"><span class="toc-number">4.1.</span> <span class="toc-text">1. forEach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-replaceAll"><span class="toc-number">4.2.</span> <span class="toc-text">2. replaceAll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-compute"><span class="toc-number">4.3.</span> <span class="toc-text">3. compute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-computeIfPresent"><span class="toc-number">4.4.</span> <span class="toc-text">4. computeIfPresent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-computeIfAbsent"><span class="toc-number">4.5.</span> <span class="toc-text">5. computeIfAbsent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-merge"><span class="toc-number">4.6.</span> <span class="toc-text">6. merge</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

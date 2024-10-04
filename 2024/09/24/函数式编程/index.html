@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>函数式编程 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="写在前面 从Java 8开始，Java语言添加了lambda表达式以及函数式接口等新特性。这意味着Java语言也开始逐步提供函数式编程的能力。 事实上，如果你熟悉Erlang、Scala、JavaScript或Python，那你或多或少对函数式编程相对熟悉。但如果你是一个通过常规路径学习的Javaer，可能对函数式编程思想不甚了解，相对的，你可能对面向对象编程思想会更熟悉。 先熟悉一下几个术语，有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式编程">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/09/24/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="写在前面 从Java 8开始，Java语言添加了lambda表达式以及函数式接口等新特性。这意味着Java语言也开始逐步提供函数式编程的能力。 事实上，如果你熟悉Erlang、Scala、JavaScript或Python，那你或多或少对函数式编程相对熟悉。但如果你是一个通过常规路径学习的Javaer，可能对函数式编程思想不甚了解，相对的，你可能对面向对象编程思想会更熟悉。 先熟悉一下几个术语，有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-54-32.webp">
+<meta property="article:published_time" content="2024-09-24T15:01:43.796Z">
+<meta property="article:modified_time" content="2024-09-24T15:38:37.256Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="函数式编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-54-32.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/09/24/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '函数式编程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-24 23:38:37'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/photo_2024-02-28_19-54-32.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">124</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/photo_2024-02-28_19-54-32.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">函数式编程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-24T15:01:43.796Z" title="发表于 2024-09-24 23:01:43">2024-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-24T15:38:37.256Z" title="更新于 2024-09-24 23:38:37">2024-09-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="函数式编程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面">写在前面</h2>
+<p>从Java 8开始，Java语言添加了lambda表达式以及函数式接口等新特性。这意味着Java语言也开始逐步提供函数式编程的能力。</p>
+<p>事实上，如果你熟悉Erlang、Scala、JavaScript或Python，那你或多或少对函数式编程相对熟悉。但如果你是一个通过常规路径学习的Javaer，可能对函数式编程思想不甚了解，相对的，你可能对面向对象编程思想会更熟悉。</p>
+<p>先熟悉一下几个术语，有利于提升大家的逼格：<br>
+FP，Functional Programming，函数式编程；<br>
+OOP，Object Oriented Programming，面向对象编程；</p>
+<p>虽然FP是在最近10年才流行起来的，但它的历史和OOP几乎等长。<strong>为什么FP突然流行起来了呢？</strong></p>
+<ul>
+<li>最主要原因是摩尔定律正在逐渐失效，单核CPU的计算能力在短期内无法有大的突破，计算机领域正在向“多核CPU和分布式计算”的方向发展。而FP则天然具备适合并发编程的优点：它不修改变量，不存在多线程间的竞争问题，因此也不需要考虑“锁”和“线程阻塞”，易于并发编程。在未来的大数据时代，函数式编程思想将会越来越重要。</li>
+<li>其次，在现实的编码过程中，程序员们发现了即使在OOP的世界中，FP能更好的解决某些具体问题，是OOP的有益补充。因此，出现了许多混合式风格的代码（混合式指 OOP + FP ），这也是为什么Java这个老牌的OOP编程语言要引入FP新特性的原因所在。</li>
+</ul>
+<p>本系列文章的重点在于介绍Java中的函数式编程，Java作为一个经典的OOP编程语言，在实际应用中，大部分Java程序都是OOP+FP的混合式代码。</p>
+<p>因此，对于函数式编程中的一些高级特性和技巧，例如Currying、惰性求值、尾递归等，我们不做专门的阐述，感兴趣的同学，可以搜索公众号，员说，一起讨论。</p>
+<p>下面，我们先了解一下函数式编程的定义以及它的优点。</p>
+<blockquote>
+<p><strong>本文的示例代码可从gitee上获取：</strong><a target="_blank" rel="noopener" href="https://gitee.com/cnmemset/javafp">https://gitee.com/cnmemset/javafp</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1eh4y1i7yp/?spm_id_from=333.999.0.0&amp;vd_source=add54d0fcd49c96c6c124259f9775bc3">最纯粹的代码风格——函数式编程_哔哩哔哩_bilibili</a></p>
+<h2 id="什么是函数式编程？">什么是函数式编程？</h2>
+<p>函数式编程是一种编程范式（programming paradigm），追求的目标是整个程序都由函数调用（function applying）以及函数组合（function composing）构成的。</p>
+<p>函数调用大家容易理解，但在函数式编程中，函数调用有一个限制——它不会改变函数以外的其它状态，换而言之，即函数调用不会改变在该函数之外定义的变量值。这种函数有个专门的术语——纯函数（purely function）。纯函数有个特点，当参数值不变的时候，多次运行纯函数，得到的结果总是一样的。这个特点特别有利于对纯函数进行unit test和debugging。</p>
+<p>函数组合指的是将一系列简单函数组合起来形成一个复合函数。函数组合是一个相对复杂的概念，譬如在Python中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from functools import reduce</span><br><span class="line">def compose(*funcs) -&gt; int:</span><br><span class="line">    &quot;&quot;&quot;将一组简单函数 [f, g, h] 组合为一个复合函数 (f(g(h(...)))) &quot;&quot;&quot;</span><br><span class="line">    return reduce(lambda f, g: lambda x: f(g(x)), funcs)</span><br><span class="line"></span><br><span class="line"># 例子</span><br><span class="line">f = lambda x: x + 1</span><br><span class="line">g = lambda x: x * 2</span><br><span class="line">h = lambda x: x - 3</span><br><span class="line"># 调用复合函数 f(g(h(x))：[(x-3) * 2] + 1</span><br><span class="line">print(compose(f, g, h)(10))  // print 15</span><br></pre></td></tr></table></figure>
+<p>在Java中，java.util.Objects.Consumer 接口的默认方法</p>
+<p><font style="color:rgb(0, 0, 0);">andThen</font></p>
+<p>是一个简单的函数组合函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">default Consumer&lt;T&gt; andThen(Consumer&lt;? super T&gt; after) &#123;</span><br><span class="line">    Objects.requireNonNull(after);</span><br><span class="line">    return (T t) -&gt; &#123; accept(t); after.accept(t); &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="函数式编程的特性">函数式编程的特性</h2>
+<h2 id="1-函数是“第一等公民”（first-class-citizens）"><strong>1. 函数是“第一等公民”（first-class citizens）</strong></h2>
+<p>函数是“第一等公民”，意味着函数和其它数据类型具备同等的地位——可以赋值给某个变量，可以作为另一个函数的参数，也可以作为另一个函数的返回值。</p>
+<p>判断某种开发语言对函数式编程支持程度高低，一个重要的标准就是该语言是否把函数作为“第一等公民”。</p>
+<p>例如下面的Java代码，print变量可以看做是一个匿名函数，它作为一个参数传入了函数 ArrayList.forEach。更多的语言细节可以参考随后的系列文章。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void simpleFunctinoProgramming() &#123;</span><br><span class="line">    List&lt;String&gt; l = Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);</span><br><span class="line">    Consumer&lt;String&gt; print = s -&gt; System.out.println(s);</span><br><span class="line">    l.forEach(print);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码会输出：<br>
+a<br>
+b<br>
+c</p>
+<h2 id="2-没有“副作用（side-effects）”"><strong>2. 没有“副作用（side effects）”</strong></h2>
+<p>“副作用（side effects）”，指的是函数在执行的时候，除了得出计算结果之外，还会改变函数以外的状态。“副作用”的典型场景就是修改了程序的全局变量（譬如Java中某个全局可见的类的属性值、某个类的静态变量等等）；修改传入的参数也属于“副作用”之一；IO操作或调用其它有“副作用”的函数也属于“副作用”。</p>
+<p>函数式编程中要求函数都是“纯函数（purely function）”。给定了参数后，多次运行纯函数，总会得到相同的返回值，而且它不会修改函数以外的状态或产生其它的“副作用”。</p>
+<p>“副作用”的含义是如此苛刻，但有的时候我们需要在计算过程中保存状态，然而我们又不能使用可变量，此时我们使用递归，利用保存在栈上的参数来记录状态。下面的代码是一个经典的实例，它定义了一个将字符串反转的函数reverse。可以看到，reverse在执行时的中间状态，是通过它在递归时的参数来保存的。务必牢记，在<font style="color:rgb(0, 0, 0);">函数式编程中，所有的参数和变量都是final的</font>（只能赋值1次而且赋值后不可变）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static String reverse(final String arg) &#123;</span><br><span class="line">    if (arg.length() == 0) &#123;</span><br><span class="line">        return arg;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return reverse(arg.substring(1)) + arg.substring(0, 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以使用递归来解决类似的问题，虽然它的性能实在不敢恭维，但它确实完全符合函数式编程风格。此时，不免有一个疑问：函数式编程限制如此的多，性能看起来也不太好，我们为什么还要提倡函数式编程呢？原因就在于函数式编程有着许多的优点，尤其是在大数据 &amp;&amp; 多核计算的时代。</p>
+<h2 id="3-引用透明（Referential-transparency）"><strong>3. 引用透明（Referential transparency）</strong></h2>
+<p>引用透明（Referential transparency），指的是函数的运行不依赖于外部状态或外部变量，只依赖于输入的参数。任何时候只要参数相同，运行函数所得到的返回值总是相同的。</p>
+<p>在其他的编程范式中，函数的返回值往往与系统状态有关。不同的状态之下，返回值可能不一样。这很不利于对程序进行测试和调试。</p>
+<h2 id="函数式编程的优点">函数式编程的优点</h2>
+<h2 id="1-便于单元测试和调试（Debugging）"><strong>1. 便于单元测试和调试（Debugging）</strong></h2>
+<p>由于函数式编程的“没有副作用”和“引用透明”的特点，每个函数都是一个独立的逻辑单元，不依赖于外部的状态或变量，也不修改外部的状态或变量。给定了参数后，多次运行函数，总会得到相同的返回值。这对单元测试者以及调试者来说，简直是最理想的情形。</p>
+<h2 id="2-易于“并发编程”"><strong>2. 易于“并发编程”</strong></h2>
+<p>同样的，函数式编程不依赖于也不会修改外部的状态或变量，因此我们不需要考虑多线程的并发竞争、死锁等问题，因为我们根本不需要加“锁”。这样，并发编程的复杂度将大大降低，部署也非常方便。</p>
+<p>在大数据和多核时代，这个优点被更大的放大了，这也是函数式编程思想焕发活力的主要原因。</p>
+<h2 id="3-便于热部署"><strong>3. 便于热部署</strong></h2>
+<p>这个优点也很显然——因为函数式编程不依赖于也不会修改外部的状态或变量，所以只要保持接口不变，我们可以随时升级代码，不需要重启服务。</p>
+<h2 id="结语">结语</h2>
+<p>需要谨记，函数式编程（FP）是一种编程范式或者说是一种编程思想，和它可以类比的是面向对象编程（OOP）。</p>
+<p>OOP的精髓在于“封装对象”，而FP的精髓在于“不涉及外部状态”。</p>
+<p>一门开发语言，可以既支持OOP，同时也支持FP，两者并不是矛盾的。</p>
+<p>一门开发语言，即使它号称真正支持函数式编程，也不可能100%符合函数式编程风格，因为IO操作是有“副作用”的，但实际上，不做I/O是不可能的。因此，在实际应用中，函数式编程只要求把I/O的影响限制到最小，并更专注于保持计算过程的单纯性。</p>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/09/24/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">http://www.bojiboqi.fun/2024/09/24/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/photo_2024-02-28_19-54-32.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/24/%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3Functional%20Interface/" title="函数式接口Functional Interface"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1581.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">函数式接口Functional Interface</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/24/%E9%9D%99%E6%80%81%E5%B8%B8%E9%87%8F%E6%B1%A0&amp;%E8%BF%90%E8%A1%8C%E5%B8%B8%E9%87%8F%E6%B1%A0&amp;%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%9A%84%E5%8C%BA%E5%88%AB/" title="静态常量池&amp;运行常量池&amp;字符串常量池的区别"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/391.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">静态常量池&amp;运行常量池&amp;字符串常量池的区别</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/09/24/Java%208%20Optional/" title="Java 8 Optional"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-40-07.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java 8 Optional</div></div></a></div><div><a href="/2024/09/24/Java%20Consumer%E7%A4%BA%E4%BE%8B/" title="Java Consumer示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/24.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Consumer示例</div></div></a></div><div><a href="/2024/09/24/Java%20Supplier%E7%A4%BA%E4%BE%8B/" title="Java Supplier示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1593.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Supplier示例</div></div></a></div><div><a href="/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" title="Java集合框架中的高阶函数"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_180356_329.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java集合框架中的高阶函数</div></div></a></div><div><a href="/2024/09/24/Stream%E4%B8%AD%E7%9A%84Pipeline%E7%90%86%E8%A7%A3/" title="Stream中的Pipeline理解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/150.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream中的Pipeline理解</div></div></a></div><div><a href="/2024/09/24/Stream%E6%B5%81%20collect()%E6%96%B9%E6%B3%95/" title="Stream流 collect()方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/271.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream流 collect()方法</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是函数式编程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">函数式编程的特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%87%BD%E6%95%B0%E6%98%AF%E2%80%9C%E7%AC%AC%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91%E2%80%9D%EF%BC%88first-class-citizens%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">1. 函数是“第一等公民”（first-class citizens）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B2%A1%E6%9C%89%E2%80%9C%E5%89%AF%E4%BD%9C%E7%94%A8%EF%BC%88side-effects%EF%BC%89%E2%80%9D"><span class="toc-number">5.</span> <span class="toc-text">2. 没有“副作用（side effects）”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BC%95%E7%94%A8%E9%80%8F%E6%98%8E%EF%BC%88Referential-transparency%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">3. 引用透明（Referential transparency）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-number">7.</span> <span class="toc-text">函数式编程的优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BE%BF%E4%BA%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%92%8C%E8%B0%83%E8%AF%95%EF%BC%88Debugging%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">1. 便于单元测试和调试（Debugging）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%98%93%E4%BA%8E%E2%80%9C%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E2%80%9D"><span class="toc-number">9.</span> <span class="toc-text">2. 易于“并发编程”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BE%BF%E4%BA%8E%E7%83%AD%E9%83%A8%E7%BD%B2"><span class="toc-number">10.</span> <span class="toc-text">3. 便于热部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">11.</span> <span class="toc-text">结语</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

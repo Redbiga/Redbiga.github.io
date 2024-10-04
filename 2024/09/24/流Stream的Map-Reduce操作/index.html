@@ -1,0 +1,501 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>流Stream的Map-Reduce操作 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="写在前面 Stream 的 Map-Reduce 操作是Java 函数式编程的精华所在，同时也是最为复杂的部分。但一旦你啃下了这块硬骨头，那你就真正熟悉Java的函数式编程了。 如果你有大数据的编程经验，你会对术语 Map-Reduce 十分熟悉亲切。如果你不熟悉大数据编程，也无所谓，通过本文的学习，相信你会对 Map-Reduce 会有一定的理解。下面我们将开始一次有趣的历程。 如有疑问，欢迎加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流Stream的Map-Reduce操作">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E7%9A%84Map-Reduce%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="写在前面 Stream 的 Map-Reduce 操作是Java 函数式编程的精华所在，同时也是最为复杂的部分。但一旦你啃下了这块硬骨头，那你就真正熟悉Java的函数式编程了。 如果你有大数据的编程经验，你会对术语 Map-Reduce 十分熟悉亲切。如果你不熟悉大数据编程，也无所谓，通过本文的学习，相信你会对 Map-Reduce 会有一定的理解。下面我们将开始一次有趣的历程。 如有疑问，欢迎加">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/1517.webp">
+<meta property="article:published_time" content="2024-09-24T15:12:36.534Z">
+<meta property="article:modified_time" content="2024-09-24T16:11:46.577Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="函数式编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/1517.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E7%9A%84Map-Reduce%E6%93%8D%E4%BD%9C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '流Stream的Map-Reduce操作',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-25 00:11:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/1517.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">124</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/1517.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">流Stream的Map-Reduce操作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-24T15:12:36.534Z" title="发表于 2024-09-24 23:12:36">2024-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-24T16:11:46.577Z" title="更新于 2024-09-25 00:11:46">2024-09-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="流Stream的Map-Reduce操作"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面"><strong>写在前面</strong></h2>
+<p>Stream 的 Map-Reduce 操作是Java 函数式编程的精华所在，同时也是最为复杂的部分。但一旦你啃下了这块硬骨头，那你就真正熟悉Java的函数式编程了。</p>
+<p>如果你有大数据的编程经验，你会对术语 Map-Reduce 十分熟悉亲切。如果你不熟悉大数据编程，也无所谓，通过本文的学习，相信你会对 Map-Reduce 会有一定的理解。下面我们将开始一次有趣的历程。</p>
+<p>如有疑问，欢迎加群讨论。</p>
+<p>本文的示例代码可从gitee上获取：<a target="_blank" rel="noopener" href="https://gitee.com/cnmemset/javafp">https://gitee.com/cnmemset/javafp</a></p>
+<h2 id="Stream的map操作"><strong>Stream的map操作</strong></h2>
+<p>map操作又称为映射操作，是处理Stream的重要操作。它的作用是将当前Stream中的每个元素都映射转换为另一个元素，从而得到一个新的Stream。转换前后的元素类型也可以不同。</p>
+<p>下面介绍 Stream 中常用的 Map 方法。</p>
+<h2 id="map"><strong>map()</strong></h2>
+<p>map的方法签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper);</span><br></pre></td></tr></table></figure>
+<p>map方法是一个中间操作，作用是将当前Stream中的每个元素通过参数 mapper 转换为另一个元素，转换前的元素类型为T，转换后的元素类型为 R。</p>
+<p>一个简单例子是字符串转换为字符串的长度：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void mapStream() &#123;</span><br><span class="line">    List&lt;String&gt; words = Arrays.asList(&quot;hello&quot;, &quot;world&quot;, &quot;I&quot;, &quot;love&quot;, &quot;you&quot;);</span><br><span class="line">    words.stream()</span><br><span class="line">            .map(String::length)</span><br><span class="line">            .forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出每个单词的长度：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">5</span><br><span class="line">1</span><br><span class="line">4</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<h2 id="mapToInt-、mapToLong-和mapToDouble"><strong>mapToInt()、mapToLong()和mapToDouble()</strong></h2>
+<p>它们的方法签名分别是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IntStream mapToInt(ToIntFunction&lt;? super T&gt; mapper);</span><br><span class="line"></span><br><span class="line">LongStream mapToLong(ToLongFunction&lt;? super T&gt; mapper);</span><br><span class="line"></span><br><span class="line">DoubleStream mapToDouble(ToDoubleFunction&lt;? super T&gt; mapper);</span><br></pre></td></tr></table></figure>
+<p>它们和map()方法大同小异，分别是针对基础类型 int 、long 和 double 的特殊处理，省去了装拆箱的消耗。</p>
+<h2 id="flatMap"><strong>flatMap()</strong></h2>
+<p>flatMap的方法签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;R&gt; Stream&lt;R&gt; flatMap(</span><br><span class="line">        Function&lt;? super T, ? extends Stream&lt;? extends R&gt;&gt; mapper);</span><br></pre></td></tr></table></figure>
+<p>flatMap是一个中间操作，作用是将当前Stream的每个元素通过参数 mapper 转换成一个类型为 Stream 的元素，然后将这些 Stream 合并为一个新的 Stream。顾名思义，flat的含义就是将当前Stream中的元素“摊平”，从一个单独的元素，转换为多个元素组成的Stream。</p>
+<p>文字表述总是苍白无力，我们先用一个实例来辅助说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void flatMapStream() &#123;</span><br><span class="line">    Stream&lt;List&lt;Integer&gt;&gt; stream = Stream.of(Arrays.asList(1,2), Arrays.asList(3, 4, 5));</span><br><span class="line">    stream.flatMap(list -&gt; list.stream())</span><br><span class="line">            .forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+<p>stream的元素类型是一个 List，总共有两个元素 —— [1, 2] 和 [3, 4, 5]。</p>
+<p>在 flatMap 方法中，首先将2个 List 转换为2个 Stream，然后再将这2个Stream合并为一个新的Stream并返回。图解如下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1720158418141-0d6f8ec0-0502-4f80-8a07-9859b5d8c566.png" alt=""></p>
+<h2 id="Stream的reduce操作"><strong>Stream的reduce操作</strong></h2>
+<p>reduce操作（reduction operation），翻译为规约操作，是Stream中最复杂的操作。</p>
+<p>规约操作，是通过重复执行指定的合并操作（combining operation），将Stream中的所有元素合并得到一个汇总结果的过程。例如，求和（sum）、求最大或最小值（max / min）、求平均数（average）、求元素总个数（count）、将所有元素汇总到一个列表（collect），这些都属于规约操作。</p>
+<p>规约操作都属于终止操作（terminal operations）。</p>
+<p>Stream类库有两个通用的规约操作 reduce() 和collect()。下面我们着重介绍相关的方法。</p>
+<h2 id="reduce"><strong>reduce()</strong></h2>
+<p>reduce方法有3种重写形式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator);</span><br><span class="line"></span><br><span class="line">T reduce(T identity, BinaryOperator&lt;T&gt; accumulator);</span><br><span class="line"></span><br><span class="line">&lt;U&gt; U reduce(U identity,</span><br><span class="line">             BiFunction&lt;U, ? super T, U&gt; accumulator,</span><br><span class="line">             BinaryOperator&lt;U&gt; combiner);</span><br></pre></td></tr></table></figure>
+<p>虽然参数和返回值不同，但它们的语义是相似的。下面逐一介绍。</p>
+<h3 id="reduce-BinaryOperator"><strong>reduce(BinaryOperator)</strong></h3>
+<p>先看第一个reduce方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator);</span><br></pre></td></tr></table></figure>
+<p>其中 T 是 Stream 的泛型类型。</p>
+<p>参数 accumulator 是指定的合并操作（combining operation）。</p>
+<p>在串行执行时，整个方法等价于下面的伪代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">boolean foundAny = false;</span><br><span class="line">T result = null;</span><br><span class="line">for (T element : this stream) &#123;</span><br><span class="line">    if (!foundAny) &#123;</span><br><span class="line">        foundAny = true;</span><br><span class="line">        result = element;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">        result = accumulator.apply(result, element);</span><br><span class="line">&#125;</span><br><span class="line">return foundAny ? Optional.of(result) : Optional.empty();</span><br></pre></td></tr></table></figure>
+<p>要注意的是，参数 accumulator 定义的函数必须满足<strong>结合律</strong>（associative），否则在一些顺序不确定的或并行的场景中会导致不正确的结果。譬如数据源是一个HashSet的话，其中的元素顺序是不确定的。</p>
+<blockquote>
+<p>结合律（associative）就是我们在小学时候学的结合律（加法结合律，乘法结合律）。对于一个函数或操作 op ，给定三个操作数 a、b、c，当 op 满足结合律时，即：<br>
+(a op b) op c == a op (b op c)</p>
+</blockquote>
+<p>以上述的 accumulator 为例，accumulator 满足结合律，即：</p>
+<p>accumulator(accumulator(a, b), c) == accumulator(a, accumulator(b, c))</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void reduceStream() &#123;</span><br><span class="line">    Stream&lt;Integer&gt; stream = Stream.of(1, 3, 5, 7, 9);</span><br><span class="line">    Integer sum = stream.reduce((x, y) -&gt; x + y).get();</span><br><span class="line">    System.out.println(sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">25</span><br></pre></td></tr></table></figure>
+<h3 id="reduce-T-BinaryOperator"><strong>reduce(T, BinaryOperator)</strong></h3>
+<p>第二个reduce的方法签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T reduce(T identity, BinaryOperator&lt;T&gt; accumulator);</span><br></pre></td></tr></table></figure>
+<p>其中 T 是 Stream 的泛型类型。</p>
+<p>与第一个reduce方法比较，多了一个参数 identity 。</p>
+<p>参数 identity 是reduce操作的初始值。</p>
+<p>参数accumulator 要求满足结合律（associative）。</p>
+<p>在串行的场景中，整个方法等价于下面的伪代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T result = identity;</span><br><span class="line">for (T element : this stream)</span><br><span class="line">    result = accumulator.apply(result, element)</span><br><span class="line">return result;</span><br></pre></td></tr></table></figure>
+<p>和第一个reduce方法一样，参数 accumulator 定义的函数必须满足结合律（associative），否则在一些顺序不确定的或并行的场景中会导致不正确的结果。</p>
+<p>此外，如果涉及到并行操作（parallel operations），对参数 identity 还有一个要求：</p>
+<p><strong>对任意值 t，要满足 accumulator(identity, t) == t 。否则，会导致错误的结果。</strong></p>
+<p>还是求和的场景，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public static void reduceStream2() &#123;</span><br><span class="line">    List&lt;Integer&gt; list = Arrays.asList(1, 3, 5, 7, 9);</span><br><span class="line"></span><br><span class="line">    // 串行执行，对参数 identity 并没有实际的约束。</span><br><span class="line">    Integer sum = list.stream().reduce(0, (x, y) -&gt; x + y);</span><br><span class="line">    System.out.println(sum);  // sum = 0+1+3+5+7+9 = 25</span><br><span class="line"></span><br><span class="line">    // 串行执行，对参数 identity 并没有实际的约束。</span><br><span class="line">    sum = list.stream().reduce(5, (x, y) -&gt; x + y);</span><br><span class="line">    System.out.println(sum);  // sum = 5+1+3+5+7+9 = 30</span><br><span class="line"></span><br><span class="line">    // 并行执行。这是正确的范例：因为数字 0 是累加操作的 identity 。</span><br><span class="line">    sum = list.parallelStream().reduce(0, (x, y) -&gt; x + y);</span><br><span class="line">    System.out.println(sum);  // sum = 0+1+3+5+7+9 = 25</span><br><span class="line"></span><br><span class="line">    // 并行执行。这是错误的范例：因为数字 5 并不是累加操作的 identity 。</span><br><span class="line">    sum = list.parallelStream().reduce(5, (x, y) -&gt; x + y);</span><br><span class="line">    System.out.println(sum);  // 会输出一个大于 30 的数字</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">25</span><br><span class="line">30</span><br><span class="line">25</span><br><span class="line">50</span><br></pre></td></tr></table></figure>
+<p>可以看到，在最后一个范例中，得出了一个错误的结果（正确结果应该是30）。</p>
+<h3 id="reduce-U-BiFunction-BinaryOperator"><strong>reduce(U, BiFunction, BinaryOperator)</strong></h3>
+<p>第三个reduce方法的签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;U&gt; U reduce(U identity,</span><br><span class="line">             BiFunction&lt;U, ? super T, U&gt; accumulator,</span><br><span class="line">             BinaryOperator&lt;U&gt; combiner);</span><br></pre></td></tr></table></figure>
+<p>其中 U 是返回值的类型，T 是 Stream 的泛型类型。</p>
+<p>参数 identity 是规约操作的初始值。</p>
+<p>参数accumulator 是与Stream中单个元素的合并操作，等同于函数 U apply(U u, T t)。</p>
+<p>参数 combiner 是将并行执行得到的多个中间结果进行合并的操作，等同于函数 U apply(U u1, U u2)。</p>
+<p>图解如下：<br>
+<img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1720158418362-b1a72735-7074-46f8-a151-aac775f3573f.png" alt=""></p>
+<p>在串行的场景中，整个方法等价于下面的伪代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">U result = identity;</span><br><span class="line">for (T element : this stream)</span><br><span class="line">    result = accumulator.apply(result, element)</span><br><span class="line">return result;</span><br></pre></td></tr></table></figure>
+<p>从伪代码中可以看到，串行时不涉及到参数 combiner ，串行时甚至可以将其设置为任一个非null值即可，不影响执行。</p>
+<p>但在并行编程中，对3个参数都有一些特殊要求：</p>
+<ol>
+<li>
+<p>参数 combiner 必须满足结合律</p>
+</li>
+<li>
+<p>参数 identity，对于任意值 u，必须满足 combiner(identity, u) == u</p>
+</li>
+<li>
+<p>参数 accumulator 和 combiner 两者必须兼容，即对于任意值 u 和 t，必须满足：</p>
+</li>
+</ol>
+<p>combiner(u, accumulator(identity, t)) == accumulator(u, t)</p>
+<p>假设一个场景，我们要求一篇文章中字母的总长度，示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void reduceStream3() &#123;</span><br><span class="line">    List&lt;String&gt; article = Arrays.asList(&quot;hello&quot;, &quot;world&quot;, &quot;I&quot;, &quot;love&quot;, &quot;you&quot;);</span><br><span class="line">    Integer letterCount = article.stream().reduce(</span><br><span class="line">            0, // identity 初始值　</span><br><span class="line">            (count, str) -&gt; count + str.length(), // accumulator 累加器，也起到了 map 的作用</span><br><span class="line">            (a, b) -&gt; a + b // combiner 拼接器，并行执行时才会用到</span><br><span class="line">    );</span><br><span class="line"> </span><br><span class="line">    // 输出 18</span><br><span class="line">    // 5(hello) + 5(world) + 1(I) + 4(love) + 3(you) = 18</span><br><span class="line">    System.out.println(letterCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述示例中，</p>
+<ol>
+<li>
+<p>combiner 是求和函数，满足结合律；</p>
+</li>
+<li>
+<p>identity 是0，也满足 0 + u == u;</p>
+</li>
+<li>
+<p>对于任意的整数 count 和 字符串 str，也满足 count + (0 + str.length()) == count + str.length()</p>
+</li>
+</ol>
+<p>因此，上述的示例是可以通过并行的方式执行的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static void reduceStream4() &#123;</span><br><span class="line">    List&lt;String&gt; article = Arrays.asList(&quot;hello&quot;, &quot;world&quot;, &quot;I&quot;, &quot;love&quot;, &quot;you&quot;);</span><br><span class="line"> </span><br><span class="line">    // parallelStream()：以并行的方式执行</span><br><span class="line">    Integer letterCount = article.parallelStream().reduce(</span><br><span class="line">            0, // identity 初始值　</span><br><span class="line">            (count, str) -&gt; count + str.length(), // accumulator 累加器，也起到了 map 的作用</span><br><span class="line">            (a, b) -&gt; a + b // combiner 拼接器，并行执行时才会用到</span><br><span class="line">    );</span><br><span class="line"> </span><br><span class="line">    // 输出 18</span><br><span class="line">    // 5(hello) + 5(world) + 1(I) + 4(love) + 3(you) = 18</span><br><span class="line">    System.out.println(letterCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于第三个reduce方法，参数 accumulator 同时也是一个mapper（映射器），在进行合并操作的同时，也做了map操作。因此，我们是可以通过 “map方法 + 第二个reduce方法”来实现第三个reduce方法的。但在某些场景中，将mapper和accumulator 混合起来，可以避免一些不必要的计算操作，使得程序更有效率。</p>
+<p>用“map方法 + 第二个reduce方法”实现同样的功能，示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static void reduceStream5() &#123;</span><br><span class="line">    List&lt;String&gt; article = Arrays.asList(&quot;hello&quot;, &quot;world&quot;, &quot;I&quot;, &quot;love&quot;, &quot;you&quot;);</span><br><span class="line"> </span><br><span class="line">    // parallelStream()：以并行的方式执行</span><br><span class="line">    // 分开的 map + accumulator</span><br><span class="line">    Integer letterCount = article.parallelStream()</span><br><span class="line">            .map(s-&gt;s.length())</span><br><span class="line">            .reduce(0, (a, b) -&gt; a + b);</span><br><span class="line"> </span><br><span class="line">    // 输出 18</span><br><span class="line">    // 5(hello) + 5(world) + 1(I) + 4(love) + 3(you) = 18</span><br><span class="line">    System.out.println(letterCount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="collect"><strong>collect()</strong></h2>
+<p>collect方法，顾名思义，它的作用是将Stream中的元素“收集”起来。它是Stream类库中最灵活、最通用的方法之一。一个常见的应用场景就是通过collect方法将Stream中的汇总到一个List中。</p>
+<p>先给一个简单的例子直观感受一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void collectToList() &#123;</span><br><span class="line">    Stream&lt;String&gt; stream = Stream.of(&quot;hello&quot;, &quot;world&quot;, &quot;I&quot;, &quot;love&quot;, &quot;you&quot;);</span><br><span class="line">    List&lt;String&gt; list = stream.collect(Collectors.toList());</span><br><span class="line">    System.out.println(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码是collect方法最简单的应用：将一个Stream转换为一个List。</p>
+<p>collect方法有2种重写形式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;R&gt; R collect(Supplier&lt;R&gt; supplier,</span><br><span class="line">              BiConsumer&lt;R, ? super T&gt; accumulator,</span><br><span class="line">              BiConsumer&lt;R, R&gt; combiner);</span><br><span class="line"> </span><br><span class="line">&lt;R, A&gt; R collect(Collector&lt;? super T, A, R&gt; collector);</span><br></pre></td></tr></table></figure>
+<p>这2种重写形式的语义是一致的，虽然细节上有差异，但仍然可以认为第二个collect方法的参数 collector 就是对第一个collect方法中三个参数supplier、accumulator和combiner的封装。</p>
+<h3 id="collect-Supplier-BiConsumer-BiConsumer"><strong>collect(Supplier, BiConsumer, BiConsumer)</strong></h3>
+<p>第一个collect方法的签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;R&gt; R collect(Supplier&lt;R&gt; supplier,</span><br><span class="line">              BiConsumer&lt;R, ? super T&gt; accumulator,</span><br><span class="line">              BiConsumer&lt;R, R&gt; combiner);</span><br></pre></td></tr></table></figure>
+<p>其中 R 是返回值的类型，通常是一个容器类（例如 Collection 或 Map）。T 是Stream中的元素类型。</p>
+<p>在解释3个参数的作用之前，我们先思考一个问题：如果要把Stream中的元素“收集”到一个容器中，需要哪些信息呢？很显然：</p>
+<p>首先我们要知道 1) 是哪个容器（supplier）；</p>
+<p>其次我们要知道 2) 如何将单个元素加入到该容器中（accumulator）；</p>
+<p>最后我们要知道 3) 在并行执行的时候，如何将多个中间结果的容器合并为一个（combiner）。</p>
+<p>对应参数的含义也自然而然出来了：</p>
+<p>参数 supplier 是用来创建一个容器实例的函数。</p>
+<p>参数 accumulator 是将Stream中的一个元素合并到容器中的函数。</p>
+<p>参数 combiner 是将两个容器归并为一个容器的函数，只在并行执行的时候用到。</p>
+<p>在串行执行的场景下，整个方法等价于以下的伪代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R result = supplier.get();</span><br><span class="line">for (T element : this stream)</span><br><span class="line">    accumulator.accept(result, element);</span><br><span class="line">return result;</span><br></pre></td></tr></table></figure>
+<p>而在并行执行的场景下，我们有一些额外的要求：</p>
+<ol>
+<li>combiner函数满足结合律</li>
+<li>要求combiner 和 accumulator 是兼容的（compatible），即对于任意的r和t，满足 combiner(r, accumulator(supplier.get(), t)) == accumulator(r, t)</li>
+</ol>
+<p>以一个简单的例子加以说明，假设我们要将Stream中的字符串“collect”到一个ArrayList中，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void collectToList1() &#123;</span><br><span class="line">    Stream&lt;String&gt; stream = Stream.of(&quot;hello&quot;, &quot;world&quot;, &quot;I&quot;, &quot;love&quot;, &quot;you&quot;);</span><br><span class="line">    List&lt;String&gt; list = stream.collect(</span><br><span class="line">        ArrayList::new, // supplier 创建一个 ArrayList 实例</span><br><span class="line">        ArrayList::add, // accumulator将一个 String 加入到 ArrayList 中</span><br><span class="line">        ArrayList::addAll // combiner 将两个 ArrayList 合并成一个</span><br><span class="line">    );</span><br><span class="line"> </span><br><span class="line">    System.out.println(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码也是符合并行执行的要求的：ArrayList的addAll方法满足结合律；addAll方法是与add方法兼容的（compatible）。因此，在上述的collect过程中，我们允许以并行的方式来执行 —— 即使 ArrayList 不是线程安全的，我们也无需考虑这个问题，这是Stream并行编程的优势之一。</p>
+<h3 id="collect-Collector"><strong>collect(Collector)</strong></h3>
+<p>第二个collect方法的签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;R, A&gt; R collect(Collector&lt;? super T, A, R&gt; collector);</span><br></pre></td></tr></table></figure>
+<p>其中，T是Stream元素的类型；R是返回值的类型；A是一个中间结果的类型，最后需要将结果从A转换到R。</p>
+<p>类Collector（收集器）可以看做是对前一个collect方法中的三个参数supplier、accumulator和combiner的封装，但Collector更加灵活和通用。</p>
+<p>类Collector的原理和源码相对比较复杂，限于篇幅，本文就不做详细阐述，如果读者感兴趣，可以加群讨论。</p>
+<p>Collector是如此的灵活，我们决定从一个现实场景出发，逐步向大家展示Collector的强大功能。</p>
+<p><strong>场景描述</strong></p>
+<p>假设一个场景：我们接到了一个公司的需求，需要对公司的信息进行一些分析，包括性别、部门、薪酬等维度。为简单起见，我们不考虑员工重名的情形。</p>
+<p>首先，我们定义一个Employee 的类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Employee &#123;</span><br><span class="line">    /** 姓名 */</span><br><span class="line">    private String name;</span><br><span class="line">    /** 性别：0 女 1 男 */</span><br><span class="line">    private int gender;</span><br><span class="line">    /** 部门 */</span><br><span class="line">    private String department;</span><br><span class="line">    /** 薪酬 */</span><br><span class="line">    private int salary;</span><br><span class="line"></span><br><span class="line">    // getter and setter</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，我们假定员工的信息可以通过一个工具类获取：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Utils &#123;</span><br><span class="line">    public static List&lt;Employee&gt; makeEmployees() &#123;</span><br><span class="line">        Employee e1 = new Employee(&quot;张三&quot;, 1, &quot;DEV&quot;, 17200);</span><br><span class="line">        Employee e2 = new Employee(&quot;李四&quot;, 1, &quot;OPS&quot;, 12000);</span><br><span class="line">        Employee e3 = new Employee(&quot;韩梅梅&quot;, 0, &quot;HR&quot;, 9000);</span><br><span class="line">        Employee e4 = new Employee(&quot;李雷&quot;, 1, &quot;DEV&quot;, 20000);</span><br><span class="line">        Employee e5 = new Employee(&quot;杜芳芳&quot;, 0, &quot;OPS&quot;, 16500);</span><br><span class="line">        return new ArrayList&lt;&gt;(Arrays.asList(e1, e2, e3, e4, e5));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>需求1：要将所有员工的姓名转换为一个List</strong></p>
+<p>实现这个需求的代码很简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void collectEmployeeNamesToList() &#123;</span><br><span class="line">    List&lt;Employee&gt; employees = Utils.makeEmployees();</span><br><span class="line">    List&lt;String&gt; names = employees.stream()</span><br><span class="line">            .map(Employee::getName)</span><br><span class="line">            .collect(Collectors.toList());</span><br><span class="line">    // 如果要指定返回的List具体类型，譬如指定为 ArrayList</span><br><span class="line">    ArrayList&lt;String&gt; arrayNames = employees.stream()</span><br><span class="line">            .map(Employee::getName)</span><br><span class="line">            .collect(Collectors.toCollection(ArrayList::new));</span><br><span class="line">            </span><br><span class="line">    System.out.println(arrayNames);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[张三, 李四, 韩梅梅, 李雷, 杜芳芳]</span><br></pre></td></tr></table></figure>
+<p><strong>Collectors工具类提供了一系列内置的Collector，包括:</strong></p>
+<p>a. Collectors.toList(): 转换为List</p>
+<p>b. Collectors.toSet()：转换为Set</p>
+<p>c. Collectors.toCollection(Supplier)：转换为指定的Collection类</p>
+<blockquote>
+<p>一个有趣的问题：为什么没有toQueue()？先不给答案了，有兴趣的同学可以加群讨论。</p>
+</blockquote>
+<p><strong>需求2：将员工列表转换成&lt;姓名，薪酬&gt;组成的Map</strong></p>
+<p>Collector除了可以将Stream转换为Collection之外，还可以转换为Map。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void collectEmployeeNamesToMap() &#123;</span><br><span class="line">    List&lt;Employee&gt; employees = Utils.makeEmployees();</span><br><span class="line">    Map&lt;String, Integer&gt; nameScoreMap = employees.stream()</span><br><span class="line">            .collect(Collectors.toMap(Employee::getName, Employee::getSalary));</span><br><span class="line">    System.out.println(nameScoreMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;李四=12000, 张三=17200, 李雷=20000, 杜芳芳=16500, 韩梅梅=9000&#125;</span><br></pre></td></tr></table></figure>
+<p>示例代码中，Employee::getName用来生成Map的key ，而Employee::getSalary则用来生成Map中key对应的value。</p>
+<p>Collectors.toMap方法还有两个重写形式，主要用来处理key重复时的情形以及指定Map的具体类型。</p>
+<p><strong>需求3：将员工按男女分成两组</strong></p>
+<p>对于这个需求，使用方法 Collectors.partitioningBy 。示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void partitionEmployeesToMap() &#123;</span><br><span class="line">    List&lt;Employee&gt; employees = Utils.makeEmployees();</span><br><span class="line">    Map&lt;Boolean, List&lt;Employee&gt;&gt; map = employees.stream()</span><br><span class="line">            .collect(Collectors.partitioningBy(e -&gt; e.getGender() == 1));</span><br><span class="line">    System.out.println(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;false=[Employee&#123;name=&#x27;韩梅梅&#125;, Employee&#123;name=&#x27;杜芳芳&#125;], true=[Employee&#123;name=&#x27;张三&#125;, Employee&#123;name=&#x27;李四&#125;, Employee&#123;name=&#x27;李雷&#125;]&#125;</span><br></pre></td></tr></table></figure>
+<p>Collectors.partitioningBy 可以用更通用的 Collectors.groupingBy 来实现。下面接着介绍 Collectors.groupingBy 。</p>
+<p><strong>需求4：将员工按照部门分组</strong></p>
+<p>使用简化版 Collectors.groupingBy(Function) 方法来实现，示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void groupEmployeesToMap() &#123;</span><br><span class="line">    List&lt;Employee&gt; employees = Utils.makeEmployees();</span><br><span class="line">    Map&lt;String, List&lt;Employee&gt;&gt; map = employees.stream()</span><br><span class="line">            .collect(Collectors.groupingBy(Employee::getDepartment));</span><br><span class="line">    System.out.println(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;OPS=[Employee&#123;name=&#x27;李四&#125;, Employee&#123;name=&#x27;杜芳芳&#125;], DEV=[Employee&#123;name=&#x27;张三&#125;, Employee&#123;name=&#x27;李雷&#125;], HR=[Employee&#123;name=&#x27;韩梅梅&#125;]&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>需求5：将员工按照部门分组后，计算每个部门的员工薪酬总数</strong></p>
+<p>使用通用版 Collectors.groupingBy(Function, Collector) 方法来实现，示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public static void groupEmployeesToMap1() &#123;</span><br><span class="line">    List&lt;Employee&gt; employees = Utils.makeEmployees();</span><br><span class="line"> </span><br><span class="line">    // 使用通用版的 groupingBy</span><br><span class="line">    Map&lt;String, Integer&gt; map = employees.stream()</span><br><span class="line">            .collect(</span><br><span class="line">                    // 上游收集器</span><br><span class="line">                    Collectors.groupingBy(</span><br><span class="line">                            Employee::getDepartment,</span><br><span class="line">                            // 下游收集器 downstream collector</span><br><span class="line">                            Collectors.summingInt(Employee::getSalary)</span><br><span class="line">                    )</span><br><span class="line">            );</span><br><span class="line"> </span><br><span class="line">    System.out.println(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;OPS=28500, DEV=37200, HR=9000&#125;</span><br></pre></td></tr></table></figure>
+<p>通用版 Collectors.groupingBy 方法签名为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;T, K, A, D&gt;</span><br><span class="line">Collector&lt;T, ?, Map&lt;K, D&gt;&gt; groupingBy(</span><br><span class="line">           Function&lt;? super T, ? extends K&gt; classifier,</span><br><span class="line">           Collector&lt;? super T, A, D&gt; downstream);</span><br></pre></td></tr></table></figure>
+<p>首先通过参数 classifier 定义的函数对Stream的元素分组，然后使用下游收集器（downstream collector），对分组后的元素进行再处理（甚至可以再次分组）。</p>
+<p>阅读源码可以发现，需求4中的简化版 groupingBy ，实际上是通用版groupingBy 的简写：</p>
+<p>groupingBy(classifier) == groupingBy(classifier, toList())</p>
+<p>其中，toList() 是 groupingBy 的下游收集器。</p>
+<h3 id="自定义Collector"><strong>自定义Collector</strong></h3>
+<p>除了可以使用Collectors工具类已经封装好的收集器，我们还可以自定义收集器，收集任何形式你想要的信息。</p>
+<p>但是，不夸张的说，<strong>Collectors工具类中内置的Collector，基本能满足我们所有的需求</strong>。在你决定要自定义一个Collector之前，请务必确认内置的Collector无法实现你的需求。</p>
+<p>具体如何自定义Collector，限于篇幅，在本文不做详细描述，有兴趣的同学可以加群讨论。</p>
+<h2 id="结语"><strong>结语</strong></h2>
+<p>本文介绍了 Stream 的 Map-Reduce 操作。</p>
+<p>如果你从头到尾认真阅读了本文，那么恭喜你，你的Java函数式编程已经正式入门了。</p>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E7%9A%84Map-Reduce%E6%93%8D%E4%BD%9C/">http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E7%9A%84Map-Reduce%E6%93%8D%E4%BD%9C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/1517.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/24/Java%20Supplier%E7%A4%BA%E4%BE%8B/" title="Java Supplier示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1593.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java Supplier示例</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/24/%E6%B5%81Stream%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B/" title="流Stream并行编程"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-42-37.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">流Stream并行编程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/09/24/Java%208%20Optional/" title="Java 8 Optional"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-40-07.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java 8 Optional</div></div></a></div><div><a href="/2024/09/24/Java%20Consumer%E7%A4%BA%E4%BE%8B/" title="Java Consumer示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/24.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Consumer示例</div></div></a></div><div><a href="/2024/09/24/Java%20Supplier%E7%A4%BA%E4%BE%8B/" title="Java Supplier示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1593.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Supplier示例</div></div></a></div><div><a href="/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" title="Java集合框架中的高阶函数"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_180356_329.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java集合框架中的高阶函数</div></div></a></div><div><a href="/2024/09/24/Stream%E4%B8%AD%E7%9A%84Pipeline%E7%90%86%E8%A7%A3/" title="Stream中的Pipeline理解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/150.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream中的Pipeline理解</div></div></a></div><div><a href="/2024/09/24/Stream%E6%B5%81%20collect()%E6%96%B9%E6%B3%95/" title="Stream流 collect()方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/271.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream流 collect()方法</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stream%E7%9A%84map%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">Stream的map操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-number">3.</span> <span class="toc-text">map()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mapToInt-%E3%80%81mapToLong-%E5%92%8CmapToDouble"><span class="toc-number">4.</span> <span class="toc-text">mapToInt()、mapToLong()和mapToDouble()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flatMap"><span class="toc-number">5.</span> <span class="toc-text">flatMap()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stream%E7%9A%84reduce%E6%93%8D%E4%BD%9C"><span class="toc-number">6.</span> <span class="toc-text">Stream的reduce操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reduce"><span class="toc-number">7.</span> <span class="toc-text">reduce()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce-BinaryOperator"><span class="toc-number">7.1.</span> <span class="toc-text">reduce(BinaryOperator)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce-T-BinaryOperator"><span class="toc-number">7.2.</span> <span class="toc-text">reduce(T, BinaryOperator)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce-U-BiFunction-BinaryOperator"><span class="toc-number">7.3.</span> <span class="toc-text">reduce(U, BiFunction, BinaryOperator)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#collect"><span class="toc-number">8.</span> <span class="toc-text">collect()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#collect-Supplier-BiConsumer-BiConsumer"><span class="toc-number">8.1.</span> <span class="toc-text">collect(Supplier, BiConsumer, BiConsumer)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collect-Collector"><span class="toc-number">8.2.</span> <span class="toc-text">collect(Collector)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Collector"><span class="toc-number">8.3.</span> <span class="toc-text">自定义Collector</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">9.</span> <span class="toc-text">结语</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

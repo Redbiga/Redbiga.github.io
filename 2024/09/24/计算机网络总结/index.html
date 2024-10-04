@@ -1,0 +1,756 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络总结 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="[计算机网络基础](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80) [网络分层模型](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-net">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络总结">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/09/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="[计算机网络基础](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80) [网络分层模型](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-net">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/329.webp">
+<meta property="article:published_time" content="2024-09-24T14:58:15.270Z">
+<meta property="article:modified_time" content="2024-09-24T15:40:48.730Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/329.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/09/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-24 23:40:48'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/329.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">124</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/329.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-24T14:58:15.270Z" title="发表于 2024-09-24 22:58:15">2024-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-24T15:40:48.730Z" title="更新于 2024-09-24 23:40:48">2024-09-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>38分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="H6qJi">[计算机网络基础](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80)</h2>
+<h3 id="FPSKU">[网络分层模型](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B)</h3>
+![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922592406-4db5d2d5-f254-4e4a-a8c3-6c5a60271bae.png)
+<h4 id="Ucf0s">[TCP/IP 四层模型是什么？每一层的作用是什么？](https://javaguide.cn/cs-basics/network/other-network-questions.html#tcp-ip-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B%E6%98%AF%E4%BB%80%E4%B9%88-%E6%AF%8F%E4%B8%80%E5%B1%82%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)</h4>
+1. 应用层
+2. 传输层
+3. 网络层
+4. 网络接口层
++ <font style="color:rgb(44, 62, 80);">网络接口层的传输单位是帧（frame），IP 层的传输单位是包（packet），TCP 层的传输单位是段（</font><font style="color:rgb(255, 136, 97) !important;">segment</font><font style="color:rgb(44, 62, 80);">），HTTP 的传输单位则是消息或报文（message）</font>
+<h4 id="pZJMv"><font style="color:rgb(44, 62, 80);">发送数据流程</font>![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1714011576985-e7380432-4af1-471e-aa3f-0a3c6fe20a0c.png)</h4>
+<h3 id="TaxXW">[常见网络协议](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE)</h3>
+<h4 id="Suyi5">[应用层有哪些常见的协议？](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E5%BA%94%E7%94%A8%E5%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%8F%E8%AE%AE)</h4>
+![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922592589-78dd9edd-bc27-4dcd-9fd8-a6cc99774bcf.png)
+<p>应用层常见协议</p>
+<ul>
+<li><strong>HTTP（Hypertext <strong><strong>Transfer</strong></strong> Protocol，超文本传输协议）</strong>：基于 TCP 协议，是一种用于传输超文本和多媒体内容的协议，主要是为 Web 浏览器与 Web 服务器之间的通信而设计的。当我们使用浏览器浏览网页的时候，我们网页就是通过 HTTP 请求进行加载的。</li>
+<li><strong>SMTP（Simple Mail <strong><strong>Transfer</strong></strong> Protocol，简单邮件发送协议）</strong>：基于 TCP 协议，是一种用于发送电子邮件的协议。注意 ⚠️：SMTP 协议只负责邮件的发送，而不是接收。要从邮件服务器接收邮件，需要使用 POP3 或 IMAP 协议。</li>
+<li><strong>POP3/IMAP（邮件接收协议）</strong>：基于 TCP 协议，两者都是负责邮件接收的协议。IMAP 协议是比 POP3 更新的协议，它在功能和性能上都更加强大。IMAP 支持邮件搜索、标记、分类、归档等高级功能，而且可以在多个设备之间同步邮件状态。几乎所有现代电子邮件客户端和服务器都支持 IMAP。</li>
+<li><strong>FTP（File <strong><strong>Transfer</strong></strong> Protocol，文件传输协议）</strong> : 基于 TCP 协议，是一种用于在计算机之间传输文件的协议，可以屏蔽操作系统和文件存储方式。注意 ⚠️：FTP 是一种不安全的协议，因为它在传输过程中不会对数据进行加密。建议在传输敏感数据时使用更安全的协议，如 SFTP。</li>
+<li><strong>Telnet（远程登陆协议）</strong>：基于 TCP 协议，用于通过一个终端登陆到其他服务器。Telnet 协议的最大缺点之一是所有数据（包括用户名和密码）均以明文形式发送，这有潜在的安全风险。这就是为什么如今很少使用 Telnet，而是使用一种称为 SSH 的非常安全的网络传输协议的主要原因。</li>
+<li><strong>SSH（Secure Shell Protocol，安全的网络传输协议）</strong>：基于 TCP 协议，通过加密和认证机制实现安全的访问和文件传输等业务</li>
+<li><strong>RTP（Real-time <strong><strong>Transport</strong></strong> Protocol，实时传输协议）</strong>：通常基于 UDP 协议，但也支持 TCP 协议。它提供了端到端的实时传输数据的功能，但不包含资源预留存、不保证实时传输质量，这些功能由 WebRTC 实现。</li>
+<li><strong>DNS（<strong><strong>Domain</strong></strong> Name System，域名管理系统）</strong>: 基于 UDP 协议，用于解决域名和 IP 地址的映射问题。</li>
+</ul>
+<p>关于这些协议的详细介绍请看 <a target="_blank" rel="noopener" href="https://javaguide.cn/cs-basics/network/application-layer-protocol.html">应用层常见协议总结（应用层）</a> 这篇文章。</p>
+<h4 id="kiyxw">[传输层有哪些常见的协议？](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E4%BC%A0%E8%BE%93%E5%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%8F%E8%AE%AE)</h4>
+![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922592508-3e45b9f4-bc6d-498c-8a10-c8255acc92f5.png)
+<p>传输层常见协议</p>
+<ul>
+<li><strong>TCP（<strong><strong>Transmission</strong></strong> Control Protocol，传输控制协议 ）</strong>：提供 <strong>面向连接</strong> 的，<strong>可靠</strong> 的数据传输服务。</li>
+<li><strong>UDP（User Datagram Protocol，用户数据协议）</strong>：提供 <strong>无连接</strong> 的，<strong>尽最大努力</strong> 的数据传输服务（不保证数据传输的可靠性），简单高效。</li>
+</ul>
+<h4 id="rzjAV">[网络层有哪些常见的协议？](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E7%BD%91%E7%BB%9C%E5%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%8F%E8%AE%AE)</h4>
+![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922592769-9107845b-7228-4807-930a-0c983143cbd1.png)
+<p>网络层常见协议</p>
+<ul>
+<li><strong>IP（Internet Protocol，网际协议）</strong>：TCP/IP 协议中最重要的协议之一，属于网络层的协议，主要作用是定义数据包的格式、对数据包进行路由和寻址，以便它们可以跨网络传播并到达正确的目的地。目前 IP 协议主要分为两种，一种是过去的 IPv4，另一种是较新的 IPv6，目前这两种协议都在使用，但后者已经被提议来取代前者。</li>
+<li><strong>ARP（Address Resolution Protocol，地址解析协议）</strong>：ARP 协议解决的是网络层地址和链路层地址之间的转换问题。因为一个 IP 数据报在物理上传输的过程中，总是需要知道下一跳（物理上的下一个目的地）该去往何处，但 IP 地址属于逻辑地址，而 MAC 地址才是物理地址，ARP 协议解决了 IP 地址转 MAC 地址的一些问题。</li>
+<li><strong>ICMP（Internet Control Message Protocol，互联网控制报文协议）</strong>：一种用于传输网络状态和错误消息的协议，常用于网络诊断和故障排除。例如，Ping 工具就使用了 ICMP 协议来测试网络连通性。</li>
+<li><strong>NAT（Network Address Translation，网络地址转换协议）</strong>：NAT 协议的应用场景如同它的名称——网络地址转换，应用于内部网到外部网的地址转换过程中。具体地说，在一个小的子网（局域网，LAN）内，各主机使用的是同一个 LAN 下的 IP 地址，但在该 LAN 以外，在广域网（WAN）中，需要一个统一的 IP 地址来标识该 LAN 在整个 Internet 上的位置。</li>
+<li><strong>OSPF（Open Shortest Path First，开放式最短路径优先）</strong> ）：一种内部网关协议（Interior Gateway Protocol，IGP），也是广泛使用的一种动态路由协议，基于链路状态算法，考虑了链路的带宽、延迟等因素来选择最佳路径。</li>
+<li><strong>RIP</strong>**(Routing Information Protocol，路由信息协议）**：一种内部网关协议（Interior Gateway Protocol，IGP），也是一种动态路由协议，基于距离向量算法，使用固定的跳数作为度量标准，选择跳数最少的路径作为最佳路径。</li>
+<li><strong>BGP（Border Gateway Protocol，边界网关协议）</strong>：一种用来在路由选择域之间交换网络层可达性信息（Network Layer Reachability Information，NLRI）的路由选择协议，具有高度的灵活性和可扩展性。</li>
+</ul>
+<h2 id="HPciT">[HTTP](https://javaguide.cn/cs-basics/network/other-network-questions.html#http)</h2>
++ HTTP1.1默认连接为持久连接
++ HTTP1.1大部分使用
+<p><a target="_blank" rel="noopener" href="https://www.xiaolincoding.com/network/2_http/http_optimize.html#%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E5%8F%91%E9%80%81-http-%E8%AF%B7%E6%B1%82">3.2 HTTP/1.1 如何优化？</a></p>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713926720024-d3500621-5bbf-427d-9311-122b8c1d6a09.png" alt=""></p>
+<h3 id="uPkNj">[从输入 URL 到页面展示到底发生了什么？（非常重要）](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E4%BB%8E%E8%BE%93%E5%85%A5-url-%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E5%88%B0%E5%BA%95%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88-%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81)</h3>
+> 类似的问题：打开一个网页，整个过程会使用哪些协议？
+>
+<p>先来看一张图（来源于《图解 HTTP》）：</p>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/jpeg/28066124/1713922592960-18122b76-f064-464b-bd39-9c5a2fea25c7.jpeg" alt=""></p>
+<p>上图有一个错误需要注意：是 OSPF 不是 OPSF。 OSPF（Open Shortest Path First，ospf）开放最短路径优先协议, 是由 Internet 工程任务组开发的路由选择协议</p>
+<p>总体来说分为以下几个步骤:</p>
+<ol>
+<li>在浏览器中输入指定网页的 URL。</li>
+<li>浏览器通过 DNS 协议，获取域名对应的 IP 地址。</li>
+<li>浏览器根据 IP 地址和端口号，向目标服务器发起一个 TCP 连接请求。</li>
+<li>浏览器在 TCP 连接上，向服务器发送一个 HTTP 请求报文，请求获取网页的内容。</li>
+<li>服务器收到 HTTP 请求报文后，处理请求，并返回 HTTP 响应报文给浏览器。</li>
+<li>浏览器收到 HTTP 响应报文后，解析响应体中的 HTML 代码，渲染网页的结构和样式，同时根据 HTML 中的其他资源的 URL（如图片、CSS、JS 等），再次发起 HTTP 请求，获取这些资源的内容，直到网页完全加载显示。</li>
+<li>浏览器在不需要和服务器通信时，可以主动关闭 TCP 连接，或者等待服务器的关闭请求。</li>
+</ol>
+<h3 id="dbdja">[HTTP 状态码有哪些？](https://javaguide.cn/cs-basics/network/other-network-questions.html#http-%E7%8A%B6%E6%80%81%E7%A0%81%E6%9C%89%E5%93%AA%E4%BA%9B)</h3>
+HTTP 状态码用于描述 HTTP 请求的结果，比如 2xx 就代表请求被成功处理。
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922592939-9d2be0c4-449d-4c76-bb5d-6b1448fa6406.png" alt=""></p>
+<p>常见 HTTP 状态码</p>
+<p>关于 HTTP 状态码更详细的总结，可以看我写的这篇文章：<a target="_blank" rel="noopener" href="https://javaguide.cn/cs-basics/network/http-status-codes.html">HTTP 常见状态码总结（应用层）</a>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">请求头字段名</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Accept</td>
+<td style="text-align:left">能够接受的回应内容类型（Content-Types）。</td>
+<td style="text-align:left">Accept: text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Charset</td>
+<td style="text-align:left">能够接受的字符集</td>
+<td style="text-align:left">Accept-Charset: utf-8</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Datetime</td>
+<td style="text-align:left">能够接受的按照时间来表示的版本</td>
+<td style="text-align:left">Accept-Datetime: Thu, 31 May 2007 20:35:00 GMT</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Encoding</td>
+<td style="text-align:left">能够接受的编码方式列表。参考 HTTP 压缩。</td>
+<td style="text-align:left">Accept-Encoding: gzip, deflate</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Language</td>
+<td style="text-align:left">能够接受的回应内容的自然语言列表。</td>
+<td style="text-align:left">Accept-Language: en-US</td>
+</tr>
+<tr>
+<td style="text-align:left">Authorization</td>
+<td style="text-align:left">用于超文本传输协议的认证的认证信息</td>
+<td style="text-align:left">Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</td>
+</tr>
+<tr>
+<td style="text-align:left">Cache-Control</td>
+<td style="text-align:left">用来指定在这次的请求/响应链中的所有缓存机制 都必须 遵守的指令</td>
+<td style="text-align:left">Cache-Control: no-cache</td>
+</tr>
+<tr>
+<td style="text-align:left">Connection</td>
+<td style="text-align:left">该浏览器想要优先使用的连接类型</td>
+<td style="text-align:left">Connection: keep-alive Connection: Upgrade</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Length</td>
+<td style="text-align:left">以 八位字节数组 （8 位的字节）表示的请求体的长度</td>
+<td style="text-align:left">Content-Length: 348</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-MD5</td>
+<td style="text-align:left">请求体的内容的二进制 MD5 散列值，以 Base64 编码的结果</td>
+<td style="text-align:left">Content-MD5: Q2hlY2sgSW50ZWdyaXR5IQ==</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Type</td>
+<td style="text-align:left">请求体的 多媒体类型 （用于 POST 和 PUT 请求中）</td>
+<td style="text-align:left">Content-Type: application/x-www-form-urlencoded</td>
+</tr>
+<tr>
+<td style="text-align:left">Cookie</td>
+<td style="text-align:left">之前由服务器通过 Set- Cookie （下文详述）发送的一个 超文本传输协议 Cookie</td>
+<td style="text-align:left">Cookie: $Version=1; Skin=new;</td>
+</tr>
+<tr>
+<td style="text-align:left">Date</td>
+<td style="text-align:left">发送该消息的日期和时间(按照 RFC 7231 中定义的&quot;超文本传输协议日期&quot;格式来发送)</td>
+<td style="text-align:left">Date: Tue, 15 Nov 1994 08:12:31 GMT</td>
+</tr>
+<tr>
+<td style="text-align:left">Expect</td>
+<td style="text-align:left">表明客户端要求服务器做出特定的行为</td>
+<td style="text-align:left">Expect: 100-continue</td>
+</tr>
+<tr>
+<td style="text-align:left">From</td>
+<td style="text-align:left">发起此请求的用户的邮件地址</td>
+<td style="text-align:left">From: <a href="mailto:user@example.com">user@example.com</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Host</td>
+<td style="text-align:left">服务器的域名(用于虚拟主机 )，以及服务器所监听的传输控制协议端口号。如果所请求的端口是对应的服务的标准端口，则端口号可被省略。</td>
+<td style="text-align:left">Host: <a target="_blank" rel="noopener" href="http://en.wikipedia.org/">en.wikipedia.org:80open in new window</a></td>
+</tr>
+<tr>
+<td style="text-align:left">If-Match</td>
+<td style="text-align:left">仅当客户端提供的实体与服务器上对应的实体相匹配时，才进行对应的操作。主要作用时，用作像 PUT 这样的方法中，仅当从用户上次更新某个资源以来，该资源未被修改的情况下，才更新该资源。</td>
+<td style="text-align:left">If-Match: “737060cd8c284d8af7ad3082f209582d”</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Modified-Since</td>
+<td style="text-align:left">允许在对应的内容未被修改的情况下返回 304 未修改（ 304 Not Modified ）</td>
+<td style="text-align:left">If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT</td>
+</tr>
+<tr>
+<td style="text-align:left">If-None-Match</td>
+<td style="text-align:left">允许在对应的内容未被修改的情况下返回 304 未修改（ 304 Not Modified ）</td>
+<td style="text-align:left">If-None-Match: “737060cd8c284d8af7ad3082f209582d”</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Range</td>
+<td style="text-align:left">如果该实体未被修改过，则向我发送我所缺少的那一个或多个部分；否则，发送整个新的实体</td>
+<td style="text-align:left">If-Range: “737060cd8c284d8af7ad3082f209582d”</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Unmodified-Since</td>
+<td style="text-align:left">仅当该实体自某个特定时间已来未被修改的情况下，才发送回应。</td>
+<td style="text-align:left">If-Unmodified-Since: Sat, 29 Oct 1994 19:43:31 GMT</td>
+</tr>
+<tr>
+<td style="text-align:left">Max-Forwards</td>
+<td style="text-align:left">限制该消息可被代理及网关转发的次数。</td>
+<td style="text-align:left">Max-Forwards: 10</td>
+</tr>
+<tr>
+<td style="text-align:left">Origin</td>
+<td style="text-align:left">发起一个针对 跨来源资源共享 的请求。</td>
+<td style="text-align:left">Origin: <a target="_blank" rel="noopener" href="http://www.example-social-network.com/">http://www.example-social-network.comopen in new window</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Pragma</td>
+<td style="text-align:left">与具体的实现相关，这些字段可能在请求/回应链中的任何时候产生多种效果。</td>
+<td style="text-align:left">Pragma: no-cache</td>
+</tr>
+<tr>
+<td style="text-align:left">Proxy-Authorization</td>
+<td style="text-align:left">用来向代理进行认证的认证信息。</td>
+<td style="text-align:left">Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</td>
+</tr>
+<tr>
+<td style="text-align:left">Range</td>
+<td style="text-align:left">仅请求某个实体的一部分。字节偏移以 0 开始。参见字节服务。</td>
+<td style="text-align:left">Range: bytes=500-999</td>
+</tr>
+<tr>
+<td style="text-align:left">Referer</td>
+<td style="text-align:left">表示浏览器所访问的前一个页面，正是那个页面上的某个链接将浏览器带到了当前所请求的这个页面。</td>
+<td style="text-align:left">Referer: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Main_Page">http://en.wikipedia.org/wiki/Main_Pageopen in new window</a></td>
+</tr>
+<tr>
+<td style="text-align:left">TE</td>
+<td style="text-align:left">浏览器预期接受的传输编码方式：可使用回应协议头 Transfer-Encoding 字段中的值；</td>
+<td style="text-align:left">TE: trailers, deflate</td>
+</tr>
+<tr>
+<td style="text-align:left">Upgrade</td>
+<td style="text-align:left">要求服务器升级到另一个协议。</td>
+<td style="text-align:left">Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11</td>
+</tr>
+<tr>
+<td style="text-align:left">User-Agent</td>
+<td style="text-align:left">浏览器的浏览器身份标识字符串</td>
+<td style="text-align:left">User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0</td>
+</tr>
+<tr>
+<td style="text-align:left">Via</td>
+<td style="text-align:left">向服务器告知，这个请求是由哪些代理发出的。</td>
+<td style="text-align:left">Via: 1.0 fred, 1.1 <a target="_blank" rel="noopener" href="http://example.com/">example.comopen in new window</a><br/> (Apache/1.1)</td>
+</tr>
+<tr>
+<td style="text-align:left">Warning</td>
+<td style="text-align:left">一个一般性的警告，告知，在实体内容体中可能存在错误。</td>
+<td style="text-align:left">Warning: 199 Miscellaneous warning</td>
+</tr>
+</tbody>
+</table>
+<h3 id="OuX88">[HTTP 和 HTTPS 有什么区别？（重要）](https://javaguide.cn/cs-basics/network/other-network-questions.html#http-%E5%92%8C-https-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB-%E9%87%8D%E8%A6%81)</h3>
+![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922593064-c3ec2a79-02f8-45f5-b66b-f204a81a542e.png)
+<p>HTTP 和 HTTPS 对比</p>
+<ul>
+<li><strong>端口号</strong>：HTTP 默认是 80，HTTPS 默认是 443。</li>
+<li><strong>URL 前缀</strong>：HTTP 的 URL 前缀是 <code>http://</code>，HTTPS 的 URL 前缀是 <code>https://</code>。</li>
+<li><strong>安全性和资源消耗</strong>：<font style="color:#DF2A3F;">HTTP</font> 协议运行在 <font style="color:#DF2A3F;">TCP </font>之上，所有传输的内容都是<font style="color:#DF2A3F;">明文</font>，客户端和服务器端都无法验证对方的身份。<font style="color:#DF2A3F;">HTTPS</font> 是运行在 <font style="color:#DF2A3F;">SSL/TLS 之上</font><font style="color:#000000;">的 HTTP 协议</font><font style="color:#DF2A3F;">，SSL/TLS 运行在 TCP 之上</font>。所有<font style="color:#DF2A3F;">传输的内容都经过加密</font>，加密采用对称加密，但对称加密的密钥用服务器方的证书进行了非对称加密。所以说，HTTP 安全性没有 HTTPS 高，但是 <font style="color:#DF2A3F;">HTTPS 比 HTTP 耗费更多服务器资源</font>。</li>
+</ul>
+<p>关于 HTTP 和 HTTPS 更详细的对比总结，可以看我写的这篇文章：<a target="_blank" rel="noopener" href="https://javaguide.cn/cs-basics/network/http-vs-https.html">HTTP vs HTTPS（应用层）</a> 。</p>
+<h3 id="IlZu5">HTTP1.1/HTTP2.0/HTTP3的区别</h3>
+> 如何查看请求使用的协议是HTTP1还是HTTP2？
+>
+<ul>
+<li>打开开发者工具 -&gt;选择“Network”标签页，在表头的竖线间隙处单击鼠标右键，勾选上“Protocol”选项。</li>
+</ul>
+<h4 id="p2Hcx">[HTTP/1.1 和 HTTP/2.0 有什么区别？](https://javaguide.cn/cs-basics/network/other-network-questions.html#http-1-1-%E5%92%8C-http-2-0-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</h4>
+[3.6 HTTP/2 牛逼在哪？](https://www.xiaolincoding.com/network/2_http/http2.html#http-1-1-%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98)（HTTP2详细）
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713924364498-ba850ec8-f939-47a9-ac84-8351fd4da45a.png" alt=""></p>
+<ul>
+<li>HTTP2兼容HTTP1.1</li>
+<li>多路复用（Multiplexing）：HTTP/2.0 在同一连接上可以同时传输多个请求和响应，互不干扰。HTTP/1.1 则使用串行方式，每个请求和响应都需要独立的连接。</li>
+</ul>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1726711411611-e4d9a9fa-691e-458a-a7dd-81ecbaea0205.png" alt=""></p>
+<ul>
+<li>二进制帧：HTTP/2.0 使用二进制帧进行数据传输，而 HTTP/1.1 则使用文本格式的报文。二进制帧更加紧凑和高效，减少了传输的数据量和带宽消耗。</li>
+<li>头部压缩：HTTP/1.1 支持Body压缩，Header不支持压缩。HTTP/2.0 支持对Header压缩。</li>
+<li>服务器推送：HTTP/2.0 支持服务器推送，可以在客户端请求一个资源时，将其他相关资源一并推送给客户端，从而减少了客户端的请求次数和延迟。而 HTTP/1.1 需要客户端自己发送请求来获取相关资源。</li>
+</ul>
+<h3 id="enAxG">[HTTP 是不保存状态的协议, 如何保存用户状态?](https://javaguide.cn/cs-basics/network/other-network-questions.html#http-%E6%98%AF%E4%B8%8D%E4%BF%9D%E5%AD%98%E7%8A%B6%E6%80%81%E7%9A%84%E5%8D%8F%E8%AE%AE-%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E7%94%A8%E6%88%B7%E7%8A%B6%E6%80%81)</h3>
+HTTP 是一种不保存状态，即无状态（stateless）协议。也就是说 HTTP 协议自身不对请求和响应之间的通信状态进行保存。那么我们如何保存用户状态呢？<font style="color:#DF2A3F;">Session </font>机制的存在就是为了解决这个问题，Session 的主要作用就是通过服务端记录用户的状态。典型的场景是购物车，当你要添加商品到购物车的时候，系统不知道是哪个用户操作的，因为 HTTP 协议是无状态的。服务端给特定的用户创建特定的 Session 之后就可以标识这个用户并且跟踪这个用户了（一般情况下，服务器会在一定时间内保存这个 Session，过了时间限制，就会销毁这个 Session）。
+<p>在服务端保存 Session 的方法很多，最常用的就是内存和数据库(比如是使用内存数据库 redis 保存)。既然 Session 存放在服务器端，那么我们如何实现 Session 跟踪呢？大部分情况下，我们都是通过在 Cookie 中附加一个 Session ID 来方式来跟踪。</p>
+<p><strong>Cookie 被禁用怎么办?</strong></p>
+<p><font style="color:#DF2A3F;">最常用的就是利用 URL 重写把 Session ID 直接附加在 URL 路径的后面。</font></p>
+<h3 id="tpn2b">[URI 和 URL 的区别是什么?](https://javaguide.cn/cs-basics/network/other-network-questions.html#uri-%E5%92%8C-url-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88)</h3>
++ URI(Uniform Resource Identifier) 是统一资源标志符，可以唯一标识一个资源。
++ URL(Uniform Resource Locator) 是统一资源定位符，可以提供该资源的路径。它是一种具体的 URI，即 URL 可以用来标识一个资源，而且还指明了如何 locate 这个资源。
+<p>URI 的作用像身份证号一样，URL 的作用更像家庭住址一样。URL 是一种具体的 URI，它不仅唯一标识资源，而且还提供了定位该资源的信息。</p>
+<h3 id="AQEwB">[Cookie 和 Session和Token 有什么区别？](https://javaguide.cn/cs-basics/network/other-network-questions.html#cookie-%E5%92%8C-session-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</h3>
++ cookie
+    - 储存在客户端本地；每次客户端发起 HTTP 请求时，浏览器会自动附上与该请求域名相关的所有 Cookie，作为请求头的一部分发送给服务器；由于 Cookie 存储在客户端，容易受到（XSS），可以设置 HttpOnly 标志防止 JavaScript 访问；
++ session:储存在服务器上；当用户首次访问服务器时，服务器为其创建一个唯一的会话 ID（Session ID），并将其以 Cookie 的形式发送给客户端。客户端后续请求时携带这个 Session ID，服务器通过识别它来关联到对应的会话数据，从而维持用户状态；
++ Token:储存在浏览器的 localStorage 或内存中；并在每个请求的 Authorization 头部以 Bearer 方式发送给服务器；一般用JWT来实现Token,一般用来储存用户的身份等信息，不储存密码等敏感信息。
+<h3 id="zHRxw">[GET 和 POST 的区别](https://javaguide.cn/cs-basics/network/other-network-questions.html#get-%E5%92%8C-post-%E7%9A%84%E5%8C%BA%E5%88%AB)</h3>
++ 使用场景不同：get用来获取查询结果，post用来修改和添加资源；
++ 幂等性：get是幂等的，多次重复执行不会改变资源的状态，post是不幂等的；
++ 请求参数格式：get请求通常放在url后面，url的长度会受服务器的限制，所以get请求的参数大小也是有限制的；post是请求体中；
++ 缓存：get是幂等的，其适合用来缓存，而post不行
+<h3 id="LpZHo">HTTP幂等</h3>
++ HTTP幂等性是指相同的请求在执行一次或多次的情况下，所产生的效果是相同的，不会对资源状态造成额外的变化。换句话说，无论对一个幂等的HTTP请求执行一次还是多次，最终结果都应该是一样的。
++ 幂等：<font style="color:rgb(0, 0, 0);background-color:rgb(247, 247, 247);">GET，HEAD，PUT，Delete是幂等的，post不是幂等的。</font>
+<h3 id="Gkn3p">HTTP缓存</h3>
++ HTTP 缓存有两种实现方式，分别是强制缓存和协商缓存
++ 强缓存指的是只要浏览器判断缓存没有过期，则直接使用浏览器的本地缓存，决定是否使用缓存的主动性在于浏览器这边。协商缓存是当本地的缓存过期后，和浏览器协商是否仍使用本地的缓存。
++ ![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713928502139-58df1f7a-acbe-4f89-b879-1923096cf99b.png)
++ HTTP缓存相关参数：![](https://cdn.nlark.com/yuque/0/2024/png/28066124/1713928629202-19282bf0-1b3a-486c-935e-23125cfa93d2.png)
++ [前端 HTTP面试题：谈谈你对http缓存的理解？_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1H94y1u7MX/?spm_id_from=333.337.search-card.all.click&vd_source=add54d0fcd49c96c6c124259f9775bc3)
+<h3 id="TrHQ2">HTTP和RPC</h3>
+[3.8 既然有 HTTP 协议，为什么还要有 RPC？](https://www.xiaolincoding.com/network/2_http/http_rpc.html#%E4%BD%BF%E7%94%A8%E7%BA%AF%E8%A3%B8-tcp-%E4%BC%9A%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98)
+<ul>
+<li>http是超文本协议，适用于大多数 Web 应用；rpc是远程调用并不是一种协议，而是一种调用方式；rpc的目的是屏蔽网络细节，调用远程服务端的方法可以像本地方法一样调用；rpc的实现有grcp;RPC 更适合微服务架构和需要高效通信的场景。http和大多数rpc基于tcp上定义的协议，但是rpc不一定非要基于tcp</li>
+<li>服务发现：http知道服务器的域名就可以通过DNS找到ip；而一般会有专门的中间服务去保存服务名和IP信息，想要访问某个服务，就去这些中间服务去获得 IP 和端口信息；</li>
+<li>性能：RPC 通常使用二进制序列化格式（如 Protocol Buffers、Thrift、Avro 等）来编码请求和响应数据，而不是像 HTTP API 常见的文本格式（如 JSON、XML），二进制序列化格式具有紧凑（跟json对比消除了多余的空格）， 高效解析 ( 计算机处理二进制数据比处理文本更快  )的优点；rpc传输的数据比较http去除了一些冗余数据。</li>
+</ul>
+<h2 id="Yh1Yp">HTTPS</h2>
++ 也是用 TCP 作为底层协议，并额外使用 SSL/TLS 协议用作加密和安全认证
+<h4 id="EuJpa">加密的种类</h4>
++ 可逆加密
+    - 对称加密：加密和解密的密钥相同；AES
+    - 非对称加密：分为公钥和私钥，公钥加密,可以告诉别人，私钥解密，不能告诉别人；ssl/tls,RSA
++ 不可逆加密：
+    - hash,MD5,安全散列函数
+<h4 id="PLGYy">SSL/TLS原理</h4>
++ 通信双方只需要一次非对称加密，交换对称加密的密钥，在之后的信息通信中，使用绝对安全的密钥，对信息进行对称加密，即可保证传输消息的保密性。
+<p><a target="_blank" rel="noopener" href="https://www.xiaolincoding.com/network/2_http/https_rsa.html#tls-%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B">3.3 HTTPS RSA 握手解析</a></p>
+<ul>
+<li>交换加密等必要信息</li>
+<li>验证服务器的可信度，并拿到服务器传递的公钥</li>
+<li>客户端传递随机数用于生成对称公钥</li>
+<li>数据用对称公钥加密传输</li>
+</ul>
+<h2 id="Wz6W6">TCP</h2>
+[4.1 TCP 三次握手与四次挥手面试题](https://www.xiaolincoding.com/network/3_tcp/tcp_interview.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-tcp-%E5%8D%8F%E8%AE%AE-tcp-%E5%B7%A5%E4%BD%9C%E5%9C%A8%E5%93%AA%E4%B8%80%E5%B1%82)
+<h4 id="vuVNE">TCP粘包拆包问题</h4>
+TCP在接受数据的时候，有一个滑动窗口来控制接受数据的大小，这个滑动窗口你就可以理解为一个缓冲区的大小。缓冲区满了就会把数据发送。数据包的大小是不固定的，有时候比缓冲区大有时候小。  
+如果一次请求发送的数据量比较小，没达到缓冲区大小，TCP则会将多个请求合并为同一个请求进行发送，这就形成了粘包问题；  
+如果一次请求发送的数据量比较大，超过了缓冲区大小，TCP就会将其拆分为多次发送，这就是拆包，也就是将一个大的包拆分为多个小包进行发送。
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1714011214391-fe3c3100-e5a1-443a-aa74-59b68ffa9d69.png" alt=""></p>
+<p>1.TCP会发生粘包问题：TCP 是面向连接的传输协议,TCP 传输的数据是以流的形式,而流数据是没有明确的开始结尾边界,所以 TCP 也没办法判断哪一段流属于一个消息;TCP协议是流式协议;所谓流式协议,即协议的内容是像流水一样的字节流,内容与内容之间没有明确的分界标志,需要认为手动地去给这些协议划分边界。<br>
+粘包时：发送方每次写入数据 &lt; 接收方套接字(Socket)缓冲区大小。<br>
+拆包时：发送方每次写入数据 &gt; 接收方套接字(Socket)缓冲区大小。</p>
+<p>2.UDP不会发生粘包问题：UDP具有保护消息边界,在每个UDP包中就有了消息头(UDP包长度、源端口、目的端口、校验和)。</p>
+<p>粘包拆包问题在数据链路层、网络层以及传输层都有可能发生。日常的网络应用开发大都在传输层进行，由于UDP有消息保护边界，不会发生粘包拆包问题，因此粘包拆包问题只发生在TCP协议中</p>
+<blockquote>
+<p>常见解决方法</p>
+</blockquote>
+<p>1、客户端在发送数据包的时候，每个包都固定长度，比如1024个字节大小，如果客户端发送的数据长度不足1024个字节，则通过补充空格的方式<strong>补全到指定长度</strong>；</p>
+<p>2、客户端在每个包的末尾使用固定的分隔符，例如\r\n，如果一个包被拆分了，则等待下一个包发送过来之后找到其中的\r\n，然后对其拆分后的头部部分与前一个包的剩余部分进行合并，这样就得到了一个完整的包；</p>
+<p>3、将消息分为头部和消息体，在头部中保存有当前整个消息的长度，只有在读取到足够长度的消息之后才算是读到了一个完整的消息；</p>
+<p>4、通过自定义协议进行粘包和拆包的处理。</p>
+<h4 id="nxKmh">HTTP解决TCP拆包粘包问题的方法</h4>
+<font style="color:rgb(52, 73, 94);background-color:rgb(234, 234, 234);">HTTP 协议定义，请求和响应都分为 </font><font style="color:rgb(233, 105, 0);background-color:rgb(248, 248, 248);">http head</font><font style="color:rgb(52, 73, 94);background-color:rgb(234, 234, 234);"> 和 </font><font style="color:rgb(233, 105, 0);background-color:rgb(248, 248, 248);">http body</font><font style="color:rgb(52, 73, 94);background-color:rgb(234, 234, 234);"> ，http head 和 body 通过 </font><font style="color:rgb(233, 105, 0);background-color:rgb(248, 248, 248);">\r\n</font><font style="color:rgb(52, 73, 94);background-color:rgb(234, 234, 234);"> 区分，我们可以看到 在http 包头里 有 </font><font style="color:rgb(233, 105, 0);background-color:rgb(248, 248, 248);">content-length</font><font style="color:rgb(52, 73, 94);background-color:rgb(234, 234, 234);"> </font><font style="color:rgb(174, 180, 199);">或</font>Transfer-Encoding<font style="color:rgb(174, 180, 199);">字段</font><font style="color:rgb(52, 73, 94);background-color:rgb(234, 234, 234);">，``content-length` 用来确定 包体的长度因此就可以划分哪些数据应该是一个请求中的，达到区分的目的。</font>
+<ul>
+<li>Transfer-Encoding: chunked：对于动态生成或长度未知的内容，可以使用分块传输编码（chunked encoding）。在这种模式下，主体被划分为一系列大小可变的数据块（chunks），每个数据块前面带有该块的长度（以十六进制表示），并以CRLF结尾。最后一个数据块长度为0，表示主体结束。这种方式允许在不知道主体总长度的情况下也能正确解析数据包边界。</li>
+</ul>
+<h4 id="KH7xD">为什么三次握手</h4>
++ 确保双方都知道自己和对方都能正常收发数据
++ 避免历史连接，避免资源浪费
++ 同步双方序列号，达到可靠传输
+<h4 id="V3fKn">TCP四次挥手</h4>
+[4.1 TCP 三次握手与四次挥手面试题](https://www.xiaolincoding.com/network/3_tcp/tcp_interview.html#tcp-%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%86)
+<h4 id="Fb5UN">TCP重传，滑动窗口，流量控制，拥塞控制</h4>
+[4.2 TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.xiaolincoding.com/network/3_tcp/tcp_feature.html)
+<ul>
+<li>重传机制
+<ul>
+<li>超时重传：数据包丢失，确认应答丢失都会超时重传；
+<ul>
+<li>超时重传的时间：当超时时间较大时，重发就慢，丢了老半天才重发，没有效率，性能差；当超时时间 较小时，会导致可能并没有丢就重发，于是重发的就快，会增加网络拥塞，导致更多的超时，更多的超时导致更多的重发；超时重传时间应该略大于报文往返时间；实际上报文往返时间是动态变化的，超时重传也是往返变化的；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>快速重传
+<ul>
+<li>不以时间为驱动，而是以数据驱动重传;</li>
+</ul>
+</li>
+<li>SAK:可以将已收到的数据的信息发送给「发送方」，这样发送方就可以知道哪些数据收到了，哪些数据没收到，知道了这些信息，就可以只重传丢失的数据。</li>
+<li>DSAK</li>
+<li>流量控制和拥塞控制都是对发送方进行控制的，流量控制是解决发送方和接收方不匹配产生的；拥塞控制是网络本身拥塞发送方采取的速率控制防止网络更加拥堵。</li>
+<li>通过滑动窗口进行流量控制，</li>
+</ul>
+<h2 id="uKjYa">[WebSocket](https://javaguide.cn/cs-basics/network/other-network-questions.html#websocket)</h2>
+<h3 id="TrJY7">[什么是 WebSocket?](https://javaguide.cn/cs-basics/network/other-network-questions.html#%E4%BB%80%E4%B9%88%E6%98%AF-websocket)</h3>
+WebSocket 是一种基于 TCP 连接的全双工通信协议，即客户端和服务器可以同时发送和接收数据。
+<p>WebSocket 协议在 2008 年诞生，2011 年成为国际标准，几乎所有主流较新版本的浏览器都支持该协议。不过，WebSocket 不只能在基于浏览器的应用程序中使用，很多编程语言、框架和服务器都提供了 WebSocket 支持。</p>
+<p>WebSocket 协议本质上是应用层的协议，用于弥补 HTTP 协议在持久通信能力上的不足。客户端和服务器仅需一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922593744-316f6b23-62a4-4350-b80e-18fd051b4a77.png" alt=""></p>
+<p>Websocket 示意图</p>
+<p>下面是 WebSocket 的常见应用场景：</p>
+<ul>
+<li>视频弹幕</li>
+<li>实时消息推送，详见<a target="_blank" rel="noopener" href="https://javaguide.cn/system-design/web-real-time-message-push.html">Web 实时消息推送详解open in new window</a>这篇文章</li>
+<li>实时游戏对战</li>
+<li>多用户协同编辑</li>
+<li>社交聊天</li>
+<li>……</li>
+</ul>
+<h3 id="yuYBY">[WebSocket 和 HTTP 有什么区别？](https://javaguide.cn/cs-basics/network/other-network-questions.html#websocket-%E5%92%8C-http-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</h3>
+WebSocket 和 HTTP 两者都是基于 TCP 的应用层协议，都可以在网络中传输数据。
+<p>下面是二者的主要区别：</p>
+<ul>
+<li>WebSocket 是一种双向实时通信协议，而 HTTP 是一种单向通信协议。并且，HTTP 协议下的通信只能由客户端发起，服务器无法主动通知客户端。</li>
+<li>WebSocket 使用 ws:// 或 wss://（使用 SSL/TLS 加密后的协议，类似于 HTTP 和 HTTPS 的关系） 作为协议前缀，HTTP 使用 http:// 或 https:// 作为协议前缀。</li>
+<li>WebSocket 可以支持扩展，用户可以扩展协议，实现部分自定义的子协议，如支持压缩、加密等。</li>
+<li>WebSocket 通信数据格式比较轻量，用于协议控制的数据包头部相对较小，网络开销小，而 HTTP 通信每次都要携带完整的头部，网络开销较大（HTTP/2.0 使用二进制帧进行数据传输，还支持头部压缩，减少了网络开销）。</li>
+</ul>
+<h3 id="tpTSV">[WebSocket 的工作过程是什么样的？](https://javaguide.cn/cs-basics/network/other-network-questions.html#websocket-%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84)</h3>
+WebSocket 的工作过程可以分为以下几个步骤：
+<ol>
+<li>客户端向服务器发送一个 HTTP 请求，请求头中包含 <code>Upgrade: websocket</code> 和 <code>Sec-WebSocket-Key</code> 等字段，表示要求升级协议为 WebSocket；</li>
+<li>服务器收到这个请求后，会进行升级协议的操作，如果支持 WebSocket，它将回复一个 HTTP 101 状态码，响应头中包含 ，<code>Connection: Upgrade</code>和 <code>Sec-WebSocket-Accept: xxx</code> 等字段、表示成功升级到 WebSocket 协议。</li>
+<li>客户端和服务器之间建立了一个 WebSocket 连接，可以进行双向的数据传输。数据以帧（frames）的形式进行传送，WebSocket 的每条消息可能会被切分成多个数据帧（最小单位）。发送端会将消息切割成多个帧发送给接收端，接收端接收消息帧，并将关联的帧重新组装成完整的消息。</li>
+<li>客户端或服务器可以主动发送一个关闭帧，表示要断开连接。另一方收到后，也会回复一个关闭帧，然后双方关闭 TCP 连接。</li>
+</ol>
+<p>另外，建立 WebSocket 连接之后，通过心跳机制来保持 WebSocket 连接的稳定性和活跃性。</p>
+<h3 id="bijC1">[SSE 与 WebSocket 有什么区别？](https://javaguide.cn/cs-basics/network/other-network-questions.html#sse-%E4%B8%8E-websocket-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</h3>
+> 摘自[Web 实时消息推送详解open in new window](https://javaguide.cn/system-design/web-real-time-message-push.html)。
+>
+<p>SSE 与 WebSocket 作用相似，都可以建立服务端与浏览器之间的通信，实现服务端向客户端推送消息，但还是有些许不同：</p>
+<ul>
+<li>SSE 是基于 HTTP 协议的，它们不需要特殊的协议或服务器实现即可工作；WebSocket 需单独服务器来处理协议。</li>
+<li>SSE 单向通信，只能由服务端向客户端单向通信；WebSocket 全双工通信，即通信的双方可以同时发送和接受信息。</li>
+<li>SSE 实现简单开发成本低，无需引入其他组件；WebSocket 传输数据需做二次解析，开发门槛高一些。</li>
+<li>SSE 默认支持断线重连；WebSocket 则需要自己实现。</li>
+<li>SSE 只能传送文本消息，二进制数据需要经过编码后传送；WebSocket 默认支持传送二进制数据。</li>
+</ul>
+<p><strong>SSE 与 WebSocket 该如何选择？</strong></p>
+<p>SSE 好像一直不被大家所熟知，一部分原因是出现了 WebSocket，这个提供了更丰富的协议来执行双向、全双工通信。对于游戏、即时通信以及需要双向近乎实时更新的场景，拥有双向通道更具吸引力。</p>
+<p>但是，在某些情况下，不需要从客户端发送数据。而你只需要一些服务器操作的更新。比如：站内信、未读消息数、状态更新、股票行情、监控数量等场景，SEE 不管是从实现的难易和成本上都更加有优势。此外，SSE 具有 WebSocket 在设计上缺乏的多种功能，例如：自动重新连接、事件 ID 和发送任意事件的能力。</p>
+<h2 id="WX4pu">[PING](https://javaguide.cn/cs-basics/network/other-network-questions.html#ping)</h2>
+<h3 id="OIVk1">[PING 命令的作用是什么？](https://javaguide.cn/cs-basics/network/other-network-questions.html#ping-%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)</h3>
+PING 命令是一种常用的网络诊断工具，经常用来测试网络中主机之间的连通性和网络延迟。
+<p>这里简单举一个例子，我们来 PING 一下百度。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 发送4个PING请求数据包到 www.baidu.com</span><br><span class="line">❯ ping -c 4 www.baidu.com</span><br><span class="line"></span><br><span class="line">PING www.a.shifen.com (14.119.104.189): 56 data bytes</span><br><span class="line">64 bytes from 14.119.104.189: icmp_seq=0 ttl=54 time=27.867 ms</span><br><span class="line">64 bytes from 14.119.104.189: icmp_seq=1 ttl=54 time=28.732 ms</span><br><span class="line">64 bytes from 14.119.104.189: icmp_seq=2 ttl=54 time=27.571 ms</span><br><span class="line">64 bytes from 14.119.104.189: icmp_seq=3 ttl=54 time=27.581 ms</span><br><span class="line"></span><br><span class="line">--- www.a.shifen.com ping statistics ---</span><br><span class="line">4 packets transmitted, 4 packets received, 0.0% packet loss</span><br><span class="line">round-trip min/avg/max/stddev = 27.571/27.938/28.732/0.474 ms</span><br></pre></td></tr></table></figure>
+<p>PING 命令的输出结果通常包括以下几部分信息：</p>
+<ol>
+<li><strong>ICMP Echo Request（请求报文）信息</strong>：序列号、TTL（Time to Live）值。</li>
+<li><strong>目标主机的域名或 IP 地址</strong>：输出结果的第一行。</li>
+<li><strong>往返时间（RTT，Round-Trip Time）</strong>：从发送 ICMP Echo Request（请求报文）到接收到 ICMP Echo Reply（响应报文）的总时间，用来衡量网络连接的延迟。</li>
+<li><strong>统计结果（Statistics）</strong>：包括发送的 ICMP 请求数据包数量、接收到的 ICMP 响应数据包数量、丢包率、往返时间（RTT）的最小、平均、最大和标准偏差值。</li>
+</ol>
+<p>如果 PING 对应的目标主机无法得到正确的响应，则表明这两个主机之间的连通性存在问题（有些主机或网络管理员可能禁用了对 ICMP 请求的回复，这样也会导致无法得到正确的响应）。如果往返时间（RTT）过高，则表明网络延迟过高。</p>
+<h3 id="YzQuB">[PING 命令的工作原理是什么？](https://javaguide.cn/cs-basics/network/other-network-questions.html#ping-%E5%91%BD%E4%BB%A4%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88)</h3>
+PING 基于网络层的 **ICMP（Internet Control Message Protocol，互联网控制报文协议）**，其主要原理就是通过在网络上发送和接收 ICMP 报文实现的。
+<p>ICMP 报文中包含了类型字段，用于标识 ICMP 报文类型。ICMP 报文的类型有很多种，但大致可以分为两类：</p>
+<ul>
+<li><strong>查询报文类型</strong>：向目标主机发送请求并期望得到响应。</li>
+<li><strong>差错报文类型</strong>：向源主机发送错误信息，用于报告网络中的错误情况。</li>
+</ul>
+<p>PING 用到的 ICMP Echo Request（类型为 8 ） 和 ICMP Echo Reply（类型为 0） 属于查询报文类型 。</p>
+<ul>
+<li>PING 命令会向目标主机发送 ICMP Echo Request。</li>
+<li>如果两个主机的连通性正常，目标主机会返回一个对应的 ICMP Echo Reply。</li>
+</ul>
+<h2 id="wDoZZ">[DNS](https://javaguide.cn/cs-basics/network/other-network-questions.html#dns)</h2>
+<h3 id="u5p4L">[DNS 的作用是什么？](https://javaguide.cn/cs-basics/network/other-network-questions.html#dns-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)</h3>
+DNS（Domain Name System）域名管理系统，是当用户使用浏览器访问网址之后，使用的第一个重要协议。DNS 要解决的是**域名和 IP 地址的映射问题**。
+<p><img src= "/images/1.webp" data-lazy-src="https://cdn.nlark.com/yuque/0/2024/png/28066124/1713922593923-66b64b95-3f94-4836-9ce1-d7c03e4874b0.png" alt=""></p>
+<p>DNS:域名系统</p>
+<p>在一台电脑上，可能存在浏览器 DNS 缓存，操作系统 DNS 缓存，路由器 DNS 缓存。如果以上缓存都查询不到，那么 DNS 就闪亮登场了。</p>
+<p>目前 DNS 的设计采用的是分布式、层次数据库结构，<strong>DNS 是应用层协议，它可以在 UDP 或 TCP 协议之上运行，端口为 53</strong> 。</p>
+<h3 id="Pnpf6">[DNS 服务器有哪些？根服务器有多少个？](https://javaguide.cn/cs-basics/network/other-network-questions.html#dns-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B-%E6%A0%B9%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA)</h3>
+DNS 服务器自底向上可以依次分为以下几个层级(所有 DNS 服务器都属于以下四个类别之一):
+<ul>
+<li>根 DNS 服务器。根 DNS 服务器提供 TLD 服务器的 IP 地址。目前世界上只有 13 组根服务器，我国境内目前仍没有根服务器。</li>
+<li>顶级域 DNS 服务器（TLD 服务器）。顶级域是指域名的后缀，如<code>com</code>、<code>org</code>、<code>net</code>和<code>edu</code>等。国家也有自己的顶级域，如<code>uk</code>、<code>fr</code>和<code>ca</code>。TLD 服务器提供了权威 DNS 服务器的 IP 地址。</li>
+<li>权威 DNS 服务器。在因特网上具有公共可访问主机的每个组织机构必须提供公共可访问的 DNS 记录，这些记录将这些主机的名字映射为 IP 地址。</li>
+<li>本地 DNS 服务器。每个 ISP（互联网服务提供商）都有一个自己的本地 DNS 服务器。当主机发出 DNS 请求时，该请求被发往本地 DNS 服务器，它起着代理的作用，并将该请求转发到 DNS 层次结构中。严格说来，不属于 DNS 层级结构</li>
+</ul>
+<p>世界上并不是只有 13 台根服务器，这是很多人普遍的误解，网上很多文章也是这么写的。实际上，现在根服务器数量远远超过这个数量。最初确实是为 DNS 根服务器分配了 13 个 IP 地址，每个 IP 地址对应一个不同的根 DNS 服务器。然而，由于互联网的快速发展和增长，这个原始的架构变得不太适应当前的需求。为了提高 DNS 的可靠性、安全性和性能，目前这 13 个 IP 地址中的每一个都有多个服务器，截止到 2023 年底，所有根服务器之和达到了 600 多台，未来还会继续增加。</p>
+<h3 id="ojzzw">[DNS 解析的过程是什么样的？](https://javaguide.cn/cs-basics/network/other-network-questions.html#dns-%E8%A7%A3%E6%9E%90%E7%9A%84%E8%BF%87%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84)</h3>
+整个过程的步骤比较多，我单独写了一篇文章详细介绍：[DNS 域名系统详解（应用层）](https://javaguide.cn/cs-basics/network/dns.html) 。
+<h3 id="tg0Z4">[DNS 劫持了解吗？如何应对？](https://javaguide.cn/cs-basics/network/other-network-questions.html#dns-%E5%8A%AB%E6%8C%81%E4%BA%86%E8%A7%A3%E5%90%97-%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9)</h3>
+DNS 劫持是一种网络攻击，它通过修改 DNS 服务器的解析结果，使用户访问的域名指向错误的 IP 地址，从而导致用户无法访问正常的网站，或者被引导到恶意的网站。DNS 劫持有时也被称为 DNS 重定向、DNS 欺骗或 DNS 污染。DNS 劫持详细介绍可以参考：[黑客技术？没你想象的那么难！——DNS 劫持篇open in new window](https://cloud.tencent.com/developer/article/1197474)。
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/09/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/">http://www.bojiboqi.fun/2024/09/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/329.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/24/Java%E5%BC%95%E7%94%A8/" title="Java引用"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-37-58.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java引用</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/23/CountDownLatch/" title="CountDownLatch"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_204420_023.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CountDownLatch</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#H6qJi"><span class="toc-number">1.</span> <span class="toc-text">[计算机网络基础](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FPSKU"><span class="toc-number">1.1.</span> <span class="toc-text">[网络分层模型](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Ucf0s"><span class="toc-number">1.1.1.</span> <span class="toc-text">[TCP&#x2F;IP 四层模型是什么？每一层的作用是什么？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#tcp-ip-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B%E6%98%AF%E4%BB%80%E4%B9%88-%E6%AF%8F%E4%B8%80%E5%B1%82%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pZJMv"><span class="toc-number">1.1.2.</span> <span class="toc-text">发送数据流程![](https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2024&#x2F;png&#x2F;28066124&#x2F;1714011576985-e7380432-4af1-471e-aa3f-0a3c6fe20a0c.png)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TaxXW"><span class="toc-number">1.2.</span> <span class="toc-text">[常见网络协议](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Suyi5"><span class="toc-number">1.2.1.</span> <span class="toc-text">[应用层有哪些常见的协议？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E5%BA%94%E7%94%A8%E5%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%8F%E8%AE%AE)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kiyxw"><span class="toc-number">1.2.2.</span> <span class="toc-text">[传输层有哪些常见的协议？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E4%BC%A0%E8%BE%93%E5%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%8F%E8%AE%AE)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rzjAV"><span class="toc-number">1.2.3.</span> <span class="toc-text">[网络层有哪些常见的协议？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E7%BD%91%E7%BB%9C%E5%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%8F%E8%AE%AE)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HPciT"><span class="toc-number">2.</span> <span class="toc-text">[HTTP](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#http)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uPkNj"><span class="toc-number">2.1.</span> <span class="toc-text">[从输入 URL 到页面展示到底发生了什么？（非常重要）](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E4%BB%8E%E8%BE%93%E5%85%A5-url-%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA%E5%88%B0%E5%BA%95%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88-%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dbdja"><span class="toc-number">2.2.</span> <span class="toc-text">[HTTP 状态码有哪些？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#http-%E7%8A%B6%E6%80%81%E7%A0%81%E6%9C%89%E5%93%AA%E4%BA%9B)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OuX88"><span class="toc-number">2.3.</span> <span class="toc-text">[HTTP 和 HTTPS 有什么区别？（重要）](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#http-%E5%92%8C-https-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB-%E9%87%8D%E8%A6%81)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IlZu5"><span class="toc-number">2.4.</span> <span class="toc-text">HTTP1.1&#x2F;HTTP2.0&#x2F;HTTP3的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#p2Hcx"><span class="toc-number">2.4.1.</span> <span class="toc-text">[HTTP&#x2F;1.1 和 HTTP&#x2F;2.0 有什么区别？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#http-1-1-%E5%92%8C-http-2-0-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#enAxG"><span class="toc-number">2.5.</span> <span class="toc-text">[HTTP 是不保存状态的协议, 如何保存用户状态?](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#http-%E6%98%AF%E4%B8%8D%E4%BF%9D%E5%AD%98%E7%8A%B6%E6%80%81%E7%9A%84%E5%8D%8F%E8%AE%AE-%E5%A6%82%E4%BD%95%E4%BF%9D%E5%AD%98%E7%94%A8%E6%88%B7%E7%8A%B6%E6%80%81)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tpn2b"><span class="toc-number">2.6.</span> <span class="toc-text">[URI 和 URL 的区别是什么?](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#uri-%E5%92%8C-url-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AQEwB"><span class="toc-number">2.7.</span> <span class="toc-text">[Cookie 和 Session和Token 有什么区别？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#cookie-%E5%92%8C-session-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zHRxw"><span class="toc-number">2.8.</span> <span class="toc-text">[GET 和 POST 的区别](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#get-%E5%92%8C-post-%E7%9A%84%E5%8C%BA%E5%88%AB)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LpZHo"><span class="toc-number">2.9.</span> <span class="toc-text">HTTP幂等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gkn3p"><span class="toc-number">2.10.</span> <span class="toc-text">HTTP缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TrHQ2"><span class="toc-number">2.11.</span> <span class="toc-text">HTTP和RPC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Yh1Yp"><span class="toc-number">3.</span> <span class="toc-text">HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EuJpa"><span class="toc-number">3.0.1.</span> <span class="toc-text">加密的种类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PLGYy"><span class="toc-number">3.0.2.</span> <span class="toc-text">SSL&#x2F;TLS原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wz6W6"><span class="toc-number">4.</span> <span class="toc-text">TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vuVNE"><span class="toc-number">4.0.1.</span> <span class="toc-text">TCP粘包拆包问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nxKmh"><span class="toc-number">4.0.2.</span> <span class="toc-text">HTTP解决TCP拆包粘包问题的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KH7xD"><span class="toc-number">4.0.3.</span> <span class="toc-text">为什么三次握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#V3fKn"><span class="toc-number">4.0.4.</span> <span class="toc-text">TCP四次挥手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fb5UN"><span class="toc-number">4.0.5.</span> <span class="toc-text">TCP重传，滑动窗口，流量控制，拥塞控制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uKjYa"><span class="toc-number">5.</span> <span class="toc-text">[WebSocket](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#websocket)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TrJY7"><span class="toc-number">5.1.</span> <span class="toc-text">[什么是 WebSocket?](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#%E4%BB%80%E4%B9%88%E6%98%AF-websocket)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yuYBY"><span class="toc-number">5.2.</span> <span class="toc-text">[WebSocket 和 HTTP 有什么区别？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#websocket-%E5%92%8C-http-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tpTSV"><span class="toc-number">5.3.</span> <span class="toc-text">[WebSocket 的工作过程是什么样的？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#websocket-%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bijC1"><span class="toc-number">5.4.</span> <span class="toc-text">[SSE 与 WebSocket 有什么区别？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#sse-%E4%B8%8E-websocket-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WX4pu"><span class="toc-number">6.</span> <span class="toc-text">[PING](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#ping)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OIVk1"><span class="toc-number">6.1.</span> <span class="toc-text">[PING 命令的作用是什么？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#ping-%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#YzQuB"><span class="toc-number">6.2.</span> <span class="toc-text">[PING 命令的工作原理是什么？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#ping-%E5%91%BD%E4%BB%A4%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wDoZZ"><span class="toc-number">7.</span> <span class="toc-text">[DNS](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#dns)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5p4L"><span class="toc-number">7.1.</span> <span class="toc-text">[DNS 的作用是什么？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#dns-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pnpf6"><span class="toc-number">7.2.</span> <span class="toc-text">[DNS 服务器有哪些？根服务器有多少个？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#dns-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B-%E6%A0%B9%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ojzzw"><span class="toc-number">7.3.</span> <span class="toc-text">[DNS 解析的过程是什么样的？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#dns-%E8%A7%A3%E6%9E%90%E7%9A%84%E8%BF%87%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tg0Z4"><span class="toc-number">7.4.</span> <span class="toc-text">[DNS 劫持了解吗？如何应对？](https:&#x2F;&#x2F;javaguide.cn&#x2F;cs-basics&#x2F;network&#x2F;other-network-questions.html#dns-%E5%8A%AB%E6%8C%81%E4%BA%86%E8%A7%A3%E5%90%97-%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9)</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

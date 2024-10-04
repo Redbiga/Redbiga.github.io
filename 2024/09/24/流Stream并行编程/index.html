@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>流Stream并行编程 | 山麋一笑</title><meta name="author" content="山麋一笑"><meta name="copyright" content="山麋一笑"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="写在前面 在本系列文章的第一篇，我们提到了函数式编程的优点之一是“易于并发编程”。 Java作为一个多线程的语言，它通过 Stream 来提供了并发编程的便利性。 题外话：  严格来说，并发和并行是两个不同的概念。 “并发（Concurrency）”强调的是在同一时间开始执行多个任务，通常会涉及多线程之间的上下文切换； “并行（Parallelism）”强调的是将一个大任务分解为多个小任务后，再同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流Stream并行编程">
+<meta property="og:url" content="http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="山麋一笑">
+<meta property="og:description" content="写在前面 在本系列文章的第一篇，我们提到了函数式编程的优点之一是“易于并发编程”。 Java作为一个多线程的语言，它通过 Stream 来提供了并发编程的便利性。 题外话：  严格来说，并发和并行是两个不同的概念。 “并发（Concurrency）”强调的是在同一时间开始执行多个任务，通常会涉及多线程之间的上下文切换； “并行（Parallelism）”强调的是将一个大任务分解为多个小任务后，再同">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-42-37.webp">
+<meta property="article:published_time" content="2024-09-24T15:11:55.405Z">
+<meta property="article:modified_time" content="2024-09-24T16:11:42.293Z">
+<meta property="article:author" content="山麋一笑">
+<meta property="article:tag" content="函数式编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bojiboqi.fun/img/wakawaka/photo_2024-02-28_19-42-37.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '流Stream并行编程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-25 00:11:42'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="山麋一笑" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg" style="background:url(/img/wakawaka/photo_2024-02-28_19-42-37.webp);background-attachment: local;background-position: center;background-size: cover;background-repeat: no-repeat;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/images/1.webp" data-lazy-src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">124</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/wakawaka/photo_2024-02-28_19-42-37.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="山麋一笑"><span class="site-name">山麋一笑</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/photo/"><i class="fa-fw fas fa-list"></i><span> 图库</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">流Stream并行编程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-24T15:11:55.405Z" title="发表于 2024-09-24 23:11:55">2024-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-24T16:11:42.293Z" title="更新于 2024-09-25 00:11:42">2024-09-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="流Stream并行编程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面"><strong>写在前面</strong></h2>
+<p>在本系列文章的第一篇，我们提到了函数式编程的优点之一是“易于并发编程”。</p>
+<p>Java作为一个多线程的语言，它通过 Stream 来提供了并发编程的便利性。</p>
+<p>题外话：</p>
+<blockquote>
+<p>严格来说，并发和并行是两个不同的概念。<br>
+“并发（Concurrency）”强调的是在同一时间开始执行多个任务，通常会涉及多线程之间的上下文切换；<br>
+“并行（Parallelism）”强调的是将一个大任务分解为多个小任务后，再同时执行这些小任务，得到多个中间结果后再汇总为一个最终结果。<br>
+但在多CPU和分布式的时代，并发和并行的概念联系越来越紧密。至少在Java的Stream中，我们可以将并发和并行理解为同一个意思：基于多线程技术，对一个大任务分拆为多个小任务，分配到不同的线程中执行，得到多个中间结果后再汇总为一个最终结果。</p>
+</blockquote>
+<p>本文的示例代码可从gitee上获取：<a target="_blank" rel="noopener" href="https://gitee.com/cnmemset/javafp">https://gitee.com/cnmemset/javafp</a></p>
+<h2 id="Stream的并行编程"><strong>Stream的并行编程</strong></h2>
+<p>并行编程是Stream的一个重要功能和特性。它的一个优点是：不管数据源是否线程安全，通过并行流（parallel stream）都可以轻松的实现并行编程。</p>
+<p>Stream的并行编程，底层是基于 ForkJoinPool 技术来实现的。ForkJoinPool是Java 7引入的用于并行执行的任务框架，核心思想是将一个大任务拆分成多个小任务（即fork），然后再将多个小任务的处理结果汇总到一个结果上（即join）。此外，它也提供基本的线程池功能，譬如设置最大并发线程数，关闭线程池等。</p>
+<p>在本系列之前的文章中，也零零散散的提到了一些关于并行编程的知识点。本文再做一个更系统的总结。</p>
+<h2 id="并行流（parallel-stream）"><strong>并行流</strong>（parallel stream）</h2>
+<p>Stream的并行操作都是基于并行流（parallel stream）。</p>
+<p>生成一个并行流也非常简单：</p>
+<ol>
+<li>
+<p>通过 Collection.parallelStream 方法可以得到一个并行流</p>
+</li>
+<li>
+<p>生成一个串行的Stream后，可以通过方法 BaseStream.parallel() 将一个串行流（serial stream）转换成并行流。当然，我们也可以通过方法 BaseStream.sequential() 将一个并行流转换成串行流。</p>
+</li>
+</ol>
+<p>通过方法 BaseStream.isParallel() 可以判断一个 stream 是否是并行流。</p>
+<p>不管数据源是否线程安全（譬如ArrayList、HashSet，它们都不支持多线程），我们都可以使用parallelStream 轻松实现并行编程，不需要额外的线程同步操作，这是parallelStream 最大的优点。</p>
+<h2 id="顺序性"><strong>顺序性</strong></h2>
+<p>encounter order，指的是Stream中元素的出现顺序。如果觉得encounter order过于抽象，可以将它简单理解为数据源（data source）的元素顺序。本小节涉及到的有序或无序都特指encounter order。</p>
+<p>一个Stream是否具备encounter order的有序性，取决于它的数据源（data source）和中间操作（intermediate operations）。例如，List或者数组的Steam是有序的，但HashSet的Steam则是无序的。而中间操作Stream.sorted，可以将一个无序的Stream转换成有序的；中间操作Stream.unordered 则将一个有序的Stream转换成无序的。</p>
+<p>有趣的是，有些终止操作（terminal operations）是无视encounter order的。什么意思呢？以最常见的Stream.forEach 为例，在并行执行的时候，即使数据源是List，forEach方法处理元素的顺序也是无序的。要保证处理顺序，需要使用方法 Stream.forEachOrdered 。</p>
+<p>示例代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void forEachExample() &#123;</span><br><span class="line">    ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3, 4, 5));</span><br><span class="line"> </span><br><span class="line">    System.out.println(&quot;===forEach====&quot;);</span><br><span class="line"> </span><br><span class="line">    // 在并行流中， forEach 方法是无视 Stream 的 encounter order 的</span><br><span class="line">    list.parallelStream().forEach(i -&gt; &#123;</span><br><span class="line">        System.out.println(i + &quot;：thread-&quot; + Thread.currentThread().getName());</span><br><span class="line">    &#125;);</span><br><span class="line"> </span><br><span class="line">    System.out.println(&quot;===forEachOrdered====&quot;);</span><br><span class="line"> </span><br><span class="line">    // 在并行流中， forEachOrdered 方法可以保持 encounter order</span><br><span class="line">    list.parallelStream().forEachOrdered(i -&gt; &#123;</span><br><span class="line">        System.out.println(i + &quot;：thread-&quot; + Thread.currentThread().getName());</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码的输出类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">===forEach====</span><br><span class="line">3：thread-main</span><br><span class="line">5：thread-ForkJoinPool.commonPool-worker-2</span><br><span class="line">1：thread-main</span><br><span class="line">4：thread-ForkJoinPool.commonPool-worker-3</span><br><span class="line">2：thread-ForkJoinPool.commonPool-worker-1</span><br><span class="line">===forEachOrdered====</span><br><span class="line">1：thread-ForkJoinPool.commonPool-worker-4</span><br><span class="line">2：thread-ForkJoinPool.commonPool-worker-1</span><br><span class="line">3：thread-ForkJoinPool.commonPool-worker-1</span><br><span class="line">4：thread-ForkJoinPool.commonPool-worker-1</span><br><span class="line">5：thread-ForkJoinPool.commonPool-worker-1</span><br></pre></td></tr></table></figure>
+<p>可以看出，在并行执行时，forEach 是无视Stream的encounter order的，而 forEachOrdered 虽然也是在多线程环境下执行，但仍然可以保证Stream的encounter order。</p>
+<p>在Stream并行编程中，理解encounter order很重要。因为对于大多数的Stream操作，即使是并行执行，如果Stream是有序的，那么操作后得到的Stream也保持有序。例如，对一个数据源为List [1,2,3] 的有序Stream，执行 map(x -&gt; x * x) 操作后，结果一定是 [1, 4, 9]。</p>
+<p>对encounter order的有序性和无序性，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public static void unorderedExample() &#123;</span><br><span class="line">    // 我们用 TreeMap 来做实验，因为 ArrayList 的特殊性，很难展示 unordered 的特性</span><br><span class="line"> </span><br><span class="line">    // TreeSet 中的元素是按从小到大排序的，即 [-7, -3, 1, 5, 12]</span><br><span class="line">    TreeSet&lt;Integer&gt; set = new TreeSet&lt;&gt;(Arrays.asList(1, 12, 5, -7, -3));</span><br><span class="line"> </span><br><span class="line">    // 按 encounter order 打印 set，输出为：-7, -3, 1, 5, 12</span><br><span class="line">    System.out.println(&quot;The encounter order of set: &quot;);</span><br><span class="line">    set.stream().forEachOrdered(s -&gt; System.out.print(s + &quot; &quot;));</span><br><span class="line">    System.out.println();</span><br><span class="line"> </span><br><span class="line">    // TreeSet 是有序的，所以来自 TreeSet 的 Stream 也是有序的</span><br><span class="line">    // 当 Stream 是有序时，执行操作 limit(2) ，不管是串行还是并行，也不管执行多少次，结果都是前两位数字 [-7, -3]</span><br><span class="line">    System.out.println(&quot;Limit ordered Stream: &quot;);</span><br><span class="line">    set.stream().parallel().limit(2).forEachOrdered(s -&gt; System.out.print(s + &quot; &quot;));</span><br><span class="line">    System.out.println();</span><br><span class="line"> </span><br><span class="line">    // 我们使用 unordered 方法将 Stream 转换为无序的。</span><br><span class="line">    // 当 Stream 是无序时，并行执行操作 limit(2) ，会发现执行多次时，输出的数字是不一样的（不确定性）</span><br><span class="line">    System.out.println(&quot;Limit unordered Stream: &quot;);</span><br><span class="line">    System.out.print(&quot;first time: &quot;);</span><br><span class="line">    set.stream().unordered().parallel().limit(2).forEachOrdered(s -&gt; System.out.print(s + &quot; &quot;));</span><br><span class="line">    System.out.println();</span><br><span class="line">    System.out.print(&quot;second time: &quot;);</span><br><span class="line">    set.stream().unordered().parallel().limit(2).forEachOrdered(s -&gt; System.out.print(s + &quot; &quot;));</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述示例代码的输出类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">The encounter order of set:</span><br><span class="line">-7 -3 1 5 12</span><br><span class="line">Limit ordered Stream:</span><br><span class="line">-7 -3</span><br><span class="line">Limit unordered Stream:</span><br><span class="line">first time: -3 5</span><br><span class="line">second time: 5 12</span><br></pre></td></tr></table></figure>
+<p>大家可以仔细体会。欢迎加群讨论！！！</p>
+<h2 id="纯函数操作"><strong>纯函数操作</strong></h2>
+<p>回顾本系列文章的第一篇，纯函数（purely function）指的是它不会改变函数以外的其它状态，换而言之，即不会改变在该函数之外定义的变量值。纯函数不会导致“副作用（side-effects）。</p>
+<p>在Stream的并行编程中，纯函数操作非常关键，否则我们依然需要考虑线程安全的问题。</p>
+<p>举例说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public static void unsafeParallelOperation() &#123;</span><br><span class="line">    List&lt;String&gt; provinces = Arrays.asList(&quot;Guangdong&quot;, &quot;Jiangsu&quot;, &quot;Guangxi&quot;, &quot;Jiangxi&quot;, &quot;Shandong&quot;);</span><br><span class="line"></span><br><span class="line">    // &quot;副作用&quot; 导致的线程不安全问题</span><br><span class="line">    ArrayList&lt;String&gt; results = new ArrayList&lt;&gt;();</span><br><span class="line">    provinces.parallelStream()</span><br><span class="line">            // 过滤掉以 G 开头的省份</span><br><span class="line">            .filter(s -&gt; !s.startsWith(&quot;G&quot;))</span><br><span class="line">            // 在 lambda表达式中修改了 results 的值，</span><br><span class="line">            // 说明了 &quot;s -&gt; results.add(s)&quot; 并非一个纯函数，</span><br><span class="line">            // 带来了不必要的 &quot;副作用&quot;，</span><br><span class="line">            // 在并行执行时，会导致线程不安全的问题。</span><br><span class="line">            .forEach(s -&gt; results.add(s));</span><br><span class="line"></span><br><span class="line">    System.out.println(results);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述示例代码存在线程不安全的问题 —— 多个线程会同时修改 ArrayList 类型的 results ，我们需要对 results 变量加锁。</p>
+<p>正确的做法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void safeParallelOperation() &#123;</span><br><span class="line">    List&lt;String&gt; provinces = Arrays.asList(&quot;Guangdong&quot;, &quot;Jiangsu&quot;, &quot;Guangxi&quot;, &quot;Jiangxi&quot;, &quot;Shandong&quot;);</span><br><span class="line">    </span><br><span class="line">    List&lt;String&gt; results = provinces.parallelStream()</span><br><span class="line">            // 过滤掉以 G 开头的省份</span><br><span class="line">            .filter(s -&gt; !s.startsWith(&quot;G&quot;))</span><br><span class="line">            // 没有 &quot;副作用&quot;</span><br><span class="line">            .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    System.out.println(results);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过内置的 Collectors.toList() 方法，就不存在“副作用”，从而也无需考虑线程安全问题。</p>
+<h2 id="Collectors与ConcurrentMap"><strong>Collectors与ConcurrentMap</strong></h2>
+<p>回顾一下，在介绍Stream的规约方法 Stream.collect(Collector) 时，我们提到了一个需求场景：将员工按照部门分组。</p>
+<p>并行执行的实现代码类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void groupEmployeesToMap() &#123;</span><br><span class="line">    List&lt;Employee&gt; employees = Utils.makeEmployees();</span><br><span class="line">    Map&lt;String, List&lt;Employee&gt;&gt; map = employees.parallelStream()</span><br><span class="line">            .collect(Collectors.groupingBy(Employee::getDepartment));</span><br><span class="line">    System.out.println(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然上述代码可以实现功能，但性能可能并不尽如人意，因为在并行执行时，需要将多个中间结果汇总为最终的结果，但合并两个Map，性能损耗可能非常大（例如HashMap，底层是数组+红黑树实现的，合并时复杂度不低）。</p>
+<p>自然而然，聪明的Java程序员会想到：如果并行执行得到的中间结果和最终结果都是使用同一个Map实例，那就不需要合并两个Map了，当然，因为并行执行涉及到多线程，因此，这个Map实例要求是线程安全的。典型的线程安全的Map，当然首选ConcurrentHashMap 啦。</p>
+<p>这就是Collectors工具类中与ConcurrentMap相关的方法的实现原理，主要包括：</p>
+<ol>
+<li>
+<p>toConcurrentMap 系列方法</p>
+</li>
+<li>
+<p>groupingByConcurrent 系列方法</p>
+</li>
+</ol>
+<p>但使用 ConcurrentHashMap 有个缺点：它不能保证 Stream 的 encounter order，所以只有当你确定元素的顺序不影响最终结果时，才使用与ConcurrentMap相关的方法。</p>
+<p>最后，还要注意，只有在并行编程时，我们才要考虑使用 toConcurrentMap 或者 groupingByConcurrent 方法，否则会因为不必要的线程同步操作，反而影响了性能。</p>
+<h2 id="规约操作的注意事项"><strong>规约操作的注意事项</strong></h2>
+<p>在本系列介绍规约操作的文章中，已经提到了很多关于并行编程的注意事项，本小节将它们汇总起来，供大家参考。</p>
+<h3 id="reduce-T-BinaryOperator"><strong>reduce(T, BinaryOperator)</strong></h3>
+<p>reduce(T, BinaryOperator)的方法签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T reduce(T identity, BinaryOperator&lt;T&gt; accumulator);</span><br></pre></td></tr></table></figure>
+<p>其中 T 是 Stream 的泛型类型。</p>
+<p>参数 identity 是规约操作的初始值。</p>
+<p>参数accumulator 要求满足结合律（associative）。</p>
+<p>参数 accumulator 定义的函数必须满足结合律（associative），否则在一些顺序不确定的或并行的场景中会导致不正确的结果。</p>
+<p>此外，如果是并行执行的话，对参数 identity 还有一个要求：对任意值 t，要满足 accumulator.apply(identity, t) == t 。否则，会导致错误的结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static void reduceStream2() &#123;</span><br><span class="line">    List&lt;Integer&gt; list = Arrays.asList(1, 3, 5, 7, 9);</span><br><span class="line"> </span><br><span class="line">    // 这是正确的范例：因为数字 0 是累加操作的 identity 。</span><br><span class="line">    sum = list.parallelStream().reduce(0, (x, y) -&gt; x + y);</span><br><span class="line">    // 输出为 0+1+3+5+7+9 = 25</span><br><span class="line">    System.out.println(sum);</span><br><span class="line"> </span><br><span class="line">    // 这是错误的范例：因为数字 5 并不是累加操作的 identity 。</span><br><span class="line">    sum = list.parallelStream().reduce(5, (x, y) -&gt; x + y);</span><br><span class="line">    // 本意是输出为 5+1+3+5+7+9 = 30，但实际上会输出一个比30大的数字。</span><br><span class="line">    System.out.println(sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="reduce-U-BiFunction-BinaryOperator"><strong>reduce(U, BiFunction, BinaryOperator)</strong></h3>
+<p>具体的方法签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;U&gt; U reduce(U identity,</span><br><span class="line">             BiFunction&lt;U, ? super T, U&gt; accumulator,</span><br><span class="line">             BinaryOperator&lt;U&gt; combiner);</span><br></pre></td></tr></table></figure>
+<p>其中 U 是返回值的类型，T 是 Stream 的泛型类型。</p>
+<p>参数 identity 是规约操作的初始值。</p>
+<p>参数accumulator 是与Stream中单个元素的合并操作，等同于函数 U apply(U u, T t)。</p>
+<p>参数 combiner 是将并行执行得到的多个中间结果进行合并的操作，等同于函数 U apply(U u1, U u2)。</p>
+<p>在并行编程中，对3个参数都有一些特殊要求：</p>
+<ol>
+<li>
+<p>参数 combiner 必须满足结合律</p>
+</li>
+<li>
+<p>参数 identity，对于任意值 u，必须满足 combiner.apply(identity, u) == u</p>
+</li>
+<li>
+<p>参数 accumulator 和 combiner 两者必须兼容，即对于任意值 u 和 t，必须满足：</p>
+</li>
+</ol>
+<p>combiner.apply(u, accumulator.apply(identity, t)) == accumulator.apply(u, t)</p>
+<h3 id="collect-Supplier-BiConsumer-BiConsumer"><strong>collect(Supplier, BiConsumer, BiConsumer)</strong></h3>
+<p>ollect方法的签名是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;R&gt; R collect(Supplier&lt;R&gt; supplier,</span><br><span class="line">              BiConsumer&lt;R, ? super T&gt; accumulator,</span><br><span class="line">              BiConsumer&lt;R, R&gt; combiner);</span><br></pre></td></tr></table></figure>
+<p>其中 R 是返回值的类型，通常是一个容器类（例如 Collection 或 Map）。T 是Stream中的元素类型。</p>
+<p>参数 supplier 是用来创建一个容器实例的函数。</p>
+<p>参数 accumulator 是将Stream中的一个元素合并到容器中的函数。</p>
+<p>参数 combiner 是将两个容器归并为一个容器的函数，只在并行执行的时候用到。</p>
+<p>在并行执行的场景下，我们有一些额外的要求：</p>
+<ol>
+<li>
+<p>combiner函数满足结合律</p>
+</li>
+<li>
+<p>要求combiner 和 accumulator 是兼容的（compatible），即对于任意的r和t， combiner.accept(r, accumulator.accept(supplier.get(), t)) == accumulator.accept(r, t)</p>
+</li>
+</ol>
+<h2 id="结语"><strong>结语</strong></h2>
+<p>Stream 提供了非常方便的并行编程API，但它还是存在很多问题，非常容易踩坑。</p>
+<p>其中，最为人诟病的是它的不可控性。因为 Parallel Stream 的底层是基于 ForkJoinPool ，而 ForkJoinPool 的工作线程数是在虚拟机启动时指定的，如果 Stream 并行执行的任务数量过多或耗时过多，甚至会影响应用程序中其它使用 ForkJoinPool 的功能。</p>
+<p><strong>总的来说，除非你非常了解你正在做的事情，否则不要使用 Stream 的并行编程API 。取而代之，我们可以直接使用Java中多线程技术（例如线程池）来处理。</strong></p>
+<meta name="referrer" content="no-referrer">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun">山麋一笑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B/">http://www.bojiboqi.fun/2024/09/24/%E6%B5%81Stream%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.bojiboqi.fun" target="_blank">山麋一笑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a></div><div class="post_share"><div class="social-share" data-image="/img/wakawaka/photo_2024-02-28_19-42-37.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/24/%E6%B5%81Stream%E7%9A%84Map-Reduce%E6%93%8D%E4%BD%9C/" title="流Stream的Map-Reduce操作"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1517.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">流Stream的Map-Reduce操作</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/24/Stream%E6%B5%81%20collect()%E6%96%B9%E6%B3%95/" title="Stream流 collect()方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/271.webp" onerror="onerror=null;src='/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Stream流 collect()方法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/09/24/Java%208%20Optional/" title="Java 8 Optional"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/photo_2024-02-28_19-40-07.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java 8 Optional</div></div></a></div><div><a href="/2024/09/24/Java%20Consumer%E7%A4%BA%E4%BE%8B/" title="Java Consumer示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/24.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Consumer示例</div></div></a></div><div><a href="/2024/09/24/Java%20Supplier%E7%A4%BA%E4%BE%8B/" title="Java Supplier示例"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/1593.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java Supplier示例</div></div></a></div><div><a href="/2024/09/24/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" title="Java集合框架中的高阶函数"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/IMG_20240309_180356_329.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Java集合框架中的高阶函数</div></div></a></div><div><a href="/2024/09/24/Stream%E4%B8%AD%E7%9A%84Pipeline%E7%90%86%E8%A7%A3/" title="Stream中的Pipeline理解"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/150.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream中的Pipeline理解</div></div></a></div><div><a href="/2024/09/24/Stream%E6%B5%81%20collect()%E6%96%B9%E6%B3%95/" title="Stream流 collect()方法"><img class="cover" src= "/images/1.webp" data-lazy-src="/img/wakawaka/271.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-24</div><div class="title">Stream流 collect()方法</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stream%E7%9A%84%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">Stream的并行编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E6%B5%81%EF%BC%88parallel-stream%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">并行流（parallel stream）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">顺序性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%AF%E5%87%BD%E6%95%B0%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">纯函数操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Collectors%E4%B8%8EConcurrentMap"><span class="toc-number">6.</span> <span class="toc-text">Collectors与ConcurrentMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%84%E7%BA%A6%E6%93%8D%E4%BD%9C%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">7.</span> <span class="toc-text">规约操作的注意事项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce-T-BinaryOperator"><span class="toc-number">7.1.</span> <span class="toc-text">reduce(T, BinaryOperator)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce-U-BiFunction-BinaryOperator"><span class="toc-number">7.2.</span> <span class="toc-text">reduce(U, BiFunction, BinaryOperator)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#collect-Supplier-BiConsumer-BiConsumer"><span class="toc-number">7.3.</span> <span class="toc-text">collect(Supplier, BiConsumer, BiConsumer)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">8.</span> <span class="toc-text">结语</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 山麋一笑</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.29/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twik.bojiboqi.fun/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script><div class="aplayer no-destroy" data-id="2914905159" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="auto" data-autoplay="true" muted></div><script  async data-pjax="" defer="" src="/js/fish.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/runtime.js"></script><script async src="/js/leaf.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
